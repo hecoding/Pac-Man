@@ -43,9 +43,8 @@ public final class Maze
 	//Loads all the nodes from files and initialises all maze-specific information.
 	private void loadNodes(String fileName)
 	{
-        try
-        {         	
-        	BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(pathMazes+System.getProperty("file.separator")+fileName+".txt")));	 
+        try(BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(pathMazes+System.getProperty("file.separator")+fileName+".txt"))))
+        {
             String input=br.readLine();		
             
             //preamble
@@ -102,9 +101,8 @@ public final class Maze
 	{
 		this.shortestPathDistances=new int[((graph.length*(graph.length-1))/2)+graph.length];
 		
-        try
+        try(BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(pathDistances+System.getProperty("file.separator")+fileName))))
         {
-        	BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(pathDistances+System.getProperty("file.separator")+fileName)));
             String input=br.readLine();
             
             int index=0;

@@ -63,9 +63,8 @@ public class IO
 	{
 		StringBuffer data=new StringBuffer();
 			
-        try
-        {         	
-        	BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(DIRECTORY+fileName)));	 
+        try(BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(DIRECTORY+fileName))))
+        {
             String input=br.readLine();	
             
             while(input!=null)

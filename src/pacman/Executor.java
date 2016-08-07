@@ -380,9 +380,8 @@ public class Executor
 	{
     	ArrayList<String> replay=new ArrayList<String>();
 		
-        try
-        {         	
-        	BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));	 
+        try(BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(fileName))))
+        {
             String input=br.readLine();		
             
             while(input!=null)
