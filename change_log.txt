@@ -1,0 +1,207 @@
+Change log:
+
+v6.2
+
+- fixed the function _reverseGhosts() so that all ghosts are affected by the global reverse event.
+- fixed _eatPowerPill() to reset edible time of the ghosts in addition to lair time.
+- fixed _checkLevelState() to allow one additional game tick towards end of game.
+- removed _resetVariables(). Variables are now reset in the appropriate methods. All references removed. Resetting variables in _levelReset() has been removed.
+- fixed the final(?) bugs in PathsCache.
+
+v6.1
+
+Please note: changes may have made some controllers incompatible. Please adapt your code to fit the new framework.
+
+- fixed the way the game engine checks for maximum time played. It was possible to go beyond 24000 time steps.
+- changed constant AWARD_LIFE_LEFT from 10000 to 800 to reflect rule changes.
+- changed EDIBLE_TIME_REDUCTION back from 0.8 to 0.9.
+- changed the constant LEVEL_LIMIT from 3000 to 4000.
+- added the constant LEVEL_RESET_REDUCTION: the lair times and edible times reset after this level to their initial values. This happens after 6 levels (24000/4000).
+- added variable pacmanWasEaten and method wasPacManEaten() to check whether Ms Pac-Man was eaten in the last time step. Changes elsewhere in Game to account for that.
+- removed the variable ghostWasEaten as this was inaccurate (two ghosts could be eaten simultaneously). Now replaces with an EnumMap that keeps track of each ghost individually.
+- added getNumGhostsEaten() to return the number of ghosts eaten in the last time step.
+- fixed updateGame(boolean feast,boolean updateLairTimes,boolean updateExtraLife,boolean updateTotalTime,boolean updateLevelTime) to reflect changes in other methods.
+- added method advanceGameWithPowerPillReverseOnly() to advance game without random reversals.
+- made empty constructor in Game private (only used by copy() method).
+- the constructor of class Ghost now takes a GHOST value as well.
+- updated javadoc. Some methods still require documentation.
+- numerous changes in Game to account for reversals (forced and disabled). This has now been tidied up.
+	- removed globalReverse, enableGlobalReversals, forceGlobalReversal.
+	- removed all occurrences of variables above.
+	- added advanceGameWithoutReverse(), advanceGameWithForcedReverse(), updateGhostsWithoutReverse(), updateGhostsWithForcedReverse()
+	- modified _updateGhosts() to remove part responsible for ghost reversals.
+	- added _reverseGhosts() to take care of ghost reversals
+- fixed some bugs in PathsCache.
+- moved class IO to a new package pacman.game.util.
+- added the class Log for logging purposes.
+- changed the method saveFile() in IO to accept a boolean flag whether to append or create a new file.
+
+v6.0
+
+- changed versioning convention: from now on, simple increments in number for minor and major releases. All previous releases have been accounted for in the current version number.
+- the constant MAX_LEVELS has been removed (rule change).
+- the constant MAX_TIME has been added (rule change).
+- the constant AWARD_LIFE_LEFT has been added (rule change).
+- the constant PILL_REWARD_REDUCTION has been removed (rule change).
+- EDIBLE_TIME_REDUCTION has been changed from 0.9 to 0.8.
+- modified _checkLevelState() to award points for lives remaining at the end of the game (if time ran out).
+- modified _checkLevelState() to remove award of points for pills remaining when level times out.
+- removed break statement from getPathFromA2B() and getPathDistanceFromA2B() in PathsCache.
+- added to Game: ghostWasEaten, pillWasEaten, powerPillWasEaten and methods to access these. Can be used to check whether any of these events took place in the last time step.
+- modified getGameState(), setGameState() and copy() to account for new variables.
+- added variable forceGlobalReversal that forces a global reversal event via forceReversal() for a single time step.
+- added the ability to save images of the game state. Use GameView.saveImage(String fileName) to save the image for the current iteration.
+- fixed some documentation errors.
+- deprecated all methods that contain the word "approximate" since paths are now exact. Added new methods with identical functionality. Code remains backwards compatible.
+- updated copyright statement.
+
+WCCI12_v1.2
+
+- added the class 'IO' to the framework. This class can be used to read and write files in the directory of the controller. Files need to be in the directory 'myData'. For submission, this directory needs to be at the same level as the source files.
+- added the ability to check if a global reversal event took place (getTimeOfLastGlobalReversal(); not including power pill reversals).
+- changed copy() to reflect new class variable.
+- changed getGameState() and setGameState() to reflect new class variable.
+- fixed a bug with the paths cache that would sometime return a path including a reversal
+
+WCCI12_v1.1
+
+- fixed an issue with the threads in Controller to make sure slow controllers do not delay the game.
+- added the following methods to Game:
+	- getDistance(int fromNodeIndex,int toNodeIndex,MOVE lastMoveMade,DM distanceMeasure)
+	- getNextMoveTowardsTarget(int fromNodeIndex,int toNodeIndex,MOVE lastMoveMade, DM distanceMeasure)
+	- getNextMoveAwayFromTarget(int fromNodeIndex,int toNodeIndex,MOVE lastMoveMade, DM distanceMeasure)
+- fixed an error where the distance function would return a wrong value (happened when the target was at a junction).
+
+WCCI12_v1.0
+
+The biggest change in this version is the pre-computing of paths. This makes it faster to obtain paths from a to b for both Pac-Man and ghosts
+controllers.
+
+- added a new class called PathsCache that pre-computed many paths and can construct a path from any node to any other node on the fly.
+- added static instances of PathsCache to Game, one for each maze.
+- added the method getApproximateShortestPathDistance() that returns the exact distance for the ghosts from node a to node b.
+- the method getApproximateShortestPath() now returns the exact (A*) path.
+- the method getAStarPath() is now identical to getApproximateShortestPath(). They are both preserved for compatibility reasons.
+- changed all the methods that return paths for the ghosts - these methods are now exact (even though the name remains with 'approximate' in tact to ensure compatibility.
+- include a new variable, enableGlobalReversals, that can be set via setGlobalReversals(), to disable/enable global reversals. Note: in the actual competition, this will always be enabled and is hence not included in the string representation of the game state.
+- changed copy() to reflect new class variable.
+- fixed some minor issues with the time argument in Executor
+- new constructor to game to specify initial maze, also changed _init() to reflect this.
+- added the method getCurrentMaze() to Game to allow PathsCache access to the current maze.
+- added the method getMoveToMakeToReachDirectNeighbour() to game: returns direction to take given a node and a direct neighbour.
+- tidied up the code a bit.
+- fixed some javadoc errors.
+
+WCCI12_v0.4
+
+- fixed a minor bug in how the total time of the game is advanced (used to increment twice at end of each level).
+- fixed the getNeighbour() method to actually return -1 if no neighbour is found (instead of null).
+- if two ghosts would eat Ms Pac-Man at the same time, she would loose two lives. This is now fixed and the game resets immediately and only one life is lost.
+- fixed the colours of the ghosts (inky and sue).
+- made lastMove in Controller protected (from private). It can now be set directly from the getMove method to save an initial response (and thus to limit the potential damage done by the garbage collection).
+- added a new updateGame method that can be tuned for various tree searches. Should be used with caution.
+- fixed some minor javadoc errors.
+
+WCCI12_v0.3
+
+- added the method getNeighbour(int nodeIndex, MOVE moveToBeMade) that returns the neighbouring node of the current node given a move.
+- fixed minor bug in GameView (change from ArrayList to Vector to make it thread safe)
+- removed the method: getAStarPath(int fromNodeIndex,int toNodeIndex). It is identical to getShortestPath(int fromNodeIndex,int toNodeIndex).
+- fixed a minor bug in the method that replaces invalid ghost moves with random moves.
+- fixed a minor bug in the method doesGhostRequireAction() to return true for the very first move (i.e., after leaving the maze).
+- very minor change to the way threads are handled.	
+
+WCCI12_v0.2
+
+- changed argument name in the methods
+	isPillStillAvailable()
+	isPowerPillStillAvailable()
+  to highlight that they take pill indices, not node indices.
+- added more helper methods:
+	getJunctionIndices()
+	getPillIndex()
+	getPowerPillIndex()
+- added more details to the javadoc documentation (still not complete, will add more details as time goes by)
+
+WCCI12_v0.1
+
+A new major release of the software for the competitions in 2012 (WCCI and CIG). The only changes from now will be bug fixes and adding functionality if required. We are renaming the versioning of the software
+to make the link to the competition more explicit.
+
+The biggest changes are as follows:
+	- use enumeration MOVE for directions (now referred to as moves) instead of integers
+	- use enumeration for the ghosts, GHOST
+	- change return type for the getMove() (previously getAction()) method. Now it is a MOVE or an EnumMap<GHOST,MOVE> (mapping from GHOST to MOVE)
+	- use an abstract class as superclass for the controllers and implement code for threading here; need to extend and specify generic type
+	- controllers are now given any remaining time during a time step even they previously failed to respond in time (in past competition they would skip this game tick)
+	- re-organized folders and packages to make structure of code clearer
+	- placed all parameters in a class (including file paths etc.) and use static imports
+
+Additional changes include:
+	- fixed missing tunnel in maze 4 (tunnel to the right of the lair)
+	- re-organised the code for the GameView to reflect the changes in the game (in particular, enumerations)	
+	- added the A* algorithm to calculate true shortest paths for the ghosts (see tutorials)
+
+CIG11_v1.2 (formerly v 2.1.2)
+
+- changed the way the images and text files are loaded to allow applet version to work
+- added a way to _G_ to record games for javascript replays on web-site
+- localised file-name descriptors
+- added the following helper methods:
+	- public int getNextEdibleGhostScore();
+	- public int getNumActivePills();
+	- public int getNumActivePowerPills();
+	- public int[] getPillIndicesActive();
+	- public int[] getPowerPillIndicesActive();
+- updated the sample controllers to use the new functions
+- added boolean flag to GameView to prevent unnecessary storing of information
+- use StringBuilder to save replays
+- updated recording feature to flush string after each save
+- include starter package in code distribution
+
+known issues:
+
+- bug in recording replays: the ghost update method (every nth game tick) causes the replay to crash whenever a power pill has been eaten). This is caused by the lack of update for edible ghosts. Fix in progress.
+
+v 2.1.1
+
+- changed the graphics in GameView to do double buffering
+- added the ability to do simple visuals for debugging/testing/demonstrations
+- changed the way a game is initialised: removed the singleton pattern
+- added NearestPillPacManVS to illustrate the visuals
+- added 5 (utility) methods in Game/G:
+	- public int[] getPath(int from,int to);
+	- public int getTarget(int from,int[] targets,boolean nearest,DM measure);
+	- public int[] getGhostPath(int whichGhost,int to);
+	- public int getGhostPathDistance(int whichGhost,int to);
+	- public int getGhostTarget(int from,int[] targets,boolean nearest);
+- changelog now included in source code distribution
+	
+v 2.1.0
+
+- fixed the creation of the junction array in the class Node (changed from >3 to >2)
+- changed the spelling from juntionIndices to junctionIndices
+- added 2 methods to Game (and G) to get all possible directions for Ms Pac-Man and the ghosts as an array
+	- changed the sample controllers accordingly
+	- changed the game core accordingly
+- removed Random from G (can use it from Game)
+- changed advanceGame(-) to return the actual actions taken (primarily for replays)
+- fixed the replay mechanism which was buggy in some cases where a life was lost
+- added a sample experimental setup to Exec to illsutrate how to run many games efficiently
+- fixed nearestPillPac-Man to include search for power pills
+- changed the way ghost reversals are done (now using a Boolean flag)
+- added more comments to source code, especially in Game	
+	
+v 2.0.2
+
+- fixed the isJunction function which now checks for more than 2 options, not 3 (thanks to Daryl)
+	
+v 2.0.1
+
+- fixed the speed of the ghosts when edible - now they move more slowly, as before (thanks to Kien)
+- the scores obtained for eating ghosts in succession was incorrect - now it is 200-400-800-1600 (thanks to Kien)
+- added the ability to record and replay games by saving the actions taken by the controllers	
+	
+v 2.0.0
+
+- complete revamp of the code. Please see documentation on the website for information regarding the code
