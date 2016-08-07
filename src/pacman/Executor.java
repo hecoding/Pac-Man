@@ -12,7 +12,6 @@ import java.util.Random;
 import pacman.controllers.Controller;
 import pacman.controllers.HumanController;
 import pacman.controllers.KeyBoardInput;
-import pacman.controllers.antonio.CBRPacMan;
 import pacman.controllers.examples.AggressiveGhosts;
 import pacman.controllers.examples.Legacy;
 import pacman.controllers.examples.Legacy2TheReckoning;
@@ -46,8 +45,8 @@ public class Executor
 	{
 		Executor exec=new Executor();
 		
-		Controller<MOVE> pacman = new CBRPacMan();
-		Controller<EnumMap<GHOST,MOVE>> ghosts = new RandomGhosts();
+		Controller<MOVE> pacman = new StarterPacMan();
+		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 		/*
 		int numTrials=1;
 		exec.runExperiment(pacman, ghosts, numTrials);
