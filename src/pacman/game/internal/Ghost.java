@@ -20,19 +20,18 @@ public final class Ghost
 		this.lairTime = lairTime;
 		this.lastMoveMade = lastMoveMade;
 	}
+	
+	public boolean isEdible() {
+		return this.edibleTime > 0;
+	}
+	
+	public boolean isInLair() {
+		return this.lairTime > 0;
+	}
 
 	public Ghost copy()
 	{
 		return new Ghost(type, currentNodeIndex, edibleTime, lairTime, lastMoveMade);		
 	}
-	
-	public boolean isEdible(){
-		return this.edibleTime > 0;
-	}
-	
-	public boolean isInLair(){
-		return this.lairTime > 0;
-	}
-	
 	
 }
