@@ -1,6 +1,6 @@
-package model.chromosome;
+package alg.chromosome;
 
-import model.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
+import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
 
 public abstract class AbstractChromosome implements Cloneable {
 	protected static FitnessFunctionInterface fitnessFunc;

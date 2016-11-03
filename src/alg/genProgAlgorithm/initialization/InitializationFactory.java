@@ -1,4 +1,4 @@
-package model.genProgAlgorithm.initialization;
+package alg.genProgAlgorithm.initialization;
 
 public class InitializationFactory {
 	private static InitializationFactory instance;

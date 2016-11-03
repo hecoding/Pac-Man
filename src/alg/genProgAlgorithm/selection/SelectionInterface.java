@@ -1,7 +1,7 @@
-package model.genProgAlgorithm.selection;
+package alg.genProgAlgorithm.selection;
 
 import java.util.ArrayList;
-import model.chromosome.AbstractChromosome;
+import alg.chromosome.AbstractChromosome;
 
 public interface SelectionInterface {
 	public <T extends AbstractChromosome> void select(ArrayList<T> population);

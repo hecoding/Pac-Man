@@ -1,4 +1,4 @@
-package model;
+package alg;
 
 public class Ant {
 	public Direction direction;

@@ -1,8 +1,8 @@
-package model.genProgAlgorithm.initialization;
+package alg.genProgAlgorithm.initialization;
 
-import model.program.Function;
-import model.program.Node;
-import model.program.Terminal;
+import alg.program.Function;
+import alg.program.Node;
+import alg.program.Terminal;
 import util.RandGenerator;
 import util.Tree;
 

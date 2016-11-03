@@ -1,4 +1,4 @@
-package model.chromosome.exception;
+package alg.chromosome.exception;
 
 public class IllegalChromosomeException extends IllegalArgumentException {
 	private static final long serialVersionUID = 1L;

@@ -1,18 +1,18 @@
-package model.genProgAlgorithm;
+package alg.genProgAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-import model.chromosome.AbstractChromosome;
-import model.chromosome.comparator.AptitudeComparator;
-import model.genProgAlgorithm.crossover.CrossoverInterface;
-import model.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
-import model.genProgAlgorithm.initialization.InitializationInterface;
-import model.genProgAlgorithm.mutation.MutationInterface;
-import model.genProgAlgorithm.selection.SelectionInterface;
-import model.observer.GeneticAlgorithmObserver;
-import model.observer.Observable;
+import alg.chromosome.AbstractChromosome;
+import alg.chromosome.comparator.AptitudeComparator;
+import alg.genProgAlgorithm.crossover.CrossoverInterface;
+import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
+import alg.genProgAlgorithm.initialization.InitializationInterface;
+import alg.genProgAlgorithm.mutation.MutationInterface;
+import alg.genProgAlgorithm.selection.SelectionInterface;
+import alg.observer.GeneticAlgorithmObserver;
+import alg.observer.Observable;
 import util.RandGenerator;
 
 public abstract class AbstractGeneticAlgorithm<T extends AbstractChromosome> implements Observable<GeneticAlgorithmObserver> {

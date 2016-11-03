@@ -1,4 +1,4 @@
-package model.genProgAlgorithm.mutation;
+package alg.genProgAlgorithm.mutation;
 
 public class MutationFactory {
 	private static MutationFactory instance;

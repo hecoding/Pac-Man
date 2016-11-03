@@ -1,7 +1,7 @@
 package util.nodeGenerator;
 
-import model.program.Node;
-import model.program.Terminal;
+import alg.program.Node;
+import alg.program.Terminal;
 import util.RandGenerator;
 import util.Tree;
 

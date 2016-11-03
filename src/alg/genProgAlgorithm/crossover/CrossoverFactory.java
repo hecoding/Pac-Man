@@ -1,4 +1,4 @@
-package model.genProgAlgorithm.crossover;
+package alg.genProgAlgorithm.crossover;
 
 public class CrossoverFactory {
 	private static CrossoverFactory instance;

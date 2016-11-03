@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import model.Map;
-import model.Map.CellType;
+import alg.Map;
+import alg.Map.CellType;
 
 public class MapParser {
 	

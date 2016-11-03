@@ -1,6 +1,6 @@
-package model;
+package alg;
 
-import model.Ant.Position;
+import alg.Ant.Position;
 
 public class Map implements Cloneable {
 	private CellType[][] map;

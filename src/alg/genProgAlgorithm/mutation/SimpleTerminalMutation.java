@@ -1,11 +1,11 @@
-package model.genProgAlgorithm.mutation;
+package alg.genProgAlgorithm.mutation;
 
 import java.util.ArrayList;
 
-import model.chromosome.AbstractChromosome;
-import model.chromosome.AntTrailChromosome;
-import model.program.Node;
-import model.program.Terminal;
+import alg.chromosome.AbstractChromosome;
+import alg.chromosome.AntTrailChromosome;
+import alg.program.Node;
+import alg.program.Terminal;
 import util.RandGenerator;
 import util.Tree;
 

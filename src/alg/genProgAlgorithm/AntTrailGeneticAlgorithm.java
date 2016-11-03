@@ -1,12 +1,12 @@
-package model.genProgAlgorithm;
+package alg.genProgAlgorithm;
 
-import model.Map;
-import model.chromosome.AntTrailChromosome;
-import model.genProgAlgorithm.crossover.CrossoverInterface;
-import model.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
-import model.genProgAlgorithm.initialization.InitializationInterface;
-import model.genProgAlgorithm.mutation.MutationInterface;
-import model.genProgAlgorithm.selection.SelectionInterface;
+import alg.Map;
+import alg.chromosome.AntTrailChromosome;
+import alg.genProgAlgorithm.crossover.CrossoverInterface;
+import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
+import alg.genProgAlgorithm.initialization.InitializationInterface;
+import alg.genProgAlgorithm.mutation.MutationInterface;
+import alg.genProgAlgorithm.selection.SelectionInterface;
 
 public class AntTrailGeneticAlgorithm extends AbstractGeneticAlgorithm<AntTrailChromosome> {
 	private static Map originalMap;

@@ -1,11 +1,11 @@
-package model.genProgAlgorithm.initialization;
+package alg.genProgAlgorithm.initialization;
 
 import java.util.ArrayList;
 
-import model.chromosome.AbstractChromosome;
-import model.chromosome.AntTrailChromosome;
-import model.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
-import model.program.Node;
+import alg.chromosome.AbstractChromosome;
+import alg.chromosome.AntTrailChromosome;
+import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
+import alg.program.Node;
 import util.Tree;
 
 public abstract class InitializationAbstract implements InitializationInterface {

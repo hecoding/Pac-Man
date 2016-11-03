@@ -1,9 +1,9 @@
-package model.genProgAlgorithm.selection;
+package alg.genProgAlgorithm.selection;
 
 import java.util.ArrayList;
 
-import model.chromosome.AbstractChromosome;
-import model.chromosome.comparator.AptitudeComparator;
+import alg.chromosome.AbstractChromosome;
+import alg.chromosome.comparator.AptitudeComparator;
 
 public class TruncationSelection implements SelectionInterface {
 

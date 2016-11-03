@@ -1,9 +1,9 @@
-package model.genProgAlgorithm.initialization;
+package alg.genProgAlgorithm.initialization;
 
 import java.util.ArrayList;
 
-import model.chromosome.AbstractChromosome;
-import model.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
+import alg.chromosome.AbstractChromosome;
+import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
 
 public interface InitializationInterface {
 	public <T extends AbstractChromosome> ArrayList<T> initialize(int populationSize, FitnessFunctionInterface function, int programHeight);

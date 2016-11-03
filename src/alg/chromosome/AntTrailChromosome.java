@@ -1,15 +1,15 @@
-package model.chromosome;
+package alg.chromosome;
 
 import java.util.ArrayList;
 
-import model.Ant;
-import model.Map;
-import model.Map.CellType;
-import model.genProgAlgorithm.AntTrailGeneticAlgorithm;
-import model.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
-import model.program.Function;
-import model.program.Node;
-import model.program.Terminal;
+import alg.Ant;
+import alg.Map;
+import alg.Map.CellType;
+import alg.genProgAlgorithm.AntTrailGeneticAlgorithm;
+import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
+import alg.program.Function;
+import alg.program.Node;
+import alg.program.Terminal;
 import util.RandGenerator;
 import util.Tree;
 import util.nodeGenerator.NodeGeneratorImp;

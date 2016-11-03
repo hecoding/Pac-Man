@@ -1,7 +1,7 @@
-package model.genProgAlgorithm.crossover;
+package alg.genProgAlgorithm.crossover;
 
 import java.util.ArrayList;
-import model.chromosome.AbstractChromosome;
+import alg.chromosome.AbstractChromosome;
 
 public interface CrossoverInterface {
 	public <T extends AbstractChromosome> void crossover(ArrayList<T> population, double crossProb);

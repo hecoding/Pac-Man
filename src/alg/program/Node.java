@@ -1,4 +1,4 @@
-package model.program;
+package alg.program;
 
 public interface Node {
 

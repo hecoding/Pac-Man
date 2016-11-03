@@ -1,4 +1,4 @@
-package model.program;
+package alg.program;
 
 public enum Function implements Node {
 	ifFoodAhead, progn2, progn3;

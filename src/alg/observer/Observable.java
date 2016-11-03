@@ -1,4 +1,4 @@
-package model.observer;
+package alg.observer;
 
 public interface Observable<T> {
 	public void addObserver(T o);

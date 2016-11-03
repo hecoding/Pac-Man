@@ -1,8 +1,8 @@
-package model.genProgAlgorithm.selection;
+package alg.genProgAlgorithm.selection;
 
 import java.util.ArrayList;
 
-import model.chromosome.AbstractChromosome;
+import alg.chromosome.AbstractChromosome;
 import util.RandGenerator;
 
 public class LinearRankSelection implements SelectionInterface {

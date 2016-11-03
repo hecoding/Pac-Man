@@ -1,10 +1,10 @@
-package model.genProgAlgorithm.crossover;
+package alg.genProgAlgorithm.crossover;
 
 import java.util.ArrayList;
 
-import model.chromosome.AbstractChromosome;
-import model.chromosome.AntTrailChromosome;
-import model.program.Node;
+import alg.chromosome.AbstractChromosome;
+import alg.chromosome.AntTrailChromosome;
+import alg.program.Node;
 import util.RandGenerator;
 import util.Tree;
 

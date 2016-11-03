@@ -1,4 +1,4 @@
-package model.genProgAlgorithm.selection;
+package alg.genProgAlgorithm.selection;
 
 public class SelectionFactory {
 	private static SelectionFactory instance;

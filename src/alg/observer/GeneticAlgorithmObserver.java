@@ -1,4 +1,4 @@
-package model.observer;
+package alg.observer;
 
 public interface GeneticAlgorithmObserver {
 	public void onStartRun();

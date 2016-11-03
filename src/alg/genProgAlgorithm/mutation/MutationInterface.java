@@ -1,7 +1,7 @@
-package model.genProgAlgorithm.mutation;
+package alg.genProgAlgorithm.mutation;
 
 import java.util.ArrayList;
-import model.chromosome.AbstractChromosome;
+import alg.chromosome.AbstractChromosome;
 
 public interface MutationInterface {
 	public <T extends AbstractChromosome> void mutate(ArrayList<T> population, double mutationProb);
