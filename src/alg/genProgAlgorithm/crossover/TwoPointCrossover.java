@@ -3,7 +3,7 @@ package alg.genProgAlgorithm.crossover;
 import java.util.ArrayList;
 
 import alg.chromosome.AbstractChromosome;
-import alg.chromosome.AntTrailChromosome;
+import alg.chromosome.PacmanChromosome;
 import alg.program.Node;
 import util.RandGenerator;
 import util.Tree;
@@ -37,8 +37,8 @@ public class TwoPointCrossover implements CrossoverInterface {
 	private <T extends AbstractChromosome> void cross(ArrayList<T> population, T parent1, T parent2) {
 		RandGenerator random = RandGenerator.getInstance();
 		
-		Tree<Node> parent1Gene = ((AntTrailChromosome) parent1).getProgram();
-		Tree<Node> parent2Gene = ((AntTrailChromosome) parent2).getProgram();
+		Tree<Node> parent1Gene = ((PacmanChromosome) parent1).getProgram();
+		Tree<Node> parent2Gene = ((PacmanChromosome) parent2).getProgram();
 		
 		int nodes1 = parent1Gene.getNodes();
 		int nodes2 = parent2Gene.getNodes();
@@ -58,8 +58,8 @@ public class TwoPointCrossover implements CrossoverInterface {
 			cross1.setParent(cross2parent);
 			cross2.setParent(cross1parent);
 			
-			((AntTrailChromosome) parent1).trimProgram();
-			((AntTrailChromosome) parent2).trimProgram();
+			((PacmanChromosome) parent1).trimProgram();
+			((PacmanChromosome) parent2).trimProgram();
 			
 			parent1.setAptitude(parent1.evaluate());
 			parent2.setAptitude(parent2.evaluate());

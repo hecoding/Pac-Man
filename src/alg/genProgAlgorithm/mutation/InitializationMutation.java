@@ -3,7 +3,7 @@ package alg.genProgAlgorithm.mutation;
 import java.util.ArrayList;
 
 import alg.chromosome.AbstractChromosome;
-import alg.chromosome.AntTrailChromosome;
+import alg.chromosome.PacmanChromosome;
 import alg.genProgAlgorithm.initialization.GrowInitialization;
 import alg.program.Node;
 import util.RandGenerator;
@@ -24,13 +24,13 @@ public class InitializationMutation implements MutationInterface {
 	
 	public <T extends AbstractChromosome> void mutate(T chrom, double mutationProb) {
 		
-		Tree<Node> node = ((AntTrailChromosome) chrom).getProgram().getRandomNode();
+		Tree<Node> node = ((PacmanChromosome) chrom).getProgram().getRandomNode();
 		node.dropChilds();
 		
 		GrowInitialization initialization = new GrowInitialization();
-		initialization.initialize(node, AntTrailChromosome.maxHeight);
+		initialization.initialize(node, PacmanChromosome.maxHeight);
 		
-		((AntTrailChromosome) chrom).trimProgram();
+		((PacmanChromosome) chrom).trimProgram();
 	}
 
 	@Override

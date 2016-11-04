@@ -3,7 +3,7 @@ package alg.genProgAlgorithm.mutation;
 import java.util.ArrayList;
 
 import alg.chromosome.AbstractChromosome;
-import alg.chromosome.AntTrailChromosome;
+import alg.chromosome.PacmanChromosome;
 import alg.program.Node;
 import alg.program.Terminal;
 import util.RandGenerator;
@@ -27,7 +27,7 @@ public class SimpleTerminalMutation implements MutationInterface {
 		RandGenerator random = RandGenerator.getInstance();
 		boolean finish = false;
 
-		Tree<Node> terminal = ((AntTrailChromosome) chrom).getProgram().getRandomLeaf();
+		Tree<Node> terminal = ((PacmanChromosome) chrom).getProgram().getRandomLeaf();
 		Terminal newTerminal;
 		do {
 			newTerminal = Terminal.values()[random.nextInt(Terminal.values().length)];

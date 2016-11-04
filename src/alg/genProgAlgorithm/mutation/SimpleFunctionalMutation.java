@@ -3,7 +3,7 @@ package alg.genProgAlgorithm.mutation;
 import java.util.ArrayList;
 
 import alg.chromosome.AbstractChromosome;
-import alg.chromosome.AntTrailChromosome;
+import alg.chromosome.PacmanChromosome;
 import alg.program.Function;
 import alg.program.Node;
 import util.RandGenerator;
@@ -26,7 +26,7 @@ public class SimpleFunctionalMutation implements MutationInterface {
 		RandGenerator random = RandGenerator.getInstance();
 		boolean finish = false;
 		Tree<Node> inner;
-		Tree<Node> program = ((AntTrailChromosome) chrom).getProgram();
+		Tree<Node> program = ((PacmanChromosome) chrom).getProgram();
 		
 		if(!program.isLeaf() && program.getNodes() != 4) {
 

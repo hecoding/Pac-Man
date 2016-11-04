@@ -3,7 +3,7 @@ package alg.genProgAlgorithm.initialization;
 import java.util.ArrayList;
 
 import alg.chromosome.AbstractChromosome;
-import alg.chromosome.AntTrailChromosome;
+import alg.chromosome.PacmanChromosome;
 import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
 import alg.program.Node;
 import util.Tree;
@@ -13,9 +13,9 @@ public abstract class InitializationAbstract implements InitializationInterface 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends AbstractChromosome> ArrayList<T> initialize(int populationSize, FitnessFunctionInterface function, int programHeight) {
-		ArrayList<AntTrailChromosome> population = new ArrayList<AntTrailChromosome>(populationSize);
+		ArrayList<PacmanChromosome> population = new ArrayList<PacmanChromosome>(populationSize);
 		for (int i = 0; i < populationSize; i++)  {
-			AntTrailChromosome chromosome = new AntTrailChromosome(function, programHeight);
+			PacmanChromosome chromosome = new PacmanChromosome(function, programHeight);
 			Tree<Node> program = new Tree<>();
 			initialize(program, programHeight);
 			

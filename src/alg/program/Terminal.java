@@ -1,5 +1,5 @@
 package alg.program;
 
 public enum Terminal implements Node {
-	goForward, turnRight, turnLeft
+	up, down, right, left
 }
