@@ -6,17 +6,22 @@ import util.RandGenerator;
 import util.Tree;
 import util.nodeGenerator.NodeGeneratorImp;
 import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
-import alg.program.Function;
 import alg.program.Node;
 import alg.program.Terminal;
+import pacman.Executor;
+import pacman.controllers.GeneticController;
+import pacman.controllers.examples.StarterGhosts;
 
 public class PacmanChromosome extends AbstractChromosome {
 	private Tree<Node> program;
 	private static int maxSteps;
 	public static int maxHeight;
+	private static int trialsPerEvaluation;
 	
 	public PacmanChromosome() {
 		this.program = new Tree<>();
+		//TODO make this a parameter
+		trialsPerEvaluation = 10;
 	}
 	
 	public PacmanChromosome(FitnessFunctionInterface function, int maxProgramHeight) {
@@ -24,67 +29,28 @@ public class PacmanChromosome extends AbstractChromosome {
 		maxSteps = 400;
 		maxHeight = maxProgramHeight;
 		this.program = new Tree<>();
+		//TODO make this a parameter
+		trialsPerEvaluation = 10;
 	}
 	
 	@Override
 	public double evaluate() {
-		//Map map = null;//AntTrailGeneticAlgorithm.getMap();
-		//Ant ant = new Ant(map.getColumns(), map.getRows());
-		ArrayList<Double> steps = new ArrayList<>(3);
-
-		//runProgram(this.program, map, ant);
-		//steps.add((double) ant.getNumberOfBitsEaten());
-		//steps.add((double) ant.getNumberOfSteps());
-		steps.add((double) maxSteps);
-		steps.add((double) this.program.getHeight());
-		steps.add((double) maxHeight);
+		//TODO GeneticController, Executor static?
+		Executor executor = new Executor();
+		ArrayList<Double> fitnessArgs = new ArrayList<>(3);
+		double experimentScore;
 		
-		return fitnessFunc.f(steps);
-	}
-	
-	/*public static void runProgram(Tree<Node> program, Map map, Ant ant) {
-		while (ant.steps < maxSteps && ant.bitsEaten < map.getFoodHere()) {
-			runProgramRecursive(program, map, ant);
-		}
-	}
-	
-	private static void runProgramRecursive(Tree<Node> program, Map map, Ant ant) {
-
-		if(ant.steps < maxSteps && ant.bitsEaten < map.getFoodHere()) {
-			// nomnom
-			if(map.get(ant.getPosition()) == CellType.food) {
-				ant.eat();
-				map.set(CellType.eatenfood, ant.getPosition());
-			}
+		experimentScore = executor.runExperiment(new GeneticController(this.program), new StarterGhosts(), trialsPerEvaluation);
 		
-			// functions
-			if(program.getValue() == Function.ifFoodAhead) {
-				if(map.get(ant.getForwardPosition()) == CellType.food)
-					runProgramRecursive(program.getLeftChild(), map, ant);
-				else
-					runProgramRecursive(program.getRightChild(), map, ant);
-			}
-			else if(program.getValue() == Function.progn3) {
-				for (int i = 0; i < Function.numberOfChildren(Function.progn3); i++) {
-					runProgramRecursive(program.getNChild(i), map, ant);
-				}
-			}
-			else if(program.getValue() == Function.progn2) {
-				runProgramRecursive(program.getLeftChild(), map, ant);
-				runProgramRecursive(program.getRightChild(), map, ant);
-			}
-			// terminals
-			else if(program.getValue() == Terminal.turnLeft)
-				ant.turnLeft();
-			else if(program.getValue() == Terminal.turnRight)
-				ant.turnRight();
-			else if(program.getValue() == Terminal.goForward) {
-				if(map.get(ant.getPosition()) == CellType.nothing)
-					map.set(CellType.trail, ant.getPosition());
-				ant.moveForward();
-			}
-		}
-	}*/
+		//fitnessArgs.add((double) ant.getNumberOfBitsEaten());
+		//fitnessArgs.add((double) ant.getNumberOfSteps());
+		//fitnessArgs.add((double) maxSteps);
+		//fitnessArgs.add((double) this.program.getHeight());
+		//fitnessArgs.add((double) maxHeight);
+		fitnessArgs.add(experimentScore);
+		
+		return fitnessFunc.f(fitnessArgs);
+	}
 
 	@Override
 	public String getPhenotype() {

@@ -52,7 +52,7 @@ public class Executor
 		exec.runExperiment(pacman, ghosts, numTrials);
 		*/
 		
-		int delay=1;
+		int delay=18;
 		boolean visual=true;
 		exec.runGame(pacman, ghosts, visual, delay);
 		
@@ -104,7 +104,7 @@ public class Executor
      * @param ghostController The Ghosts controller
      * @param trials The number of trials to be executed
      */
-    public void runExperiment(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,int trials)
+    public double runExperiment(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,int trials)
     {
     	double avgScore=0;
     	
@@ -122,10 +122,11 @@ public class Executor
 			}
 			
 			avgScore+=game.getScore();
-			System.out.println(i+"\t"+game.getScore());
+			//System.out.println(i+"\t"+game.getScore());
 		}
 		
-		System.out.println(avgScore/trials);
+		//System.out.println(avgScore/trials);
+		return avgScore/trials;
     }
 	
 	/**
