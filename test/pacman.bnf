@@ -1,0 +1,3 @@
+<expr> ::= <expr> <mov> <expr>
+           | <mov>
+<mov> ::= U | D | R | L
