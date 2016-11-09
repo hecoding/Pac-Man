@@ -7,6 +7,7 @@ import java.util.Random;
 import alg.chromosome.AbstractChromosome;
 import alg.chromosome.comparator.AptitudeComparator;
 import alg.genProgAlgorithm.crossover.CrossoverInterface;
+import alg.genProgAlgorithm.crossover.CrossoverThread;
 import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
 import alg.genProgAlgorithm.initialization.InitializationInterface;
 import alg.genProgAlgorithm.mutation.MutationInterface;
@@ -93,7 +94,28 @@ public abstract class AbstractGeneticAlgorithm<T extends AbstractChromosome> imp
 		this.selectionStrategy.select(this.population);
 	}
 	public void reproduction() {
-		this.crossoverStrategy.crossover(this.population, this.crossProb);
+		ThreadGroup tg = new ThreadGroup("crossover");
+		int num_processors = Runtime.getRuntime().availableProcessors();
+		int elems_per_group = this.populationNum / num_processors;
+		if(this.populationNum % num_processors != 0)
+			elems_per_group++;
+		
+		for (int start = 0; start < this.populationNum; start += elems_per_group) {
+			int end = Math.min(start + 5, this.populationNum);
+			
+			CrossoverThread<T> thread = new CrossoverThread<T>(this.population.subList(start, end), this.crossProb, this.crossoverStrategy);
+			thread.start();
+		}
+		
+		// wait for threads to finish
+		while(tg.activeCount() > 0) {
+			try {
+				Thread.sleep(100);
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	public void mutation() {
 		this.mutationStrategy.mutate(this.population, this.mutationProb);

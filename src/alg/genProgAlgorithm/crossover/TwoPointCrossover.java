@@ -1,19 +1,20 @@
 package alg.genProgAlgorithm.crossover;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import alg.chromosome.AbstractChromosome;
 import alg.chromosome.PacmanChromosome;
 import alg.program.Node;
-import util.RandGenerator;
 import util.Tree;
 
 public class TwoPointCrossover implements CrossoverInterface {
-
+	ThreadLocalRandom random;
 
 	@Override
-	public <T extends AbstractChromosome> void crossover(ArrayList<T> population, double crossProb) {
-		RandGenerator random = RandGenerator.getInstance();
+	public <T extends AbstractChromosome> void crossover(List<T> population, double crossProb, ThreadLocalRandom random) {
+		this.random = random;
 		ArrayList<Integer> selectedCandidatesIdx = new ArrayList<Integer>(population.size());
 		
 		// select randomly all the candidates for the crossover
@@ -34,8 +35,7 @@ public class TwoPointCrossover implements CrossoverInterface {
 		}
 	}
 
-	private <T extends AbstractChromosome> void cross(ArrayList<T> population, T parent1, T parent2) {
-		RandGenerator random = RandGenerator.getInstance();
+	private <T extends AbstractChromosome> void cross(List<T> population, T parent1, T parent2) {
 		
 		Tree<Node> parent1Gene = ((PacmanChromosome) parent1).getProgram();
 		Tree<Node> parent2Gene = ((PacmanChromosome) parent2).getProgram();
