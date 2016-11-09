@@ -3,6 +3,8 @@ package alg.genProgAlgorithm;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import alg.chromosome.AbstractChromosome;
 import alg.chromosome.comparator.AptitudeComparator;
@@ -17,6 +19,7 @@ import alg.observer.Observable;
 import util.RandGenerator;
 
 public abstract class AbstractGeneticAlgorithm<T extends AbstractChromosome> implements Observable<GeneticAlgorithmObserver> {
+	private static Logger logger;
 	protected ArrayList<T> population;
 	protected FitnessFunctionInterface fitnessFunc;
 	protected int populationNum;
@@ -48,6 +51,7 @@ public abstract class AbstractGeneticAlgorithm<T extends AbstractChromosome> imp
 	protected MutationInterface mutationStrategy;
 	
 	public AbstractGeneticAlgorithm() {
+		logger = Logger.getLogger( this.getClass().getName() );
 		this.observers = new ArrayList<GeneticAlgorithmObserver>();
 	}
 	
@@ -55,6 +59,7 @@ public abstract class AbstractGeneticAlgorithm<T extends AbstractChromosome> imp
 			SelectionInterface selectionStrategy, CrossoverInterface crossoverStrategy, MutationInterface mutationStrategy,
 			int populationNum, boolean useElitism, double elitePercentage, int maxGenerationNum, int maxProgramHeight,
 			double crossProb, double mutationProb) {
+		logger = Logger.getLogger( this.getClass().getName() );
 		this.fitnessFunc = func;
 		this.initializationStrategy = initializationStrategy;
 		this.selectionStrategy = selectionStrategy;
@@ -163,6 +168,7 @@ public abstract class AbstractGeneticAlgorithm<T extends AbstractChromosome> imp
 			
 			this.makeIncrement();
 			this.gatherStatistics();
+			logger.log(Level.INFO, String.format( "%.2f", this.currentGeneration / (double) (this.maxGenerationNum) * 100 ) + "%");
 		}
 		
 		this.notifyEndRun();
@@ -462,5 +468,9 @@ public abstract class AbstractGeneticAlgorithm<T extends AbstractChromosome> imp
 		for (GeneticAlgorithmObserver obs : this.observers) {
 			obs.onEndRun();
 		}
+	}
+	
+	public Logger getLogger() {
+		return logger;
 	}
 }
