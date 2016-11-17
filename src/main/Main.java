@@ -1,5 +1,12 @@
 package main;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import org.math.plot.Plot2DPanel;
+
 import alg.genProgAlgorithm.PacmanGeneticAlgorithm;
 import alg.genProgAlgorithm.crossover.CrossoverInterface;
 import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
@@ -26,8 +33,8 @@ public class Main {
 		SelectionInterface selectionStrategy = new RouletteSelection();
 		CrossoverInterface crossoverStrategy = new OnePointCrossover();
 		MutationInterface mutationStrategy = new SimpleTerminalMutation();
-		int populationNum = 400;
-		boolean useElitism = false;
+		int populationNum = 800;
+		boolean useElitism = true;
 		double elitePercentage = 0.1;
 		int maxGenerationNum = 500;
 		int maxProgramHeight = 4;
@@ -42,12 +49,52 @@ public class Main {
 		
 		// get results and stats
 		Tree<Node> bestProgram = pacmanGA.getBestChromosome().getProgram();
+		System.out.println(pacmanGA.getBestAptitudeList());
 		System.out.println("aptitude: " + pacmanGA.getBestChromosome().getAptitude());
 		System.out.println(pacmanGA.getBestChromosome().getPhenotype());
+		
+		// show statistics
+		StatisticsWindow stats = new StatisticsWindow(pacmanGA);
 		
 		// run best program
 		Executor exec = new Executor();
 		exec.runGame(new GeneticController(bestProgram), new StarterGhosts(), true, 20);
+	}
+	
+	public static class StatisticsWindow extends JFrame {
+		Plot2DPanel plot;
+		
+		public StatisticsWindow(PacmanGeneticAlgorithm ctrl) {
+			this.plot = new Plot2DPanel();
+			updateGraphPanel(plot, ctrl);
+			initGUI();
+		}
+	
+		private void initGUI() {
+			this.setLayout(new BorderLayout());
+			this.add(this.plot, BorderLayout.CENTER);
+			
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setSize(new Dimension(1024,668));
+			this.setMinimumSize(new Dimension(750, 550));
+			this.setLocationRelativeTo(null);
+			this.setVisible(true);
+		}
+		
+		private static void updateGraphPanel(Plot2DPanel plot, PacmanGeneticAlgorithm ctrl) {
+			double[] avgApt = toPrimitiveArray( ctrl.getAverageAptitudeList() );
+			plot.addLinePlot("Absolute best", toPrimitiveArray( ctrl.getBestChromosomeList()) );
+			plot.addLinePlot("Best of generation", toPrimitiveArray( ctrl.getBestAptitudeList()) );
+			plot.addLinePlot("Generation average", toPrimitiveArray( ctrl.getAverageAptitudeList()) );
+			plot.setFixedBounds(0, 0, avgApt.length);
+			
+			plot.setVisible(true);
+		}
+		
+		private static double[] toPrimitiveArray(ArrayList<Double> a) {
+			return a.stream().mapToDouble(d -> d).toArray();
+		}
+	
 	}
 
 }
