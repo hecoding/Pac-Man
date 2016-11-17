@@ -20,36 +20,32 @@ public class PacmanChromosome extends AbstractChromosome {
 	
 	public PacmanChromosome() {
 		this.program = new Tree<>();
-		//TODO make this a parameter
-		trialsPerEvaluation = 10;
 	}
 	
 	public PacmanChromosome(FitnessFunctionInterface function, int maxProgramHeight) {
 		fitnessFunc = function;
-		maxSteps = 400;
 		maxHeight = maxProgramHeight;
 		this.program = new Tree<>();
-		//TODO make this a parameter
-		trialsPerEvaluation = 10;
+		
+		maxSteps = 400;
+		trialsPerEvaluation = 1;
 	}
 	
 	@Override
 	public double evaluate() {
 		//TODO GeneticController, Executor static?
 		Executor executor = new Executor();
-		ArrayList<Double> fitnessArgs = new ArrayList<>(3);
-		double experimentScore;
+		//ArrayList<Double> fitnessArgs = new ArrayList<>();
 		
-		experimentScore = executor.runExperiment(new GeneticController(this.program), new StarterGhosts(), trialsPerEvaluation);
+		ArrayList<Double> stats = executor.runExperiment(new GeneticController(this.program), new StarterGhosts(), trialsPerEvaluation);
 		
 		//fitnessArgs.add((double) ant.getNumberOfBitsEaten());
 		//fitnessArgs.add((double) ant.getNumberOfSteps());
 		//fitnessArgs.add((double) maxSteps);
 		//fitnessArgs.add((double) this.program.getHeight());
 		//fitnessArgs.add((double) maxHeight);
-		fitnessArgs.add(experimentScore);
 		
-		return fitnessFunc.f(fitnessArgs);
+		return fitnessFunc.f(stats);
 	}
 
 	@Override

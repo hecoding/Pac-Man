@@ -24,10 +24,10 @@ public class GeneticController extends Controller<MOVE> {
 	@Override
 	public MOVE getMove(Game game, long timeDue) {
 		
-		return runProgram();
+		return runProgram(game);
 	}
 	
-	private MOVE runProgram() {
+	private MOVE runProgram(Game game) {
 		MOVE result = null;
 	
 		while(result == null ) {
@@ -41,6 +41,13 @@ public class GeneticController extends Controller<MOVE> {
 			else if(currentNode.getValue() == Function.progn2) {
 				this.stack.add(currentNode.getRightChild());
 				this.stack.add(currentNode.getLeftChild());
+			}
+			else if(currentNode.getValue() == Function.ifPillAhead) {
+				int ahead = game.getNeighbour(game.getPacmanCurrentNodeIndex(), game.getPacmanLastMoveMade());
+				if(ahead == -1 || game.isPillStillAvailable(ahead))
+					this.stack.add(currentNode.getLeftChild());
+				else
+					this.stack.add(currentNode.getRightChild());
 			}
 			// terminals
 			else if(currentNode.getValue() == Terminal.up)

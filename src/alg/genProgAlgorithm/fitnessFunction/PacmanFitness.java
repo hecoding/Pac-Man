@@ -7,10 +7,9 @@ public class PacmanFitness implements FitnessFunctionInterface {
 	@Override
 	public double f(ArrayList<Double> params) {
 		double score = params.get(0);
+		double time = params.get(1);
 		
-		return score;
-		
-		//return score - Game.getTotalTime();
+		return score - time;
 	}
 
 	@Override

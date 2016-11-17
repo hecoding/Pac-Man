@@ -104,9 +104,10 @@ public class Executor
      * @param ghostController The Ghosts controller
      * @param trials The number of trials to be executed
      */
-    public double runExperiment(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,int trials)
+    public ArrayList<Double> runExperiment(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,int trials)
     {
     	double avgScore=0;
+    	double avgTime=0;
     	
     	Random rnd=new Random(0);
 		Game game;
@@ -122,11 +123,16 @@ public class Executor
 			}
 			
 			avgScore+=game.getScore();
+			avgTime+=game.getTotalTime();
 			//System.out.println(i+"\t"+game.getScore());
 		}
 		
+		ArrayList<Double> ret = new ArrayList<>(2);
+		ret.add(avgScore/trials);
+		ret.add(avgTime/trials);
+		
 		//System.out.println(avgScore/trials);
-		return avgScore/trials;
+		return ret;
     }
 	
 	/**

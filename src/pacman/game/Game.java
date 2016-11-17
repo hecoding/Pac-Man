@@ -426,7 +426,8 @@ public final class Game
 	public void updateGame()
 	{
 		_feast();									//ghosts eat pac-man or vice versa		
-		_updateLairTimes();
+		//TODO uncomment this line
+		//_updateLairTimes();
 		_updatePacManExtraLife();
 
 		totalTime++;
