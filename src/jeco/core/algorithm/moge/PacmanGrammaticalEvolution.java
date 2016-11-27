@@ -2,7 +2,6 @@ package jeco.core.algorithm.moge;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.FileSystems;
@@ -12,46 +11,42 @@ import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import javax.sound.midi.SysexMessage;
-
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
-import pacman.Esclavo;
+import pacman.PacmanExecutor;
 
 
-public class Enlace extends AbstractProblemGE {
-	private static final Logger logger = Logger.getLogger(GrammaticalEvolution_example.class.getName());
+public class PacmanGrammaticalEvolution extends AbstractProblemGE {
+	private static final Logger logger = Logger.getLogger(PacmanGrammaticalEvolution.class.getName());
 	private static Double mejorFitness;
 	private static BufferedWriter writer;
   	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
 	
 	protected ScriptEngine evaluator = null;
 
-	public Enlace(String pathToBnf) {
+	public PacmanGrammaticalEvolution(String pathToBnf) {
 		super(pathToBnf);
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		evaluator = mgr.getEngineByName("JavaScript");
 	}
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		String stringtipo = phenotype.toString();
-		Esclavo esc = new Esclavo();
-		double fitness = esc.Ejecutar(stringtipo);
-		//Registro del fitness y fenotipo
+		PacmanExecutor exec = new PacmanExecutor();
+		double fitness = exec.runExecution(stringtipo);
+		
+		// Registro del fitness y fenotipo
 		if(fitness < mejorFitness){
 			try {
-				writer.write("Mejor fitness encontrado: " + fitness + ", con fenotipo: " + phenotype.toString() + System.getProperty("line.separator"));
+				writer.write("Mejor fitness encontrado: " + fitness + ", con fenotipo: " + phenotype + System.lineSeparator());
 			} catch (IOException e) {
 				System.err.println("Error al escribir en el archivo Registro.log");
 				e.printStackTrace();
 			}
 		}
-		//Comprobacion del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
+		
+		// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
 		if(fitness < 0){
-			System.err.println("ERROR: FITNESS FUERA DE MARGEN <0");
+			System.err.println("ERROR: FITNESS FUERA DE MARGEN < 0");
 			fitness = 0;
 		}
 		
@@ -59,8 +54,8 @@ public class Enlace extends AbstractProblemGE {
 	}	
 
   @Override
-  public Enlace clone() {
-  	Enlace clone = new Enlace(super.pathToBnf);
+  public PacmanGrammaticalEvolution clone() {
+  	PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(super.pathToBnf);
   	return clone;
   }
 
@@ -85,7 +80,7 @@ public class Enlace extends AbstractProblemGE {
 			e.printStackTrace();
 		}
 		// First create the problem
-		Enlace problem = new Enlace("test/pacman.bnf");
+		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("test/pacman.bnf");
 		// Second create the algorithm
 		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, 50, 200);
 		algorithm.initialize();

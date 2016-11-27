@@ -38,21 +38,20 @@ import static pacman.game.Constants.*;
  * structure should not be changed (although you may create sub-packages in these packages).
  */
 @SuppressWarnings("unused")
-public class Esclavo
-{	
+public class PacmanExecutor {	
 	/**
 	 * The main method. Several options are listed - simply remove comments to use the option you want.
 	 *
 	 * @param args the command line arguments
 	 */
-	public double Ejecutar (String fenotipo){
+	public double runExecution(String phenotype) {
 		MutableDouble fitness = new MutableDouble(100000); //Nunca debe ser < 0 por muchas galletas o fantasmas comidos o duracion aguantada
 		//fitness.setValue(100000);
 		
 		
-		Esclavo slave = new Esclavo();
+		PacmanExecutor slave = new PacmanExecutor();
 		
-		Controller<MOVE> pacman = new MyPacMan(fenotipo);
+		Controller<MOVE> pacman = new MyPacMan(phenotype);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 
 		slave.runGame(pacman, ghosts, fitness);

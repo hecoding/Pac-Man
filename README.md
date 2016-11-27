@@ -1,19 +1,19 @@
 Ms Pac-Man
 ====
 
-Uso: 
+##Uso: 
 
-Ejecutar el método Main en la clase src/jeco.core.algorithm.moge/Enlace.java.
+Ejecutar el método Main en la clase src/jeco.core.algorithm.moge/PacmanGrammaticalEvolution.java.
 Los parámetros de población y número de generaciones son definibles dentro del mismo.
 
      
-Descripción: 
+##Descripción: 
 
-Jeco integrado con MS Pac-Man. 
-Jeco crea instancias de pacman que reciben el fenotipo en forma de string, lo utilizan, y devuelven el fitness a jeco.
+JECO integrado con MS Pac-Man. 
+JECO crea instancias de pacman que reciben el fenotipo en forma de string, lo utilizan, y devuelven el fitness a JECO.
 
 
-Versiones:
+##Versiones:
 
 Version 1.1: Añadido sistema de logs en logs/Registro.logs (Guarda mejoras en el fitness con el nuevo fenotipo utilziado)
              Añadidas instrucciones de uso y descripción del funcionamiento a este documento
