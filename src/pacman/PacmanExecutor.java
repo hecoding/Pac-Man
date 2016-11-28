@@ -13,6 +13,7 @@ import java.util.Random;
 import org.apache.commons.lang.mutable.MutableDouble;
 
 import pacman.controllers.Controller;
+import pacman.controllers.GrammaticalAdapterController;
 import pacman.controllers.HumanController;
 import pacman.controllers.KeyBoardInput;
 import pacman.controllers.examples.AggressiveGhosts;
@@ -25,7 +26,6 @@ import pacman.controllers.examples.RandomNonRevPacMan;
 import pacman.controllers.examples.RandomPacMan;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.controllers.examples.StarterPacMan;
-import pacman.entries.pacman.MyPacMan;
 import pacman.game.Game;
 import pacman.game.GameView;
 
@@ -51,7 +51,7 @@ public class PacmanExecutor {
 		
 		PacmanExecutor slave = new PacmanExecutor();
 		
-		Controller<MOVE> pacman = new MyPacMan(phenotype);
+		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 
 		slave.runGame(pacman, ghosts, fitness);

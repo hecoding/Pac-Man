@@ -12,32 +12,10 @@ import pacman.game.Game;
 public class MyPacMan extends Controller<MOVE>
 {
 	private MOVE myMove=MOVE.NEUTRAL;
-	private String fenotipo;
-	private int poslectura;
 	
-	public MyPacMan(String fenotipo) {
-		this.fenotipo = fenotipo;
-		poslectura = 0;
-	}
-
 	public MOVE getMove(Game game, long timeDue) 
 	{
-		char mov = fenotipo.charAt(poslectura);
-		
-		poslectura++;
-		if(poslectura >= fenotipo.length())
-			poslectura = 0;
-		
-		if(mov == 'U')
-			myMove = MOVE.UP;
-		else if(mov == 'D')
-			myMove = MOVE.DOWN;
-		else if(mov == 'R')
-			myMove = MOVE.RIGHT;
-		else if (mov == 'L')
-			myMove = MOVE.LEFT;
-		else
-			System.err.println("FENOTIPO INCORRECTO");
+		//Place your game logic here to play the game as Ms Pac-Man
 		
 		return myMove;
 	}
