@@ -1,6 +1,7 @@
 package jeco.core.algorithm.moge;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryNotEmptyException;
@@ -11,6 +12,8 @@ import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngine;
+
+import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
@@ -22,7 +25,8 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	private static Double mejorFitness;
 	private static BufferedWriter writer;
   	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
-	
+	private static int iteracionesPorIndividuo;
+  	
 	protected ScriptEngine evaluator = null;
 
 	public PacmanGrammaticalEvolution(String pathToBnf) {
@@ -31,26 +35,37 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		String stringtipo = phenotype.toString();
-		PacmanExecutor exec = new PacmanExecutor();
-		double fitness = exec.runExecution(stringtipo);
+		double fitnesssuma = 0;
+		double fitnessfinal;
+		
+		for( int i = 0 ; i < iteracionesPorIndividuo; ++i){
+			PacmanExecutor exec = new PacmanExecutor();
+			double fitness = exec.runExecution(stringtipo);
+			
+			// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
+			if(fitness < 0){
+				System.err.println("ERROR: FITNESS FUERA DE MARGEN < 0");
+				fitness = 0;
+			}
+			
+			fitnesssuma += fitness;
+		}
+		
+		fitnessfinal = fitnesssuma/iteracionesPorIndividuo;
+		
+		
 		
 		// Registro del fitness y fenotipo
-		if(fitness < mejorFitness){
+		if(fitnessfinal < mejorFitness){
 			try {
-				writer.write("Mejor fitness encontrado: " + fitness + ", con fenotipo: " + phenotype + System.lineSeparator());
+				writer.write("Mejor fitness encontrado: " + fitnessfinal + ", con fenotipo: " + phenotype + System.lineSeparator());
 			} catch (IOException e) {
 				System.err.println("Error al escribir en el archivo Registro.log");
 				e.printStackTrace();
 			}
 		}
 		
-		// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
-		if(fitness < 0){
-			System.err.println("ERROR: FITNESS FUERA DE MARGEN < 0");
-			fitness = 0;
-		}
-		
-		solution.getObjectives().set(0, fitness);
+		solution.getObjectives().set(0, fitnessfinal);
 	}	
 
   @Override
@@ -60,8 +75,18 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   }
 
   public static void main(String[] args) {
+	  	//Valores de conf
+	  	int tamPoblacion = 10;
+	  	int numIteraciones = 50;
+	  	iteracionesPorIndividuo = 2;
+	  	int numHilos = Runtime.getRuntime().availableProcessors();
+	  
 	  	//Registro del fitness y fenotipo cuando hay una mejora
 	  	mejorFitness = Double.POSITIVE_INFINITY;
+	  	
+	  	File dir = new File("logs");
+	  	dir.mkdir();
+	  	
 	  	try {
 	  	    Files.delete(path);
 	  	} catch (NoSuchFileException x) {
@@ -82,7 +107,11 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		// First create the problem
 		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("test/pacman.bnf");
 		// Second create the algorithm
-		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, 50, 200);
+		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, tamPoblacion, numIteraciones);
+		
+		
+		
+		/*
 		algorithm.initialize();
 		Solutions<Variable<Integer>> solutions = algorithm.execute();
 		try {
@@ -95,6 +124,21 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 			logger.info("Fitness = (" + solution.getObjectives().get(0) + ")");
 			logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
 		}
-	}		
+		*/
+		
+		
+		
+		//algorithm.initialize(iteracionesPorIndividuo);
+		
+		
+		MasterWorkerThreads<Variable<Integer>> masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, numHilos);
+	    Solutions<Variable<Integer>> solutions = masterWorker.execute();
+	    for (Solution<Variable<Integer>> solution : solutions) {
+	      logger.info("Fitness = (" + solution.getObjectives().get(0) + ", " + solution.getObjectives().get(1) + ")");
+	      logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
+	    }
+	    
+	    
+	}
 
 }
