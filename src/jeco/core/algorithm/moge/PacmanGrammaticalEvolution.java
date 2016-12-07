@@ -17,7 +17,10 @@ import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
-import pacman.PacmanExecutor;
+import pacman.CustomExecutor;
+import pacman.Executor;
+import pacman.controllers.GrammaticalAdapterController;
+import pacman.controllers.examples.StarterGhosts;
 
 
 public class PacmanGrammaticalEvolution extends AbstractProblemGE {
@@ -39,7 +42,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		double fitnessfinal;
 		
 		for( int i = 0 ; i < iteracionesPorIndividuo; ++i){
-			PacmanExecutor exec = new PacmanExecutor();
+			CustomExecutor exec = new CustomExecutor();
 			double fitness = exec.runExecution(stringtipo);
 			
 			// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
@@ -138,6 +141,9 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	      logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
 	    }
 	    
+	    // Run visuals for the best program
+	    Executor exec = new Executor();
+	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, 20);
 	    
 	}
 

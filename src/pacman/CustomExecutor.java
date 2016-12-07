@@ -38,7 +38,7 @@ import static pacman.game.Constants.*;
  * structure should not be changed (although you may create sub-packages in these packages).
  */
 @SuppressWarnings("unused")
-public class PacmanExecutor {	
+public class CustomExecutor {	
 	/**
 	 * The main method. Several options are listed - simply remove comments to use the option you want.
 	 *
@@ -49,7 +49,7 @@ public class PacmanExecutor {
 		//fitness.setValue(100000);
 		
 		
-		PacmanExecutor slave = new PacmanExecutor();
+		CustomExecutor slave = new CustomExecutor();
 		
 		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
