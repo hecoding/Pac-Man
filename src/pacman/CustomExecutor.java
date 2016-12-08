@@ -52,7 +52,7 @@ public class CustomExecutor {
 		CustomExecutor slave = new CustomExecutor();
 		
 		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
-		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
+		Controller<EnumMap<GHOST,MOVE>> ghosts = new AggressiveGhosts();
 
 		slave.runGame(pacman, ghosts, fitness);
 		
@@ -75,12 +75,21 @@ public class CustomExecutor {
 	 */
 	public void runGame(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, MutableDouble fitness)
 	{
+		Double maxscore = (double) 0;
+		
+		
+		
 		Game game=new Game(0);
 		
 		while(!game.gameOver()){
 			fitness.decrement(); //Version muy basica, el fitness solo disminuye al aguantar vivo el pacman
 			game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
+			if(maxscore < game.getScore()){
+				maxscore = (double) game.getScore();
+			}
 		}
+		
+		fitness = new MutableDouble(maxscore);
 	}
 	
 	/**

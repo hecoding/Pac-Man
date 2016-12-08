@@ -1,6 +1,7 @@
 package pacman.controllers;
 
 import pacman.game.Game;
+import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;
 
 /*
@@ -19,7 +20,58 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 		poslectura = 0;
 	}
 
-	public MOVE getMove(Game game, long timeDue) 
+	
+	
+	public MOVE getMove(Game game, long timeDue) {
+        char mov = fenotipo.charAt(poslectura);
+        //TODO: hacer estatica postlectura que si no se jode
+        poslectura++;
+        if(poslectura >= fenotipo.length())
+            poslectura = 0;
+        switch (mov) {
+        case 'U':
+            myMove = MOVE.UP;
+             break;
+        case 'D':
+            myMove = MOVE.DOWN;
+             break;
+        case 'R':
+            myMove = MOVE.RIGHT;
+             break;
+        case 'L':
+            myMove = MOVE.LEFT;
+             break;
+       case '?': {    
+    	   		mov = fenotipo.charAt(poslectura);
+    	   		poslectura++;
+    	   		//Ifs para diferenciar función condicional
+    	   		if (mov == 'P') {
+    	   			if(game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()) != null){//Chekeo de que los fantasmas hayan salido ya
+	    	   			if(!game.closerThan(game.getPacmanCurrentNodeIndex(), game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()).currentNodeIndex, 10))
+	    	   				return getMove(game, timeDue);
+    	   			}
+    	   		}
+    	   		else {
+    	   			System.out.println("ERROR EN FORMATO DE FENOTIPO: ?");
+    	   		}
+    	   	break;
+       	}
+       	case 'H':{
+       		//game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()).currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);
+       		break;
+       	}
+       	case 'C':{
+       		game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getClosestPillOrPowerPill(game.getPacmanCurrentNodeIndex()),DM.PATH);
+       		break;
+       	}
+        default:
+            System.err.println("FENOTIPO INCORRECTO");
+            break;
+        }
+        return myMove;
+    }
+	
+	/*public MOVE getMove(Game game, long timeDue) 
 	{
 		char mov = fenotipo.charAt(poslectura);
 		
@@ -39,5 +91,5 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 			System.err.println("FENOTIPO INCORRECTO");
 		
 		return myMove;
-	}
+	}*/
 }

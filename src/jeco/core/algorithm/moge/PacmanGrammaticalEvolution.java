@@ -38,9 +38,9 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		String stringtipo = phenotype.toString();
+		
 		double fitnesssuma = 0;
 		double fitnessfinal;
-		
 		for( int i = 0 ; i < iteracionesPorIndividuo; ++i){
 			CustomExecutor exec = new CustomExecutor();
 			double fitness = exec.runExecution(stringtipo);
@@ -79,9 +79,9 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 
   public static void main(String[] args) {
 	  	//Valores de conf
-	  	int tamPoblacion = 10;
-	  	int numIteraciones = 50;
-	  	iteracionesPorIndividuo = 2;
+	  	int tamPoblacion = 50;
+	  	int numIteraciones = 250;
+	  	iteracionesPorIndividuo = 3;
 	  	int numHilos = Runtime.getRuntime().availableProcessors();
 	  
 	  	//Registro del fitness y fenotipo cuando hay una mejora

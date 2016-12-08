@@ -1665,4 +1665,42 @@ public final class Game
 
 		return caches[mazeIndex].getPathDistanceFromA2B(fromNodeIndex,toNodeIndex,lastMoveMade);
 	}
+	
+	
+	public Ghost getClosestNonEdibleGhost(int fromIndex) {
+        int minDistance = Integer.MAX_VALUE;
+        Ghost minGhost = null;
+
+        for (Ghost ghost : this.ghosts.values()) {
+            if (!ghost.isEdible() && !ghost.isInLair()) {
+                int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    minGhost = ghost;
+                }
+            }
+        }
+
+        return minGhost;
+    }
+
+	
+	public int getClosestPillOrPowerPill(int currentPos) {
+        int[] activePills=this.getActivePillsIndices();
+        int[] activePowerPills=this.getActivePowerPillsIndices();
+        int[] targetNodeIndices = new int[activePills.length + activePowerPills.length];
+        
+        System.arraycopy(activePills, 0, targetNodeIndices, 0, activePills.length);
+        System.arraycopy(activePowerPills, 0, targetNodeIndices, activePills.length, activePowerPills.length);
+        
+        return this.getClosestNodeIndexFromNodeIndex(currentPos, targetNodeIndices, DM.PATH);
+    }
+	
+	
+	public boolean closerThan(int fromIndex, int toIndex, int distance) {
+        return this.getShortestPathDistance(fromIndex, toIndex) < distance;
+    }
+	
+	
 }
