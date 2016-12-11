@@ -9,6 +9,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.EnumMap;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngine;
@@ -19,8 +20,11 @@ import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
 import pacman.CustomExecutor;
 import pacman.Executor;
+import pacman.controllers.Controller;
 import pacman.controllers.GrammaticalAdapterController;
 import pacman.controllers.examples.StarterGhosts;
+import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
 
 
 public class PacmanGrammaticalEvolution extends AbstractProblemGE {
@@ -38,12 +42,15 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		String stringtipo = phenotype.toString();
+		CustomExecutor exec = new CustomExecutor();
+		Controller<MOVE> pacman = new GrammaticalAdapterController(stringtipo);
+		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 		
 		double fitnesssuma = 0;
 		double fitnessfinal;
+		
 		for( int i = 0 ; i < iteracionesPorIndividuo; ++i){
-			CustomExecutor exec = new CustomExecutor();
-			double fitness = exec.runExecution(stringtipo);
+			double fitness = exec.runExecution(stringtipo, pacman, ghosts);
 			
 			// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
 			if(fitness < 0){

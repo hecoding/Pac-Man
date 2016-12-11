@@ -28,6 +28,8 @@ import pacman.controllers.examples.StarterGhosts;
 import pacman.controllers.examples.StarterPacMan;
 import pacman.game.Game;
 import pacman.game.GameView;
+import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
 
 import static pacman.game.Constants.*;
 
@@ -44,17 +46,13 @@ public class CustomExecutor {
 	 *
 	 * @param args the command line arguments
 	 */
-	public double runExecution(String phenotype) {
+	public double runExecution(String phenotype, Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController) {
 		MutableDouble fitness = new MutableDouble(100000); //Nunca debe ser < 0 por muchas galletas o fantasmas comidos o duracion aguantada
-		//fitness.setValue(100000);
-		
-		
-		CustomExecutor slave = new CustomExecutor();
 		
 		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 
-		slave.runGame(pacman, ghosts, fitness);
+		this.runGame(pacman, ghosts, fitness);
 		
 		if(fitness.doubleValue() < 0)
 			return 0;
