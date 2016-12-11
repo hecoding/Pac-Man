@@ -81,7 +81,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	//Valores de conf
 	  	int tamPoblacion = 50;
 	  	int numIteraciones = 250;
-	  	iteracionesPorIndividuo = 3;
+	  	iteracionesPorIndividuo = 5;
 	  	int numHilos = Runtime.getRuntime().availableProcessors();
 	  
 	  	//Registro del fitness y fenotipo cuando hay una mejora

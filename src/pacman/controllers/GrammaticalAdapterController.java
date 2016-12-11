@@ -46,9 +46,9 @@ public class GrammaticalAdapterController extends Controller<MOVE>
     	   		poslectura++;
     	   		//Ifs para diferenciar función condicional
     	   		if (mov == 'P') {
-    	   			if(game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()) != null){//Chekeo de que los fantasmas hayan salido ya
+    	   			if(game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()) != null){//Chekeo de que algun fantasma haya salido ya
 	    	   			if(!game.closerThan(game.getPacmanCurrentNodeIndex(), game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()).currentNodeIndex, 10))
-	    	   				return getMove(game, timeDue);
+	    	   				myMove = getMove(game, timeDue);
     	   			}
     	   		}
     	   		else {
@@ -57,11 +57,12 @@ public class GrammaticalAdapterController extends Controller<MOVE>
     	   	break;
        	}
        	case 'H':{
-       		//game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()).currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);
+       		if(game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()) != null)//Chekeo de que algun fantasma haya salido ya
+       			myMove = game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()).currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);;
        		break;
        	}
        	case 'C':{
-       		game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getClosestPillOrPowerPill(game.getPacmanCurrentNodeIndex()),DM.PATH);
+       		myMove = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getClosestPillOrPowerPill(game.getPacmanCurrentNodeIndex()),DM.PATH);
        		break;
        	}
         default:

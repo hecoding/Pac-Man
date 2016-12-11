@@ -52,7 +52,7 @@ public class CustomExecutor {
 		CustomExecutor slave = new CustomExecutor();
 		
 		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
-		Controller<EnumMap<GHOST,MOVE>> ghosts = new AggressiveGhosts();
+		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 
 		slave.runGame(pacman, ghosts, fitness);
 		
