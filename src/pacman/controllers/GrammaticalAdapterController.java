@@ -1,6 +1,7 @@
 package pacman.controllers;
 
 import pacman.game.Game;
+import pacman.game.internal.Ghost;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;
 
@@ -14,15 +15,18 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	private MOVE myMove=MOVE.NEUTRAL;
 	private String fenotipo;
 	private int poslectura;
+	private static final int PANIC_DISTANCE = 10;
 	
 	public GrammaticalAdapterController(String fenotipo) {
 		this.fenotipo = fenotipo;
 		poslectura = 0;
 	}
 
-	
-	
 	public MOVE getMove(Game game, long timeDue) {
+		int currentPos = game.getPacmanCurrentNodeIndex();
+		Ghost ghost = game.getClosestNonEdibleGhost(currentPos);
+		int closestPillOrPowerPill = game.getClosestPillOrPowerPill(currentPos);
+		
         char mov = fenotipo.charAt(poslectura);
         //TODO: hacer estatica postlectura que si no se jode
         poslectura++;
@@ -41,28 +45,25 @@ public class GrammaticalAdapterController extends Controller<MOVE>
         case 'L':
             myMove = MOVE.LEFT;
              break;
-       case '?': {    
+       case '?': { // conditional
     	   		mov = fenotipo.charAt(poslectura);
     	   		poslectura++;
-    	   		//Ifs para diferenciar función condicional
+    	   		
     	   		if (mov == 'P') {
-    	   			if(game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()) != null){//Chekeo de que algun fantasma haya salido ya
-	    	   			if(!game.closerThan(game.getPacmanCurrentNodeIndex(), game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()).currentNodeIndex, 10))
-	    	   				myMove = getMove(game, timeDue);
-    	   			}
+	    	   		if(ghost != null && !game.closerThan(currentPos, ghost.currentNodeIndex, PANIC_DISTANCE))
+	    	   			myMove = getMove(game, timeDue);
     	   		}
-    	   		else {
+    	   		else
     	   			System.out.println("ERROR EN FORMATO DE FENOTIPO: ?");
-    	   		}
     	   	break;
        	}
-       	case 'H':{
-       		if(game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()) != null)//Chekeo de que algun fantasma haya salido ya
-       			myMove = game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), game.getClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex()).currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);;
+       	case 'H':{ // go away
+       		if(ghost != null)
+       			myMove = game.getNextMoveAwayFromTarget(currentPos, ghost.currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);;
        		break;
        	}
-       	case 'C':{
-       		myMove = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getClosestPillOrPowerPill(game.getPacmanCurrentNodeIndex()),DM.PATH);
+       	case 'C':{ // seek food
+       		myMove = game.getNextMoveTowardsTarget(currentPos, closestPillOrPowerPill, DM.PATH);
        		break;
        	}
         default:
@@ -72,25 +73,4 @@ public class GrammaticalAdapterController extends Controller<MOVE>
         return myMove;
     }
 	
-	/*public MOVE getMove(Game game, long timeDue) 
-	{
-		char mov = fenotipo.charAt(poslectura);
-		
-		poslectura++;
-		if(poslectura >= fenotipo.length())
-			poslectura = 0;
-		
-		if(mov == 'U')
-			myMove = MOVE.UP;
-		else if(mov == 'D')
-			myMove = MOVE.DOWN;
-		else if(mov == 'R')
-			myMove = MOVE.RIGHT;
-		else if (mov == 'L')
-			myMove = MOVE.LEFT;
-		else
-			System.err.println("FENOTIPO INCORRECTO");
-		
-		return myMove;
-	}*/
 }
