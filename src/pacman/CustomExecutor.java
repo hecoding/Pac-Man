@@ -46,18 +46,11 @@ public class CustomExecutor {
 	 *
 	 * @param args the command line arguments
 	 */
-	public double runExecution(String phenotype, Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController) {
-		MutableDouble fitness = new MutableDouble(100000); //Nunca debe ser < 0 por muchas galletas o fantasmas comidos o duracion aguantada
-		
+	public double runExecution(String phenotype, Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController) {		
 		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 
-		this.runGame(pacman, ghosts, fitness);
-		
-		if(fitness.doubleValue() < 0)
-			return 0;
-		else
-			return fitness.doubleValue();
+		return this.runGame(pacman, ghosts);
 	}
 	
 	
@@ -70,24 +63,18 @@ public class CustomExecutor {
 	 * @param ghostController The Ghosts controller
 	 * @param visual Indicates whether or not to use visuals
 	 * @param delay The delay between time-steps
+	 * @return 
 	 */
-	public void runGame(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, MutableDouble fitness)
+	public int runGame(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController)
 	{
-		Double maxscore = (double) 0;
-		
-		
-		
+		int maxscore = 0;
 		Game game=new Game(0);
 		
 		while(!game.gameOver()){
-			fitness.decrement(); //Version muy basica, el fitness solo disminuye al aguantar vivo el pacman
 			game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
-			if(maxscore < game.getScore()){
-				maxscore = (double) game.getScore();
-			}
 		}
 		
-		fitness = new MutableDouble(maxscore);
+		return game.getScore();
 	}
 	
 	/**

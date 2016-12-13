@@ -1042,6 +1042,31 @@ public final class Game
 	}
 	
 	/**
+	 * Find the nearest edible in time ghost.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if there is none edible
+	 */
+	public Ghost getClosestReachableEdibleGhost(int fromIndex) {
+		int minDistance = Integer.MAX_VALUE;
+		Ghost minGhost = null;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (ghost.isEdible()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+				int movesToReach = distance*(1+((Constants.GHOST_SPEED_REDUCTION-1)/Constants.GHOST_SPEED_REDUCTION));
+				
+				if (distance < minDistance && movesToReach <= ghost.edibleTime) {
+					minDistance = distance;
+					minGhost = ghost;
+				}
+			}
+		}
+
+		return minGhost;
+	}
+	
+	/**
 	 * Find the nearest non-edible ghost.
 	 * 
 	 * @param fromIndex current pacman location

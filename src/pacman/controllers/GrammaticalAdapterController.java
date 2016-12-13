@@ -16,6 +16,7 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	private String fenotipo;
 	private int poslectura;
 	private static final int PANIC_DISTANCE = 10;
+	private static final int HUNGER_DISTANCE = 30;
 	
 	public GrammaticalAdapterController(String fenotipo) {
 		this.fenotipo = fenotipo;
@@ -24,8 +25,6 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 
 	public MOVE getMove(Game game, long timeDue) {
 		int currentPos = game.getPacmanCurrentNodeIndex();
-		Ghost ghost = game.getClosestNonEdibleGhost(currentPos);
-		int closestPillOrPowerPill = game.getClosestPillOrPowerPill(currentPos);
 		
         char mov = fenotipo.charAt(poslectura);
         //TODO: hacer estatica postlectura que si no se jode
@@ -50,7 +49,14 @@ public class GrammaticalAdapterController extends Controller<MOVE>
     	   		poslectura++;
     	   		
     	   		if (mov == 'P') {
-	    	   		if(ghost != null && !game.closerThan(currentPos, ghost.currentNodeIndex, PANIC_DISTANCE))
+    	   			Ghost closestNonEdibleGhost = game.getClosestNonEdibleGhost(currentPos);
+	    	   		if(closestNonEdibleGhost != null && !game.closerThan(currentPos, closestNonEdibleGhost.currentNodeIndex, PANIC_DISTANCE))
+	    	   			myMove = getMove(game, timeDue);
+    	   		}
+    	   		else if (mov == 'B') {
+    	   			Ghost closestEdibleGhost = game.getClosestEdibleGhost(currentPos);
+    	   			//Ghost closestEdibleGhost = game.getClosestReachableEdibleGhost(currentPos);
+	    	   		if(closestEdibleGhost != null && !game.closerThan(currentPos, closestEdibleGhost.currentNodeIndex, HUNGER_DISTANCE))
 	    	   			myMove = getMove(game, timeDue);
     	   		}
     	   		else
@@ -58,12 +64,21 @@ public class GrammaticalAdapterController extends Controller<MOVE>
     	   	break;
        	}
        	case 'H':{ // go away
-       		if(ghost != null)
-       			myMove = game.getNextMoveAwayFromTarget(currentPos, ghost.currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);;
+    		Ghost closestNonEdibleGhost = game.getClosestNonEdibleGhost(currentPos);
+       		if(closestNonEdibleGhost != null)
+       			myMove = game.getNextMoveAwayFromTarget(currentPos, closestNonEdibleGhost.currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);
        		break;
        	}
        	case 'C':{ // seek food
+    		int closestPillOrPowerPill = game.getClosestPillOrPowerPill(currentPos);
        		myMove = game.getNextMoveTowardsTarget(currentPos, closestPillOrPowerPill, DM.PATH);
+       		break;
+       	}
+       	case 'F':{ // seek ghost
+    		Ghost closestEdibleGhost = game.getClosestEdibleGhost(currentPos);
+    		//Ghost closestEdibleGhost = game.getClosestReachableEdibleGhost(currentPos);
+	   		if(closestEdibleGhost != null)
+       			myMove = game.getNextMoveTowardsTarget(currentPos, closestEdibleGhost.currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);
        		break;
        	}
         default:

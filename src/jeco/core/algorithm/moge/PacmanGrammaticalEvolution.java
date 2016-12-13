@@ -33,6 +33,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	private static BufferedWriter writer;
   	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
 	private static int iteracionesPorIndividuo;
+	private static final int ticks = 19;
   	
 	protected ScriptEngine evaluator = null;
 
@@ -150,8 +151,16 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    
 	    // Run visuals for the best program
 	    Executor exec = new Executor();
-	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, 20);
+	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, ticks);
 	    
 	}
+  public static void maine(String[] args) {
+	  runPhenotype("CCCCCCCCCCCCCCCCCCCCCCCCC");
+  }
+  
+  public static void runPhenotype(String ph) {
+	  Executor exec = new Executor();
+	  exec.runGame(new GrammaticalAdapterController(ph), new StarterGhosts(), true, ticks);
+  }
 
 }
