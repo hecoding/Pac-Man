@@ -12,7 +12,7 @@ import pacman.game.Constants.MOVE;
  */
 public class GrammaticalAdapterController extends Controller<MOVE>
 {
-	private MOVE myMove=MOVE.NEUTRAL;
+	private int antioverflow = 10;
 	private String fenotipo;
 	private int poslectura;
 	private static final int PANIC_DISTANCE = 10;
@@ -24,6 +24,8 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	}
 
 	public MOVE getMove(Game game, long timeDue) {
+		MOVE myMove=MOVE.NEUTRAL;
+		
 		int currentPos = game.getPacmanCurrentNodeIndex();
 		
         char mov = fenotipo.charAt(poslectura);
@@ -52,12 +54,20 @@ public class GrammaticalAdapterController extends Controller<MOVE>
     	   			Ghost closestNonEdibleGhost = game.getClosestNonEdibleGhost(currentPos);
 	    	   		if(closestNonEdibleGhost != null && !game.closerThan(currentPos, closestNonEdibleGhost.currentNodeIndex, PANIC_DISTANCE))
 	    	   			myMove = getMove(game, timeDue);
+	    	   		else{
+	    	   			//skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
+	    	   			//myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
+	    	   		}
     	   		}
     	   		else if (mov == 'B') {
     	   			Ghost closestEdibleGhost = game.getClosestEdibleGhost(currentPos);
     	   			//Ghost closestEdibleGhost = game.getClosestReachableEdibleGhost(currentPos);
 	    	   		if(closestEdibleGhost != null && !game.closerThan(currentPos, closestEdibleGhost.currentNodeIndex, HUNGER_DISTANCE))
 	    	   			myMove = getMove(game, timeDue);
+	    	   		else{
+	    	   			//skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
+	    	   			//myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
+	    	   		}
     	   		}
     	   		else
     	   			System.out.println("ERROR EN FORMATO DE FENOTIPO: ?");
@@ -87,5 +97,26 @@ public class GrammaticalAdapterController extends Controller<MOVE>
         }
         return myMove;
     }
+	
+	private void skipifs(){//skipea ifs+condiciones y en ultima instancia la accion, dejando el puntero listo para leer el siguiente MOV correcto
+		boolean skip = true;
+		while (skip){
+			if(fenotipo.charAt(poslectura) == '?'){//if
+				 poslectura++;
+				 char cond = fenotipo.charAt(poslectura);
+				 if(cond == 'P' || cond == 'B'){//cond
+					 poslectura++;
+				 }
+				 else
+					 System.err.println("FENOTIPO INCORRECTO(SKIPING IFS)");
+			}
+			else
+				skip = false;
+		}
+		poslectura++;//Accion a skipear tras la cadena de if (o tras el if inicial que era false de no haber habido cadena)
+		if(poslectura >= fenotipo.length()) //Puede ser el final del fenotipo
+            poslectura = 0;
+	}
+	
 	
 }
