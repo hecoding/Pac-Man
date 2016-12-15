@@ -15,7 +15,6 @@ import pacman.game.Constants.MOVE;
  */
 public class GrammaticalAdapterController extends Controller<MOVE>
 {
-	private int antioverflow = 10;
 	private String fenotipo;
 	private int poslectura;
 	private static final int PANIC_DISTANCE = 10;
@@ -23,6 +22,10 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	
 	public GrammaticalAdapterController(String fenotipo) {
 		this.fenotipo = fenotipo;
+		poslectura = 0;
+	}
+	
+	public void reset(){
 		poslectura = 0;
 	}
 
@@ -36,7 +39,6 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 		int currentPos = game.getPacmanCurrentNodeIndex();
 		
         char mov = fenotipo.charAt(poslectura);
-        //TODO: hacer estatica postlectura que si no se jode
         poslectura++;
         if(poslectura >= fenotipo.length())
             poslectura = 0;

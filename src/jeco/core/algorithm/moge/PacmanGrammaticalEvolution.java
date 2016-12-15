@@ -44,13 +44,15 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		String stringtipo = phenotype.toString();
 		CustomExecutor exec = new CustomExecutor();
-		Controller<MOVE> pacman = new GrammaticalAdapterController(stringtipo);
+		//Controller<MOVE> pacman = new GrammaticalAdapterController(stringtipo);
+		GrammaticalAdapterController pacman = new GrammaticalAdapterController(stringtipo);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 		
 		double fitnesssuma = 0;
 		double fitnessfinal;
 		
 		for( int i = 0 ; i < iteracionesPorIndividuo; ++i){
+			pacman.reset();
 			double fitness = exec.runExecution(stringtipo, pacman, ghosts);
 			
 			// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
@@ -146,6 +148,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    Solutions<Variable<Integer>> solutions = masterWorker.execute();
 	    for (Solution<Variable<Integer>> solution : solutions) {
 	      logger.info("Fitness = (" + solution.getObjectives().get(0) + ", " + solution.getObjectives().get(1) + ")");
+	      logger.info("Average points = " + (100000 - solution.getObjectives().get(0)));
 	      logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
 	    }
 	    
