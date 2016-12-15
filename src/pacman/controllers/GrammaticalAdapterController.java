@@ -2,6 +2,9 @@ package pacman.controllers;
 
 import pacman.game.Game;
 import pacman.game.internal.Ghost;
+
+import org.apache.commons.lang.StringUtils;
+
 import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;
 
@@ -25,6 +28,10 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 
 	public MOVE getMove(Game game, long timeDue) {
 		MOVE myMove=MOVE.NEUTRAL;
+		
+		if ((double)fenotipo.length()/3 <= StringUtils.countMatches(fenotipo, "?")) {
+	        return myMove;
+	    }
 		
 		int currentPos = game.getPacmanCurrentNodeIndex();
 		
@@ -55,8 +62,8 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	    	   		if(closestNonEdibleGhost != null && !game.closerThan(currentPos, closestNonEdibleGhost.currentNodeIndex, PANIC_DISTANCE))
 	    	   			myMove = getMove(game, timeDue);
 	    	   		else{
-	    	   			//skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
-	    	   			//myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
+	    	   			skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
+	    	   			myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
 	    	   		}
     	   		}
     	   		else if (mov == 'B') {
@@ -65,8 +72,8 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	    	   		if(closestEdibleGhost != null && !game.closerThan(currentPos, closestEdibleGhost.currentNodeIndex, HUNGER_DISTANCE))
 	    	   			myMove = getMove(game, timeDue);
 	    	   		else{
-	    	   			//skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
-	    	   			//myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
+	    	   			skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
+	    	   			myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
 	    	   		}
     	   		}
     	   		else
