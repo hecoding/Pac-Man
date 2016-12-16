@@ -30,7 +30,7 @@ import jeco.core.problem.Variable;
 public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   
   public static final Logger logger = Logger.getLogger(NSGAII.class.getName());
-
+  
   /////////////////////////////////////////////////////////////////////////
   protected int maxGenerations;
   protected int maxPopulationSize;
@@ -52,9 +52,10 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       this.selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
   }
 
-  public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations) {
-    this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY);
-  }
+	public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations) {
+	    //this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY);
+	    this(problem, maxPopulationSize, maxGenerations, PacmanGrammaticalEvolution.mutationProb, PacmanGrammaticalEvolution.crossProb); 
+	}
 
   @Override
   public void initialize() {

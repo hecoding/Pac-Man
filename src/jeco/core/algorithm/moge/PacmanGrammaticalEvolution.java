@@ -32,9 +32,15 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	private static Double mejorFitness;
 	private static BufferedWriter writer;
   	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
-	private static int iteracionesPorIndividuo;
 	private static final int ticks = 19;
-  	
+	
+	//Execution parameters
+	public static double mutationProb;
+  	public static double crossProb;
+  	public static int tamPob;
+  	public static int numIteraciones;
+  	public static int iteracionesPorIndividuo;
+	
 	protected ScriptEngine evaluator = null;
 
 	public PacmanGrammaticalEvolution(String pathToBnf) {
@@ -44,7 +50,6 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		String stringtipo = phenotype.toString();
 		CustomExecutor exec = new CustomExecutor();
-		//Controller<MOVE> pacman = new GrammaticalAdapterController(stringtipo);
 		GrammaticalAdapterController pacman = new GrammaticalAdapterController(stringtipo);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 		
@@ -89,10 +94,14 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 
   public static void main(String[] args) {
 	  	//Valores de conf
-	  	int tamPoblacion = 50;
-	  	int numIteraciones = 250;
-	  	iteracionesPorIndividuo = 5;
-	  	int numHilos = Runtime.getRuntime().availableProcessors();
+	  	mutationProb = 0.02;
+	  	crossProb = 0.6;
+	  	//tamPob = 400; 
+	  	//numIteraciones = 500;
+	  	tamPob = 50; 
+	  	numIteraciones = 250;
+	  	iteracionesPorIndividuo = 5; 
+	  	int numHilos = Runtime.getRuntime().availableProcessors(); 
 	  
 	  	//Registro del fitness y fenotipo cuando hay una mejora
 	  	mejorFitness = Double.POSITIVE_INFINITY;
@@ -120,34 +129,13 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		// First create the problem
 		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("test/pacman.bnf");
 		// Second create the algorithm
-		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, tamPoblacion, numIteraciones);
-		
-		
-		
-		/*
-		algorithm.initialize();
-		Solutions<Variable<Integer>> solutions = algorithm.execute();
-		try {
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		for (Solution<Variable<Integer>> solution : solutions) {
-			logger.info("Fitness = (" + solution.getObjectives().get(0) + ")");
-			logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
-		}
-		*/
-		
-		
-		
-		//algorithm.initialize(iteracionesPorIndividuo);
-		
+		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, tamPob, numIteraciones);
 		
 		MasterWorkerThreads<Variable<Integer>> masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, numHilos);
 	    Solutions<Variable<Integer>> solutions = masterWorker.execute();
 	    for (Solution<Variable<Integer>> solution : solutions) {
-	      logger.info("Fitness = (" + solution.getObjectives().get(0) + ", " + solution.getObjectives().get(1) + ")");
+	      logger.info(System.lineSeparator());
+	      logger.info("Fitness =  " + solution.getObjectives().get(0)); 
 	      logger.info("Average points = " + (100000 - solution.getObjectives().get(0)));
 	      logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
 	    }
@@ -158,7 +146,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    
 	}
   public static void maine(String[] args) {
-	  runPhenotype("CCCCCCCCCCCCCCCCCCCCCCCCC");
+	  runPhenotype("H");
   }
   
   public static void runPhenotype(String ph) {

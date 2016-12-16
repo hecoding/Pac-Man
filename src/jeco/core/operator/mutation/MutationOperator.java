@@ -17,6 +17,10 @@ public abstract class MutationOperator<T extends Variable<?>> {
 	public void setProbability(double probability) {
 		this.probability = probability;
 	}
+	
+	public double getProb(){
+		return probability;
+	}
 
 	abstract public Solution<T> execute(Solution<T> solution);
 }

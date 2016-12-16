@@ -17,7 +17,7 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 {
 	private String fenotipo;
 	private int poslectura;
-	private static final int PANIC_DISTANCE = 10;
+	private static final int PANIC_DISTANCE = 2;
 	private static final int HUNGER_DISTANCE = 30;
 	
 	public GrammaticalAdapterController(String fenotipo) {
@@ -56,36 +56,36 @@ public class GrammaticalAdapterController extends Controller<MOVE>
             myMove = MOVE.LEFT;
              break;
        case '?': { // conditional
-    	   		mov = fenotipo.charAt(poslectura);
-    	   		poslectura++;
+    	   		mov = fenotipo.charAt(poslectura); 
+    	   		poslectura++; 
     	   		
-    	   		if (mov == 'P') {
-    	   			Ghost closestNonEdibleGhost = game.getClosestNonEdibleGhost(currentPos);
-	    	   		if(closestNonEdibleGhost != null && !game.closerThan(currentPos, closestNonEdibleGhost.currentNodeIndex, PANIC_DISTANCE))
+    	   		if (mov == 'P') { 
+    	   			Ghost closestNonEdibleGhost = game.getClosestNonEdibleGhost(currentPos); 
+	    	   		if(closestNonEdibleGhost != null && !game.closerThan(currentPos, closestNonEdibleGhost.currentNodeIndex, PANIC_DISTANCE)) 
 	    	   			myMove = getMove(game, timeDue);
-	    	   		else{
-	    	   			skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
-	    	   			myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
+	    	   		else{ 
+	    	   			skipifs();
+	    	   			myMove = getMove(game, timeDue);
 	    	   		}
     	   		}
     	   		else if (mov == 'B') {
-    	   			Ghost closestEdibleGhost = game.getClosestEdibleGhost(currentPos);
+    	   			Ghost closestEdibleGhost = game.getClosestEdibleGhost(currentPos); 
     	   			//Ghost closestEdibleGhost = game.getClosestReachableEdibleGhost(currentPos);
 	    	   		if(closestEdibleGhost != null && !game.closerThan(currentPos, closestEdibleGhost.currentNodeIndex, HUNGER_DISTANCE))
 	    	   			myMove = getMove(game, timeDue);
 	    	   		else{
-	    	   			skipifs(); //Con skipifs solo no rompe, pero sin la linea de abajo no tiene sentido (Cuando funcione, meter B y F a la gramática)
-	    	   			myMove = getMove(game, timeDue); // <- esto rompe, pero es el funcionamiento realista (si no, retorna neutral y en la siguiente iter hace lo del if)
+	    	   			skipifs();
+	    	   			myMove = getMove(game, timeDue); 
 	    	   		}
     	   		}
     	   		else
-    	   			System.out.println("ERROR EN FORMATO DE FENOTIPO: ?");
+    	   			System.err.println("ERROR EN FORMATO DE FENOTIPO: ?");
     	   	break;
        	}
        	case 'H':{ // go away
     		Ghost closestNonEdibleGhost = game.getClosestNonEdibleGhost(currentPos);
-       		if(closestNonEdibleGhost != null)
-       			myMove = game.getNextMoveAwayFromTarget(currentPos, closestNonEdibleGhost.currentNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);
+       		if(closestNonEdibleGhost != null && game.closerThan(currentPos, closestNonEdibleGhost.currentNodeIndex, HUNGER_DISTANCE))
+       			myMove = game.getNextMoveAwayFromTarget(currentPos, closestNonEdibleGhost.currentNodeIndex, DM.PATH);
        		break;
        	}
        	case 'C':{ // seek food
