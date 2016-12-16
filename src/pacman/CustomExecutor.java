@@ -50,7 +50,7 @@ public class CustomExecutor {
 		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 
-		return 100000 - this.runGame(pacman, ghosts);
+		return this.runGame(pacman, ghosts);
 	}
 	
 	

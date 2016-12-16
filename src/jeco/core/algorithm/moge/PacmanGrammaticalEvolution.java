@@ -9,11 +9,14 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngine;
 
+import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
+import jeco.core.operator.evaluator.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
@@ -40,6 +43,8 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   	public static int tamPob;
   	public static int numIteraciones;
   	public static int iteracionesPorIndividuo;
+  	public static FitnessEvaluatorInterface fitnessFunc;
+  	public ArrayList<Double> fitnessParams = new ArrayList<>(2); // for efficiency. NOT static
 	
 	protected ScriptEngine evaluator = null;
 
@@ -58,7 +63,11 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		
 		for( int i = 0 ; i < iteracionesPorIndividuo; ++i){
 			pacman.reset();
-			double fitness = exec.runExecution(stringtipo, pacman, ghosts);
+			double score = exec.runExecution(stringtipo, pacman, ghosts);
+			fitnessParams.clear();
+			fitnessParams.add(score);
+			
+			double fitness = fitnessFunc.evaluate(fitnessParams);
 			
 			// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
 			if(fitness < 0){
@@ -93,6 +102,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   }
 
   public static void main(String[] args) {
+	  	int numHilos = Runtime.getRuntime().availableProcessors(); 
 	  	//Valores de conf
 	  	mutationProb = 0.02;
 	  	crossProb = 0.6;
@@ -101,7 +111,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	tamPob = 50; 
 	  	numIteraciones = 250;
 	  	iteracionesPorIndividuo = 5; 
-	  	int numHilos = Runtime.getRuntime().availableProcessors(); 
+	  	fitnessFunc = new NaiveFitness();
 	  
 	  	//Registro del fitness y fenotipo cuando hay una mejora
 	  	mejorFitness = Double.POSITIVE_INFINITY;
@@ -136,7 +146,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    for (Solution<Variable<Integer>> solution : solutions) {
 	      logger.info(System.lineSeparator());
 	      logger.info("Fitness =  " + solution.getObjectives().get(0)); 
-	      logger.info("Average points = " + (100000 - solution.getObjectives().get(0)));
+	      logger.info("Average points = " + ((NaiveFitness) fitnessFunc).fitnessToPoints(solution.getObjectives().get(0)));
 	      logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
 	    }
 	    
