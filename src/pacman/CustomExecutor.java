@@ -46,11 +46,15 @@ public class CustomExecutor {
 	 *
 	 * @param args the command line arguments
 	 */
-	public double runExecution(String phenotype, Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController) {		
-		Controller<MOVE> pacman = new GrammaticalAdapterController(phenotype);
-		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
-
-		return this.runGame(pacman, ghosts);
+	public double runExecution(GrammaticalAdapterController pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, int trials) {
+		double scoreSum = 0;
+		
+		for( int i = 0 ; i < trials; ++i){
+			pacManController.reset();
+			scoreSum += this.runGame(pacManController, ghostController);
+		}
+		
+		return scoreSum/trials;
 	}
 	
 	

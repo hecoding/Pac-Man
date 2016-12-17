@@ -58,29 +58,17 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		GrammaticalAdapterController pacman = new GrammaticalAdapterController(stringtipo);
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 		
-		double fitnesssuma = 0;
-		double fitnessfinal;
+		double score = exec.runExecution(pacman, ghosts, iteracionesPorIndividuo);
+		fitnessParams.clear();
+		fitnessParams.add(score);
 		
-		for( int i = 0 ; i < iteracionesPorIndividuo; ++i){
-			pacman.reset();
-			double score = exec.runExecution(stringtipo, pacman, ghosts);
-			fitnessParams.clear();
-			fitnessParams.add(score);
-			
-			double fitness = fitnessFunc.evaluate(fitnessParams);
-			
-			// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
-			if(fitness < 0){
-				System.err.println("ERROR: FITNESS FUERA DE MARGEN < 0");
-				fitness = 0;
-			}
-			
-			fitnesssuma += fitness;
+		double fitnessfinal = fitnessFunc.evaluate(fitnessParams);
+		
+		// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
+		if(fitnessfinal < 0){
+			System.err.println("ERROR: SCORE FUERA DE MARGEN < 0");
+			fitnessfinal = 0;
 		}
-		
-		fitnessfinal = fitnesssuma/iteracionesPorIndividuo;
-		
-		
 		
 		// Registro del fitness y fenotipo
 		if(fitnessfinal < mejorFitness){
