@@ -144,7 +144,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    
 	}
   public static void maine(String[] args) {
-	  runPhenotype("H");
+	  runPhenotype("W");
   }
   
   public static void runPhenotype(String ph) {

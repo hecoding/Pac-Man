@@ -93,6 +93,18 @@ public class GrammaticalAdapterController extends Controller<MOVE>
        		myMove = game.getNextMoveTowardsTarget(currentPos, closestPillOrPowerPill, DM.PATH);
        		break;
        	}
+       	case 'E':{ // seek pills
+    		int closestPill = game.getClosestPill(currentPos);
+    		if (closestPill != -1)
+    			myMove = game.getNextMoveTowardsTarget(currentPos, closestPill, DM.PATH);
+       		break;
+       	}
+       	case 'W':{ // seek powerpills
+    		int closestPowerPill = game.getClosestPowerPill(currentPos);
+    		if (closestPowerPill != -1)
+    			myMove = game.getNextMoveTowardsTarget(currentPos, closestPowerPill, DM.PATH);
+       		break;
+       	}
        	case 'F':{ // seek ghost
     		Ghost closestEdibleGhost = game.getClosestEdibleGhost(currentPos);
     		//Ghost closestEdibleGhost = game.getClosestReachableEdibleGhost(currentPos);
