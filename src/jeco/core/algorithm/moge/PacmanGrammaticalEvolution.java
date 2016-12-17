@@ -90,15 +90,15 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   }
 
   public static void main(String[] args) {
-	  	int numHilos = Runtime.getRuntime().availableProcessors(); 
+	  	int numHilos = Runtime.getRuntime().availableProcessors();
 	  	//Valores de conf
 	  	mutationProb = 0.02;
 	  	crossProb = 0.6;
-	  	//tamPob = 400; 
+	  	//tamPob = 400;
 	  	//numIteraciones = 500;
-	  	tamPob = 50; 
+	  	tamPob = 50;
 	  	numIteraciones = 250;
-	  	iteracionesPorIndividuo = 5; 
+	  	iteracionesPorIndividuo = 5;
 	  	fitnessFunc = new NaiveFitness();
 	  
 	  	//Registro del fitness y fenotipo cuando hay una mejora
@@ -133,7 +133,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    Solutions<Variable<Integer>> solutions = masterWorker.execute();
 	    for (Solution<Variable<Integer>> solution : solutions) {
 	      logger.info(System.lineSeparator());
-	      logger.info("Fitness =  " + solution.getObjectives().get(0)); 
+	      logger.info("Fitness =  " + solution.getObjectives().get(0));
 	      logger.info("Average points = " + ((NaiveFitness) fitnessFunc).fitnessToPoints(solution.getObjectives().get(0)));
 	      logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
 	    }

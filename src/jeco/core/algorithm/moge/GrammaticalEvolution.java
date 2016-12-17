@@ -54,7 +54,7 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
 
 	public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations) {
 	    //this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY);
-	    this(problem, maxPopulationSize, maxGenerations, PacmanGrammaticalEvolution.mutationProb, PacmanGrammaticalEvolution.crossProb); 
+	    this(problem, maxPopulationSize, maxGenerations, PacmanGrammaticalEvolution.mutationProb, PacmanGrammaticalEvolution.crossProb);
 	}
 
   @Override
