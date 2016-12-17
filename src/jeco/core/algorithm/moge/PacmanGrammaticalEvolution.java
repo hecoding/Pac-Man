@@ -89,16 +89,16 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   	return clone;
   }
 
-  public static void main(String[] args) {
+  public static void maine(String[] args) {
 	  	int numHilos = Runtime.getRuntime().availableProcessors();
 	  	//Valores de conf
 	  	mutationProb = 0.02;
 	  	crossProb = 0.6;
 	  	//tamPob = 400;
 	  	//numIteraciones = 500;
-	  	tamPob = 50;
-	  	numIteraciones = 250;
-	  	iteracionesPorIndividuo = 5;
+	  	tamPob = 100;
+	  	numIteraciones = 500;
+	  	iteracionesPorIndividuo = 10;
 	  	fitnessFunc = new NaiveFitness();
 	  
 	  	//Registro del fitness y fenotipo cuando hay una mejora
@@ -139,12 +139,15 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    }
 	    
 	    // Run visuals for the best program
+	    System.out.println();
+	    System.out.println("Pulsa una tecla para empezar la ejecucion del mejor individuo...");
+        new java.util.Scanner(System.in).nextLine();
 	    Executor exec = new Executor();
 	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, ticks);
 	    
 	}
-  public static void maine(String[] args) {
-	  runPhenotype("W");
+  public static void main(String[] args) {
+	  runPhenotype("E?PH");
   }
   
   public static void runPhenotype(String ph) {
