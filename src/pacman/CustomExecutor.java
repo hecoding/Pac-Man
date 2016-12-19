@@ -72,10 +72,16 @@ public class CustomExecutor {
 	public int runGame(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController)
 	{
 		int maxscore = 0;
+		int lastLevel = 0;
 		Game game=new Game(0);
 		
 		while(!game.gameOver()){
+			
+			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
+				((GrammaticalAdapterController) pacManController).reset();
+			
 			game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
+			lastLevel = game.getCurrentLevel();
 		}
 		
 		return game.getScore();

@@ -11,6 +11,9 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngine;
@@ -35,7 +38,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	private static Double mejorFitness;
 	private static BufferedWriter writer;
   	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
-	private static final int ticks = 1;
+	private static final int ticks = 19;
 	
 	//Execution parameters
 	public static double mutationProb;
@@ -89,15 +92,15 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   	return clone;
   }
 
-  public static void maine(String[] args) {
+  public static void main(String[] args) {
 	  	int numHilos = Runtime.getRuntime().availableProcessors();
 	  	//Valores de conf
 	  	mutationProb = 0.02;
 	  	crossProb = 0.6;
 	  	//tamPob = 400;
 	  	//numIteraciones = 500;
-	  	tamPob = 50;
-	  	numIteraciones = 250;
+	  	tamPob = 100;
+	  	numIteraciones = 500;
 	  	iteracionesPorIndividuo = 10;
 	  	fitnessFunc = new NaiveFitness();
 	  
@@ -146,8 +149,8 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, ticks);
 	    
 	}
-  public static void main(String[] args) {
-	  runPhenotype("?PHE");
+  public static void maine(String[] args) {
+	  runPhenotype("?BEE?PH");
   }
   
   public static void runPhenotype(String ph) {
