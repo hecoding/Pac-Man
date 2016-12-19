@@ -102,7 +102,8 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 			case 'H':{ // go away
 				Ghost closestNonEdibleGhost = game.getClosestNonEdibleGhost(currentPos);
 				if(closestNonEdibleGhost != null){
-					myMove = game.getNextMoveAwayFromTarget(currentPos, closestNonEdibleGhost.currentNodeIndex, DM.PATH);
+					//myMove = game.getNextMoveAwayFromTarget(currentPos, closestNonEdibleGhost.currentNodeIndex, DM.PATH); //old escape function
+					myMove = game.getNextMoveAwayFromTargetUpgraded(currentPos, closestNonEdibleGhost.currentNodeIndex, DM.PATH); //new escape function
 					bucleState = 'H';
 				}
 				break;

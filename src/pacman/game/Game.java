@@ -1091,6 +1091,50 @@ public final class Game
 	}
 	
 	/**
+	 * Distance to the nearest non-edible ghost.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if the ghosts are still in the lair
+	 */
+	public int getDistanceToClosestNonEdibleGhost(int fromIndex) {
+		int minDistance = Integer.MAX_VALUE;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
+			}
+		}
+
+		return minDistance;
+	}
+	
+	/**
+	 * Returns the distance to the nearest non-edible ghost not considering distances from directions opposing the last move made.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if the ghosts are still in the lair
+	 */
+	public int getDistanceToClosestNonEdibleGhost(int fromIndex, MOVE lastMoveMade) {
+		int minDistance = Integer.MAX_VALUE;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex, lastMoveMade);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
+			}
+		}
+
+		return minDistance;
+	}
+	
+	/**
 	 * Find the nearest ghost, edible or not.
 	 * 
 	 * @param fromIndex current pacman location
@@ -1458,7 +1502,7 @@ public final class Game
 	{
 		switch(distanceMeasure)
 		{
-			case PATH: return getApproximateShortestPathDistance(fromNodeIndex,toNodeIndex,lastMoveMade);
+			case PATH: return getShortestPathDistance(fromNodeIndex,toNodeIndex,lastMoveMade);
 			case EUCLID: return getEuclideanDistance(fromNodeIndex,toNodeIndex);
 			case MANHATTAN: return getManhattanDistance(fromNodeIndex,toNodeIndex);
 		}
@@ -1574,6 +1618,64 @@ public final class Game
 			{
 				maxDistance=distance;
 				move=entry.getKey();	
+			}
+		}
+		
+		return move;
+	}
+	
+	/**
+	 * UPGRADED, Gets the next move away from target.
+	 *
+	 * @param fromNodeIndex the from node index
+	 * @param toNodeIndex the to node index
+	 * @param lastMove 
+	 * @param distanceMeasure the distance measure
+	 * @return the next move away from target
+	 */
+	public MOVE getNextMoveAwayFromTargetUpgraded(int fromNodeIndex,int toNodeIndex, DM distanceMeasure)
+	{
+		MOVE move=null;
+
+		double maxDistance=Integer.MIN_VALUE;
+		
+		if(isJunction(fromNodeIndex)) {
+			MOVE[] possibleMoves = getPossibleMoves(fromNodeIndex);
+			int newNodeIndex;
+			//Ghost newClosestNonEdibleGhost;
+			double newDistance;
+			
+			for (MOVE possibleM : possibleMoves) {
+				newNodeIndex = currentMaze.graph[fromNodeIndex].neighbourhood.get(possibleM);
+				newDistance = getDistanceToClosestNonEdibleGhost(newNodeIndex, possibleM);
+				
+				if (newDistance > maxDistance) {
+					maxDistance = newDistance;
+					move = possibleM;
+				}
+			}
+			
+			/*for (MOVE possibleM : possibleMoves) {
+				newNodeIndex = currentMaze.graph[fromNodeIndex].neighbourhood.get(possibleM);
+				newClosestNonEdibleGhost = getClosestNonEdibleGhost(newNodeIndex);
+				newDistance = getDistance(newNodeIndex, newClosestNonEdibleGhost.currentNodeIndex, distanceMeasure);
+				
+				if (newDistance > maxDistance) {
+					maxDistance = newDistance;
+					move = possibleM;
+				}
+			}*/
+		}
+		else {
+			for(Entry<MOVE,Integer> entry : currentMaze.graph[fromNodeIndex].neighbourhood.entrySet())
+			{
+				double distance=getDistance(entry.getValue(),toNodeIndex,distanceMeasure);
+									
+				if(distance>maxDistance)
+				{
+					maxDistance=distance;
+					move=entry.getKey();	
+				}
 			}
 		}
 		

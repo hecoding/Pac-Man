@@ -35,7 +35,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	private static Double mejorFitness;
 	private static BufferedWriter writer;
   	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
-	private static final int ticks = 19;
+	private static final int ticks = 1;
 	
 	//Execution parameters
 	public static double mutationProb;
@@ -96,8 +96,8 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	crossProb = 0.6;
 	  	//tamPob = 400;
 	  	//numIteraciones = 500;
-	  	tamPob = 100;
-	  	numIteraciones = 500;
+	  	tamPob = 50;
+	  	numIteraciones = 250;
 	  	iteracionesPorIndividuo = 10;
 	  	fitnessFunc = new NaiveFitness();
 	  
@@ -147,7 +147,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    
 	}
   public static void main(String[] args) {
-	  runPhenotype("E?PH");
+	  runPhenotype("?PHE");
   }
   
   public static void runPhenotype(String ph) {
