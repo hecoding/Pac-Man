@@ -151,11 +151,25 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	}
   public static void maine(String[] args) {
 	  runPhenotype("?BEE?PH");
+	  //multipleExecAvg("?BEE?PH", 5000);
   }
   
   public static void runPhenotype(String ph) {
 	  Executor exec = new Executor();
 	  exec.runGame(new GrammaticalAdapterController(ph), new StarterGhosts(), true, ticks);
+  }
+  
+  public static void multipleExecAvg(String ph, int trials) {
+	  
+	  Controller<MOVE> pacManController = new GrammaticalAdapterController(ph);
+	  Controller<EnumMap<GHOST, MOVE>> ghostController = new StarterGhosts();
+
+	  Executor exec = new Executor();
+	  ArrayList<Double> results = exec.runExperiment(pacManController, ghostController, trials);
+	  
+	  System.out.println("avgScore:" + results.get(0));
+	  System.out.println("avgTime:" + results.get(1));
+
   }
 
 }
