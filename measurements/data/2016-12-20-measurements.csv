@@ -1,0 +1,8 @@
+mutationProb,crossProb,tamPob,numIteraciones,iteracionesPorIndividuo,fitnessFunc,Fitness,Averagepoints,Phenotype,time
+0.02,0.6,50,100,20,NaiveFitness,95841.5,4158.5,(?B?PFHE),118.933828456
+0.02,0.6,50,200,20,NaiveFitness,95765.0,4235.0,(HE),265.831526104
+0.02,0.6,100,100,20,NaiveFitness,92253.0,7747.0,(?PHE?BF),237.011022904
+0.02,0.6,100,200,20,NaiveFitness,94792.5,5207.5,(EEHEEHE),277.722323665
+0.02,0.6,200,100,20,NaiveFitness,91408.0,8592.0,(?PHE),460.423081176
+0.02,0.6,200,200,20,NaiveFitness,92682.5,7317.5,(?PHEHE?BE),1123.727181646
+0.02,0.6,100,500,10,NaiveFitness,88121.0,11879.0,(E?PH),640.493755188
