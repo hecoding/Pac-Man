@@ -16,7 +16,7 @@ public class PacmanChromosome extends AbstractChromosome {
 	private Tree<Node> program;
 	private static int maxSteps;
 	public static int maxHeight;
-	private static int trialsPerEvaluation;
+	public static int trialsPerEvaluation = 1;
 	
 	public PacmanChromosome() {
 		this.program = new Tree<>();
@@ -28,7 +28,6 @@ public class PacmanChromosome extends AbstractChromosome {
 		this.program = new Tree<>();
 		
 		maxSteps = 400;
-		trialsPerEvaluation = 1;
 	}
 	
 	@Override

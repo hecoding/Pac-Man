@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
 import pacman.controllers.Controller;
+import pacman.controllers.GeneticController;
 import pacman.controllers.HumanController;
 import pacman.controllers.KeyBoardInput;
 import pacman.controllers.examples.AggressiveGhosts;
@@ -111,6 +112,8 @@ public class Executor
     	
     	Random rnd=new Random(0);
 		Game game;
+		int lastLevel = 0;
+		((GeneticController) pacManController).reset();
 		
 		for(int i=0;i<trials;i++)
 		{
@@ -118,8 +121,11 @@ public class Executor
 			
 			while(!game.gameOver())
 			{
+				if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
+					((GeneticController) pacManController).reset();
 		        game.advanceGame(pacManController.getMove(game.copy(),System.currentTimeMillis()+DELAY),
 		        		ghostController.getMove(game.copy(),System.currentTimeMillis()+DELAY));
+		        lastLevel = game.getCurrentLevel();
 			}
 			
 			avgScore+=game.getScore();
@@ -154,9 +160,14 @@ public class Executor
 		if(visual)
 			gv=new GameView(game).showGame();
 		
+		int lastLevel = 0;
+		
 		while(!game.gameOver())
 		{
+			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
+				((GeneticController) pacManController).reset();
 	        game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
+	        lastLevel = game.getCurrentLevel();
 	        
 	        try{Thread.sleep(delay);}catch(Exception e){}
 	        
@@ -176,6 +187,7 @@ public class Executor
     public void runGameTimed(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,boolean visual)
 	{
 		Game game=new Game(0);
+		int lastLevel = 0;
 		
 		GameView gv=null;
 		
@@ -201,8 +213,12 @@ public class Executor
 			{
 				e.printStackTrace();
 			}
+			
+			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
+				((GeneticController) pacManController).reset();
 
-	        game.advanceGame(pacManController.getMove(),ghostController.getMove());	   
+	        game.advanceGame(pacManController.getMove(),ghostController.getMove());	  
+	        lastLevel = game.getCurrentLevel();
 	        
 	        if(visual)
 	        	gv.repaint();
@@ -224,6 +240,7 @@ public class Executor
     public void runGameTimedSpeedOptimised(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,boolean fixedTime,boolean visual)
  	{
  		Game game=new Game(0);
+ 		int lastLevel = 0;
  		
  		GameView gv=null;
  		
@@ -259,7 +276,10 @@ public class Executor
 				if(fixedTime)
 					Thread.sleep(((DELAY/INTERVAL_WAIT)-waited)*INTERVAL_WAIT);
 				
+				if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
+					((GeneticController) pacManController).reset();
 				game.advanceGame(pacManController.getMove(),ghostController.getMove());	
+				lastLevel = game.getCurrentLevel();
 			}
 			catch(InterruptedException e)
 			{
@@ -287,6 +307,7 @@ public class Executor
 		StringBuilder replay=new StringBuilder();
 		
 		Game game=new Game(0);
+		int lastLevel = 0;
 		
 		GameView gv=null;
 		
@@ -315,7 +336,10 @@ public class Executor
 				e.printStackTrace();
 			}
 
+			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
+				((GeneticController) pacManController).reset();
 	        game.advanceGame(pacManController.getMove(),ghostController.getMove());	        
+	        lastLevel = game.getCurrentLevel();
 	        
 	        if(visual)
 	        	gv.repaint();
