@@ -11,9 +11,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import javax.script.ScriptEngine;
@@ -144,7 +142,10 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    // Run visuals for the best program
 	    System.out.println();
 	    System.out.println("Pulsa una tecla para empezar la ejecucion del mejor individuo...");
-        new java.util.Scanner(System.in).nextLine();
+        Scanner sc = new java.util.Scanner(System.in);
+        sc.nextLine();
+        sc.close();
+        
 	    Executor exec = new Executor();
 	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, ticks);
 	    

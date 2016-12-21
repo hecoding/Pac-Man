@@ -292,7 +292,8 @@ public class SimulatedAnnealing<T extends Variable<?>> extends Algorithm<T> {
      *
      * @return
      */
-    private Solution<T> neighbourSolution(Solution<T> sol) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private Solution<T> neighbourSolution(Solution<T> sol) {
         // Generate a brand new solution
         ArrayList<T> variables = problem.newRandomSetOfSolutions(1).get(0).getVariables();
         // Randomly choose one variable

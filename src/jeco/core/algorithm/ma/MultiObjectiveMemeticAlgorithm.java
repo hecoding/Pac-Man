@@ -46,10 +46,10 @@ public class MultiObjectiveMemeticAlgorithm<V extends Variable<?>> extends Algor
     protected SelectionOperator<V> selectionOperator;
     protected LocalSearch<V> localSearch;
    
-    public MultiObjectiveMemeticAlgorithm(Problem problem, Integer maxPopulationSize,
-            Integer maxGenerations, MutationOperator mutationOperator,
-            CrossoverOperator crossoverOperator, SelectionOperator selectionOperator,
-            LocalSearch localSearch) {
+    public MultiObjectiveMemeticAlgorithm(Problem<V> problem, Integer maxPopulationSize,
+            Integer maxGenerations, MutationOperator<V> mutationOperator,
+            CrossoverOperator<V> crossoverOperator, SelectionOperator<V> selectionOperator,
+            LocalSearch<V> localSearch) {
         super(problem);
 
         this.maxPopulationSize = maxPopulationSize;

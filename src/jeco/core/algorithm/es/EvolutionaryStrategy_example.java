@@ -1,6 +1,5 @@
 package jeco.core.algorithm.es;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import jeco.core.operator.mutation.PolynomialMutation;

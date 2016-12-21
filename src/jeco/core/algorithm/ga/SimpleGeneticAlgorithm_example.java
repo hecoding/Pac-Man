@@ -1,6 +1,5 @@
 package jeco.core.algorithm.ga;
 
-import java.util.logging.Level;
 import jeco.core.operator.comparator.SimpleDominance;
 import jeco.core.operator.crossover.SBXCrossover;
 import jeco.core.operator.mutation.PolynomialMutation;

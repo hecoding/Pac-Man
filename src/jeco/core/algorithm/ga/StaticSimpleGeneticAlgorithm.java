@@ -17,7 +17,7 @@ import jeco.core.problem.Variable;
  */
 public class StaticSimpleGeneticAlgorithm<V extends Variable<?>> extends SimpleGeneticAlgorithm<V> {
 
-    public StaticSimpleGeneticAlgorithm(Problem problem, Integer maxPopulationSize, Integer maxGenerations, Boolean stopWhenSolved, MutationOperator mutationOperator, CrossoverOperator crossoverOperator, SelectionOperator selectionOperator) {
+    public StaticSimpleGeneticAlgorithm(Problem<V> problem, Integer maxPopulationSize, Integer maxGenerations, Boolean stopWhenSolved, MutationOperator<V> mutationOperator, CrossoverOperator<V> crossoverOperator, SelectionOperator<V> selectionOperator) {
         super(problem, maxPopulationSize, maxGenerations, stopWhenSolved, mutationOperator, crossoverOperator, selectionOperator);
     }
 

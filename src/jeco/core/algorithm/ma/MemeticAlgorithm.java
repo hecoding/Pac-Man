@@ -43,7 +43,7 @@ public class MemeticAlgorithm<V extends Variable<?>> extends Algorithm<V> {
     
     public MemeticAlgorithm(Problem<V> problem, Integer maxPopulationSize, Integer maxGenerations, 
             Boolean stopWhenSolved, MutationOperator<V> mutationOperator, CrossoverOperator<V> crossoverOperator, 
-            SelectionOperator<V> selectionOperator, LocalSearch localSearch) {
+            SelectionOperator<V> selectionOperator, LocalSearch<V> localSearch) {
         super(problem);
         this.maxGenerations = maxGenerations;
         this.maxPopulationSize = maxPopulationSize;

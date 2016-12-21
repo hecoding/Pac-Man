@@ -1,6 +1,5 @@
 package jeco.core.algorithm.de;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import jeco.core.problem.Solution;

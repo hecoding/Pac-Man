@@ -39,7 +39,7 @@ public class CombinatorialMutation extends MutationOperator<Variable<Integer>> {
         ArrayList<Integer> notInSol = new ArrayList<>();
         
         for (int j=minValue; j<=maxValue; j++) {
-            if (!solution.getVariables().contains(new Variable(j))) {
+            if (!solution.getVariables().contains(new Variable<Integer>(j))) {
                 notInSol.add(j);
             }
         }
