@@ -1666,4 +1666,186 @@ public final class Game
 
 		return caches[mazeIndex].getPathDistanceFromA2B(fromNodeIndex,toNodeIndex,lastMoveMade);
 	}
+
+	/**
+	 * Find the nearest non-edible ghost.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if the ghosts are still in the lair
+	 */
+	public Ghost getClosestNonEdibleGhost(int fromIndex) {
+		int minDistance = Integer.MAX_VALUE;
+		Ghost minGhost = null;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+					minGhost = ghost;
+				}
+			}
+		}
+
+		return minGhost;
+	}
+
+	/**
+	 * UPGRADED, Gets the next move away from target.
+	 *
+	 * @param fromNodeIndex the from node index
+	 * @param toNodeIndex the to node index
+	 * @param lastMove 
+	 * @param distanceMeasure the distance measure
+	 * @return the next move away from target
+	 */
+	public MOVE getNextMoveAwayFromTargetUpgraded(int fromNodeIndex,int toNodeIndex, DM distanceMeasure)
+	{
+		MOVE move=null;
+
+		double maxDistance=Integer.MIN_VALUE;
+		
+		if(isJunction(fromNodeIndex)) {
+			MOVE[] possibleMoves = getPossibleMoves(fromNodeIndex);
+			int newNodeIndex;
+			//Ghost newClosestNonEdibleGhost;
+			double newDistance;
+			
+			for (MOVE possibleM : possibleMoves) {
+				newNodeIndex = currentMaze.graph[fromNodeIndex].neighbourhood.get(possibleM);
+				newDistance = getDistanceToClosestNonEdibleGhost(newNodeIndex, possibleM);
+				
+				if (newDistance > maxDistance) {
+					maxDistance = newDistance;
+					move = possibleM;
+				}
+			}
+			
+			/*for (MOVE possibleM : possibleMoves) {
+				newNodeIndex = currentMaze.graph[fromNodeIndex].neighbourhood.get(possibleM);
+				newClosestNonEdibleGhost = getClosestNonEdibleGhost(newNodeIndex);
+				newDistance = getDistance(newNodeIndex, newClosestNonEdibleGhost.currentNodeIndex, distanceMeasure);
+				
+				if (newDistance > maxDistance) {
+					maxDistance = newDistance;
+					move = possibleM;
+				}
+			}*/
+		}
+		else {
+			for(Entry<MOVE,Integer> entry : currentMaze.graph[fromNodeIndex].neighbourhood.entrySet())
+			{
+				double distance=getDistance(entry.getValue(),toNodeIndex,distanceMeasure);
+									
+				if(distance>maxDistance)
+				{
+					maxDistance=distance;
+					move=entry.getKey();	
+				}
+			}
+		}
+		
+		return move;
+	}
+
+	/**
+	 * Distance to the nearest non-edible ghost.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if the ghosts are still in the lair
+	 */
+	public int getDistanceToClosestNonEdibleGhost(int fromIndex) {
+		int minDistance = Integer.MAX_VALUE;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
+			}
+		}
+
+		return minDistance;
+	}
+	
+	/**
+	 * Returns the distance to the nearest non-edible ghost not considering distances from directions opposing the last move made.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if the ghosts are still in the lair
+	 */
+	public int getDistanceToClosestNonEdibleGhost(int fromIndex, MOVE lastMoveMade) {
+		int minDistance = Integer.MAX_VALUE;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex, lastMoveMade);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
+			}
+		}
+
+		return minDistance;
+	}
+
+	public int getClosestPill(int currentPos) {
+		return this.getClosestNodeIndexFromNodeIndex(currentPos, this.getActivePillsIndices(), DM.PATH);
+	}
+	
+	public int getClosestPowerPill(int currentPos) {
+		return this.getClosestNodeIndexFromNodeIndex(currentPos, this.getActivePowerPillsIndices(), DM.PATH);
+	}
+	
+	public int getClosestPillOrPowerPill(int currentPos) {
+		int[] activePills=this.getActivePillsIndices();
+		int[] activePowerPills=this.getActivePowerPillsIndices();
+		int[] targetNodeIndices = new int[activePills.length + activePowerPills.length];
+		
+		System.arraycopy(activePills, 0, targetNodeIndices, 0, activePills.length);
+		System.arraycopy(activePowerPills, 0, targetNodeIndices, activePills.length, activePowerPills.length);
+		
+		return this.getClosestNodeIndexFromNodeIndex(currentPos, targetNodeIndices, DM.PATH);
+	}
+
+	/**
+	 * Find the nearest edible ghost.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if there is none edible
+	 */
+	public Ghost getClosestEdibleGhost(int fromIndex) {
+		int minDistance = Integer.MAX_VALUE;
+		Ghost minGhost = null;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (ghost.isEdible()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+					minGhost = ghost;
+				}
+			}
+		}
+
+		return minGhost;
+	}
+
+	/**
+	 * Handy method which makes use of getShortestPathDistance to check
+	 * if a ghost is closer than a certain distance to pacman.
+	 * 
+	 * @param fromIndex pacman
+	 * @param toIndex ghost
+	 * @param distance distance to check
+	 * @return
+	 */
+	public boolean closerThan(int fromIndex, int toIndex, int distance) {
+		return this.getShortestPathDistance(fromIndex, toIndex) < distance;
+	}
 }

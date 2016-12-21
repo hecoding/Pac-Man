@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import org.math.plot.Plot2DPanel;
 
+import alg.chromosome.PacmanChromosome;
 import alg.genProgAlgorithm.PacmanGeneticAlgorithm;
 import alg.genProgAlgorithm.crossover.CrossoverInterface;
+import alg.genProgAlgorithm.fitnessFunction.CutreFitness;
 import alg.genProgAlgorithm.fitnessFunction.FitnessFunctionInterface;
 import alg.genProgAlgorithm.fitnessFunction.PacmanFitness;
 import alg.genProgAlgorithm.initialization.InitializationInterface;
@@ -29,17 +31,18 @@ public class Main {
 	public static void main(String[] args) {
 		// parameters
 		InitializationInterface initializationStrategy = new RampedAndHalfInitialization();
-		FitnessFunctionInterface func = new PacmanFitness();
+		FitnessFunctionInterface func = new CutreFitness();
 		SelectionInterface selectionStrategy = new RouletteSelection();
 		CrossoverInterface crossoverStrategy = new OnePointCrossover();
 		MutationInterface mutationStrategy = new SimpleTerminalMutation();
-		int populationNum = 800;
+		int populationNum = 50;
 		boolean useElitism = true;
 		double elitePercentage = 0.1;
-		int maxGenerationNum = 500;
-		int maxProgramHeight = 4;
+		int maxGenerationNum = 100;
+		int maxProgramHeight = 2;
 		double crossProb = 0.6;
-		double mutationProb = 0.05;
+		double mutationProb = 0.02;
+		PacmanChromosome.trialsPerEvaluation = 20;
 
 		PacmanGeneticAlgorithm pacmanGA = new PacmanGeneticAlgorithm(initializationStrategy, func, selectionStrategy, crossoverStrategy, mutationStrategy, populationNum, useElitism, elitePercentage, maxGenerationNum, maxProgramHeight, crossProb, mutationProb);
 		
@@ -51,6 +54,7 @@ public class Main {
 		Tree<Node> bestProgram = pacmanGA.getBestChromosome().getProgram();
 		System.out.println(pacmanGA.getBestAptitudeList());
 		System.out.println("aptitude: " + pacmanGA.getBestChromosome().getAptitude());
+		System.out.println("avg score: " + ((CutreFitness) func).fitnessToPoints(pacmanGA.getBestChromosome().getAptitude()));
 		System.out.println(pacmanGA.getBestChromosome().getPhenotype());
 		
 		// show statistics
