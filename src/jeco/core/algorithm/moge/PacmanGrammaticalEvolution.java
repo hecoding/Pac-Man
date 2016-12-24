@@ -11,17 +11,14 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
 import jeco.core.operator.evaluator.NaiveFitness;
-import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
 import pacman.CustomExecutor;
-import pacman.Executor;
 import pacman.controllers.Controller;
 import pacman.controllers.GrammaticalAdapterController;
 import pacman.controllers.examples.StarterGhosts;
@@ -30,10 +27,9 @@ import pacman.game.Constants.MOVE;
 
 
 public class PacmanGrammaticalEvolution extends AbstractProblemGE {
-	private static final Logger logger = Logger.getLogger(PacmanGrammaticalEvolution.class.getName());
-	private static BufferedWriter writer;
-  	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
-	private static final int ticks = 19;
+	public static final Logger logger = Logger.getLogger(PacmanGrammaticalEvolution.class.getName());
+	public static BufferedWriter writer;
+	public static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
 	
 	//Execution parameters
 	public int populationSize;
@@ -53,6 +49,30 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		this.crossProb = probCrossover;
 		this.fitnessFunc = fitnessFunc;
 		this.iterPerIndividual = iterPerIndividual;
+		
+		// Create log
+		if(writer == null) {
+		  	File dir = new File("logs");
+		  	dir.mkdir();
+		  	
+		  	try {
+		  	    Files.delete(path);
+		  	} catch (NoSuchFileException x) {
+		  	    //System.err.format("%s: no such" + " file or directory%n", path);
+		  	} catch (DirectoryNotEmptyException x) {
+		  	    System.err.format("%s not empty%n", path);
+		  	} catch (IOException x) {
+		  	    // File permission problems are caught here.
+		  	    System.err.println(x);
+		  	}
+		  	
+		  	try {
+				writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8);
+			} catch (IOException e) {
+				System.err.println("Error opening the log.");
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
@@ -95,91 +115,24 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	}
 
 	public static void main(String[] args) {
-		int avalaibleThreads = Runtime.getRuntime().availableProcessors();
-	  	// Configure parameters
 		int populationSize = 100;// = 400;
-		int generations = 500;// = 500;
+		int generations = 100;// = 500;
 		double mutationProb = 0.02;
 	  	double crossProb = 0.6;
 	  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
-	  	int iterPerIndividual = 10; // games ran per evaluation
-	  	
-	  	// Create log
-	  	File dir = new File("logs");
-	  	dir.mkdir();
-	  	
-	  	try {
-	  	    Files.delete(path);
-	  	} catch (NoSuchFileException x) {
-	  	    //System.err.format("%s: no such" + " file or directory%n", path);
-	  	} catch (DirectoryNotEmptyException x) {
-	  	    System.err.format("%s not empty%n", path);
-	  	} catch (IOException x) {
-	  	    // File permission problems are caught here.
-	  	    System.err.println(x);
-	  	}
-	  	
-	  	try {
-			writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			System.err.println("Error opening the log.");
-			e.printStackTrace();
-		}
+	  	int iterPerIndividual = 2; // games ran per evaluation
 	  	
 		// First create the problem
 		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("test/pacman.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
 		// Second create the algorithm
 		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
 		
-		// We can set operators using
-	  	//algorithm.setSelectionOperator(selectionOperator);
-		//algorithm.setCrossoverOperator(crossoverOperator);
-		//algorithm.setMutationOperator(mutationOperator);
-		
-		// Set multithreading
-		MasterWorkerThreads<Variable<Integer>> masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
-		// Execute algorithm
-	    Solutions<Variable<Integer>> solutions = masterWorker.execute();
-	    
-	    // Log solution
-	    for (Solution<Variable<Integer>> solution : solutions) {
-	      logger.info(System.lineSeparator());
-	      logger.info("Fitness =  " + solution.getObjectives().get(0));
-	      logger.info("Average points = " + ((NaiveFitness) fitnessFunc).fitnessToPoints(solution.getObjectives().get(0)));
-	      logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
-	    }
-	    
-	    // Run visuals for the best program
-	    System.out.println();
-	    System.out.println("Press any key to begin visualization of best individual...");
-        Scanner sc = new java.util.Scanner(System.in);
-        sc.nextLine();
-        sc.close();
-        
-	    Executor exec = new Executor();
-	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, ticks);
-	    
-	}
-
-	public static void maine(String[] args) {
-		runPhenotype("?BEE?PH");
-		//multipleExecAvg("?BEE?PH", 5000);
-	}
-
-	public static void runPhenotype(String ph) {
-		Executor exec = new Executor();
-		exec.runGame(new GrammaticalAdapterController(ph), new StarterGhosts(), true, ticks);
-	}
-
-	public static void multipleExecAvg(String ph, int trials) {
-		Controller<MOVE> pacManController = new GrammaticalAdapterController(ph);
-		Controller<EnumMap<GHOST, MOVE>> ghostController = new StarterGhosts();
-
-		Executor exec = new Executor();
-		ArrayList<Double> results = exec.runExperiment(pacManController, ghostController, trials);
-
-		System.out.println("avgScore:" + results.get(0));
-		System.out.println("avgTime:" + results.get(1));
+		algorithm.initialize();
+		Solutions<Variable<Integer>> solutions = algorithm.execute();
+		for (Solution<Variable<Integer>> solution : solutions) {
+			logger.info("Fitness = " + solution.getObjectives().get(0));
+			logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
+		}
 	}
 
 }
