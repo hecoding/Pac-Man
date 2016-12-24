@@ -29,8 +29,6 @@ import jeco.core.problem.Variable;
  */
 public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   
-	private double mejorfitness = 100000;
-	
   public static final Logger logger = Logger.getLogger(NSGAII.class.getName());
   
   /////////////////////////////////////////////////////////////////////////
@@ -131,12 +129,6 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
 
       // Reducing the union
       population = reduce(mixedPop, maxPopulationSize);
-      
-      if (population.get(0).getObjectives().get(0) > mejorfitness)
-    	  System.out.println("FUUUUUUUUUUUUUUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-      
-      mejorfitness = population.get(0).getObjectives().get(0);
-      
       logger.fine("Generation " + currentGeneration + "/" + maxGenerations + "\n" + population.toString());
   } // step
 
