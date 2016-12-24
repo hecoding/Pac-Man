@@ -14,8 +14,6 @@ import java.util.EnumMap;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import javax.script.ScriptEngine;
-
 import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
 import jeco.core.operator.evaluator.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
@@ -33,78 +31,80 @@ import pacman.game.Constants.MOVE;
 
 public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	private static final Logger logger = Logger.getLogger(PacmanGrammaticalEvolution.class.getName());
-	private static Double mejorFitness;
 	private static BufferedWriter writer;
   	private static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
 	private static final int ticks = 19;
 	
 	//Execution parameters
-	public static double mutationProb;
-  	public static double crossProb;
-  	public static int tamPob;
-  	public static int numIteraciones;
-  	public static int iteracionesPorIndividuo;
-  	public static FitnessEvaluatorInterface fitnessFunc;
+	public int populationSize;
+	public int generations;
+	public double mutationProb;
+  	public double crossProb;
+  	public FitnessEvaluatorInterface fitnessFunc;
   	public ArrayList<Double> fitnessParams = new ArrayList<>(2); // for efficiency. NOT static
-	
-	protected ScriptEngine evaluator = null;
+  	private Double bestFitness = Double.POSITIVE_INFINITY; // because minimization
+  	public int iterPerIndividual; // games ran per evaluation
 
-	public PacmanGrammaticalEvolution(String pathToBnf) {
+	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, FitnessEvaluatorInterface fitnessFunc, int iterPerIndividual) {
 		super(pathToBnf);
+		this.populationSize = maxPopulationSize;
+		this.generations = maxGenerations;
+		this.mutationProb = probMutation;
+		this.crossProb = probCrossover;
+		this.fitnessFunc = fitnessFunc;
+		this.iterPerIndividual = iterPerIndividual;
 	}
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
-		String stringtipo = phenotype.toString();
 		CustomExecutor exec = new CustomExecutor();
-		GrammaticalAdapterController pacman = new GrammaticalAdapterController(stringtipo);
+		GrammaticalAdapterController pacman = new GrammaticalAdapterController(phenotype.toString());
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 		
-		double score = exec.runExecution(pacman, ghosts, iteracionesPorIndividuo);
+		double score = exec.runExecution(pacman, ghosts, iterPerIndividual);
 		fitnessParams.clear();
 		fitnessParams.add(score);
 		
-		double fitnessfinal = fitnessFunc.evaluate(fitnessParams);
+		double fitness = fitnessFunc.evaluate(fitnessParams);
 		
-		// Comprobación del fitness por seguridad (Hasta encontrar mejor funcion que no se salga)
-		if(fitnessfinal < 0){
-			System.err.println("ERROR: SCORE FUERA DE MARGEN < 0");
-			fitnessfinal = 0;
+		// Security check
+		if (fitness < 0) {
+			logger.severe("ERROR: NEGATIVE FITNESS");
+			fitness = 0;
 		}
 		
-		// Registro del fitness y fenotipo
-		if(fitnessfinal < mejorFitness){
+		// Log best fitness and respective phenotype
+		if (fitness < bestFitness){
 			try {
-				writer.write("Mejor fitness encontrado: " + fitnessfinal + ", con fenotipo: " + phenotype + System.lineSeparator());
+				writer.write("Best fitness found: " + fitness +
+						", with score: " + score +
+						" and phenotype: " + phenotype + System.lineSeparator());
+				this.bestFitness = fitness;
 			} catch (IOException e) {
-				System.err.println("Error al escribir en el archivo Registro.log");
+				System.err.println("Error writing in log.");
 				e.printStackTrace();
 			}
 		}
 		
-		solution.getObjectives().set(0, fitnessfinal);
+		solution.getObjectives().set(0, fitness);
 	}	
 
-  @Override
-  public PacmanGrammaticalEvolution clone() {
-  	PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(super.pathToBnf);
-  	return clone;
-  }
+	@Override
+	public PacmanGrammaticalEvolution clone() {
+		PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(super.pathToBnf, this.populationSize, this.generations, this.mutationProb, this.crossProb, this.fitnessFunc, this.iterPerIndividual);
+		return clone;
+	}
 
-  public static void main(String[] args) {
-	  	int numHilos = Runtime.getRuntime().availableProcessors();
-	  	//Valores de conf
-	  	mutationProb = 0.02;
-	  	crossProb = 0.6;
-	  	//tamPob = 400;
-	  	//numIteraciones = 500;
-	  	tamPob = 100;
-	  	numIteraciones = 500;
-	  	iteracionesPorIndividuo = 10;
-	  	fitnessFunc = new NaiveFitness();
-	  
-	  	//Registro del fitness y fenotipo cuando hay una mejora
-	  	mejorFitness = Double.POSITIVE_INFINITY;
+	public static void main(String[] args) {
+		int avalaibleThreads = Runtime.getRuntime().availableProcessors();
+	  	// Configure parameters
+		int populationSize = 100;// = 400;
+		int generations = 500;// = 500;
+		double mutationProb = 0.02;
+	  	double crossProb = 0.6;
+	  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
+	  	int iterPerIndividual = 10; // games ran per evaluation
 	  	
+	  	// Create log
 	  	File dir = new File("logs");
 	  	dir.mkdir();
 	  	
@@ -122,16 +122,26 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	try {
 			writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			System.err.println("Error al abrir el archivo Registro.log");
+			System.err.println("Error opening the log.");
 			e.printStackTrace();
 		}
+	  	
 		// First create the problem
-		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("test/pacman.bnf");
+		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("test/pacman.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
 		// Second create the algorithm
-		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, tamPob, numIteraciones);
+		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
 		
-		MasterWorkerThreads<Variable<Integer>> masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, numHilos);
+		// We can set operators using
+	  	//algorithm.setSelectionOperator(selectionOperator);
+		//algorithm.setCrossoverOperator(crossoverOperator);
+		//algorithm.setMutationOperator(mutationOperator);
+		
+		// Set multithreading
+		MasterWorkerThreads<Variable<Integer>> masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
+		// Execute algorithm
 	    Solutions<Variable<Integer>> solutions = masterWorker.execute();
+	    
+	    // Log solution
 	    for (Solution<Variable<Integer>> solution : solutions) {
 	      logger.info(System.lineSeparator());
 	      logger.info("Fitness =  " + solution.getObjectives().get(0));
@@ -141,7 +151,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    
 	    // Run visuals for the best program
 	    System.out.println();
-	    System.out.println("Pulsa una tecla para empezar la ejecucion del mejor individuo...");
+	    System.out.println("Press any key to begin visualization of best individual...");
         Scanner sc = new java.util.Scanner(System.in);
         sc.nextLine();
         sc.close();
@@ -150,27 +160,26 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	    exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, ticks);
 	    
 	}
-  public static void maine(String[] args) {
-	  runPhenotype("?BEE?PH");
-	  //multipleExecAvg("?BEE?PH", 5000);
-  }
-  
-  public static void runPhenotype(String ph) {
-	  Executor exec = new Executor();
-	  exec.runGame(new GrammaticalAdapterController(ph), new StarterGhosts(), true, ticks);
-  }
-  
-  public static void multipleExecAvg(String ph, int trials) {
-	  
-	  Controller<MOVE> pacManController = new GrammaticalAdapterController(ph);
-	  Controller<EnumMap<GHOST, MOVE>> ghostController = new StarterGhosts();
 
-	  Executor exec = new Executor();
-	  ArrayList<Double> results = exec.runExperiment(pacManController, ghostController, trials);
-	  
-	  System.out.println("avgScore:" + results.get(0));
-	  System.out.println("avgTime:" + results.get(1));
+	public static void maine(String[] args) {
+		runPhenotype("?BEE?PH");
+		//multipleExecAvg("?BEE?PH", 5000);
+	}
 
-  }
+	public static void runPhenotype(String ph) {
+		Executor exec = new Executor();
+		exec.runGame(new GrammaticalAdapterController(ph), new StarterGhosts(), true, ticks);
+	}
+
+	public static void multipleExecAvg(String ph, int trials) {
+		Controller<MOVE> pacManController = new GrammaticalAdapterController(ph);
+		Controller<EnumMap<GHOST, MOVE>> ghostController = new StarterGhosts();
+
+		Executor exec = new Executor();
+		ArrayList<Double> results = exec.runExperiment(pacManController, ghostController, trials);
+
+		System.out.println("avgScore:" + results.get(0));
+		System.out.println("avgTime:" + results.get(1));
+	}
 
 }
