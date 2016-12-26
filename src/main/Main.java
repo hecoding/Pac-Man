@@ -8,7 +8,7 @@ import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
 import jeco.core.operator.evaluator.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
-import view.cli.CLIView;
+import view.gui.swing.GUIView;
 
 public class Main {
 	static int avalaibleThreads = Runtime.getRuntime().availableProcessors();
@@ -38,7 +38,8 @@ public class Main {
 		MasterWorkerThreads<Variable<Integer>> masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
 
 		@SuppressWarnings("unused")
-		CLIView view = new CLIView(masterWorker, problem);
+		//CLIView view = new CLIView(masterWorker, problem);
+		GUIView view = new GUIView(masterWorker, problem);
 	}
 
 }
