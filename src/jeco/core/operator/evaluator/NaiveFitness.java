@@ -11,7 +11,7 @@ public class NaiveFitness implements FitnessEvaluatorInterface {
 		return 100000 - score;
 	}
 	
-	public double fitnessToPoints(double fitness) {
+	public static double fitnessToPoints(double fitness) {
 		
 		return 100000 - fitness;
 	}

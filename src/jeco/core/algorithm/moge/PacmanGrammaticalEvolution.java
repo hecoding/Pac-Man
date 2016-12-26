@@ -127,8 +127,21 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		// Second create the algorithm
 		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
 		
+		// We can set operators using
+		//algorithm.setSelectionOperator(selectionOperator);
+		//algorithm.setCrossoverOperator(crossoverOperator);
+		//algorithm.setMutationOperator(mutationOperator);
+
+		/** We can set multithread execution:
+		// Set multithreading
+		MasterWorkerThreads<Variable<Integer>> masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
+		// Execute algorithm
+		Solutions<Variable<Integer>> solutions = masterWorker.execute();
+
+		or single thread: */
 		algorithm.initialize();
 		Solutions<Variable<Integer>> solutions = algorithm.execute();
+
 		for (Solution<Variable<Integer>> solution : solutions) {
 			logger.info("Fitness = " + solution.getObjectives().get(0));
 			logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
