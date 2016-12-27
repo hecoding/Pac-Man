@@ -31,6 +31,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
 import view.gui.swing.GUIView.Worker1;
 
 public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver {
@@ -42,6 +43,8 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
  	JButton resetButton;
  	private StatusBarPanel status;
  	Worker1 worker;
+ 	
+ 	PacmanGrammaticalEvolution problem;
  	
  	JTextField populationText;
  	JTextField generationText;
@@ -80,9 +83,10 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
 	Border defaultborder;
 
-	public SettingsPanel(StatusBarPanel status, Worker1 worker) {
+	public SettingsPanel(PacmanGrammaticalEvolution problem, StatusBarPanel status, Worker1 worker) {
 		//this.ctrl = ctrl;
 		//this.ctrl.addModelObserver(this);
+		this.problem = problem;
 		this.status = status;
 		this.worker = worker;
 		
@@ -751,14 +755,14 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 		
 	}
 	
-	private void fillFields() {/*
-		this.populationText.setText(String.valueOf(this.ctrl.getPopulation()));
-		this.generationText.setText(String.valueOf(this.ctrl.getGenerations()));
-		this.heightText.setText(String.valueOf(this.ctrl.getHeight()));
-		this.tournamentGroupsText.setText(Integer.toString( this.ctrl.getTournamentSelectionGroups() ));
-		this.crossoverSlider.setValue(this.ctrl.getCrossoverPercentage());
-		this.mutationSlider.setValue(this.ctrl.getMutationPercentage());
-		this.elitismSlider.setValue((int) (this.ctrl.getElitismPercentage()));
+	private void fillFields() {
+		this.populationText.setText(String.valueOf(this.problem.populationSize));
+		this.generationText.setText(String.valueOf(this.problem.generations));
+		//this.heightText.setText(String.valueOf(this.ctrl.getHeight()));
+		//this.tournamentGroupsText.setText(Integer.toString( this.ctrl.getTournamentSelectionGroups() ));
+		this.crossoverSlider.setValue((int) (this.problem.crossProb * 100));
+		this.mutationSlider.setValue((int) (this.problem.mutationProb * 100));/*
+		this.elitismSlider.setValue((int) (this.problem. * 100));
 		for (String item : this.ctrl.getInitializationStrategyList()) {
 			this.initializationBox.addItem(item);			
 		}

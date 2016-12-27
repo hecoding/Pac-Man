@@ -65,8 +65,6 @@ public class CustomExecutor {
 	 *
 	 * @param pacManController The Pac-Man controller
 	 * @param ghostController The Ghosts controller
-	 * @param visual Indicates whether or not to use visuals
-	 * @param delay The delay between time-steps
 	 * @return 
 	 */
 	public int runGame(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController)
@@ -85,6 +83,46 @@ public class CustomExecutor {
 		}
 		
 		return game.getScore();
+	}
+	
+	/**
+	 * Run a game in asynchronous mode: the game waits until a move is returned. In order to slow thing down in case
+	 * the controllers return very quickly, a time limit can be used. If fasted gameplay is required, this delay
+	 * should be put as 0.
+	 *
+	 * @param pacManController The Pac-Man controller
+	 * @param ghostController The Ghosts controller
+	 * @param game The game to run
+	 * @param gv The GameView to paint on
+	 * @param visual Indicates whether or not to use visuals
+	 * @param delay The delay between time-steps
+	 */
+	public static void runGameView(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,Game game,GameView gv,int delay)
+	{
+		int lastLevel = 0;
+		
+		while(!game.gameOver())
+		{
+			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
+				((GrammaticalAdapterController) pacManController).reset();
+				
+	        game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
+	        lastLevel = game.getCurrentLevel();
+	        
+	        try{Thread.sleep(delay);}catch(Exception e){}
+	        
+	        gv.repaint();
+		}
+	}
+	
+	public static Game getNewGame() {
+		
+		return new Game(0);
+	}
+	
+	public static GameView getGameViewFromGame(Game game) {
+		
+		return new GameView(game);
 	}
 	
 	/**

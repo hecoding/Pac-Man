@@ -23,6 +23,8 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
  	private JPanel graphPanel;
  	private JPanel mapPanel;
  	private JPanel programPanel;
+ 	private LogPanel logPanel;
+ 	private GamePanel gp;
  	private StatusBarPanel status;
  	JPanel centerPanel;
  	JProgressBar progressBar;
@@ -68,6 +70,12 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
 		programPanel.setLayout(new BorderLayout());
 		programPanel.add(new JScrollPane(programText), BorderLayout.CENTER);
 		tabs.add("Program", programPanel);
+		
+		logPanel = new LogPanel();
+		tabs.addTab("Log", logPanel);
+		
+		gp = new GamePanel();
+		tabs.addTab("Game", gp);
 		
 		tabs.setMnemonicAt(0, KeyEvent.VK_1);
 		tabs.setMnemonicAt(1, KeyEvent.VK_2);
