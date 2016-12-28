@@ -71,6 +71,8 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   @Override
   public Solutions<Variable<Integer>> execute() {
       int nextPercentageReport = 10;
+      this.notifyStart();
+      
       while (currentGeneration < maxGenerations) {
           step();
           int percentage = Math.round((currentGeneration * 100) / maxGenerations);
@@ -91,6 +93,7 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
           this.setChanged();
           this.notifyObservers(currentGeneration);
       }
+      this.notifyEnd();
       return this.getCurrentSolution();
   }
 

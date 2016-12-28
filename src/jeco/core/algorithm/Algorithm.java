@@ -1,16 +1,16 @@
 package jeco.core.algorithm;
 
-import java.util.Observable;
 import jeco.core.problem.Problem;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
+import jeco.core.util.observer.AlgObservable;
 
 /**
  *
  * @author José L. Risco-Martín
  *
  */
-public abstract class Algorithm<V extends Variable<?>> extends Observable {
+public abstract class Algorithm<V extends Variable<?>> extends AlgObservable {
 
   protected Problem<V> problem = null;
   // Attribute to stop execution of the algorithm.
