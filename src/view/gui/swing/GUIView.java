@@ -18,6 +18,7 @@ import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
+import jeco.core.util.observer.AlgObserver;
 
 
 public class GUIView extends JFrame {
@@ -30,16 +31,17 @@ public class GUIView extends JFrame {
 	Worker1 progressWorker;
 	
 	static MasterWorkerThreads<Variable<Integer>> masterWorker;
+	static GrammaticalEvolution algorithm;
 	static PacmanGrammaticalEvolution problem;
 	static Logger logger;
 	
-	public GUIView(MasterWorkerThreads<Variable<Integer>> masterWorker, PacmanGrammaticalEvolution problem) {
+	public GUIView(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem) {
 		//ctrl = controller;
 		//ctrl.addModelObserver(worker);
-		GUIView.masterWorker = masterWorker;
+		GUIView.algorithm = algorithm;
 		GUIView.problem = problem;
 		logger = GrammaticalEvolution.logger;
-		this.progressWorker = new Worker1();
+		this.progressWorker = new Worker1(algorithm);
 		
 		this.setTitle("Pac-Man");
 		SwingUtilities.invokeLater(new Runnable() {
@@ -49,10 +51,28 @@ public class GUIView extends JFrame {
 		});
 	}
 	
+	public GUIView(MasterWorkerThreads<Variable<Integer>> masterWorker, GrammaticalEvolution algorithm,
+			PacmanGrammaticalEvolution problem) {
+		//ctrl = controller;
+		//ctrl.addModelObserver(worker);
+		GUIView.masterWorker = masterWorker;
+		GUIView.algorithm = algorithm;
+		GUIView.problem = problem;
+		logger = GrammaticalEvolution.logger;
+		this.progressWorker = new Worker1(algorithm);
+		
+		this.setTitle("Pac-Man");
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				initGUI();
+			}
+		});
+	}
+
 	private void initGUI() {
-		this.status = new StatusBarPanel();
-		this.centerPanel = new CenterPanel(this.status);
-		this.settingsPanel = new SettingsPanel(problem, this.status, this.progressWorker);
+		this.status = new StatusBarPanel(algorithm);
+		this.centerPanel = new CenterPanel(algorithm, this.status);
+		this.settingsPanel = new SettingsPanel(algorithm, problem, this.status, this.progressWorker);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		
@@ -67,10 +87,11 @@ public class GUIView extends JFrame {
 		this.setVisible(true);
 	}
 	
-	public static class Worker1 extends SwingWorker<Void, Integer> {//implements GeneticAlgorithmObserver {
+	public static class Worker1 extends SwingWorker<Void, Integer> implements AlgObserver {
 		public static JProgressBar progressBar;
 		
-		public Worker1() {
+		public Worker1(GrammaticalEvolution algorithm) {
+			algorithm.addObserver(this);
 			if(progressBar == null)
 				progressBar = new JProgressBar();
 		}
@@ -87,21 +108,23 @@ public class GUIView extends JFrame {
 		protected void process(List<Integer> chunks) {
 			progressBar.setValue(chunks.get(0));
 		}
-/*
+
 		@Override
-		public void onStartRun() {
+		public void onStart() {
 			
 		}
 
 		@Override
-		public void onEndRun() {
+		public void onEnd() {
 			
 		}
 
 		@Override
 		public void onIncrement(int n) {
-			publish(n); // this calls process()
-		}*/
+			int percentage = Math.round((n * 100) / problem.generations);
+			
+			publish(percentage); // this calls process()
+		}
 	}
 	
 	public static void exec() {

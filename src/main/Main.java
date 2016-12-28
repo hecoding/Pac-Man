@@ -39,7 +39,7 @@ public class Main {
 
 		@SuppressWarnings("unused")
 		//CLIView view = new CLIView(masterWorker, problem);
-		GUIView view = new GUIView(masterWorker, problem);
+		GUIView view = new GUIView(masterWorker, algorithm, problem);
 	}
 
 }

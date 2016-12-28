@@ -7,15 +7,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-public class StatusBarPanel extends JPanel {//implements GeneticAlgorithmObserver {
+import jeco.core.algorithm.moge.GrammaticalEvolution;
+import jeco.core.util.observer.AlgObserver;
+
+public class StatusBarPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
-	//private Controller ctrl;
+	GrammaticalEvolution algorithm;
 	private JTextArea outputTextArea;
 	private Color defaultColor = new Color(245,245,245);
 	
-	public StatusBarPanel() {
-		//this.ctrl = ctrl;
-		//this.ctrl.addModelObserver(this);
+	public StatusBarPanel(GrammaticalEvolution algorithm) {
+		this.algorithm = algorithm;
+		this.algorithm.addObserver(this);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -56,15 +59,15 @@ public class StatusBarPanel extends JPanel {//implements GeneticAlgorithmObserve
 		else
 			this.setVisible(true);
 	}
-/*
+
 	@Override
-	public void onStartRun() {
+	public void onStart() {
 	}
 
 	@Override
-	public void onEndRun() {
+	public void onEnd() {
 		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
+			public void run() {/*
 				if(ctrl.isFinished()) {
 					String s = new String("");
 					if(ctrl.isRangeParameters()) {
@@ -78,7 +81,7 @@ public class StatusBarPanel extends JPanel {//implements GeneticAlgorithmObserve
 						s += "The best result is " + best.intValue() + " with the parameter " + String.format("%.2f", x[idx]);
 					}
 					setStatus(s);
-				}
+				}*/
 			}
 		});
 	}
@@ -86,5 +89,5 @@ public class StatusBarPanel extends JPanel {//implements GeneticAlgorithmObserve
 	@Override
 	public void onIncrement(int n) {
 		
-	}*/
+	}
 }

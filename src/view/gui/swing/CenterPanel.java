@@ -1,7 +1,6 @@
 package view.gui.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -14,9 +13,11 @@ import javax.swing.SwingUtilities;
 
 import org.math.plot.Plot2DPanel;
 
+import jeco.core.algorithm.moge.GrammaticalEvolution;
+import jeco.core.util.observer.AlgObserver;
 import view.gui.swing.GUIView.Worker1;
 
-public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
+public class CenterPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
  	//private Controller ctrl;
  	private JTabbedPane tabs;
@@ -28,15 +29,16 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
  	private StatusBarPanel status;
  	JPanel centerPanel;
  	JProgressBar progressBar;
+ 	GrammaticalEvolution algorithm;
  	
  	AntTrailPane map;
  	Plot2DPanel plot;
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
-	public CenterPanel(StatusBarPanel status) {
-		//this.ctrl = ctrl;
-		//this.ctrl.addModelObserver(this);
+	public CenterPanel(GrammaticalEvolution algorithm, StatusBarPanel status) {
+		this.algorithm = algorithm;
+		this.algorithm.addObserver(this);
 		this.status = status;
 		this.progressBar = Worker1.progressBar;
 		
@@ -88,9 +90,9 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
 		lowBar.add(this.progressBar, BorderLayout.CENTER);
 		this.add(lowBar, BorderLayout.PAGE_END);
 	}
-/*
+
 	@Override
-	public void onStartRun() {
+	public void onStart() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				progressBar.setVisible(true);
@@ -100,15 +102,15 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
 	}
 
 	@Override
-	public void onEndRun() {
+	public void onEnd() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				if(ctrl.isFinished()) {
-					progressBar.setVisible(false);
+				progressBar.setVisible(false);
+				/*if(ctrl.isFinished()) {
 					updateMapPanel();
 					updateGraphPanel();
 					updateProgramPanel();
-				}
+				}*/
 			}
 		});
 	}
@@ -116,7 +118,7 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
 	@Override
 	public void onIncrement(int n) {
 		
-	}*/
+	}
 	/*
 	private void updateMapPanel() {
 		mapPanel.removeAll();
@@ -153,7 +155,7 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
 	}*/
 	
 	public class AntTrailPane extends JPanel {
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 1L;/*
 		private int columnCount;
 		private int rowCount;
 		//private Map map;
@@ -162,7 +164,7 @@ public class CenterPanel extends JPanel {//implements GeneticAlgorithmObserver {
 		private Color green = new Color(0,230,118);
 		private Color yellow = new Color(253,216,53);
 		private Color orange = new Color(249,168,37);
-		private Color gray = new Color(158,158,158);
+		private Color gray = new Color(158,158,158);*/
 
 		public AntTrailPane() {/*
 			this.map = AntTrailGeneticAlgorithm.getMap();

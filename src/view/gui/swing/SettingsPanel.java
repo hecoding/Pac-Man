@@ -31,10 +31,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
+import jeco.core.util.observer.AlgObserver;
 import view.gui.swing.GUIView.Worker1;
 
-public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver {
+public class SettingsPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
  	//private Controller ctrl;
  	private JPanel settings;
@@ -44,6 +46,7 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
  	private StatusBarPanel status;
  	Worker1 worker;
  	
+ 	GrammaticalEvolution algorithm;
  	PacmanGrammaticalEvolution problem;
  	
  	JTextField populationText;
@@ -83,9 +86,9 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
 	Border defaultborder;
 
-	public SettingsPanel(PacmanGrammaticalEvolution problem, StatusBarPanel status, Worker1 worker) {
-		//this.ctrl = ctrl;
-		//this.ctrl.addModelObserver(this);
+	public SettingsPanel(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, StatusBarPanel status, Worker1 worker) {
+		this.algorithm = algorithm;
+		this.algorithm.addObserver(this);
 		this.problem = problem;
 		this.status = status;
 		this.worker = worker;
@@ -109,24 +112,23 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 		runButton.setMnemonic(KeyEvent.VK_L);
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {/*
-					ctrl.setPopulation(Integer.parseInt(populationText.getText()));
-					ctrl.setGenerations(Integer.parseInt(generationText.getText()));
-					ctrl.setHeight(Integer.parseInt(heightText.getText()));
-					ctrl.setCrossoverPercentage(crossoverSlider.getValue());
-					ctrl.setMutationPercentage(mutationSlider.getValue());
-					ctrl.setElitismPercentage(elitismSlider.getValue());
-					ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
-					ctrl.setSelectionParameter(tournamentGroupsText.getText());
-					ctrl.setSelectionStrategy((String) selectionBox.getSelectedItem());
-					ctrl.setCrossoverStrategy((String) crossoverBox.getSelectedItem());
-					ctrl.setMutationStrategy((String) mutationBox.getSelectedItem());
-					ctrl.setContentBasedTermination(contentBasedTerminationCheck.isSelected());
-					ctrl.setRangeParameters(rangeParametersCheck.isSelected());*/
-					if(rangeParametersCheck.isSelected())
-						setRanges();
+				try {
+					problem.populationSize = Integer.parseInt(populationText.getText());
+					problem.generations = Integer.parseInt(generationText.getText());
+					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
+					problem.crossProb = crossoverSlider.getValue() / 100.0; // .0 is important
+					problem.mutationProb = mutationSlider.getValue() / 100.0;
+					//ctrl.setElitismPercentage(elitismSlider.getValue());
+					//ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
+					//ctrl.setSelectionParameter(tournamentGroupsText.getText());
+					//ctrl.setSelectionStrategy((String) selectionBox.getSelectedItem());
+					//ctrl.setCrossoverStrategy((String) crossoverBox.getSelectedItem());
+					//ctrl.setMutationStrategy((String) mutationBox.getSelectedItem());
+					//ctrl.setContentBasedTermination(contentBasedTerminationCheck.isSelected());
+					//ctrl.setRangeParameters(rangeParametersCheck.isSelected());*/
+					//if(rangeParametersCheck.isSelected())
+					//	setRanges();
 					
-					worker = new Worker1();
 					worker.execute();
 				} /*catch(IllegalChromosomeException ex) {
 					JOptionPane.showMessageDialog(null,
@@ -822,7 +824,7 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 		contentBasedTerminationCheck.setSelected(contentBasedTerminationCheckDefault);
 	}
 	
-	private void setRanges() {/*
+	/*private void setRanges() {
 		if(rangePopulationRadioButton.isSelected()) {
 			this.ctrl.setRanges(Double.parseDouble(pomin.getText()), Double.parseDouble(pomax.getText()), Double.parseDouble(postep.getText()));
 			this.ctrl.setParamRange("population");
@@ -842,11 +844,11 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 		else if(rangeElitismRadioButton.isSelected()) {
 			this.ctrl.setRanges(Double.parseDouble(eomin.getText()), Double.parseDouble(eomax.getText()), Double.parseDouble(eostep.getText()));
 			this.ctrl.setParamRange("elitism");
-		}*/
-	}
-/*
+		}
+	}*/
+
 	@Override
-	public void onStartRun() {
+	public void onStart() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				for (Component cmp : buttonPanel.getComponents()) {
@@ -858,7 +860,7 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 	}
 
 	@Override
-	public void onEndRun() {
+	public void onEnd() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				for (Component cmp : buttonPanel.getComponents()) {
@@ -872,7 +874,7 @@ public class SettingsPanel extends JPanel {//implements GeneticAlgorithmObserver
 	public void onIncrement(int n) {
 		
 	}
-	*/
+
 	class SliderListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			JSlider source = (JSlider)e.getSource();
