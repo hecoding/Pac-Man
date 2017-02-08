@@ -5,7 +5,11 @@
 	<classpathentry kind="lib" path="lib/commons-math3-3.4.jar"/>
 	<classpathentry kind="lib" path="lib/jmetal4.5.jar"/>
 	<classpathentry kind="lib" path="lib/org-apache-commons-lang.jar"/>
-	<classpathentry kind="lib" path="lib/jmatharray.jar"/>
-	<classpathentry kind="lib" path="lib/jmathplot.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Pac-Man/lib/jfreechart-1.0.19-fx-javadocs.zip!/jfreechart-1.0.19-fx-javadocs"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
