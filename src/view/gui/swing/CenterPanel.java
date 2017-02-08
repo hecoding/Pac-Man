@@ -1,18 +1,25 @@
 package view.gui.swing;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import org.math.plot.Plot2DPanel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYDifferenceRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.util.observer.AlgObserver;
@@ -23,7 +30,6 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	//private Controller ctrl;
  	private JTabbedPane tabs;
  	private JPanel graphPanel;
- 	private JPanel mapPanel;
  	private JPanel programPanel;
  	private LogPanel logPanel;
  	private GamePanel gp;
@@ -32,8 +38,14 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JProgressBar progressBar;
  	GrammaticalEvolution algorithm;
  	
- 	AntTrailPane map;
- 	Plot2DPanel plot;
+ 	JFreeChart chart;
+ 	XYPlot plot;
+ 	XYSeries worstSeries;
+	XYSeries bestSeries;
+	XYSeries avgSeries;
+	XYSeries absoluteSeries;
+ 	XYSeriesCollection dataset;
+ 	XYSeriesCollection dataset2;
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
@@ -51,21 +63,67 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	}
 
 	private void initGUI() {
-		mapPanel = new JPanel(new BorderLayout());
 		graphPanel = new JPanel(new BorderLayout());
 		programPanel = new JPanel(new BorderLayout());
 		tabs = new JTabbedPane();
 		this.setLayout(new BorderLayout());
 		
-		map = new AntTrailPane();
-		mapPanel.add(map, BorderLayout.CENTER);
-		tabs.add("Map", mapPanel);
+		// Fitness tab
+		worstSeries = new XYSeries("Worst of generation");
+		bestSeries = new XYSeries("Best of generation");
+		avgSeries = new XYSeries("Generation average");
+		absoluteSeries = new XYSeries("Absolute best");
 		
-		plot = new Plot2DPanel();
-		plot.addLegend("SOUTH");
-		graphPanel.add(plot, BorderLayout.CENTER);
+		dataset = new XYSeriesCollection();
+		dataset2 = new XYSeriesCollection();
+		
+		Color transparent = new Color(0,0,0,0);
+		Color lighterGray = new Color(200, 200, 200);
+		Color blue = new Color(175, 224, 229);
+		Color blue1 = new Color(119, 141, 178);
+		Color blue2 = new Color(46, 77, 127);
+		
+		chart = ChartFactory.createXYAreaChart("", "Generations", "Fitness", dataset);
+		chart.setBackgroundPaint(Color.white);
+		
+		plot = chart.getXYPlot();
+		plot.setDataset(0, dataset2);
+		XYLineAndShapeRenderer lineRenderer = new XYLineAndShapeRenderer(true, false);
+		lineRenderer.setSeriesPaint(0, blue1);
+		lineRenderer.setSeriesStroke(0, new BasicStroke(0.8f));
+		lineRenderer.setSeriesPaint(1, blue2);
+		lineRenderer.setSeriesStroke(1, new BasicStroke(2.5f));
+		plot.setRenderer(0, lineRenderer);
+		
+		plot.setDataset(1, this.dataset);
+		XYDifferenceRenderer diffRenderer = new XYDifferenceRenderer(
+				blue, blue, false
+			);
+		diffRenderer.setSeriesPaint(0, transparent);
+		diffRenderer.setSeriesPaint(1, transparent);
+		plot.setRenderer(1, diffRenderer);
+		plot.setOutlinePaint(null);
+		plot.setBackgroundPaint(Color.white);
+		plot.setForegroundAlpha(1);
+		plot.setDomainGridlinePaint(lighterGray);
+		plot.setRangeGridlinePaint(lighterGray);
+		
+		NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
+		domainAxis.setTickMarkPaint(Color.black);
+		domainAxis.setLowerMargin(0.0);
+		domainAxis.setUpperMargin(0.0);
+		domainAxis.setAutoRangeIncludesZero(false);
+		
+		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+		rangeAxis.setTickMarkPaint(Color.black);
+		rangeAxis.setLowerMargin(0.01);
+		rangeAxis.setUpperMargin(0.01);
+		rangeAxis.setAutoRangeIncludesZero(false);
+		
+		graphPanel.add(new ChartPanel(chart), BorderLayout.CENTER);
 		tabs.add("Fitness", graphPanel);
 		
+		// Program tab
 		programText = new JTextArea();
 		programText.setEditable(false);
 		programText.setLineWrap(true);
@@ -74,9 +132,11 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		programPanel.add(new JScrollPane(programText), BorderLayout.CENTER);
 		tabs.add("Program", programPanel);
 		
+		// Log tab
 		logPanel = new LogPanel();
 		tabs.addTab("Log", logPanel);
 		
+		// Game tab
 		gp = new GamePanel();
 		tabs.addTab("Game", gp);
 		
@@ -97,7 +157,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				progressBar.setVisible(true);
-				plot.setVisible(false);
+				//plot.setVisible(false);
 			}
 		});
 	}
@@ -124,139 +184,36 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	}
 	
 	private void updateGraphPanel() {
-		plot.removeAllPlots();
+		this.dataset.removeAllSeries();
 		
-		plot.addLinePlot("Absolute best", toPrimitiveArray(this.algorithm.absoluteBestObjetives));
-		plot.addLinePlot("Best of generation", toPrimitiveArray(this.algorithm.bestObjetives));
-		plot.addLinePlot("Generation average", toPrimitiveArray(this.algorithm.averageObjetives));
-		plot.addLinePlot("Worst of generation", toPrimitiveArray(this.algorithm.worstObjetives));
-		plot.setFixedBounds(0, 0, this.algorithm.bestObjetives.size());
+		worstSeries.clear();
+		bestSeries.clear();
+		avgSeries.clear();
+		absoluteSeries.clear();
 		
-		plot.setVisible(true);
-	}
-	
-	private static double[] toPrimitiveArray(ArrayList<Double> a) {
-		return a.stream().mapToDouble(d -> d).toArray();
-	}
-	
-	/*
-	private void updateMapPanel() {
-		mapPanel.removeAll();
-		mapPanel.add(new AntTrailPane(ctrl.getResultMap()), BorderLayout.CENTER);
-	}
-	
-	private void updateGraphPanel() {
-		plot.removeAllPlots();
-		
-		if(!ctrl.isRangeParameters()) {
-			double[] avgApt = ctrl.getAverageAptitudeList();
-			plot.addLinePlot("Absolute best", ctrl.getBestChromosomeList());
-			plot.addLinePlot("Best of generation", ctrl.getBestAptitudeList());
-			plot.addLinePlot("Generation average", ctrl.getAverageAptitudeList());
-			plot.setFixedBounds(0, 0, avgApt.length);
-		}
-		else {
-			double[] range = ctrl.getRangeList();
-			plot.addLinePlot("Distance", Color.red, range, ctrl.getResultsList());
-			plot.setFixedBounds(0, range[0], range[range.length - 1]);
+		for(int i = 0; i < this.algorithm.worstObjetives.size(); i++) {
+			worstSeries.add(i, this.algorithm.worstObjetives.get(i));
 		}
 		
-		plot.setVisible(true);
-	}
-	
-	private void updateProgramPanel() {
-		String s = new String("");
-		s += "Result: " + new Double(ctrl.getFunctionResult()).intValue() + " bits" + System.lineSeparator();
-		s += "Best:" + System.lineSeparator();
-		s += ctrl.getResult();
-		
-		programText.setText(s);
-		programText.setCaretPosition(0);
-	}*/
-	
-	public class AntTrailPane extends JPanel {
-		private static final long serialVersionUID = 1L;/*
-		private int columnCount;
-		private int rowCount;
-		//private Map map;
-		private Color white = new Color(250,250,250);
-		private Color black = new Color(33,33,33);
-		private Color green = new Color(0,230,118);
-		private Color yellow = new Color(253,216,53);
-		private Color orange = new Color(249,168,37);
-		private Color gray = new Color(158,158,158);*/
-
-		public AntTrailPane() {/*
-			this.map = AntTrailGeneticAlgorithm.getMap();
-			this.rowCount = this.map.getRows();
-			this.columnCount = this.map.getColumns();
+		for(int i = 0; i < this.algorithm.bestObjetives.size(); i++) {
+			bestSeries.add(i, this.algorithm.bestObjetives.get(i));
 		}
 		
-		public AntTrailPane(Map map) {
-			this.map = map;
-			this.rowCount = this.map.getRows();
-			this.columnCount = this.map.getColumns();*/
+		for(int i = 0; i < this.algorithm.averageObjetives.size(); i++) {
+			avgSeries.add(i, this.algorithm.averageObjetives.get(i));
 		}
-
-		@Override
-		public Dimension getPreferredSize() {
-			return new Dimension(200, 200);
+		
+		for(int i = 0; i < this.algorithm.absoluteBestObjetives.size(); i++) {
+			absoluteSeries.add(i, this.algorithm.absoluteBestObjetives.get(i));
 		}
-
-		@Override
-		protected void paintComponent(Graphics g) {/*
-			super.paintComponent(g);
-			Graphics2D g2d = (Graphics2D) g.create();
-
-			int width = getWidth();
-			int height = getHeight();
-
-			int cellWidth = width / columnCount;
-			int cellHeight = height / rowCount;
-
-			int xOffset = (width - (columnCount * cellWidth)) / 2;
-			int yOffset = (height - (rowCount * cellHeight)) / 2;
-
-			for (int row = 0; row < rowCount; row++) {
-				for (int col = 0; col < columnCount; col++) {
-					
-					switch(this.map.get(row, col)) {
-					case nothing:
-						g.setColor(white);
-						break;
-					case food:
-						g.setColor(black);
-						break;
-					case trail:
-						g.setColor(yellow);
-						break;
-					case eatenfood:
-						g.setColor(orange);
-						break;
-					case beginning:
-						g.setColor(green);
-						break;
-					default:
-						break;
-					}
-					
-					g.fillRect(
-							xOffset + (col * cellWidth),
-							yOffset + (row * cellHeight),
-							cellWidth,
-							cellHeight);
-					
-					g.setColor(gray);
-					g.drawRect(
-							xOffset + (col * cellWidth),
-							yOffset + (row * cellHeight),
-							cellWidth,
-							cellHeight);
-				}
-			}
-
-			g2d.dispose();*/
-		}
+		
+		this.dataset.addSeries(worstSeries);
+		this.dataset.addSeries(bestSeries);
+		
+		this.dataset2.addSeries(avgSeries);
+		this.dataset2.addSeries(absoluteSeries);
+		
+		// plot.setVisible(true);
 	}
 
 }
