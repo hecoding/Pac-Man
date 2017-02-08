@@ -42,6 +42,12 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   protected MutationOperator<Variable<Integer>> mutationOperator;
   protected CrossoverOperator<Variable<Integer>> crossoverOperator;
   protected SelectionOperator<Variable<Integer>> selectionOperator;
+  /////////////////////////////////////////////////////////////////////////
+  public Double absoluteBest;
+  public ArrayList<Double> absoluteBestObjetives;
+  public ArrayList<Double> bestObjetives;
+  public ArrayList<Double> averageObjetives;
+  public ArrayList<Double> worstObjetives;
 
   public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover) {
       super(problem);
@@ -50,6 +56,12 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       this.mutationOperator = new IntegerFlipMutation<Variable<Integer>>(problem, probMutation);
       this.crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, probCrossover, SinglePointCrossover.ALLOW_REPETITION);
       this.selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
+      
+      this.absoluteBest = Double.POSITIVE_INFINITY; // as this is minimization
+      this.absoluteBestObjetives = new ArrayList<>(this.maxGenerations);
+      this.bestObjetives = new ArrayList<>(this.maxGenerations);
+      this.averageObjetives = new ArrayList<>(this.maxGenerations);
+      this.worstObjetives = new ArrayList<>(this.maxGenerations);
   }
 
   public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations) {
@@ -88,6 +100,8 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
               }
               nextPercentageReport += 10;
           }
+          
+          this.collectStatistics();
           
           // Notify observers about current generation (object can be a map with more data)
           this.setChanged();
@@ -157,6 +171,27 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
           }
       }
       return reducedPop;
+  }
+  
+  protected void collectStatistics() {
+	  Double currentBest = this.population.get(0).getObjectives().get(0);
+	  
+	  if (currentBest < this.absoluteBest) {
+		  this.absoluteBestObjetives.add(currentBest);
+		  this.absoluteBest = currentBest;
+	  }
+	  else
+		  this.absoluteBestObjetives.add(this.absoluteBest);
+	  
+	  Double sum = 0.0;
+	  for(Solution<Variable<Integer>> sol : this.population) {
+		  sum += sol.getObjectives().get(0);
+	  }
+	  double average = sum / this.maxPopulationSize;
+	  this.averageObjetives.add(average);
+	  
+      this.bestObjetives.add(currentBest);
+      this.worstObjetives.add(this.population.get(this.maxPopulationSize - 1).getObjectives().get(0));
   }
 
   public void setMutationOperator(MutationOperator<Variable<Integer>> mutationOperator) {
