@@ -4,13 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-
 import org.math.plot.Plot2DPanel;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
@@ -106,6 +107,8 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				progressBar.setVisible(false);
+				
+				updateGraphPanel();
 				/*if(ctrl.isFinished()) {
 					updateMapPanel();
 					updateGraphPanel();
@@ -119,6 +122,23 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	public void onIncrement(int n) {
 		
 	}
+	
+	private void updateGraphPanel() {
+		plot.removeAllPlots();
+		
+		plot.addLinePlot("Absolute best", toPrimitiveArray(this.algorithm.absoluteBestObjetives));
+		plot.addLinePlot("Best of generation", toPrimitiveArray(this.algorithm.bestObjetives));
+		plot.addLinePlot("Generation average", toPrimitiveArray(this.algorithm.averageObjetives));
+		plot.addLinePlot("Worst of generation", toPrimitiveArray(this.algorithm.worstObjetives));
+		plot.setFixedBounds(0, 0, this.algorithm.bestObjetives.size());
+		
+		plot.setVisible(true);
+	}
+	
+	private static double[] toPrimitiveArray(ArrayList<Double> a) {
+		return a.stream().mapToDouble(d -> d).toArray();
+	}
+	
 	/*
 	private void updateMapPanel() {
 		mapPanel.removeAll();
