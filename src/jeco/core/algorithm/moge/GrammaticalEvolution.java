@@ -85,7 +85,7 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       int nextPercentageReport = 10;
       this.notifyStart();
       
-      while (currentGeneration < maxGenerations) {
+      while (!this.stop && currentGeneration < maxGenerations) {
           step();
           int percentage = Math.round((currentGeneration * 100) / maxGenerations);
           if (percentage == nextPercentageReport) {
