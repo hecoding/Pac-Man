@@ -107,6 +107,8 @@ public class CenterPanel extends JPanel implements AlgObserver {
 			);
 		diffRenderer.setSeriesPaint(0, transparent);
 		diffRenderer.setSeriesPaint(1, transparent);
+		diffRenderer.setSeriesVisibleInLegend(0, false);
+		diffRenderer.setSeriesVisibleInLegend(1, false);
 		plot.setRenderer(1, diffRenderer);
 		plot.setOutlinePaint(null);
 		plot.setBackgroundPaint(Color.white);
@@ -162,6 +164,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 				programWorker.stop();
 			}
 		});
+		//cancelButton.setPreferredSize(new Dimension(cancelButton.getPreferredSize().width, 14));
 		cancelButton.setVisible(false);
 		lowBar.add(cancelButton, BorderLayout.LINE_END);
 		this.add(lowBar, BorderLayout.PAGE_END);
