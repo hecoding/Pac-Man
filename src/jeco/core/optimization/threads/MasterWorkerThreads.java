@@ -75,6 +75,10 @@ public class MasterWorkerThreads<V extends Variable<?>> extends Problem<V> {
     algorithm.initialize();
     return algorithm.execute();
   }
+  
+  public void stop() {
+	this.algorithm.stopExection();
+  }
 
   @Override
   public Problem<V> clone() {
