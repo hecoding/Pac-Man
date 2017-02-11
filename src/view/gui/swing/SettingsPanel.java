@@ -33,8 +33,9 @@ import javax.swing.event.ChangeListener;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
+import jeco.core.optimization.threads.MasterWorkerThreads;
+import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
-import view.gui.swing.GUIView.Worker1;
 
 public class SettingsPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
@@ -44,7 +45,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JButton runButton;
  	JButton resetButton;
  	private StatusBarPanel status;
- 	Worker1 worker;
+ 	ProgramWorker worker;
  	
  	GrammaticalEvolution algorithm;
  	PacmanGrammaticalEvolution problem;
@@ -86,12 +87,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
 	Border defaultborder;
 
-	public SettingsPanel(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, StatusBarPanel status, Worker1 worker) {
+	public SettingsPanel(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, StatusBarPanel status, MasterWorkerThreads<Variable<Integer>> masterWorker) {
 		this.algorithm = algorithm;
 		this.algorithm.addObserver(this);
 		this.problem = problem;
 		this.status = status;
-		this.worker = worker;
+		this.worker = new ProgramWorker(this.algorithm, this.problem, masterWorker);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

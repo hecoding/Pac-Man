@@ -23,7 +23,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.util.observer.AlgObserver;
-import view.gui.swing.GUIView.Worker1;
 
 public class CenterPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
@@ -53,7 +52,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		this.algorithm = algorithm;
 		this.algorithm.addObserver(this);
 		this.status = status;
-		this.progressBar = Worker1.progressBar;
+		this.progressBar = ProgramWorker.getProgressBar();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
