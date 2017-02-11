@@ -21,7 +21,8 @@ public class GUIView extends JFrame {
 	private SettingsPanel settingsPanel;
 	private StatusBarPanel status;
 	
-	static MasterWorkerThreads<Variable<Integer>> masterWorker;
+	static ProgramWorker programWorker;
+	static MasterWorkerThreads<Variable<Integer>> algorithmWorker;
 	static GrammaticalEvolution algorithm;
 	static PacmanGrammaticalEvolution problem;
 	static Logger logger;
@@ -41,11 +42,11 @@ public class GUIView extends JFrame {
 		});
 	}
 	
-	public GUIView(MasterWorkerThreads<Variable<Integer>> masterWorker, GrammaticalEvolution algorithm,
+	public GUIView(MasterWorkerThreads<Variable<Integer>> algorithmWorker, GrammaticalEvolution algorithm,
 			PacmanGrammaticalEvolution problem) {
 		//ctrl = controller;
 		//ctrl.addModelObserver(worker);
-		GUIView.masterWorker = masterWorker;
+		GUIView.algorithmWorker = algorithmWorker;
 		GUIView.algorithm = algorithm;
 		GUIView.problem = problem;
 		logger = GrammaticalEvolution.logger;
@@ -59,9 +60,10 @@ public class GUIView extends JFrame {
 	}
 
 	private void initGUI() {
+		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker);
 		this.status = new StatusBarPanel(algorithm);
-		this.centerPanel = new CenterPanel(algorithm, this.status);
-		this.settingsPanel = new SettingsPanel(algorithm, problem, this.status, masterWorker);
+		this.centerPanel = new CenterPanel(algorithm, this.status, programWorker);
+		this.settingsPanel = new SettingsPanel(algorithm, problem, this.status, programWorker);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		

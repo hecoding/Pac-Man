@@ -19,16 +19,16 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	private static JProgressBar progressBar;
 	static Logger logger;
 	static PacmanGrammaticalEvolution problem;
-	static MasterWorkerThreads<Variable<Integer>> masterWorker;
+	static MasterWorkerThreads<Variable<Integer>> algorithmWorker;
 	
-	public ProgramWorker(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, MasterWorkerThreads<Variable<Integer>> masterWorker) {
+	public ProgramWorker(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, MasterWorkerThreads<Variable<Integer>> algorithmWorker) {
 		algorithm.addObserver(this);
 		if(progressBar == null)
 			progressBar = new JProgressBar();
 		
 		logger = GrammaticalEvolution.logger;
 		ProgramWorker.problem = problem;
-		ProgramWorker.masterWorker = masterWorker;
+		ProgramWorker.algorithmWorker = algorithmWorker;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 
 	public static void exec() {
 		// Execute algorithm
-		Solutions<Variable<Integer>> solutions = masterWorker.execute();
+		Solutions<Variable<Integer>> solutions = algorithmWorker.execute();
 		
 		// Log solution
 		for (Solution<Variable<Integer>> solution : solutions) {
@@ -83,6 +83,10 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		Executor exec = new Executor();
 		exec.runGame(new GrammaticalAdapterController(problem.generatePhenotype(solutions.get(0)).toString()), new StarterGhosts(), true, ticks);
 		*/
+	}
+	
+	public void stop() {
+		algorithmWorker.stop();
 	}
 	
 	public static JProgressBar getProgressBar() {

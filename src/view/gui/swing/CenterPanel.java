@@ -3,7 +3,11 @@ package view.gui.swing;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -35,7 +39,9 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	private StatusBarPanel status;
  	JPanel centerPanel;
  	JProgressBar progressBar;
+ 	JButton cancelButton;
  	GrammaticalEvolution algorithm;
+ 	ProgramWorker programWorker;
  	
  	JFreeChart chart;
  	XYPlot plot;
@@ -48,10 +54,11 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
-	public CenterPanel(GrammaticalEvolution algorithm, StatusBarPanel status) {
+	public CenterPanel(GrammaticalEvolution algorithm, StatusBarPanel status, ProgramWorker programWorker) {
 		this.algorithm = algorithm;
 		this.algorithm.addObserver(this);
 		this.status = status;
+		this.programWorker = programWorker;
 		this.progressBar = ProgramWorker.getProgressBar();
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -148,6 +155,15 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		lowBar.add(this.status, BorderLayout.PAGE_START);
 		this.progressBar.setVisible(false);
 		lowBar.add(this.progressBar, BorderLayout.CENTER);
+		cancelButton = new JButton("Cancel");
+		cancelButton.setToolTipText("Cancel execution");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				programWorker.stop();
+			}
+		});
+		cancelButton.setVisible(false);
+		lowBar.add(cancelButton, BorderLayout.LINE_END);
 		this.add(lowBar, BorderLayout.PAGE_END);
 	}
 
@@ -156,6 +172,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				progressBar.setVisible(true);
+				cancelButton.setVisible(true);
 				//plot.setVisible(false);
 			}
 		});
@@ -166,6 +183,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				progressBar.setVisible(false);
+				cancelButton.setVisible(false);
 				
 				updateGraphPanel();
 				/*if(ctrl.isFinished()) {
