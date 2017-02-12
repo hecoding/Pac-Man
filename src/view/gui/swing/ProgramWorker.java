@@ -20,6 +20,8 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	static Logger logger;
 	static PacmanGrammaticalEvolution problem;
 	static MasterWorkerThreads<Variable<Integer>> algorithmWorker;
+	public static Solutions<Variable<Integer>> solutions;
+	public static String phenotypeString;
 	
 	public ProgramWorker(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, MasterWorkerThreads<Variable<Integer>> algorithmWorker) {
 		algorithm.addObserver(this);
@@ -63,14 +65,15 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 
 	public static void exec() {
 		// Execute algorithm
-		Solutions<Variable<Integer>> solutions = algorithmWorker.execute();
+		solutions = algorithmWorker.execute();
 		
 		// Log solution
 		for (Solution<Variable<Integer>> solution : solutions) {
 			logger.info(System.lineSeparator());
 			logger.info("Fitness =  " + solution.getObjectives().get(0));
 			logger.info("Average points = " + NaiveFitness.fitnessToPoints( solution.getObjectives().get(0) ));
-			logger.info("Phenotype = (" + problem.generatePhenotype(solution).toString() + ")");
+			phenotypeString = problem.generatePhenotype(solution).toString();
+			logger.info("Phenotype = (" + phenotypeString + ")");
 		}
 		/*
 		// Run visuals for the best program

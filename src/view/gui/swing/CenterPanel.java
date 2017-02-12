@@ -189,6 +189,8 @@ public class CenterPanel extends JPanel implements AlgObserver {
 				cancelButton.setVisible(false);
 				
 				updateGraphPanel();
+				
+				programText.setText(ProgramWorker.phenotypeString);
 				/*if(ctrl.isFinished()) {
 					updateMapPanel();
 					updateGraphPanel();
