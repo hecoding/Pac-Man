@@ -6,8 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -40,6 +37,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	//private Controller ctrl;
  	private JPanel settings;
  	private JPanel buttonPanel;
+ 	JButton showAndPlayButton;
  	JButton runButton;
  	JButton resetButton;
  	private StatusBarPanel status;
@@ -50,6 +48,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	
  	JTextField populationText;
  	JTextField generationText;
+ 	JTextField iterPerIndText;
+ 	JTextField chromosomeLengthText;
+ 	JTextField codonUpperBoundText;
+ 	JTextField maxCntWrappingsText;
+ 	JTextField numOfObjectivesText;
  	JTextField heightText;
  	JSlider crossoverSlider;
  	JSlider mutationSlider;
@@ -80,6 +83,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	Object crossoverBoxDefault;
 	Object mutationBoxDefault;
 	boolean contentBasedTerminationCheckDefault;
+	String iterPerIndTextDefault;
+	String chromosomeLengthTextDefault;
+	String codonUpperBoundTextDefault;
+	String maxCntWrappingsTextDefault;
+	String numOfObjectivesTextDefault;
 	
 	JTextField pomin, pomax, postep, gomin, gomax, gostep, comin, comax, costep, momin, momax, mostep, eomin, eomax, eostep;
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
@@ -107,6 +115,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.add(settings, BorderLayout.CENTER);
 		
 		buttonPanel = new JPanel(new BorderLayout());
+		
+		showAndPlayButton = new JButton("Show & play best");
+		showAndPlayButton.setVisible(false);
+		buttonPanel.add(showAndPlayButton, BorderLayout.PAGE_START);
+		
 		runButton = new JButton("Run");
 		runButton.setMnemonic(KeyEvent.VK_L);
 		runButton.addActionListener(new ActionListener() {
@@ -214,8 +227,171 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		generations.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(generations);
 		
+		JPanel iterPerInd = new JPanel();
+		JLabel iterPerIndLabel = new JLabel("Iter per ind");
+		iterPerInd.add(iterPerIndLabel);
+		iterPerIndText = new JTextField(4);
+		iterPerIndText.setInputVerifier(new InputVerifier() {
+			public boolean verify(JComponent input) {
+				try {
+					int a = Integer.parseInt(((JTextField) input).getText());
+					if (a >= 1) {
+						iterPerIndText.setBorder(defaultborder);
+						status.setErrors(false);
+						return true;
+					}
+					else {
+						iterPerIndText.setBorder(BorderFactory.createLineBorder(Color.red));
+						status.setErrors(true);
+						return false;
+					}
+				} catch (NumberFormatException e) {
+					iterPerIndText.setBorder(BorderFactory.createLineBorder(Color.red));
+					status.setErrors(true);
+					return false;
+				}
+			}
+		});
+		iterPerInd.add(iterPerIndText);
+		iterPerInd.setMaximumSize(iterPerInd.getPreferredSize());
+		iterPerInd.setMinimumSize(iterPerInd.getPreferredSize());
+		iterPerInd.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(iterPerInd);
+		
+		JPanel chromosomeLength = new JPanel();
+		JLabel chromosomeLengthLabel = new JLabel("Chromosome length");
+		chromosomeLength.add(chromosomeLengthLabel);
+		chromosomeLengthText = new JTextField(4);
+		chromosomeLengthText.setInputVerifier(new InputVerifier() {
+			public boolean verify(JComponent input) {
+				try {
+					int a = Integer.parseInt(((JTextField) input).getText());
+					if (a >= 1) {
+						chromosomeLengthText.setBorder(defaultborder);
+						status.setErrors(false);
+						return true;
+					}
+					else {
+						chromosomeLengthText.setBorder(BorderFactory.createLineBorder(Color.red));
+						status.setErrors(true);
+						return false;
+					}
+				} catch (NumberFormatException e) {
+					chromosomeLengthText.setBorder(BorderFactory.createLineBorder(Color.red));
+					status.setErrors(true);
+					return false;
+				}
+			}
+		});
+		chromosomeLength.add(chromosomeLengthText);
+		chromosomeLength.setMaximumSize(chromosomeLength.getPreferredSize());
+		chromosomeLength.setMinimumSize(chromosomeLength.getPreferredSize());
+		chromosomeLength.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(chromosomeLength);
+		
+		JPanel codonUpperBound = new JPanel();
+		JLabel codonUpperBoundLabel = new JLabel("Codon upper bound");
+		codonUpperBound.add(codonUpperBoundLabel);
+		codonUpperBoundText = new JTextField(4);
+		codonUpperBoundText.setInputVerifier(new InputVerifier() {
+			public boolean verify(JComponent input) {
+				try {
+					int a = Integer.parseInt(((JTextField) input).getText());
+					if (a >= 1) {
+						codonUpperBoundText.setBorder(defaultborder);
+						status.setErrors(false);
+						return true;
+					}
+					else {
+						codonUpperBoundText.setBorder(BorderFactory.createLineBorder(Color.red));
+						status.setErrors(true);
+						return false;
+					}
+				} catch (NumberFormatException e) {
+					codonUpperBoundText.setBorder(BorderFactory.createLineBorder(Color.red));
+					status.setErrors(true);
+					return false;
+				}
+			}
+		});
+		codonUpperBound.add(codonUpperBoundText);
+		codonUpperBound.setMaximumSize(codonUpperBound.getPreferredSize());
+		codonUpperBound.setMinimumSize(codonUpperBound.getPreferredSize());
+		codonUpperBound.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(codonUpperBound);
+		
+		JPanel maxCntWrappings = new JPanel();
+		JLabel maxCntWrappingsLabel = new JLabel("Max cnt wrappings");
+		maxCntWrappings.add(maxCntWrappingsLabel);
+		maxCntWrappingsText = new JTextField(4);
+		maxCntWrappingsText.setInputVerifier(new InputVerifier() {
+			public boolean verify(JComponent input) {
+				try {
+					int a = Integer.parseInt(((JTextField) input).getText());
+					if (a >= 1) {
+						maxCntWrappingsText.setBorder(defaultborder);
+						status.setErrors(false);
+						return true;
+					}
+					else {
+						maxCntWrappingsText.setBorder(BorderFactory.createLineBorder(Color.red));
+						status.setErrors(true);
+						return false;
+					}
+				} catch (NumberFormatException e) {
+					maxCntWrappingsText.setBorder(BorderFactory.createLineBorder(Color.red));
+					status.setErrors(true);
+					return false;
+				}
+			}
+		});
+		maxCntWrappings.add(maxCntWrappingsText);
+		maxCntWrappings.setMaximumSize(maxCntWrappings.getPreferredSize());
+		maxCntWrappings.setMinimumSize(maxCntWrappings.getPreferredSize());
+		maxCntWrappings.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(maxCntWrappings);
+		
+		JPanel numOfObjectives = new JPanel();
+		JLabel numOfObjectivesLabel = new JLabel("# of objectives");
+		numOfObjectives.add(numOfObjectivesLabel);
+		numOfObjectivesText = new JTextField(4);
+		numOfObjectivesText.setInputVerifier(new InputVerifier() {
+			public boolean verify(JComponent input) {
+				try {
+					int a = Integer.parseInt(((JTextField) input).getText());
+					if (a >= 1) {
+						numOfObjectivesText.setBorder(defaultborder);
+						status.setErrors(false);
+						return true;
+					}
+					else {
+						numOfObjectivesText.setBorder(BorderFactory.createLineBorder(Color.red));
+						status.setErrors(true);
+						return false;
+					}
+				} catch (NumberFormatException e) {
+					numOfObjectivesText.setBorder(BorderFactory.createLineBorder(Color.red));
+					status.setErrors(true);
+					return false;
+				}
+			}
+		});
+		numOfObjectives.add(numOfObjectivesText);
+		numOfObjectives.setMaximumSize(numOfObjectives.getPreferredSize());
+		numOfObjectives.setMinimumSize(numOfObjectives.getPreferredSize());
+		numOfObjectives.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(numOfObjectives);
+		
+		//- iter per indiv
+		//- public static final int CHROMOSOME_LENGTH_DEFAULT = 100;	
+		//- public static final int CODON_UPPER_BOUND_DEFAULT = 256;
+		//- public static final int MAX_CNT_WRAPPINGS_DEFAULT = 3;
+		//- public static final int NUM_OF_OBJECTIVES_DEFAULT = 2;
+		// path to bnf
 		//---------------------------------------------
 		
+		// antes tenía 200 de ancho
+		/*
 		JPanel height = new JPanel();
 		JLabel heightLabel = new JLabel("Max height");
 		height.add(heightLabel);
@@ -304,7 +480,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		selection.setMinimumSize(selection.getPreferredSize());
 		selection.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(selection);
-		
+		*/
 
 		//---------------------------------------------
 		JSeparator b = new JSeparator();
@@ -320,8 +496,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel crossoverLabel = new JLabel("Crossover");
 		JPanel crossSel = new JPanel();
 		crossSel.add(crossoverLabel);
-		crossoverBox = new JComboBox<String>();
-		crossSel.add(crossoverBox);
+		//crossoverBox = new JComboBox<String>();
+		//crossSel.add(crossoverBox);
 		crossoverMethodPanel.add(crossSel);
 		crossoverMethodPanel.setMaximumSize(crossoverMethodPanel.getPreferredSize());
 		crossoverMethodPanel.setMinimumSize(crossoverMethodPanel.getPreferredSize());
@@ -356,8 +532,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationMethodPanel = new JPanel();
 		JLabel mutationLabel = new JLabel("Mutation");
 		mutationMethodPanel.add(mutationLabel);
-		mutationBox = new JComboBox<String>();
-		mutationMethodPanel.add(mutationBox);
+		//mutationBox = new JComboBox<String>();
+		//mutationMethodPanel.add(mutationBox);
 		mutationMethodPanel.setMaximumSize(mutationMethodPanel.getPreferredSize());
 		mutationMethodPanel.setMinimumSize(mutationMethodPanel.getPreferredSize());
 		mutationMethodPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -383,7 +559,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		d.setMaximumSize(new Dimension(420, 1));
 		settings.add(d);
 		//---------------------------------------------
-		
+		/*
 		JPanel elitism = new JPanel();
 		elitism.setLayout(new BoxLayout(elitism, BoxLayout.Y_AXIS));
 		
@@ -753,7 +929,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
 		optionalSettings.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(optionalPanel);
-		
+		*/
 	}
 	
 	private void fillFields() {
@@ -790,37 +966,55 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationMethodPanel.setMinimumSize(mutationMethodPanel.getPreferredSize());
 		this.contentBasedTerminationCheck.setSelected(this.ctrl.isContentBasedTermination());
 		*/
+		this.iterPerIndText.setText(String.valueOf(this.problem.iterPerIndividual));
+		this.chromosomeLengthText.setText(String.valueOf(PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT));
+		this.codonUpperBoundText.setText(String.valueOf(PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT));
+		this.maxCntWrappingsText.setText(String.valueOf(PacmanGrammaticalEvolution.MAX_CNT_WRAPPINGS_DEFAULT));
+		this.numOfObjectivesText.setText(String.valueOf(PacmanGrammaticalEvolution.NUM_OF_OBJECTIVES_DEFAULT));
+		
 		saveDefaults();
 	}
 	
 	private void saveDefaults() {
 		populationTextDefault = populationText.getText();
 		generationTextDefault = generationText.getText();
-		heightTextDefault = heightText.getText();
-		tournamentGroupsTextDefault = tournamentGroupsText.getText();
+		//heightTextDefault = heightText.getText();
+		//tournamentGroupsTextDefault = tournamentGroupsText.getText();
 		crossoverSliderDefault = crossoverSlider.getValue();
 		mutationSliderDefault = mutationSlider.getValue();
-		elitismSliderDefault = elitismSlider.getValue();
-		initializationBoxDefault = initializationBox.getSelectedItem();
-		selectionBoxDefault = selectionBox.getSelectedItem();
-		crossoverBoxDefault = crossoverBox.getSelectedItem();
-		mutationBoxDefault = mutationBox.getSelectedItem();
-		contentBasedTerminationCheckDefault = contentBasedTerminationCheck.isSelected();
+		//elitismSliderDefault = elitismSlider.getValue();
+		//initializationBoxDefault = initializationBox.getSelectedItem();
+		//selectionBoxDefault = selectionBox.getSelectedItem();
+		//crossoverBoxDefault = crossoverBox.getSelectedItem();
+		//mutationBoxDefault = mutationBox.getSelectedItem();
+		//contentBasedTerminationCheckDefault = contentBasedTerminationCheck.isSelected();
+		
+		iterPerIndTextDefault = iterPerIndText.getText();
+		chromosomeLengthTextDefault = chromosomeLengthText.getText();
+		codonUpperBoundTextDefault = codonUpperBoundText.getText();
+		maxCntWrappingsTextDefault = maxCntWrappingsText.getText();
+		numOfObjectivesTextDefault = numOfObjectivesText.getText();
 	}
 	
 	private void restoreDefaults() {
 		populationText.setText(populationTextDefault);
 		generationText.setText(generationTextDefault);
-		heightText.setText(heightTextDefault);
-		tournamentGroupsText.setText(tournamentGroupsTextDefault);
+		//heightText.setText(heightTextDefault);
+		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
 		crossoverSlider.setValue(crossoverSliderDefault);
 		mutationSlider.setValue(mutationSliderDefault);
-		elitismSlider.setValue(elitismSliderDefault);
-		initializationBox.setSelectedItem(initializationBoxDefault);
-		selectionBox.setSelectedItem(selectionBoxDefault);
-		crossoverBox.setSelectedItem(crossoverBoxDefault);
-		mutationBox.setSelectedItem(mutationBoxDefault);
-		contentBasedTerminationCheck.setSelected(contentBasedTerminationCheckDefault);
+		//elitismSlider.setValue(elitismSliderDefault);
+		//initializationBox.setSelectedItem(initializationBoxDefault);
+		//selectionBox.setSelectedItem(selectionBoxDefault);
+		//crossoverBox.setSelectedItem(crossoverBoxDefault);
+		//mutationBox.setSelectedItem(mutationBoxDefault);
+		//contentBasedTerminationCheck.setSelected(contentBasedTerminationCheckDefault);
+		
+		iterPerIndText.setText(iterPerIndTextDefault);
+		chromosomeLengthText.setText(chromosomeLengthTextDefault);
+		codonUpperBoundText.setText(codonUpperBoundTextDefault);
+		maxCntWrappingsText.setText(maxCntWrappingsTextDefault);
+		numOfObjectivesText.setText(numOfObjectivesTextDefault);
 	}
 	
 	/*private void setRanges() {
@@ -850,10 +1044,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	public void onStart() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				for (Component cmp : buttonPanel.getComponents()) {
-					cmp.setVisible(true);
-					cmp.setEnabled(false);
-				}
+				runButton.setVisible(true);
+				resetButton.setVisible(true);
 			}
 		});
 	}
@@ -862,6 +1054,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	public void onEnd() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				showAndPlayButton.setVisible(true);
 				for (Component cmp : buttonPanel.getComponents()) {
 					cmp.setEnabled(true);
 				}
