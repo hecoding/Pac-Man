@@ -71,6 +71,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JCheckBox rangeParametersCheck;
  	ButtonGroup bg;
  	
+ 	GamePanel gp;
+ 	
  	String populationTextDefault;
 	String generationTextDefault;
 	String heightTextDefault;
@@ -93,12 +95,14 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
 	Border defaultborder;
 
-	public SettingsPanel(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, StatusBarPanel status, ProgramWorker programWorker) {
+	public SettingsPanel(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, StatusBarPanel status, ProgramWorker programWorker, GamePanel gp) {
 		this.algorithm = algorithm;
 		this.algorithm.addObserver(this);
 		this.problem = problem;
 		this.status = status;
 		this.worker = programWorker;
+		
+		this.gp = gp;
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -117,6 +121,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		buttonPanel = new JPanel(new BorderLayout());
 		
 		showAndPlayButton = new JButton("Show & play best");
+		showAndPlayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gp.copyAndRun(ProgramWorker.phenotypeString);
+			}
+		});
 		showAndPlayButton.setVisible(false);
 		buttonPanel.add(showAndPlayButton, BorderLayout.PAGE_START);
 		

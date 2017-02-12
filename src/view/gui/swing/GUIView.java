@@ -61,9 +61,11 @@ public class GUIView extends JFrame {
 
 	private void initGUI() {
 		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker);
+		
+		GamePanel gp = new GamePanel();
 		this.status = new StatusBarPanel(algorithm);
-		this.centerPanel = new CenterPanel(algorithm, this.status, programWorker);
-		this.settingsPanel = new SettingsPanel(algorithm, problem, this.status, programWorker);
+		this.centerPanel = new CenterPanel(algorithm, this.status, programWorker, gp);
+		this.settingsPanel = new SettingsPanel(algorithm, problem, this.status, programWorker, gp);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		

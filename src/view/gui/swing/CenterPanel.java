@@ -54,12 +54,14 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
-	public CenterPanel(GrammaticalEvolution algorithm, StatusBarPanel status, ProgramWorker programWorker) {
+	public CenterPanel(GrammaticalEvolution algorithm, StatusBarPanel status, ProgramWorker programWorker, GamePanel gamePanel) {
 		this.algorithm = algorithm;
 		this.algorithm.addObserver(this);
 		this.status = status;
 		this.programWorker = programWorker;
 		this.progressBar = ProgramWorker.getProgressBar();
+		
+		this.gp = gamePanel;
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -145,7 +147,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		tabs.addTab("Log", logPanel);
 		
 		// Game tab
-		gp = new GamePanel();
+		//gp = new GamePanel();
 		tabs.addTab("Game", gp);
 		
 		tabs.setMnemonicAt(0, KeyEvent.VK_1);
