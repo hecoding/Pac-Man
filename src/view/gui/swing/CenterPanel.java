@@ -25,7 +25,6 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.util.observer.AlgObserver;
 
 public class CenterPanel extends JPanel implements AlgObserver {
@@ -39,8 +38,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JPanel centerPanel;
  	JProgressBar progressBar;
  	JButton cancelButton;
- 	GrammaticalEvolution algorithm;
- 	ProgramWorker programWorker;
+ 	GeneralController gCtrl;
  	
  	JFreeChart chart;
  	XYPlot plot;
@@ -53,10 +51,9 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
-	public CenterPanel(GrammaticalEvolution algorithm, ProgramWorker programWorker) {
-		this.algorithm = algorithm;
-		this.algorithm.addObserver(this);
-		this.programWorker = programWorker;
+	public CenterPanel(GeneralController gCtrl) {
+		this.gCtrl = gCtrl;
+		this.gCtrl.addObserver(this);
 		this.progressBar = ProgramWorker.getProgressBar();
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -152,7 +149,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		
 		this.add(tabs, BorderLayout.CENTER);
 		JPanel lowBar = new JPanel(new BorderLayout());
-		this.status = new StatusBarPanel(algorithm);
+		this.status = new StatusBarPanel(this.gCtrl);
 		lowBar.add(this.status, BorderLayout.PAGE_START);
 		this.progressBar.setVisible(false);
 		lowBar.add(this.progressBar, BorderLayout.CENTER);
@@ -160,7 +157,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		cancelButton.setToolTipText("Cancel execution");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				programWorker.stop();
+				gCtrl.programWorkerStop();
 			}
 		});
 		//cancelButton.setPreferredSize(new Dimension(cancelButton.getPreferredSize().width, 14));
@@ -206,26 +203,27 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	
 	private void updateGraphPanel() {
 		this.dataset.removeAllSeries();
+		this.dataset2.removeAllSeries();
 		
 		worstSeries.clear();
 		bestSeries.clear();
 		avgSeries.clear();
 		absoluteSeries.clear();
 		
-		for(int i = 0; i < this.algorithm.worstObjetives.size(); i++) {
-			worstSeries.add(i, this.algorithm.worstObjetives.get(i));
+		for(int i = 0; i < this.gCtrl.getWorstObjectives().size(); i++) {
+			worstSeries.add(i, this.gCtrl.getWorstObjectives().get(i));
 		}
 		
-		for(int i = 0; i < this.algorithm.bestObjetives.size(); i++) {
-			bestSeries.add(i, this.algorithm.bestObjetives.get(i));
+		for(int i = 0; i < this.gCtrl.getBestObjectives().size(); i++) {
+			bestSeries.add(i, this.gCtrl.getBestObjectives().get(i));
 		}
 		
-		for(int i = 0; i < this.algorithm.averageObjetives.size(); i++) {
-			avgSeries.add(i, this.algorithm.averageObjetives.get(i));
+		for(int i = 0; i < this.gCtrl.getAverageObjetives().size(); i++) {
+			avgSeries.add(i, this.gCtrl.getAverageObjetives().get(i));
 		}
 		
-		for(int i = 0; i < this.algorithm.absoluteBestObjetives.size(); i++) {
-			absoluteSeries.add(i, this.algorithm.absoluteBestObjetives.get(i));
+		for(int i = 0; i < this.gCtrl.getAbsoluteBestObjetives().size(); i++) {
+			absoluteSeries.add(i, this.gCtrl.getAbsoluteBestObjetives().get(i));
 		}
 		
 		this.dataset.addSeries(worstSeries);

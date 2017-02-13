@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
+import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
 import jeco.core.operator.evaluator.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
@@ -25,11 +26,31 @@ public class CLIView {
 	GrammaticalEvolution algorithm;
 	PacmanGrammaticalEvolution problem;
 	MasterWorkerThreads<Variable<Integer>> masterWorker; // if algorithm is multithreading
+	static int avalaibleThreads = Runtime.getRuntime().availableProcessors();
 	
-	public CLIView(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem) {
+	public CLIView() {
+		// Configure parameters
+		int populationSize = 100;// = 400;
+		int generations = 100;// = 500;
+		double mutationProb = 0.02;
+	  	double crossProb = 0.6;
+	  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
+	  	int iterPerIndividual = 3;// = 10; // games ran per evaluation
+	  	
+		// First create the problem
+		problem = new PacmanGrammaticalEvolution("test/pacman.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
+		// Second create the algorithm
+		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+		
+		// We can set different operators using
+	  	//algorithm.setSelectionOperator(selectionOperator);
+		//algorithm.setCrossoverOperator(crossoverOperator);
+		//algorithm.setMutationOperator(mutationOperator);
+		
+		// Set multithreading
+		masterWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
+		
 		logger = GrammaticalEvolution.logger;
-		this.algorithm = algorithm;
-		this.problem = problem;
 		this.exec();
 	}
 	
@@ -43,7 +64,7 @@ public class CLIView {
 	private void exec() {
 		// Execute algorithm
 		Solutions<Variable<Integer>> solutions;
-		if(algorithm == null)
+		if(masterWorker != null)
 			solutions = masterWorker.execute();
 		else
 			solutions = algorithm.execute();

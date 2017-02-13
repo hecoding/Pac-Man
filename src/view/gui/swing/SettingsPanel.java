@@ -28,22 +28,17 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import jeco.core.algorithm.moge.GrammaticalEvolution;
-import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
 import jeco.core.util.observer.AlgObserver;
 
 public class SettingsPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
+	private GeneralController gCtrl;
  	private GUIController guiCtrl;
  	private JPanel settings;
  	private JPanel buttonPanel;
  	JButton showAndPlayButton;
  	JButton runButton;
  	JButton resetButton;
- 	private ProgramWorker worker;
- 	
- 	GrammaticalEvolution algorithm;
- 	PacmanGrammaticalEvolution problem;
  	
  	JTextField populationText;
  	JTextField generationText;
@@ -92,12 +87,10 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
 	Border defaultborder;
 
-	public SettingsPanel(GUIController ctrl, GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, ProgramWorker programWorker) {
+	public SettingsPanel(GUIController ctrl, GeneralController gCtrl) {
+		this.gCtrl = gCtrl;
 		this.guiCtrl = ctrl;
-		this.algorithm = algorithm;
-		this.algorithm.addObserver(this);
-		this.problem = problem;
-		this.worker = programWorker;
+		this.gCtrl.addObserver(this);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -130,11 +123,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					problem.populationSize = Integer.parseInt(populationText.getText());
-					problem.generations = Integer.parseInt(generationText.getText());
+					gCtrl.setPopulationSize(Integer.parseInt(populationText.getText()));
+					gCtrl.setGenerations(Integer.parseInt(generationText.getText()));
 					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
-					problem.crossProb = crossoverSlider.getValue() / 100.0; // .0 is important
-					problem.mutationProb = mutationSlider.getValue() / 100.0;
+					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
+					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
 					//ctrl.setElitismPercentage(elitismSlider.getValue());
 					//ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
 					//ctrl.setSelectionParameter(tournamentGroupsText.getText());
@@ -146,7 +139,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					//if(rangeParametersCheck.isSelected())
 					//	setRanges();
 					
-					worker.execute();
+					gCtrl.setChromosomeLength(Integer.parseInt(chromosomeLengthText.getText()));
+					gCtrl.setCodonUpperBound(Integer.parseInt(codonUpperBoundText.getText()));
+					gCtrl.setMaxCntWrappings(Integer.parseInt(maxCntWrappingsText.getText()));
+					gCtrl.setNumOfObjectives(Integer.parseInt(numOfObjectivesText.getText()));
+					
+					gCtrl.execute();
 				} /*catch(IllegalChromosomeException ex) {
 					JOptionPane.showMessageDialog(null,
 							ex.getMessage(),
@@ -938,12 +936,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	}
 	
 	private void fillFields() {
-		this.populationText.setText(String.valueOf(this.problem.populationSize));
-		this.generationText.setText(String.valueOf(this.problem.generations));
+		this.populationText.setText(String.valueOf(this.gCtrl.getPopulationSize()));
+		this.generationText.setText(String.valueOf(this.gCtrl.getGenerations()));
 		//this.heightText.setText(String.valueOf(this.ctrl.getHeight()));
 		//this.tournamentGroupsText.setText(Integer.toString( this.ctrl.getTournamentSelectionGroups() ));
-		this.crossoverSlider.setValue((int) (this.problem.crossProb * 100));
-		this.mutationSlider.setValue((int) (this.problem.mutationProb * 100));/*
+		this.crossoverSlider.setValue((int) (this.gCtrl.getCrossProb() * 100));
+		this.mutationSlider.setValue((int) (this.gCtrl.getMutationProb() * 100));/*
 		this.elitismSlider.setValue((int) (this.problem. * 100));
 		for (String item : this.ctrl.getInitializationStrategyList()) {
 			this.initializationBox.addItem(item);			
@@ -971,11 +969,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationMethodPanel.setMinimumSize(mutationMethodPanel.getPreferredSize());
 		this.contentBasedTerminationCheck.setSelected(this.ctrl.isContentBasedTermination());
 		*/
-		this.iterPerIndText.setText(String.valueOf(this.problem.iterPerIndividual));
-		this.chromosomeLengthText.setText(String.valueOf(PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT));
-		this.codonUpperBoundText.setText(String.valueOf(PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT));
-		this.maxCntWrappingsText.setText(String.valueOf(PacmanGrammaticalEvolution.MAX_CNT_WRAPPINGS_DEFAULT));
-		this.numOfObjectivesText.setText(String.valueOf(PacmanGrammaticalEvolution.NUM_OF_OBJECTIVES_DEFAULT));
+		this.iterPerIndText.setText(String.valueOf(this.gCtrl.getItersPerIndividual()));
+		this.chromosomeLengthText.setText(String.valueOf(this.gCtrl.getChromosomeLength()));
+		this.codonUpperBoundText.setText(String.valueOf(this.gCtrl.getCodonUpperBound()));
+		this.maxCntWrappingsText.setText(String.valueOf(this.gCtrl.getMaxCntWrappings()));
+		this.numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfObjectives()));
 		
 		saveDefaults();
 	}

@@ -7,18 +7,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.util.observer.AlgObserver;
 
 public class StatusBarPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
-	GrammaticalEvolution algorithm;
+	GeneralController gCtrl;
 	private JTextArea outputTextArea;
 	private Color defaultColor = new Color(245,245,245);
 	
-	public StatusBarPanel(GrammaticalEvolution algorithm) {
-		this.algorithm = algorithm;
-		this.algorithm.addObserver(this);
+	public StatusBarPanel(GeneralController gCtrl) {
+		this.gCtrl = gCtrl;
+		this.gCtrl.addObserver(this);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

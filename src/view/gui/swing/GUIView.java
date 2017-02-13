@@ -16,6 +16,7 @@ import jeco.core.problem.Variable;
 public class GUIView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	final static int ticks = 19;
+	private static GeneralController gCtrl;
 	private static GUIController guiCtrl;
 	private CenterPanel centerPanel;
 	private SettingsPanel settingsPanel;
@@ -27,29 +28,10 @@ public class GUIView extends JFrame {
 	static PacmanGrammaticalEvolution problem;
 	static Logger logger;
 	
-	public GUIView(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem) {
+	public GUIView() {
 		//ctrl = controller;
 		//ctrl.addModelObserver(worker);
-		GUIView.algorithm = algorithm;
-		GUIView.problem = problem;
-		logger = GrammaticalEvolution.logger;
 		
-		this.setTitle("Pac-Man");
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				initGUI();
-			}
-		});
-	}
-	
-	public GUIView(MasterWorkerThreads<Variable<Integer>> algorithmWorker, GrammaticalEvolution algorithm,
-			PacmanGrammaticalEvolution problem) {
-		//ctrl = controller;
-		//ctrl.addModelObserver(worker);
-		GUIView.algorithmWorker = algorithmWorker;
-		GUIView.algorithm = algorithm;
-		GUIView.problem = problem;
-		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker);
 		logger = GrammaticalEvolution.logger;
 		
 		this.setTitle("Pac-Man");
@@ -61,10 +43,12 @@ public class GUIView extends JFrame {
 	}
 
 	private void initGUI() {
+		gCtrl = new GeneralController();
 		guiCtrl = new GUIController();
-		this.status = new StatusBarPanel(algorithm);
-		this.centerPanel = new CenterPanel(algorithm, programWorker);
-		this.settingsPanel = new SettingsPanel(guiCtrl, algorithm, problem, programWorker);
+		this.status = new StatusBarPanel(gCtrl);
+		this.centerPanel = new CenterPanel(gCtrl);
+		this.settingsPanel = new SettingsPanel(guiCtrl, gCtrl);
+		
 		guiCtrl.setStatusBarPanel(this.status);
 		guiCtrl.setCenterPanel(this.centerPanel);
 		guiCtrl.setSettingsPanel(this.settingsPanel);

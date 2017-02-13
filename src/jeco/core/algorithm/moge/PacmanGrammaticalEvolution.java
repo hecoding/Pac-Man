@@ -40,9 +40,45 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   	public ArrayList<Double> fitnessParams = new ArrayList<>(2); // for efficiency. NOT static
   	private Double bestFitness = Double.POSITIVE_INFINITY; // because minimization
   	public int iterPerIndividual; // games ran per evaluation
+  	
+  	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, FitnessEvaluatorInterface fitnessFunc, int iterPerIndividual, int numberOfObjectives, int chromosomeLength, int maxCntWrappings, int codonUpperBound) {
+  		super(pathToBnf, numberOfObjectives, chromosomeLength, maxCntWrappings, codonUpperBound);
+  		
+  		this.populationSize = maxPopulationSize;
+		this.generations = maxGenerations;
+		this.mutationProb = probMutation;
+		this.crossProb = probCrossover;
+		this.fitnessFunc = fitnessFunc;
+		this.iterPerIndividual = iterPerIndividual;
+		
+		// Create log
+		if(writer == null) {
+		  	File dir = new File("logs");
+		  	dir.mkdir();
+		  	
+		  	try {
+		  	    Files.delete(path);
+		  	} catch (NoSuchFileException x) {
+		  	    //System.err.format("%s: no such" + " file or directory%n", path);
+		  	} catch (DirectoryNotEmptyException x) {
+		  	    System.err.format("%s not empty%n", path);
+		  	} catch (IOException x) {
+		  	    // File permission problems are caught here.
+		  	    System.err.println(x);
+		  	}
+		  	
+		  	try {
+				writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8);
+			} catch (IOException e) {
+				System.err.println("Error opening the log.");
+				e.printStackTrace();
+			}
+		}
+  	}
 
 	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, FitnessEvaluatorInterface fitnessFunc, int iterPerIndividual) {
 		super(pathToBnf);
+		
 		this.populationSize = maxPopulationSize;
 		this.generations = maxGenerations;
 		this.mutationProb = probMutation;
