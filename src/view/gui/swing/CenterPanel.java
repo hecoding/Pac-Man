@@ -30,13 +30,12 @@ import jeco.core.util.observer.AlgObserver;
 
 public class CenterPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
- 	//private Controller ctrl;
- 	private JTabbedPane tabs;
- 	private JPanel graphPanel;
- 	private JPanel programPanel;
- 	private LogPanel logPanel;
- 	private GamePanel gp;
- 	private StatusBarPanel status;
+ 	JTabbedPane tabs;
+ 	public JPanel graphPanel;
+ 	public JPanel programPanel;
+ 	public LogPanel logPanel;
+ 	public GamePanel gp;
+ 	public StatusBarPanel status;
  	JPanel centerPanel;
  	JProgressBar progressBar;
  	JButton cancelButton;
@@ -54,14 +53,11 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
-	public CenterPanel(GrammaticalEvolution algorithm, StatusBarPanel status, ProgramWorker programWorker, GamePanel gamePanel) {
+	public CenterPanel(GrammaticalEvolution algorithm, ProgramWorker programWorker) {
 		this.algorithm = algorithm;
 		this.algorithm.addObserver(this);
-		this.status = status;
 		this.programWorker = programWorker;
 		this.progressBar = ProgramWorker.getProgressBar();
-		
-		this.gp = gamePanel;
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -147,7 +143,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		tabs.addTab("Log", logPanel);
 		
 		// Game tab
-		//gp = new GamePanel();
+		gp = new GamePanel();
 		tabs.addTab("Game", gp);
 		
 		tabs.setMnemonicAt(0, KeyEvent.VK_1);
@@ -156,6 +152,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		
 		this.add(tabs, BorderLayout.CENTER);
 		JPanel lowBar = new JPanel(new BorderLayout());
+		this.status = new StatusBarPanel(algorithm);
 		lowBar.add(this.status, BorderLayout.PAGE_START);
 		this.progressBar.setVisible(false);
 		lowBar.add(this.progressBar, BorderLayout.CENTER);

@@ -16,7 +16,7 @@ import jeco.core.problem.Variable;
 public class GUIView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	final static int ticks = 19;
-	//private static Controller ctrl;
+	private static GUIController guiCtrl;
 	private CenterPanel centerPanel;
 	private SettingsPanel settingsPanel;
 	private StatusBarPanel status;
@@ -49,6 +49,7 @@ public class GUIView extends JFrame {
 		GUIView.algorithmWorker = algorithmWorker;
 		GUIView.algorithm = algorithm;
 		GUIView.problem = problem;
+		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker);
 		logger = GrammaticalEvolution.logger;
 		
 		this.setTitle("Pac-Man");
@@ -60,12 +61,13 @@ public class GUIView extends JFrame {
 	}
 
 	private void initGUI() {
-		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker);
-		
-		GamePanel gp = new GamePanel();
+		guiCtrl = new GUIController();
 		this.status = new StatusBarPanel(algorithm);
-		this.centerPanel = new CenterPanel(algorithm, this.status, programWorker, gp);
-		this.settingsPanel = new SettingsPanel(algorithm, problem, this.status, programWorker, gp);
+		this.centerPanel = new CenterPanel(algorithm, programWorker);
+		this.settingsPanel = new SettingsPanel(guiCtrl, algorithm, problem, programWorker);
+		guiCtrl.setStatusBarPanel(this.status);
+		guiCtrl.setCenterPanel(this.centerPanel);
+		guiCtrl.setSettingsPanel(this.settingsPanel);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		

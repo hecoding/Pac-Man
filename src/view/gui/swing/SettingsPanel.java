@@ -34,13 +34,12 @@ import jeco.core.util.observer.AlgObserver;
 
 public class SettingsPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
- 	//private Controller ctrl;
+ 	private GUIController guiCtrl;
  	private JPanel settings;
  	private JPanel buttonPanel;
  	JButton showAndPlayButton;
  	JButton runButton;
  	JButton resetButton;
- 	private StatusBarPanel status;
  	private ProgramWorker worker;
  	
  	GrammaticalEvolution algorithm;
@@ -71,8 +70,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JCheckBox rangeParametersCheck;
  	ButtonGroup bg;
  	
- 	GamePanel gp;
- 	
  	String populationTextDefault;
 	String generationTextDefault;
 	String heightTextDefault;
@@ -95,14 +92,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
 	Border defaultborder;
 
-	public SettingsPanel(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, StatusBarPanel status, ProgramWorker programWorker, GamePanel gp) {
+	public SettingsPanel(GUIController ctrl, GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, ProgramWorker programWorker) {
+		this.guiCtrl = ctrl;
 		this.algorithm = algorithm;
 		this.algorithm.addObserver(this);
 		this.problem = problem;
-		this.status = status;
 		this.worker = programWorker;
-		
-		this.gp = gp;
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -123,7 +118,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		showAndPlayButton = new JButton("Show & play best");
 		showAndPlayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gp.copyAndRun(ProgramWorker.phenotypeString);
+				guiCtrl.changeFocusToGame();
+				guiCtrl.showAndRun(ProgramWorker.phenotypeString);
 			}
 		});
 		showAndPlayButton.setVisible(false);
@@ -215,17 +211,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					int a = Integer.parseInt(((JTextField) input).getText());
 					if (a >= 1) {
 						generationText.setBorder(defaultborder);
-						status.setErrors(false);
+						guiCtrl.setErrors(false);
 						return true;
 					}
 					else {
 						generationText.setBorder(BorderFactory.createLineBorder(Color.red));
-						status.setErrors(true);
+						guiCtrl.setErrors(true);
 						return false;
 					}
 				} catch (NumberFormatException e) {
 					generationText.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			}
@@ -246,17 +242,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					int a = Integer.parseInt(((JTextField) input).getText());
 					if (a >= 1) {
 						iterPerIndText.setBorder(defaultborder);
-						status.setErrors(false);
+						guiCtrl.setErrors(false);
 						return true;
 					}
 					else {
 						iterPerIndText.setBorder(BorderFactory.createLineBorder(Color.red));
-						status.setErrors(true);
+						guiCtrl.setErrors(true);
 						return false;
 					}
 				} catch (NumberFormatException e) {
 					iterPerIndText.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			}
@@ -277,17 +273,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					int a = Integer.parseInt(((JTextField) input).getText());
 					if (a >= 1) {
 						chromosomeLengthText.setBorder(defaultborder);
-						status.setErrors(false);
+						guiCtrl.setErrors(false);
 						return true;
 					}
 					else {
 						chromosomeLengthText.setBorder(BorderFactory.createLineBorder(Color.red));
-						status.setErrors(true);
+						guiCtrl.setErrors(true);
 						return false;
 					}
 				} catch (NumberFormatException e) {
 					chromosomeLengthText.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			}
@@ -308,17 +304,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					int a = Integer.parseInt(((JTextField) input).getText());
 					if (a >= 1) {
 						codonUpperBoundText.setBorder(defaultborder);
-						status.setErrors(false);
+						guiCtrl.setErrors(false);
 						return true;
 					}
 					else {
 						codonUpperBoundText.setBorder(BorderFactory.createLineBorder(Color.red));
-						status.setErrors(true);
+						guiCtrl.setErrors(true);
 						return false;
 					}
 				} catch (NumberFormatException e) {
 					codonUpperBoundText.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			}
@@ -339,17 +335,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					int a = Integer.parseInt(((JTextField) input).getText());
 					if (a >= 1) {
 						maxCntWrappingsText.setBorder(defaultborder);
-						status.setErrors(false);
+						guiCtrl.setErrors(false);
 						return true;
 					}
 					else {
 						maxCntWrappingsText.setBorder(BorderFactory.createLineBorder(Color.red));
-						status.setErrors(true);
+						guiCtrl.setErrors(true);
 						return false;
 					}
 				} catch (NumberFormatException e) {
 					maxCntWrappingsText.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			}
@@ -370,17 +366,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					int a = Integer.parseInt(((JTextField) input).getText());
 					if (a >= 1) {
 						numOfObjectivesText.setBorder(defaultborder);
-						status.setErrors(false);
+						guiCtrl.setErrors(false);
 						return true;
 					}
 					else {
 						numOfObjectivesText.setBorder(BorderFactory.createLineBorder(Color.red));
-						status.setErrors(true);
+						guiCtrl.setErrors(true);
 						return false;
 					}
 				} catch (NumberFormatException e) {
 					numOfObjectivesText.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			}
@@ -411,17 +407,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					int a = Integer.parseInt(((JTextField) input).getText());
 					if (a >= 1) {
 						heightText.setBorder(defaultborder);
-						status.setErrors(false);
+						ctrl.setErrors(false);
 						return true;
 					}
 					else {
 						heightText.setBorder(BorderFactory.createLineBorder(Color.red));
-						status.setErrors(true);
+						ctrl.setErrors(true);
 						return false;
 					}
 				} catch (NumberFormatException e) {
 					heightText.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					ctrl.setErrors(true);
 					return false;
 				}
 			}
@@ -1095,17 +1091,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 				int a = Integer.parseInt(((JTextField) input).getText());
 				if (a >= 1) {
 					field.setBorder(defaultborder);
-					status.setErrors(false);
+					guiCtrl.setErrors(false);
 					return true;
 				}
 				else {
 					field.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			} catch (NumberFormatException e) {
 				field.setBorder(BorderFactory.createLineBorder(Color.red));
-				status.setErrors(true);
+				guiCtrl.setErrors(true);
 				return false;
 			}
 		}
@@ -1121,17 +1117,17 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 				double a = Double.parseDouble(((JTextField) input).getText());
 				if (a >= 0 && a <= 1) {
 					field.setBorder(defaultborder);
-					status.setErrors(false);
+					guiCtrl.setErrors(false);
 					return true;
 				}
 				else {
 					field.setBorder(BorderFactory.createLineBorder(Color.red));
-					status.setErrors(true);
+					guiCtrl.setErrors(true);
 					return false;
 				}
 			} catch (NumberFormatException e) {
 				field.setBorder(BorderFactory.createLineBorder(Color.red));
-				status.setErrors(true);
+				guiCtrl.setErrors(true);
 				return false;
 			}
 		}
