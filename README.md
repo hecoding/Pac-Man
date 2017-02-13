@@ -1,16 +1,17 @@
 Ms Pac-Man
 ====
+<p align="center"><img src="http://gamewires.com/Images/Posts/32542_banner.jpg" height='200' alt="Ms Pac-Man"/></p>
 
-##Uso: 
+## Descarga
+Se puede hacer de dos formas:
+#### Por consola
+`git clone https://github.com/hecoding/Pac-Man.git`
+#### Desde Eclipse
+`File > Import > Git > Projects from Git > Clone URI`  
+Copiar `https://github.com/hecoding/Pac-Man.git` en el campo `URI`  
+Marcar sólo `master` y darle a `Finish`  
 
-Ejecutar el método Main en la clase src/jeco.core.algorithm.moge/PacmanGrammaticalEvolution.java.
-Los parámetros de población y número de generaciones son definibles dentro del mismo.
+## Ejecución
+Dentro del proyecto, navegar hasta `src/main` y ejecutar la clase `Main.java`. Se abrirá la GUI.
 
-     
-##Descripción: 
-
-JECO integrado con MS Pac-Man. 
-JECO crea instancias de pacman que reciben el fenotipo en forma de string, lo utilizan, y devuelven el fitness a JECO.
-
-
-##[Versiones](https://github.com/hecoding/Pac-Man/wiki/Versions)
+### [Ver la Wiki](https://github.com/hecoding/Pac-Man/wiki)
