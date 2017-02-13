@@ -10,15 +10,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
-
 public class LogPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	Logger logger;
 	JTextArea logText;
 	
-	public LogPanel() {
-		logger = PacmanGrammaticalEvolution.logger;
+	public LogPanel(GeneralController gCtrl) {
+		logger = gCtrl.getLogger();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

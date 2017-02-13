@@ -2,15 +2,9 @@ package view.gui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.logging.Logger;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import jeco.core.algorithm.moge.GrammaticalEvolution;
-import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
-import jeco.core.optimization.threads.MasterWorkerThreads;
-import jeco.core.problem.Variable;
 
 
 public class GUIView extends JFrame {
@@ -22,17 +16,7 @@ public class GUIView extends JFrame {
 	private SettingsPanel settingsPanel;
 	private StatusBarPanel status;
 	
-	static ProgramWorker programWorker;
-	static MasterWorkerThreads<Variable<Integer>> algorithmWorker;
-	static GrammaticalEvolution algorithm;
-	static PacmanGrammaticalEvolution problem;
-	static Logger logger;
-	
 	public GUIView() {
-		//ctrl = controller;
-		//ctrl.addModelObserver(worker);
-		
-		logger = GrammaticalEvolution.logger;
 		
 		this.setTitle("Pac-Man");
 		SwingUtilities.invokeLater(new Runnable() {

@@ -54,7 +54,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	public CenterPanel(GeneralController gCtrl) {
 		this.gCtrl = gCtrl;
 		this.gCtrl.addObserver(this);
-		this.progressBar = ProgramWorker.getProgressBar();
+		this.progressBar = this.gCtrl.getProgressBar();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -136,7 +136,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		tabs.add("Program", programPanel);
 		
 		// Log tab
-		logPanel = new LogPanel();
+		logPanel = new LogPanel(this.gCtrl);
 		tabs.addTab("Log", logPanel);
 		
 		// Game tab
@@ -186,7 +186,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 				
 				updateGraphPanel();
 				
-				programText.setText(ProgramWorker.phenotypeString);
+				programText.setText(gCtrl.getBestProgram());
 				/*if(ctrl.isFinished()) {
 					updateMapPanel();
 					updateGraphPanel();

@@ -112,7 +112,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		showAndPlayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guiCtrl.changeFocusToGame();
-				guiCtrl.showAndRun(ProgramWorker.phenotypeString);
+				guiCtrl.showAndRun(gCtrl.getBestProgram());
 			}
 		});
 		showAndPlayButton.setVisible(false);

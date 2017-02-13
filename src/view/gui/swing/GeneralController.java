@@ -3,6 +3,8 @@ package view.gui.swing;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import javax.swing.JProgressBar;
+
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
 import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
@@ -154,6 +156,18 @@ public class GeneralController {
 	
 	public ArrayList<Double> getAbsoluteBestObjetives() {
 		return algorithm.absoluteBestObjetives;
+	}
+	
+	public JProgressBar getProgressBar() {
+		return ProgramWorker.getProgressBar();
+	}
+	
+	public String getBestProgram() {
+		return ProgramWorker.phenotypeString;
+	}
+	
+	public Logger getLogger() {
+		return PacmanGrammaticalEvolution.logger;
 	}
 	
 }
