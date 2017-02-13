@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.mutable.MutableDouble;
 
@@ -97,11 +98,11 @@ public class CustomExecutor {
 	 * @param visual Indicates whether or not to use visuals
 	 * @param delay The delay between time-steps
 	 */
-	public static void runGameView(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,Game game,GameView gv,int delay)
+	public static void runGameView(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,Game game,GameView gv,int delay,AtomicBoolean stop)
 	{
 		int lastLevel = 0;
 		
-		while(!game.gameOver())
+		while(!stop.get() && !game.gameOver())
 		{
 			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
 				((GrammaticalAdapterController) pacManController).reset();

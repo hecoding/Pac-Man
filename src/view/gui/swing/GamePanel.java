@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,11 +21,17 @@ import pacman.game.GameView;
 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	TVThread thread;
 	Game game;
 	GameView gv;
 	JTextArea drafText;
 	JButton runButton;
+	JButton stopButton;
 	static final String NO_PROGRAM = "No trained solution yet";
+	String savedInitialState;
+	Game initialGame;
+	JPanel TV;
+	JPanel buttonPanel;
 	
 	public GamePanel() {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -39,7 +47,7 @@ public class GamePanel extends JPanel {
 		
 		this.setLayout(new BorderLayout());
 		
-		JPanel buttonPanel = new JPanel();
+		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.fill = GridBagConstraints.NONE;
@@ -47,7 +55,9 @@ public class GamePanel extends JPanel {
 
 		gc.gridy=0;
 		gc.weighty = 0.2;
-		buttonPanel.add(this.gv, gc);
+		TV = new JPanel(new BorderLayout());
+		TV.add(this.gv, BorderLayout.CENTER);
+		buttonPanel.add(this.TV, gc);
 		
 		runButton = new JButton("Run code");
 		runButton.setToolTipText("Run this code on pacman window");
@@ -61,10 +71,12 @@ public class GamePanel extends JPanel {
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		buttonPanel.add(runButton, gc);
 		
-		JButton stopButton = new JButton("Stop");
+		stopButton = new JButton("Stop");
+		stopButton.setVisible(false);
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//runGame();
+				thread.switchOffTV();
+				endadf();
 			}
 		});
 		gc.gridy++;
@@ -91,14 +103,39 @@ public class GamePanel extends JPanel {
 	
 	public void runGame() {
 		// https://coderanch.com/t/345177/java/repaint-actionPerformed-Event
-		Thread thread = new Thread(new Runnable() {
-	        public void run() {
-	        	if(drafText != null && !drafText.getText().isEmpty() && !drafText.getText().equals(NO_PROGRAM))
-	        		CustomExecutor.runGameView(new GrammaticalAdapterController(drafText.getText()), new StarterGhosts(), game, gv, 19);
-	        }
-	    });
+		this.thread = new TVThread();
 	    thread.setPriority(Thread.NORM_PRIORITY);
 	    thread.start();
+	}
+	
+	public class TVThread extends Thread {
+		private AtomicBoolean stopIt = new AtomicBoolean(false);
+		
+		public void run() {
+        	if(drafText != null && !drafText.getText().isEmpty() && !drafText.getText().equals(NO_PROGRAM)) {
+        		if(initialGame == null) // to recover initial state and allow replay
+        			initialGame = game.copy();
+        		else
+        			resetGame();
+        		
+        		beginasdf();
+        		CustomExecutor.runGameView(new GrammaticalAdapterController(drafText.getText()), new StarterGhosts(), game, gv, 19, stopIt);
+        		endadf();
+        	}
+        }
+        
+        public void switchOffTV() {
+        	this.stopIt.set(true);
+        }
+	}
+	
+	public void resetGame() {
+		this.game = initialGame.copy();
+		this.gv = CustomExecutor.getGameViewFromGame(game);
+		this.TV.removeAll();
+		this.TV.add(this.gv);
+		this.TV.revalidate();
+		this.TV.repaint();
 	}
 	
 	public void copyAndRun(String program) {
@@ -111,5 +148,15 @@ public class GamePanel extends JPanel {
 			this.drafText.setText(NO_PROGRAM);
 		else
 			this.drafText.setText(ProgramWorker.phenotypeString);
+	}
+	
+	private void beginasdf() {
+		runButton.setEnabled(false);
+		stopButton.setVisible(true);
+	}
+	
+	private void endadf() {
+		runButton.setEnabled(true);
+		stopButton.setVisible(false);
 	}
 }
