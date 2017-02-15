@@ -24,4 +24,9 @@ public enum NumberFunc implements Function {
 	public void setnOP(NumberOperator nOP) {
 		this.nOP = nOP;
 	}
+	
+	public String toString() {
+		return this.name() + " " + this.nOP.toString() + " " + this.number;
+	}
+	
 }
