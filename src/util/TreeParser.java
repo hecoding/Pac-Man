@@ -2,6 +2,7 @@ package util;
 
 import treeProgram.function.BooleanFunc;
 import treeProgram.function.NumberFunc;
+import treeProgram.function.NumberFuncWrapper;
 import treeProgram.function.TerminalFunc;
 import treeProgram.operator.NumberOperator;
 import treeProgram.Node;
@@ -85,9 +86,9 @@ public class TreeParser {
 			return bf;
 		
 		if (start+3 == end){
-			NumberFunc nf = getNumberFunc(str[start], str[start+1], str[start+2]);		//number-func
-			if (nf != null)
-				return nf;
+			NumberFuncWrapper wrapper = getWrapper(str[start], str[start+1], str[start+2]);		//number-func
+			if (wrapper != null)
+				return wrapper;
 		}
 		
 		System.err.println("condition unknown");
@@ -121,8 +122,9 @@ public class TreeParser {
 		return bf;
 	}
 	
-	static NumberFunc getNumberFunc(String nfStr, String opStr, String numStr){	
+	static NumberFuncWrapper getWrapper(String nfStr, String opStr, String numStr){	
 		
+		NumberFuncWrapper wr = null;
 		NumberFunc nf = null;
 		try {
 			 nf = NumberFunc.valueOf(nfStr);
@@ -132,11 +134,11 @@ public class TreeParser {
 		if (nf != null){
 			NumberOperator op = NumberOperator.stringToNumOperator(opStr);
 			int num = Integer.parseInt(numStr);
-			nf.setnOP(op);
-			nf.setNumber(num);
+			
+			wr = new NumberFuncWrapper(nf, num, op);
 		}
 		
-		return nf;
+		return wr;
 	}
 
 }

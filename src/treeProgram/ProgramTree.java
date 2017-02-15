@@ -1,6 +1,6 @@
 package treeProgram;
 
-import treeProgram.function.NumberFunc;
+import treeProgram.function.NumberFuncWrapper;
 import util.Tree;
 
 public class ProgramTree extends Tree<Node> {
@@ -31,8 +31,8 @@ public class ProgramTree extends Tree<Node> {
 		
 		stringVal += "if( ";
 		
-		if(val instanceof NumberFunc) {
-			NumberFunc realVal = (NumberFunc) val;
+		if(val instanceof NumberFuncWrapper) {
+			NumberFuncWrapper realVal = (NumberFuncWrapper) val;
 			stringVal += realVal.toString();
 		}
 		
