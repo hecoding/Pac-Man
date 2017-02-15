@@ -16,7 +16,7 @@ public class Main {
 		
 		/*
 		// para probar árboles
-		ProgramTree tree = TreeParser.toTree("if( distancia >= 1 ) { if( distancia >= 2 ) { comer } } else{ if( distancia >= 3 ) { comer } }");
+		ProgramTree tree = TreeParser.toTree("if( distancia LE 1 ) { if( distancia EQ 2 ) { comer } } else{ if( distancia GT 3 ) { comer } }");
 		System.out.println(tree);
 		*/
 		

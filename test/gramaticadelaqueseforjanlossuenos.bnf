@@ -26,6 +26,10 @@
                 | getTotalTime
 <number-operator> ::= ==
                     | !=
+                    | <
+                    | >
+                    | <=
+                    | >=
 <number> ::= 0
            | <nonzero-digit><digit-sequence>
 <digit-sequence> ::= 

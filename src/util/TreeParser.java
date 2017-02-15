@@ -132,7 +132,11 @@ public class TreeParser {
 		}
 		
 		if (nf != null){
-			NumberOperator op = NumberOperator.stringToNumOperator(opStr);
+			NumberOperator op = null;
+			try {
+				op = NumberOperator.valueOf(opStr);
+			} catch (IllegalArgumentException e) {
+			}
 			int num = Integer.parseInt(numStr);
 			
 			wr = new NumberFuncWrapper(nf, num, op);
