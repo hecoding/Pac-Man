@@ -5,20 +5,21 @@ import treeProgram.function.NumberFunc;
 import treeProgram.function.TerminalFunc;
 import treeProgram.operator.NumberOperator;
 import treeProgram.Node;
+import treeProgram.ProgramTree;
 
 public class TreeParser {
 
 	public TreeParser() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
-	public Tree<Node> toTree(String str) {
+	public static ProgramTree toTree(String str) {
 		return toTree(str.split(" "), 0);
 	}
 
-	Tree<Node> toTree(String[] strList, int currentPos) {
+	static ProgramTree toTree(String[] strList, int currentPos) {
 		
-		Tree<Node> tree = new Tree<Node>();
+		ProgramTree tree = new ProgramTree();
 		
 		String currentStr = strList[currentPos];
 		int closingBracketPos;
@@ -43,32 +44,13 @@ public class TreeParser {
 			}
 		}
 		
-		else if (!isTerminalFunc(tree, currentStr))		//intenta a�adir la funcion terminal
+		else if (!isTerminalFunc(tree, currentStr))		// try to add terminal function
 			System.out.println("unknown selection-statement");
-		
-		/*switch (currentStr) {
-				case "if(":		currentPos++;
-								int closingParentesisPos = findCloseParentesis(strList, currentPos);
-								TNode cond = parseCondition(strList, currentPos, closingParentesisPos);
-								tree.setValue(cond);
-								currentPos = closingParentesisPos+1;
-								closingBracketPos = findCloseBracketNumber(1, strList, currentPos+1);
-								tree.addChild(toTree(strList, currentPos+1, closingBracketPos));
-								break;
-				case "else{":	closingBracketPos = findCloseBracketNumber(1, strList, currentPos+1);
-								tree.addChild(toTree(strList, currentPos+1, closingBracketPos));
-								break;
-				case "}":		//continue
-								break;
-				default:	if (!isTerminalFunc(tree, currentStr))
-									//if(!isBooleanFunc(tree, currentStr))
-								break;
-		}*/
 		
 		return tree;		
 	}
 
-	int findCloseBracketNumber(int number, String[] str, int currentPos) {
+	static int findCloseBracketNumber(int number, String[] str, int currentPos) {
 		String currentStr = str[currentPos];
 		
 		if (currentStr.charAt(currentStr.length()-1) == '{')		//new opening bracket
@@ -85,7 +67,7 @@ public class TreeParser {
 		
 	}
 
-	int findCloseParentesis(String[] str, int currentPos) {
+	static int findCloseParentesis(String[] str, int currentPos) {
 		
 		for (int i = currentPos; i < str.length; i++){
 			if(str[i].charAt(0) == ')')
@@ -94,7 +76,7 @@ public class TreeParser {
 		return -1;
 	}
 
-	Node parseCondition(String[] str, int start, int end){	
+	static Node parseCondition(String[] str, int start, int end){	
 		//TODO: Add '!' (not)
 		//TODO: Add boolean operators
 
@@ -113,7 +95,7 @@ public class TreeParser {
 		
 	}
 
-	boolean isTerminalFunc(Tree<Node> tree, String str){
+	static boolean isTerminalFunc(ProgramTree tree, String str){
 			
 		TerminalFunc terminal = null;
 		try {
@@ -130,7 +112,7 @@ public class TreeParser {
 		
 	}
 
-	BooleanFunc getBooleanFunc(String str){	
+	static BooleanFunc getBooleanFunc(String str){	
 		BooleanFunc bf = null;
 		try {
 			bf = BooleanFunc.valueOf(str);
@@ -139,7 +121,7 @@ public class TreeParser {
 		return bf;
 	}
 	
-	NumberFunc getNumberFunc(String nfStr, String opStr, String numStr){	
+	static NumberFunc getNumberFunc(String nfStr, String opStr, String numStr){	
 		
 		NumberFunc nf = null;
 		try {
@@ -148,7 +130,7 @@ public class TreeParser {
 		}
 		
 		if (nf != null){
-			NumberOperator op = NumberOperator.stringtoNumOperator(opStr);
+			NumberOperator op = NumberOperator.stringToNumOperator(opStr);
 			int num = Integer.parseInt(numStr);
 			nf.setnOP(op);
 			nf.setNumber(num);

@@ -6,11 +6,11 @@ import java.util.Stack;
 import util.nodeGenerator.NodeGenerator;
 
 public class Tree<E> implements Cloneable {
-	private E value;
-	private Tree<E> parent;
-	private ArrayList<Tree<E>> children;
-	private int height;
-	private static final int defaultChildren = 2;
+	protected E value;
+	protected Tree<E> parent;
+	protected ArrayList<Tree<E>> children;
+	protected int height;
+	protected static final int defaultChildren = 2;
 	
 	/**
 	 * Empty tree with no children.
