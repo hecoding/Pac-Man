@@ -1,0 +1,36 @@
+<grammar> ::= <selection-statement>
+<selection-statement> ::= if( <condition> ){ <statement> }
+                        | if( <condition> ){ <statement> } else{ <statement> }
+<statement> ::= <terminal-func>
+              | <selection-statement>
+<terminal-func> ::= getApproximateNextMoveAwayFromTarget
+                  | getApproximateNextMoveTowardsTarget
+<condition> ::= <boolean-func>
+              | !<boolean-func>
+              | <boolean-func> <boolean-operator> <boolean-func>
+              | <number-func> <number-operator> <number>
+<boolean-func> ::= isDirectionTakeable
+                 | isGhostEdible
+                 | isJunction
+                 | isPillStillAvailable
+                 | isPowerPillStillAvailable
+                 | wasGhostEaten
+                 | wasPacManEaten
+                 | wasPillEaten
+                 | wasPowerPillEaten
+<boolean-operator> ::= and
+                     | or
+<number-func> ::= getShortestPathDistance
+                | getShortestPathDistance
+                | getTimeOfLastGlobalReversal
+                | getTotalTime
+<number-operator> ::= ==
+                    | !=
+<number> ::= 0
+           | <nonzero-digit><digit-sequence>
+<digit-sequence> ::= 
+                   | <digit>
+                   | <digit><digit-sequence>
+<digit> ::= 0
+          | <nonzero-digit>
+<nonzero-digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
