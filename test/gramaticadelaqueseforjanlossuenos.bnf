@@ -24,12 +24,12 @@
                 | getShortestPathDistance
                 | getTimeOfLastGlobalReversal
                 | getTotalTime
-<number-operator> ::= ==
-                    | !=
-                    | <
-                    | >
-                    | <=
-                    | >=
+<number-operator> ::= EQ
+                    | NE
+                    | LT
+                    | GT
+                    | LE
+                    | GE
 <number> ::= 0
            | <nonzero-digit><digit-sequence>
 <digit-sequence> ::= 
