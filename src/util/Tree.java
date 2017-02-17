@@ -92,6 +92,10 @@ public class Tree<E> implements Cloneable {
 		this.checkHeights(child);
 	}
 	
+	public int getNumChildren() {
+		return this.children.size();
+	}
+	
 	public int getHeight(){return this.height;}
 	
 	public int getNodes() {
