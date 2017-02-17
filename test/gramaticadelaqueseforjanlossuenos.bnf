@@ -1,29 +1,19 @@
 <grammar> ::= <selection-statement>
-<selection-statement> ::= if( <condition> ){ <statement> }
-                        | if( <condition> ){ <statement> } else{ <statement> }
+<selection-statement> ::= if(_<condition>_){_<statement>_}_else{_<statement>_}
 <statement> ::= <terminal-func>
               | <selection-statement>
-<terminal-func> ::= getApproximateNextMoveAwayFromTarget
-                  | getApproximateNextMoveTowardsTarget
+<terminal-func> ::= moveUp
+                  | moveDown
+                  | moveLeft
+                  | moveRight
+                  | moveNeutral
 <condition> ::= <boolean-func>
-              | !<boolean-func>
-              | <boolean-func> <boolean-operator> <boolean-func>
-              | <number-func> <number-operator> <number>
-<boolean-func> ::= isDirectionTakeable
-                 | isGhostEdible
-                 | isJunction
-                 | isPillStillAvailable
-                 | isPowerPillStillAvailable
-                 | wasGhostEaten
-                 | wasPacManEaten
-                 | wasPillEaten
-                 | wasPowerPillEaten
+              | <boolean-func>_<boolean-operator>_<boolean-func>
+              | <number-func>_<number-operator>_<number>
+<boolean-func> ::= isJunction
 <boolean-operator> ::= and
                      | or
-<number-func> ::= getShortestPathDistance
-                | getShortestPathDistance
-                | getTimeOfLastGlobalReversal
-                | getTotalTime
+<number-func> ::= getDistanceToClosestNonEdibleGhost
 <number-operator> ::= EQ
                     | NE
                     | LT

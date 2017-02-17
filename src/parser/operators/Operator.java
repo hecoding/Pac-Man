@@ -1,4 +1,4 @@
-package treeProgram.operator;
+package parser.operators;
 
 public interface Operator {
 

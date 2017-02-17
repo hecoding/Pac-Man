@@ -1,7 +1,7 @@
 package main;
 
-import treeProgram.ProgramTree;
-import util.TreeParser;
+import parser.TreeParser2;
+import parser.nodes.NicerTree;
 import view.gui.swing.GUIView;
 
 public class Main {
@@ -14,11 +14,13 @@ public class Main {
 		GUIView view = new GUIView();
 		
 		
-		/*
+		
 		// para probar árboles
-		ProgramTree tree = TreeParser.toTree("if( distancia LE 1 ) { if( distancia EQ 2 ) { comer } } else{ if( distancia GT 3 ) { comer } }");
-		System.out.println(tree);
-		*/
+		//NicerTree tree = TreeParser2.parseTree("if( distancia LE 1 ){ if( distancia EQ 2 ){ comer } } else{ if( distancia GT 3 ){ comer } }", null);
+	  	//NicerTree tree = TreeParser2.parseTree("if( distancia LE 1 and peligro or peligro ){ if( distancia EQ 2 ){ comer } } else{ if( distancia GT 3 ){ comer } }", null);
+	  	//System.out.println(tree);
+	  	//tree.executeAndGetMove();
+		
 		
 		/*
 		// para probar generación de gramáticas
