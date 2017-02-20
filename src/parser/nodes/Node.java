@@ -33,5 +33,6 @@ public abstract class Node {
 	}
 
 	public abstract Node execute(Game g);
+	public abstract String pretty(String tabs);
 
 }

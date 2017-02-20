@@ -14,10 +14,15 @@ public class Main {
 		
 		
 		// para probar árboles
-		//NicerTree tree = TreeParser2.parseTree("if( distancia LE 1 ){ if( distancia EQ 2 ){ comer } } else{ if( distancia GT 3 ){ comer } }", null);
-	  	//NicerTree tree = TreeParser2.parseTree("if( distancia LE 1 and peligro or peligro ){ if( distancia EQ 2 ){ comer } } else{ if( distancia GT 3 ){ comer } }", null);
-	  	//System.out.println(tree);
-	  	//tree.executeAndGetMove();
+		/*
+	  	String phenotypeEx = "if( getDistanceToClosestNonEdibleGhost GE 67 ){ if( ! isJunction and ! isJunction ){ moveDown } else{ moveRight } } else{ moveLeft }";
+	  	NicerTree tree = TreeParser.parseTree(TreeParser.toUgly(phenotypeEx), null);
+	  	System.out.println(phenotypeEx);
+	  	System.out.println(TreeParser.toUgly(tree.pretty()));
+	  	System.out.println();
+	  	System.out.println(tree.pretty());
+	  	tree.executeAndGetMove();
+	  	*/
 		
 		
 		/*

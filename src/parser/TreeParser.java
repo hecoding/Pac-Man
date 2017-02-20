@@ -56,6 +56,15 @@ public class TreeParser {
 
 		return node;
 	}
+	
+	public static String toUgly(String str){
+		
+		str = str.replaceAll("([ ]{3,})|(\t)|(\r)|(\n)", "");
+		str = str.replace(' ', '_');
+		str = str.replace("&&", "and");
+		str = str.replace("||", "or");
+		return str;
+	}
 
 	private static IfNode parseIfNode(List<String> list){
 

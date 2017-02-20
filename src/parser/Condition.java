@@ -63,10 +63,10 @@ public class Condition {
 		String str = "";
 		
 		if(isNegated)
-			str = str + " ! ";
+			str = str + "! ";
 		
 		if(condType == ConditionType.bool)
-			str = functionList.get(0).toString();
+			str = str + functionList.get(0).toString();
 		else if(condType == ConditionType.func_func)
 			str = str + functionList.get(0).toString() + " " + numberOp.toString() + " " + functionList.get(0).toString();
 		else if(condType == ConditionType.func_num)

@@ -49,9 +49,9 @@ public class IfNode extends Node {
 	}
 	
 	public String toString(){
-		String str = "if( " + conditionList.get(0);
+		String str = "if( " + conditionList.get(0).toString();
 		for (int i = 0; i < boolOpList.size(); i++)
-			str = str + boolOpList.get(i).toString() + conditionList.get(i+1);
+			str = str + boolOpList.get(i).toString() + conditionList.get(i+1).toString();
 		
 		str = str + " ){ ";
 		if(children.size() > 0)
@@ -59,6 +59,21 @@ public class IfNode extends Node {
 		str = str + " }";
 		if(children.size() > 1)
 			str = str + " else{ " + children.get(1).toString() + " }";
+		
+		return str;
+	}
+	
+	public String pretty(String tabs){
+		String str = tabs + "if( " + conditionList.get(0).toString();
+		for (int i = 0; i < boolOpList.size(); i++)
+			str = str + boolOpList.get(i).toString() + conditionList.get(i+1).toString();
+		
+		str = str + " ){ " + System.lineSeparator();
+		if(children.size() > 0)
+			str = str + children.get(0).pretty(tabs + "\t");
+		str = str + System.lineSeparator() + tabs + " }" + System.lineSeparator();
+		if(children.size() > 1)
+			str = str + tabs + "else{ " + System.lineSeparator() + children.get(1).pretty(tabs + "\t") + System.lineSeparator() + tabs + " }" ;
 		
 		return str;
 	}

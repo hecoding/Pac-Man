@@ -31,4 +31,8 @@ public class NicerTree {
 	public String toString(){
 		return root.toString();
 	}
+	
+	public String pretty(){
+		return root.pretty("");
+	}
 }

@@ -22,4 +22,8 @@ public class TerminalNode extends Node {
 	public String toString(){
 		return function.toString();
 	}
+	
+	public String pretty(String tabs){
+		return tabs + this.toString();
+	}
 }
