@@ -1,7 +1,5 @@
 package main;
 
-import parser.TreeParser2;
-import parser.nodes.NicerTree;
 import view.gui.swing.GUIView;
 
 public class Main {

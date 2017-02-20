@@ -1,29 +1,29 @@
 package parser.operators;
 
-public enum NumericOperator implements Operator {
+public enum NumericOperator {
 
 	EQ {
-		public boolean useOperator(int num1, int num2) {
+		public boolean operate(int num1, int num2) {
 			return num1 == num2;
 		}
 	}, NE {
-		public boolean useOperator(int num1, int num2) {
+		public boolean operate(int num1, int num2) {
 			return num1 != num2;
 		}
 	}, LT {
-		public boolean useOperator(int num1, int num2) {
+		public boolean operate(int num1, int num2) {
 			return num1 < num2;
 		}
 	}, GT {
-		public boolean useOperator(int num1, int num2) {
+		public boolean operate(int num1, int num2) {
 			return num1 > num2;
 		}
 	}, LE {
-		public boolean useOperator(int num1, int num2) {
+		public boolean operate(int num1, int num2) {
 			return num1 <= num2;
 		}
 	}, GE {
-		public boolean useOperator(int num1, int num2) {
+		public boolean operate(int num1, int num2) {
 			return num1 >= num2;
 		}
 	};
@@ -48,7 +48,7 @@ public enum NumericOperator implements Operator {
 		
 		return op;
 	}
-	
-	public abstract boolean useOperator(int num1, int num2);
-	
+		
+	public abstract boolean operate(int num1, int num2);
+
 }

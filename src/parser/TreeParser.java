@@ -15,24 +15,19 @@ import parser.nodes.Node;
 import parser.nodes.TerminalNode;
 import parser.operators.NumericOperator;
 
-public class TreeParser2 {
+public class TreeParser {
 	
-	TreeParser2(){
-		
-	}
 	
 	public static NicerTree parseTree(String str, Game game){
-			
-		TreeParser2 parser = new TreeParser2();
-		
+					
 		List<String> strList = new ArrayList<String>(Arrays.asList(str.split("_")));
-		Node root = parser.parseTree(strList, game);
+		Node root = parseTree(strList, game);
 
 		NicerTree tree = new NicerTree(root, game);		
 		return tree;
 	}
 	
-	private Node parseTree(List<String> strList, Game game){
+	private static Node parseTree(List<String> strList, Game game){
 		
 		Node node = null;
 		
@@ -62,7 +57,7 @@ public class TreeParser2 {
 		return node;
 	}
 
-	private IfNode parseIfNode(List<String> list){
+	private static IfNode parseIfNode(List<String> list){
 
 		ArrayList<BooleanOperator> bopl = new ArrayList<>();
 		ArrayList<Condition> cl = new ArrayList<>();
@@ -83,7 +78,7 @@ public class TreeParser2 {
 		return new IfNode(cl, bopl);
 	}
 	
-	private Condition parseCondition(List<String> strList){
+	private static Condition parseCondition(List<String> strList){
 		Condition cond = null;
 		if (strList.size() == 1 && isBooleanFunc(strList.get(0))){
 			cond = new Condition(getBooleanFunc(strList.get(0)));
@@ -112,11 +107,11 @@ public class TreeParser2 {
 		return cond;
 	}
 	
-	private boolean isBooleanOperator(String str) {
+	private static boolean isBooleanOperator(String str) {
 		return getBooleanOperator(str) != null;
 	}
 	
-	private BooleanOperator getBooleanOperator(String str) {	
+	private static BooleanOperator getBooleanOperator(String str) {	
 		BooleanOperator op = null;
 		try {
 			op = BooleanOperator.valueOf(str);
@@ -125,11 +120,11 @@ public class TreeParser2 {
 		return op;
 	}
 	
-	private boolean isNumericOperator(String str) {
+	private static boolean isNumericOperator(String str) {
 		return getNumericOperator(str) != null;
 	}
 	
-	private NumericOperator getNumericOperator(String str) {	
+	private static NumericOperator getNumericOperator(String str) {	
 		NumericOperator op = null;
 		try {
 			op = NumericOperator.valueOf(str);
@@ -138,11 +133,11 @@ public class TreeParser2 {
 		return op;
 	}
 	
-	private boolean isBooleanFunc(String str) {
+	private static boolean isBooleanFunc(String str) {
 		return getBooleanFunc(str) != null;
 	}
 	
-	private BooleanFunc getBooleanFunc(String str) {	
+	private static BooleanFunc getBooleanFunc(String str) {	
 		BooleanFunc bf = null;
 		try {
 			bf = BooleanFunc.valueOf(str);
@@ -151,11 +146,11 @@ public class TreeParser2 {
 		return bf;
 	}
 	
-	private boolean isNumericFunc(String str) {
+	private static boolean isNumericFunc(String str) {
 		return getNumericFunc(str) != null;
 	}
 	
-	private NumericFunc getNumericFunc(String str) {	
+	private static NumericFunc getNumericFunc(String str) {	
 		NumericFunc nf = null;
 		try {
 			nf = NumericFunc.valueOf(str);
@@ -164,11 +159,11 @@ public class TreeParser2 {
 		return nf;
 	}
 
-	private boolean isTerminalFunc(String str) {
+	private static boolean isTerminalFunc(String str) {
 		return getTerminalFunc(str) != null;
 	}
 	
-	private Action getTerminalFunc(String str) {	
+	private static Action getTerminalFunc(String str) {	
 		Action tf = null;
 		try {
 			tf = Action.valueOf(str);
@@ -177,28 +172,11 @@ public class TreeParser2 {
 		return tf;
 	}
 	
-	private int parseInt(String str){
+	private static int parseInt(String str){
 		return Integer.parseInt(str);
 	}
-	
-	private int findCloseBracketNumber(int number, String[] str, int currentPos) {
-		String currentStr = str[currentPos];
-		
-		if (currentStr.charAt(currentStr.length()-1) == '{')		//new opening bracket
-			return findCloseBracketNumber(number+1, str, currentPos+1);
-		else if (currentStr.charAt(0) == '}') {		//new closing bracket
-			number--;
-			if (number == 0)	//all brackets closed
-				return currentPos;
-			else		//more brackets to close
-				return findCloseBracketNumber(number, str, currentPos+1);
-		}
-		else		//more brackets to close
-			return findCloseBracketNumber(number, str, currentPos+1);
-		
-	}
 
-	private int findCloseBracketNumber(int number, List<String> list, int currentPos) {
+	private static int findCloseBracketNumber(int number, List<String> list, int currentPos) {
 		String currentStr = list.get(0);
 		
 		if (currentStr.charAt(currentStr.length()-1) == '{')		//new opening bracket
@@ -214,16 +192,7 @@ public class TreeParser2 {
 			return findCloseBracketNumber(number, list.subList(1, list.size()), currentPos+1);
 	}
 
-	private int findCloseParentesis(String[] str, int currentPos) {
-		
-		for (int i = currentPos; i < str.length; i++){
-			if(str[i].charAt(0) == ')')
-				return i;
-		}
-		return -1;
-	}
-
-	private int findCloseParentesis(List<String> subList) {
+	private static int findCloseParentesis(List<String> subList) {
 		for (int i = 0; i < subList.size(); i++) {
 			if(subList.get(i).charAt(0) == ')')
 				return i;

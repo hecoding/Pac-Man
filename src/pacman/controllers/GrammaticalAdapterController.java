@@ -1,13 +1,8 @@
 package pacman.controllers;
 
 import pacman.game.Game;
-import pacman.game.internal.Ghost;
-import parser.TreeParser2;
+import parser.TreeParser;
 import parser.nodes.NicerTree;
-
-import org.apache.commons.lang.StringUtils;
-
-import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;
 
 /*
@@ -22,7 +17,7 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	
 	public GrammaticalAdapterController(String fenotipo) {
 		this.fenotipoStr = fenotipo;
-		tree = TreeParser2.parseTree(fenotipo, null);
+		tree = TreeParser.parseTree(fenotipoStr, null);
 	}
 	
 	public void reset(){

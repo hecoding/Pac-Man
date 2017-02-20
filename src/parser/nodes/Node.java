@@ -1,18 +1,17 @@
 package parser.nodes;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 public abstract class Node {
+	
+	public static int DEFAULT_CHILDREN_NO = 2;
 	
 	protected ArrayList<Node> children;
 	protected Node parent;
 	
 	Node(){
-		children = new ArrayList<>();
+		children = new ArrayList<>(DEFAULT_CHILDREN_NO);
 		parent = null;
 	}
 
@@ -29,8 +28,8 @@ public abstract class Node {
 		return this.children;
 	}
 	
-	public ArrayList<Node> getParent(){
-		return this.children;
+	public Node getParent(){
+		return this.parent;
 	}
 
 	public abstract Node execute(Game g);

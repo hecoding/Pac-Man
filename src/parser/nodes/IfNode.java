@@ -26,11 +26,15 @@ public class IfNode extends Node {
 		boolean ev = this.evaluateIfNode(g);
 		if(ev)
 			return this.children.get(0).execute(g);
-		else if (!ev && this.children.size() > 1)
+		else if (!ev && hasElse())
 			return this.children.get(1).execute(g);
 		else {
 			return null;
 		}
+	}
+	
+	private boolean hasElse(){
+		return this.children.size() > 1;
 	}
 	
 	private boolean evaluateIfNode(Game g){
