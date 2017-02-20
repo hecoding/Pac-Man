@@ -62,26 +62,36 @@ public class TreeParser {
 		ArrayList<BooleanOperator> bopl = new ArrayList<>();
 		ArrayList<Condition> cl = new ArrayList<>();
 		
-		int nextCondToAdd = 0;
+		List<String> nextCondToAdd = new ArrayList<>();
 		
 		for (int i = 0; i < list.size(); i++) {
 			String current = list.get(i);
 			if(isBooleanOperator(current)){
 				bopl.add(getBooleanOperator(current));
-				cl.add(parseCondition(list.subList(nextCondToAdd, i)));
-				nextCondToAdd = i + 1;
+				cl.add(parseCondition(nextCondToAdd));
+				nextCondToAdd.clear();
+			}
+			else {
+				nextCondToAdd.add(current);
 			}
 		}
 		
-		cl.add(parseCondition(new ArrayList<>(list.subList(nextCondToAdd, list.size()))));	//adds the last Condition
+		cl.add(parseCondition(nextCondToAdd));	//adds the last Condition
 		
 		return new IfNode(cl, bopl);
 	}
 	
 	private static Condition parseCondition(List<String> strList){
 		Condition cond = null;
+		boolean isNegated = false;
+				
+		if(strList.get(0).equals("!")){
+			isNegated = true;
+			strList.remove(0);
+		}
+					
 		if (strList.size() == 1 && isBooleanFunc(strList.get(0))){
-			cond = new Condition(getBooleanFunc(strList.get(0)));
+			cond = new Condition(getBooleanFunc(strList.get(0)), isNegated);
 		}
 		else if (strList.size() == 3 && isNumericOperator(strList.get(1))) {	//type bool
 			String num1 = strList.get(0);
@@ -91,17 +101,17 @@ public class TreeParser {
 			if (isNumericFunc(num1) && isNumericFunc(num2)){					//type func_func
 				NumericFunc nf1 = getNumericFunc(num1);
 				NumericFunc nf2 = getNumericFunc(num2);
-				cond = new Condition(nf1, nf2, op);
+				cond = new Condition(nf1, nf2, op, isNegated);
 			}
 			else if (isNumericFunc(num1)){										//type func_num
 				NumericFunc nf = getNumericFunc(num1);
 				int number = parseInt(num2);
-				cond = new Condition(nf, number, op);
+				cond = new Condition(nf, number, op, isNegated);
 			}
 			else if (isNumericFunc(num2)){										//type num_func
 				NumericFunc nf = getNumericFunc(num2);
 				int number = parseInt(num1);
-				cond = new Condition(number, nf, op);
+				cond = new Condition(number, nf, op, isNegated);
 			}
 		}
 		return cond;

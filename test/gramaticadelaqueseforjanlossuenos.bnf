@@ -8,7 +8,11 @@
                   | moveRight
                   | moveNeutral
 <condition> ::= <boolean-func>
+              | !_<boolean-func>
               | <boolean-func>_<boolean-operator>_<boolean-func>
+              | !_<boolean-func>_<boolean-operator>_<boolean-func>
+              | <boolean-func>_<boolean-operator>_!_<boolean-func>
+              | !_<boolean-func>_<boolean-operator>_!_<boolean-func>
               | <number-func>_<number-operator>_<number>
 <boolean-func> ::= isJunction
 <boolean-operator> ::= and
