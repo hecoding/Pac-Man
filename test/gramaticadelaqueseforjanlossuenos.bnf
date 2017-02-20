@@ -21,10 +21,11 @@
                     | LE
                     | GE
 <number> ::= 0
-           | <nonzero-digit><digit-sequence>
-<digit-sequence> ::= 
-                   | <digit>
-                   | <digit><digit-sequence>
-<digit> ::= 0
-          | <nonzero-digit>
+           | <nonzero-digit>
+           | <nonzero-digit><digit>
+           | <nonzero-digit><digit><digit>
+           | <nonzero-digit><digit><digit><digit>
+           
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
 <nonzero-digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
