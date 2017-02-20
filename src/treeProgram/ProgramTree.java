@@ -6,8 +6,9 @@ import pacman.game.Game;
 import treeProgram.function.BooleanFunc;
 import treeProgram.function.Function;
 import treeProgram.function.NumberFunc;
+import treeProgram.function.NumberFuncWrapper;
+import treeProgram.function.TerminalFunc;
 import treeProgram.operator.NumberOperator;
-import treeProgram.wrapper.NumberFuncWrapper;
 import util.Tree;
 
 public class ProgramTree extends Tree<Node> {
@@ -19,7 +20,7 @@ public class ProgramTree extends Tree<Node> {
 	private static MOVE executeRecursive(ProgramTree program, Game game) {
 		Node currentVal = program.getValue();
 		
-		if(!(currentVal instanceof Terminal)) {
+		if(!(currentVal instanceof TerminalFunc)) {
 			// functions
 			Function currentFunc = (Function) currentVal;
 			
@@ -35,7 +36,7 @@ public class ProgramTree extends Tree<Node> {
 		}
 		else {
 			// terminals
-			if(currentVal == Terminal.comer) {
+			if(currentVal == TerminalFunc.comer) {
 				int pacmanPos = game.getPacmanCurrentNodeIndex();
 				int closestGhostPos = game.getClosestNonEdibleGhost(pacmanPos).currentNodeIndex;
 				

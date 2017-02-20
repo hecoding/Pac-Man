@@ -1,5 +1,7 @@
 package main;
 
+import treeProgram.ProgramTree;
+import util.TreeParser;
 import view.gui.swing.GUIView;
 
 public class Main {

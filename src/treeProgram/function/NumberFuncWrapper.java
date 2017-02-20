@@ -1,7 +1,5 @@
-package treeProgram.wrapper;
+package treeProgram.function;
 
-import treeProgram.function.Function;
-import treeProgram.function.NumberFunc;
 import treeProgram.operator.NumberOperator;
 
 public class NumberFuncWrapper implements Function {

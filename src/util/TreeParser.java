@@ -2,11 +2,11 @@ package util;
 
 import treeProgram.function.BooleanFunc;
 import treeProgram.function.NumberFunc;
+import treeProgram.function.NumberFuncWrapper;
+import treeProgram.function.TerminalFunc;
 import treeProgram.operator.NumberOperator;
-import treeProgram.wrapper.NumberFuncWrapper;
 import treeProgram.Node;
 import treeProgram.ProgramTree;
-import treeProgram.Terminal;
 
 public class TreeParser {
 
@@ -98,9 +98,9 @@ public class TreeParser {
 
 	static boolean isTerminalFunc(ProgramTree tree, String str){
 			
-		Terminal terminal = null;
+		TerminalFunc terminal = null;
 		try {
-			terminal = Terminal.valueOf(str);
+			terminal = TerminalFunc.valueOf(str);
 		} catch (IllegalArgumentException e) {
 		}
 
