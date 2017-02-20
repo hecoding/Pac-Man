@@ -1895,4 +1895,70 @@ public final class Game
 
 		return caches[mazeIndex].getPathDistanceFromA2B(fromNodeIndex,toNodeIndex,lastMoveMade);
 	}	
+	
+	/** UNTESTED
+	 * Returns the distance to the closest powerpill in a given direction
+	 */
+	public int getDistToClosestPowerPill(int pacmanNode, MOVE direction){
+		int dist;
+		int mindist=Integer.MAX_VALUE;
+		
+		if(currentMaze.graph[pacmanNode].neighbourhood.size()==0)//lair
+			return 0;
+		
+		int [] PPIndices = getPowerPillIndices();
+		
+		for(int i = 0; i < PPIndices.length; i++){
+			if(isPowerPillStillAvailable(PPIndices[i])){
+				dist = getShortestPathDistance(pacmanNode, PPIndices[i], direction);
+				if (dist < mindist)
+					mindist = dist;
+			}
+		}
+		
+		return mindist;
+	}
+	
+	/** UNTESTED
+	 * Returns the distance to the closest pill in a given direction
+	 */
+	public int getDistToClosestPill(int pacmanNode, MOVE direction){
+		int dist;
+		int mindist=Integer.MAX_VALUE;
+		
+		if(currentMaze.graph[pacmanNode].neighbourhood.size()==0)//lair
+			return 0;
+		
+		int [] PIndices = getPillIndices();
+		
+		for(int i = 0; i < PIndices.length; i++){
+			if(isPillStillAvailable(PIndices[i])){
+				dist = getShortestPathDistance(pacmanNode, PIndices[i], direction);
+				if (dist < mindist)
+					mindist = dist;
+			}
+		}
+		
+		return mindist;
+	}
+	
+	/** UNTESTED
+	 * Returns true/false depending if a movement is possible in a given direction
+	 */
+	public boolean isDirectionTakeable(int pacmanNode, MOVE direction){
+		boolean ret = false;
+		MOVE [] movs = getPossibleMoves(pacmanNode);
+		for(int i = 0; i < movs.length; i++){
+			if(direction == movs[i]){
+				ret = true;
+				break;
+			}
+		}
+		return ret;
+	}
+	
+	/** UNTESTED
+	 * 
+	 */
+	
 }
