@@ -1899,7 +1899,7 @@ public final class Game
 	/** UNTESTED
 	 * Returns the distance to the closest powerpill in a given direction
 	 */
-	public int getDistToClosestPowerPill(int pacmanNode, MOVE direction){
+	public int getDistToClosestPowerPill4d(int pacmanNode, MOVE direction){
 		int dist;
 		int mindist=Integer.MAX_VALUE;
 		
@@ -1920,9 +1920,35 @@ public final class Game
 	}
 	
 	/** UNTESTED
+	 * Returns the distance to the closest powerpill in any direction
+	 */
+	public int getDistToClosestPowerPill(int pacmanNode){
+		int mindist=Integer.MAX_VALUE;
+		
+		if(currentMaze.graph[pacmanNode].neighbourhood.size()==0)//lair
+			return 0;
+		
+		int down = getDistToClosestPowerPill4d(pacmanNode, MOVE.DOWN);
+		int up = getDistToClosestPowerPill4d(pacmanNode, MOVE.UP);
+		int left = getDistToClosestPowerPill4d(pacmanNode, MOVE.LEFT);
+		int right = getDistToClosestPowerPill4d(pacmanNode, MOVE.RIGHT);
+		
+		if(down < mindist)
+			mindist = down;
+		if(up < mindist)
+			mindist = up;
+		if(left < mindist)
+			mindist = left;
+		if(right < mindist)
+			mindist = right;
+		
+		return mindist;
+	}
+	
+	/** UNTESTED
 	 * Returns the distance to the closest pill in a given direction
 	 */
-	public int getDistToClosestPill(int pacmanNode, MOVE direction){
+	public int getDistToClosestPill4d(int pacmanNode, MOVE direction){
 		int dist;
 		int mindist=Integer.MAX_VALUE;
 		
@@ -1943,6 +1969,44 @@ public final class Game
 	}
 	
 	/** UNTESTED
+	 * Returns the distance to the closest pill in any direction
+	 */
+	public int getDistToClosestPill(int pacmanNode){
+		int mindist=Integer.MAX_VALUE;
+		
+		if(currentMaze.graph[pacmanNode].neighbourhood.size()==0)//lair
+			return 0;
+		
+		int down = getDistToClosestPill4d(pacmanNode, MOVE.DOWN);
+		int up = getDistToClosestPill4d(pacmanNode, MOVE.UP);
+		int left = getDistToClosestPill4d(pacmanNode, MOVE.LEFT);
+		int right = getDistToClosestPill4d(pacmanNode, MOVE.RIGHT);
+		
+		if(down < mindist)
+			mindist = down;
+		if(up < mindist)
+			mindist = up;
+		if(left < mindist)
+			mindist = left;
+		if(right < mindist)
+			mindist = right;
+		
+		return mindist;
+	}
+	
+	/** UNTESTED
+	 * Returns the direction towards the closest edible ghost (NEUTRAL if no edible ghosts avaiable)
+	 */
+	public MOVE getDirectionTowardsClosestEdibleGhost(int pacmanNode){
+		MOVE ret = MOVE.NEUTRAL;
+		Ghost g = getClosestEdibleGhost(pacmanNode);
+		if (g != null)
+			ret = getNextMoveTowardsTarget(pacmanNode, g.currentNodeIndex, DM.PATH);
+		
+		return ret;
+	}
+	
+	/** UNTESTED
 	 * Returns true/false depending if a movement is possible in a given direction
 	 */
 	public boolean isDirectionTakeable(int pacmanNode, MOVE direction){
@@ -1958,7 +2022,39 @@ public final class Game
 	}
 	
 	/** UNTESTED
-	 * 
+	 * Returns the movement opposed to the direction of the closest non edible ghost
 	 */
+	public MOVE getDirectionAwayFromClosestNonEdibleGhost(int pacmanNode){
+		MOVE ret = MOVE.NEUTRAL;
+		Ghost g = getClosestNonEdibleGhost(pacmanNode);
+		if (g != null)
+			ret = getNextMoveAwayFromTarget(pacmanNode, g.currentNodeIndex, DM.PATH);
+		
+		return ret;
+	}
+	
+	/** UNTESTED
+	 * Returns the movement towards the closest PowerPill
+	 */
+	public MOVE getDirectionTowardsClosestPowerPill(int pacmanNode){
+		MOVE ret = MOVE.NEUTRAL;
+		int cpp = getClosestPowerPill(pacmanNode);
+		if (cpp != -1) 
+			ret = getNextMoveTowardsTarget(pacmanNode, cpp, DM.PATH);
+		
+		return ret;
+	}
+	
+	/** UNTESTED
+	 * Returns the movement towards the closest Pill
+	 */
+	public MOVE getDirectionTowardsClosestPill(int pacmanNode){
+		MOVE ret = MOVE.NEUTRAL;
+		int cpp = getClosestPill(pacmanNode);
+		if (cpp != -1) 
+			ret = getNextMoveTowardsTarget(pacmanNode, cpp, DM.PATH);
+		
+		return ret;
+	}
 	
 }
