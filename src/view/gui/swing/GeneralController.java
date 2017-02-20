@@ -40,7 +40,7 @@ public class GeneralController {
 	
 	public void execute() {
 		// First create the problem
-		problem = new PacmanGrammaticalEvolution("test/pacman.bnf",
+		problem = new PacmanGrammaticalEvolution("test/gramaticadelaqueseforjanlossuenos.bnf",
 				populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual,
 				this.numOfObjectives, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
 				);
