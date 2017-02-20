@@ -27,7 +27,8 @@ public class GeneralController {
 	double mutationProb = 0.02;
   	double crossProb = 0.6;
   	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
-  	int iterPerIndividual = 3;// = 10; // games ran per evaluation
+
+	int iterPerIndividual = 3;// = 10; // games ran per evaluation
   	
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
@@ -58,7 +59,7 @@ public class GeneralController {
 		// Set multithreading
 		int avalaibleThreads = Runtime.getRuntime().availableProcessors();
 		algorithmWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
-		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker);
+		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker, this);
 		
 		programWorker.execute();
 	}
@@ -104,6 +105,14 @@ public class GeneralController {
 	
 	public int getCodonUpperBound() {
 		return this.codonUpperBound;
+	}
+	
+  	public FitnessEvaluatorInterface getFitnessFunc() {
+		return fitnessFunc;
+	}
+
+	public void setFitnessFunc(FitnessEvaluatorInterface fitnessFunc) {
+		this.fitnessFunc = fitnessFunc;
 	}
 	
 	public void setCodonUpperBound(int upperBound) {

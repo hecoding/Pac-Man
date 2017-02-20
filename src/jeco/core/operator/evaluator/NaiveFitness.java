@@ -16,4 +16,8 @@ public class NaiveFitness implements FitnessEvaluatorInterface {
 		return 100000 - fitness;
 	}
 
+	public String getNombre() {
+		return "Naive Fitness";
+	}
+
 }
