@@ -140,7 +140,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		tabs.addTab("Log", logPanel);
 		
 		// Game tab
-		gp = new GamePanel();
+		gp = new GamePanel(this.gCtrl);
 		tabs.addTab("Game", gp);
 		
 		tabs.setMnemonicAt(0, KeyEvent.VK_1);
@@ -186,7 +186,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 				
 				updateGraphPanel();
 				
-				programText.setText(gCtrl.getBestProgram());
+				programText.setText(gCtrl.getBestProgramPretty());
 				/*if(ctrl.isFinished()) {
 					updateMapPanel();
 					updateGraphPanel();

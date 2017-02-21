@@ -12,6 +12,9 @@ import jeco.core.operator.evaluator.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
+import pacman.game.Game;
+import parser.TreeParser;
+import parser.nodes.NicerTree;
 
 public class GeneralController {
 	static ProgramWorker programWorker;
@@ -173,6 +176,17 @@ public class GeneralController {
 	
 	public String getBestProgram() {
 		return ProgramWorker.phenotypeString;
+	}
+	
+	public String getBestProgramPretty() {
+		NicerTree tree = TreeParser.parseTree(this.getBestProgram(), new Game(0));
+		
+		return tree.pretty();
+	}
+	
+	public String getCleanProgram(String s) {
+		
+		return TreeParser.clean(s);
 	}
 	
 	public Logger getLogger() {

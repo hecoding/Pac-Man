@@ -21,6 +21,7 @@ import pacman.game.GameView;
 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	GeneralController ctrl;
 	TVThread thread;
 	Game game;
 	GameView gv;
@@ -33,7 +34,9 @@ public class GamePanel extends JPanel {
 	JPanel TV;
 	JPanel buttonPanel;
 	
-	public GamePanel() {
+	public GamePanel(GeneralController ctrl) {
+		this.ctrl = ctrl;
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				initGUI();
@@ -76,7 +79,7 @@ public class GamePanel extends JPanel {
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				thread.switchOffTV();
-				endadf();
+				endDraftExecution();
 			}
 		});
 		gc.gridy++;
@@ -118,9 +121,10 @@ public class GamePanel extends JPanel {
         		else
         			resetGame();
         		
-        		beginasdf();
-        		CustomExecutor.runGameView(new GrammaticalAdapterController(drafText.getText()), new StarterGhosts(), game, gv, 19, stopIt);
-        		endadf();
+        		String prog = ctrl.getCleanProgram(drafText.getText());
+        		beginDraftExecution();
+        		CustomExecutor.runGameView(new GrammaticalAdapterController(prog), new StarterGhosts(), game, gv, 19, stopIt);
+        		endDraftExecution();
         	}
         }
         
@@ -147,15 +151,15 @@ public class GamePanel extends JPanel {
 		if(ProgramWorker.phenotypeString == null || ProgramWorker.phenotypeString.isEmpty())
 			this.drafText.setText(NO_PROGRAM);
 		else
-			this.drafText.setText(ProgramWorker.phenotypeString);
+			this.drafText.setText(ctrl.getBestProgramPretty());
 	}
 	
-	private void beginasdf() {
+	private void beginDraftExecution() {
 		runButton.setEnabled(false);
 		stopButton.setVisible(true);
 	}
 	
-	private void endadf() {
+	private void endDraftExecution() {
 		runButton.setEnabled(true);
 		stopButton.setVisible(false);
 	}
