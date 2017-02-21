@@ -6,6 +6,6 @@ public interface FitnessEvaluatorInterface {
 	
 	public double evaluate(ArrayList<Double> params);
 
-	public String getNombre();
+	public String getName();
 	
 }

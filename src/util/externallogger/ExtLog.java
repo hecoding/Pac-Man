@@ -1,24 +1,24 @@
-package jeco.core.util.externallogger;
+package util.externallogger;
 
 public class ExtLog { 
 
 	private double mutationProb	= -1;
 	private double crossProb = -1;
-	private int tamPob = -1;
-	private int numIteraciones = -1;
-	private int iteracionesPorIndividuo = -1;
+	private int popSize = -1;
+	private int numOfIter = -1;
+	private int iterPerIndiv = -1;
 	private String fitnessFunc = null;
 	private double fitness = -1;
 	private double averagePoints = -1;
 	private String phenotype = null;
 	private double execTime = -1;
 	
-	public ExtLog (double mP, double cP, int tP, int nI, int iPI, String fF, double f, double aP, String p, double eT){
+	public ExtLog (double mP, double cP, int tP, int nI, int iPI, String fF, double f, double aP, String p, double eT) {
 		this.mutationProb = mP;
 		this.crossProb = cP;
-		this.tamPob = tP;
-		this.numIteraciones = nI;
-		this.iteracionesPorIndividuo = iPI;
+		this.popSize = tP;
+		this.numOfIter = nI;
+		this.iterPerIndiv = iPI;
 		this.fitnessFunc = fF;
 		this.fitness = f;
 		this.averagePoints = aP;
@@ -35,15 +35,15 @@ public class ExtLog {
 	}
 
 	public int getTamPob() {
-		return tamPob;
+		return popSize;
 	}
 
 	public int getNumIteraciones() {
-		return numIteraciones;
+		return numOfIter;
 	}
 
 	public int getIteracionesPorIndividuo() {
-		return iteracionesPorIndividuo;
+		return iterPerIndiv;
 	}
 
 	public String getFitnessFunc() {

@@ -77,38 +77,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   	}
 
 	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, FitnessEvaluatorInterface fitnessFunc, int iterPerIndividual) {
-		super(pathToBnf);
-		
-		this.populationSize = maxPopulationSize;
-		this.generations = maxGenerations;
-		this.mutationProb = probMutation;
-		this.crossProb = probCrossover;
-		this.fitnessFunc = fitnessFunc;
-		this.iterPerIndividual = iterPerIndividual;
-		
-		// Create log
-		if(writer == null) {
-		  	File dir = new File("logs");
-		  	dir.mkdir();
-		  	
-		  	try {
-		  	    Files.delete(path);
-		  	} catch (NoSuchFileException x) {
-		  	    //System.err.format("%s: no such" + " file or directory%n", path);
-		  	} catch (DirectoryNotEmptyException x) {
-		  	    System.err.format("%s not empty%n", path);
-		  	} catch (IOException x) {
-		  	    // File permission problems are caught here.
-		  	    System.err.println(x);
-		  	}
-		  	
-		  	try {
-				writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8);
-			} catch (IOException e) {
-				System.err.println("Error opening the log.");
-				e.printStackTrace();
-			}
-		}
+		this(pathToBnf, maxPopulationSize, maxGenerations, probMutation, probCrossover, fitnessFunc, iterPerIndividual, NUM_OF_OBJECTIVES_DEFAULT, CHROMOSOME_LENGTH_DEFAULT, MAX_CNT_WRAPPINGS_DEFAULT, CODON_UPPER_BOUND_DEFAULT);
 	}
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
