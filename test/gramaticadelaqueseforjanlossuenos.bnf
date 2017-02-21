@@ -8,13 +8,11 @@
                   | moveRight
                   | moveNeutral
 <condition> ::= <boolean-func>
-              | !_<boolean-func>
               | <boolean-func>_<boolean-operator>_<boolean-func>
-              | !_<boolean-func>_<boolean-operator>_<boolean-func>
-              | <boolean-func>_<boolean-operator>_!_<boolean-func>
-              | !_<boolean-func>_<boolean-operator>_!_<boolean-func>
               | <number-func>_<number-operator>_<number>
-<boolean-func> ::= isJunction
+<boolean-func> ::= <boolean-api>
+                 | _!_<boolean-api>
+<boolean-api> ::= isJunction
 <boolean-operator> ::= and
                      | or
 <number-func> ::= getDistanceToClosestNonEdibleGhost
