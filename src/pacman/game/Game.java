@@ -1135,6 +1135,50 @@ public final class Game
 	}
 	
 	/**
+	 * Distance to the nearest non-edible ghost.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if the ghosts are still in the lair
+	 */
+	public int getDistanceToClosestEdibleGhost(int fromIndex) {
+		int minDistance = Integer.MAX_VALUE;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (ghost.isEdible() && !ghost.isInLair()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
+			}
+		}
+
+		return minDistance;
+	}
+	
+	/**
+	 * Returns the distance to the nearest non-edible ghost not considering distances from directions opposing the last move made.
+	 * 
+	 * @param fromIndex current pacman location
+	 * @return Ghost or null if the ghosts are still in the lair
+	 */
+	public int getDistanceToClosestEdibleGhost(int fromIndex, MOVE lastMoveMade) {
+		int minDistance = Integer.MAX_VALUE;
+
+		for (Ghost ghost : this.ghosts.values()) {
+			if (ghost.isEdible() && !ghost.isInLair()) {
+				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex, lastMoveMade);
+
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
+			}
+		}
+
+		return minDistance;
+	}
+	
+	/**
 	 * Find the nearest ghost, edible or not.
 	 * 
 	 * @param fromIndex current pacman location
@@ -2055,6 +2099,162 @@ public final class Game
 			ret = getNextMoveTowardsTarget(pacmanNode, cpp, DM.PATH);
 		
 		return ret;
+	}
+	
+	/** UNTESTED
+	 * Returns the index of the closest junction to the Pacman
+	 */
+	public int getClosestJunction(int pacmanLocation, MOVE lastMoveMade)
+	{
+		int[] junctionIndices = getJunctionIndices();
+		
+		int minJunctionIndex = junctionIndices[0];
+		int minDistance = getShortestPathDistance(pacmanLocation, minJunctionIndex, lastMoveMade);
+		for(int i = 1; i < junctionIndices.length; i++)
+		{
+			int junctionDist = getShortestPathDistance(pacmanLocation, junctionIndices[i], lastMoveMade);
+			if(junctionDist < minDistance)
+			{
+				minJunctionIndex = junctionIndices[i];
+				minDistance = junctionDist;
+			}
+		}
+		
+		return minJunctionIndex;
+	}
+	
+	/** UNTESTED
+	 * Returns the number of exits of the closest junction to Pacman
+	 */
+	public int getClosestJunctionExitsNumber(int pacmanLocation, MOVE lastMoveMade)
+	{
+		int closestJunctionIndex = getClosestJunction(pacmanLocation, lastMoveMade);
+		
+		return currentMaze.graph[closestJunctionIndex].numNeighbouringNodes;
+	}
+	
+	/** UNTESTED
+	 * Returns the distance of Pacman to the closest intersection
+	 * Same as getClosestJunction() function but returning the distance
+	 */
+	public int getDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
+	{
+		int[] junctionIndices = getJunctionIndices();
+		
+		int minJunctionIndex = junctionIndices[0];
+		int minDistance = getShortestPathDistance(pacmanLocation, minJunctionIndex, lastMoveMade);
+		for(int i = 1; i < junctionIndices.length; i++)
+		{
+			int junctionDist = getShortestPathDistance(pacmanLocation, junctionIndices[i], lastMoveMade);
+			if(junctionDist < minDistance)
+			{
+				minJunctionIndex = junctionIndices[i];
+				minDistance = junctionDist;
+			}
+		}
+		
+		return minDistance;
+	}
+	
+	/** UNTESTED
+	 * Returns the distance of the closest non-edible ghost to the closest junction to Pacman
+	 */
+	public int getClosestNonEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
+	{
+		int junctionIndex = getClosestJunction(pacmanLocation, lastMoveMade);
+		
+		int minDistance = Integer.MAX_VALUE;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				int distance = this.getShortestPathDistance(junctionIndex, ghost.currentNodeIndex);
+	
+				if (distance < minDistance)
+				{
+					minDistance = distance;
+				}
+			}
+		}
+		
+		return minDistance;
+	}
+	
+	/** UNTESTED
+	 * Returns the distance of the closest edible ghost to the closest junction to Pacman
+	 */
+	public int getClosestEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
+	{
+		int junctionIndex = getClosestJunction(pacmanLocation, lastMoveMade);
+		
+		int minDistance = Integer.MAX_VALUE;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			//No need to check if the ghost is in lair as its edible
+			if (ghost.isEdible())
+			{
+				int distance = this.getShortestPathDistance(junctionIndex, ghost.currentNodeIndex);
+	
+				if (distance < minDistance)
+				{
+					minDistance = distance;
+				}
+			}
+		}
+		
+		return minDistance;
+	}
+	
+	/** UNTESTED
+	 * Returns the geometric mean of the distance between Pacman and all the non-edible ghosts
+	 * Ghosts in the lair are also taken into account
+	 */
+	public int getGeometricMeanDistanceToNonEdibleGhosts(int pacmanLocation)
+	{
+		double productOfDistances = 1.0f;
+		
+		int number = 0;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				productOfDistances *= this.getShortestPathDistance(pacmanLocation, ghost.currentNodeIndex);
+				number++;
+			}
+		}
+		
+		if (number == 0)			//if no ghosts
+			return Integer.MAX_VALUE;
+		
+
+		Double result = Math.pow(productOfDistances, 1/number); //counting only edible and out of lair ghosts
+		
+		return result.intValue();
+	}
+	
+	/** UNTESTED
+	 * Returns the geometric mean of the Pacman distance to all the edible ghosts
+	 */
+	public int getGeometricMeanDistanceToEdibleGhosts(int pacmanLocation)
+	{
+		double productOfDistances = 1.0f;
+		
+		int number = 0;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (ghost.isEdible() && !ghost.isInLair())
+			{
+				productOfDistances *= this.getShortestPathDistance(pacmanLocation, ghost.currentNodeIndex);
+				number++;
+			}
+		}
+		
+		if (number == 0)			//if no ghosts
+			return Integer.MAX_VALUE;
+		
+		Double result = Math.pow(productOfDistances, 1/number); //counting only edible and out of lair ghosts
+		
+		return result.intValue();
 	}
 	
 }

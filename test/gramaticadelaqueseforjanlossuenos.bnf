@@ -7,6 +7,7 @@
                   | getDirectionAwayFromClosestNonEdibleGhost
                   | getDirectionTowardsClosestEdibleGhost
                   | getDirectionTowardsClosestPowerPill
+				  | <simpleMoves>
 <condition> ::= <boolean-func>
               | <boolean-func>_<boolean-operator>_<boolean-func>
               | <number-func>_<number-operator>_<number>
@@ -16,9 +17,43 @@
 <boolean-operator> ::= and
                      | or
 <number-func> ::= getDistanceToClosestNonEdibleGhost
+                | getDistanceToClosestNonEdibleGhostUp
+                | getDistanceToClosestNonEdibleGhostDown
+                | getDistanceToClosestNonEdibleGhostLeft
+                | getDistanceToClosestNonEdibleGhostRight
+                | getDistanceToClosestEdibleGhost
+                | getDistanceToClosestEdibleGhostUp
+                | getDistanceToClosestEdibleGhostDown
+                | getDistanceToClosestEdibleGhostLeft
+                | getDistanceToClosestEdibleGhostRight
+                | getNumberOfActivePowerPills
+                | getDistToClosestPillUp
+                | getDistToClosestPillDown
+                | getDistToClosestPillLeft
+                | getDistToClosestPillRight
                 | getDistToClosestPill
                 | getDistToClosestPowerPill
-                | getNumberOfActivePowerPills
+                | getDistToClosestPowerPillUp
+                | getDistToClosestPowerPillDown
+                | getDistToClosestPowerPillLeft
+                | getDistToClosestPowerPillRight
+                | getClosestJunctionExitsNumberUp
+                | getClosestJunctionExitsNumberDown
+                | getClosestJunctionExitsNumberLeft
+                | getClosestJunctionExitsNumberRight
+                | getDistanceToClosestJunctionUp
+                | getDistanceToClosestJunctionDown
+                | getDistanceToClosestJunctionLeft
+                | getDistanceToClosestJunctionRight
+                | getClosestNonEdibleGhostDistanceToClosestJunctionUp
+                | getClosestNonEdibleGhostDistanceToClosestJunctionDown
+                | getClosestNonEdibleGhostDistanceToClosestJunctionLeft
+                | getClosestNonEdibleGhostDistanceToClosestJunctionRight
+                | getClosestEdibleGhostDistanceToClosestJunctionUp
+                | getClosestEdibleGhostDistanceToClosestJunctionDown
+                | getClosestEdibleGhostDistanceToClosestJunctionLeft
+                | getGeometricMeanDistanceToNonEdibleGhosts
+                | getGeometricMeanDistanceToEdibleGhosts
 <number-operator> ::= EQ
                     | NE
                     | LT
