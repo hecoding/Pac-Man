@@ -52,6 +52,7 @@
                 | getClosestEdibleGhostDistanceToClosestJunctionUp
                 | getClosestEdibleGhostDistanceToClosestJunctionDown
                 | getClosestEdibleGhostDistanceToClosestJunctionLeft
+                | getClosestEdibleGhostDistanceToClosestJunctionRight
                 | getGeometricMeanDistanceToNonEdibleGhosts
                 | getGeometricMeanDistanceToEdibleGhosts
 <number-operator> ::= EQ

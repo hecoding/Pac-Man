@@ -284,6 +284,14 @@ public enum NumericFunc implements Function{
 			return "getClosestEdibleGhostDistanceToClosestJunctionLeft";
 		}
 	},
+	getClosestEdibleGhostDistanceToClosestJunctionRight {
+		public Object executeFunction(Game game) {
+			return game.getClosestEdibleGhostDistanceToClosestJunction(game.getPacmanCurrentNodeIndex(), MOVE.RIGHT);
+		}
+		public String toString() {
+			return "getClosestEdibleGhostDistanceToClosestJunctionRight";
+		}
+	},
 	getGeometricMeanDistanceToNonEdibleGhosts {
 		public Object executeFunction(Game game) {
 			return game.getGeometricMeanDistanceToNonEdibleGhosts(game.getPacmanCurrentNodeIndex());
