@@ -2057,4 +2057,149 @@ public final class Game
 		return ret;
 	}
 	
+	/** UNTESTED
+	 * Returns the index of the closest junction to the Pacman
+	 */
+	public int getClosestJunction(int pacmanLocation, MOVE lastPacmanMove)
+	{
+		int[] junctionIndices = getJunctionIndices();
+		
+		int minJunctionIndex = junctionIndices[0];
+		int minDistance = getShortestPathDistance(pacmanLocation, minJunctionIndex, lastPacmanMove);
+		for(int i = 1; i < junctionIndices.length; i++)
+		{
+			int junctionDist = getShortestPathDistance(pacmanLocation, junctionIndices[i], lastPacmanMove);
+			if(junctionDist < minDistance)
+			{
+				minJunctionIndex = junctionIndices[i];
+				minDistance = junctionDist;
+			}
+		}
+		
+		return minJunctionIndex;
+	}
+	
+	/** UNTESTED
+	 * Returns the number of exits of the closest junction to Pacman
+	 */
+	public int getClosestJunctionExitsNumber(int pacmanLocation, MOVE lastPacmanMove)
+	{
+		int closestJunctionIndex = getClosestJunction(pacmanLocation, lastPacmanMove);
+		
+		return currentMaze.graph[closestJunctionIndex].numNeighbouringNodes;
+	}
+	
+	/** UNTESTED
+	 * Returns the distance of Pacman to the closest intersection
+	 * Same as getClosestJunction() function but returning the distance
+	 */
+	public int getDistanceToClosestJunction(int pacmanLocation, MOVE lastPacmanMove)
+	{
+		int[] junctionIndices = getJunctionIndices();
+		
+		int minJunctionIndex = junctionIndices[0];
+		int minDistance = getShortestPathDistance(pacmanLocation, minJunctionIndex, lastPacmanMove);
+		for(int i = 1; i < junctionIndices.length; i++)
+		{
+			int junctionDist = getShortestPathDistance(pacmanLocation, junctionIndices[i], lastPacmanMove);
+			if(junctionDist < minDistance)
+			{
+				minJunctionIndex = junctionIndices[i];
+				minDistance = junctionDist;
+			}
+		}
+		
+		return minDistance;
+	}
+	
+	/** UNTESTED
+	 * Returns the distance of the closest non-edible ghost to the closest junction to Pacman
+	 */
+	public int getClosestNonEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastPacmanMove)
+	{
+		int junctionIndex = getClosestJunction(pacmanLocation, lastPacmanMove);
+		
+		int minDistance = Integer.MAX_VALUE;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				int distance = this.getShortestPathDistance(junctionIndex, ghost.currentNodeIndex);
+	
+				if (distance < minDistance)
+				{
+					minDistance = distance;
+				}
+			}
+		}
+		
+		return minDistance;
+	}
+	
+	/** UNTESTED
+	 * Returns the distance of the closest edible ghost to the closest junction to Pacman
+	 */
+	public int getClosestEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastPacmanMove)
+	{
+		int junctionIndex = getClosestJunction(pacmanLocation, lastPacmanMove);
+		
+		int minDistance = Integer.MAX_VALUE;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			//No need to check if the ghost is in lair as its edible
+			if (ghost.isEdible())
+			{
+				int distance = this.getShortestPathDistance(junctionIndex, ghost.currentNodeIndex);
+	
+				if (distance < minDistance)
+				{
+					minDistance = distance;
+				}
+			}
+		}
+		
+		return minDistance;
+	}
+	
+	/** UNTESTED
+	 * Returns the geometric mean of the distance between Pacman and all the non-edible ghosts
+	 * Ghosts in the lair are also taken into account
+	 */
+	public double getGeometricMeanDistanceToNonEdibleGhosts(int pacmanLocation, MOVE lastPacmanMove)
+	{
+		double productOfDistances = 1.0f;
+		
+		int number = 0;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible())
+			{
+				productOfDistances *= this.getShortestPathDistance(pacmanLocation, ghost.currentNodeIndex);
+				number++;
+			}
+		}
+		
+		return Math.pow(productOfDistances, 1/number); //N = 4 because there are 4 ghosts
+	}
+	
+	/** UNTESTED
+	 * Returns the geometric mean of the Pacman distance to all the edible ghosts
+	 */
+	public double getGeometricMeanDistanceToEdibleGhosts(int pacmanLocation, MOVE lastPacmanMove)
+	{
+		double productOfDistances = 1.0f;
+		
+		int number = 0;
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (ghost.isEdible())
+			{
+				productOfDistances *= this.getShortestPathDistance(pacmanLocation, ghost.currentNodeIndex);
+				number++;
+			}
+		}
+		
+		return Math.pow(productOfDistances, 1/number); //N = 4 because there are 4 ghosts
+	}
+	
 }
