@@ -125,6 +125,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 				try {
 					gCtrl.setPopulationSize(Integer.parseInt(populationText.getText()));
 					gCtrl.setGenerations(Integer.parseInt(generationText.getText()));
+					gCtrl.setItersPerIndividual(Integer.parseInt(iterPerIndText.getText()));
 					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
