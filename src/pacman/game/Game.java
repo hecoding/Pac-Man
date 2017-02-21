@@ -2209,7 +2209,7 @@ public final class Game
 	 * Returns the geometric mean of the distance between Pacman and all the non-edible ghosts
 	 * Ghosts in the lair are also taken into account
 	 */
-	public double getGeometricMeanDistanceToNonEdibleGhosts(int pacmanLocation)
+	public int getGeometricMeanDistanceToNonEdibleGhosts(int pacmanLocation)
 	{
 		double productOfDistances = 1.0f;
 		
@@ -2223,13 +2223,19 @@ public final class Game
 			}
 		}
 		
-		return Math.pow(productOfDistances, 1/number); //counting only not edible and out of lair ghosts
+		if (number == 0)			//if no ghosts
+			return Integer.MAX_VALUE;
+		
+
+		Double result = Math.pow(productOfDistances, 1/number); //counting only edible and out of lair ghosts
+		
+		return result.intValue();
 	}
 	
 	/** UNTESTED
 	 * Returns the geometric mean of the Pacman distance to all the edible ghosts
 	 */
-	public double getGeometricMeanDistanceToEdibleGhosts(int pacmanLocation)
+	public int getGeometricMeanDistanceToEdibleGhosts(int pacmanLocation)
 	{
 		double productOfDistances = 1.0f;
 		
@@ -2243,7 +2249,12 @@ public final class Game
 			}
 		}
 		
-		return Math.pow(productOfDistances, 1/number); //counting only edible and out of lair ghosts
+		if (number == 0)			//if no ghosts
+			return Integer.MAX_VALUE;
+		
+		Double result = Math.pow(productOfDistances, 1/number); //counting only edible and out of lair ghosts
+		
+		return result.intValue();
 	}
 	
 }
