@@ -1,27 +1,34 @@
 <grammar> ::= <selection-statement>
 <selection-statement> ::= if(_<condition>_){_<statement>_}_else{_<statement>_}
+                        | if(_<condition>_){_<statement>_}
 <statement> ::= <terminal-func>
               | <selection-statement>
-<terminal-func> ::= moveUp
-                  | moveDown
-                  | moveLeft
-                  | moveRight
-                  | moveNeutral
+<terminal-func> ::= getDirectionTowardsClosestPill
+                  | getDirectionAwayFromClosestNonEdibleGhost
+                  | getDirectionTowardsClosestEdibleGhost
+                  | getDirectionTowardsClosestPowerPill
 <condition> ::= <boolean-func>
               | <boolean-func>_<boolean-operator>_<boolean-func>
               | <number-func>_<number-operator>_<number>
 <boolean-func> ::= <boolean-api>
-                 | _!_<boolean-api>
+                 | !_<boolean-api>
 <boolean-api> ::= isJunction
 <boolean-operator> ::= and
                      | or
 <number-func> ::= getDistanceToClosestNonEdibleGhost
+                | getDistToClosestPill
+                | getDistToClosestPowerPill
+                | getNumberOfActivePowerPills
 <number-operator> ::= EQ
                     | NE
                     | LT
                     | GT
                     | LE
                     | GE
+<simpleMoves> ::= moveUp
+                | moveDown
+                | moveLeft
+                | moveRight
 <number> ::= 0
            | <nonzero-digit>
            | <nonzero-digit><digit>

@@ -17,7 +17,23 @@ public enum NumericFunc implements Function{
 			return game.getNumberOfActivePowerPills();
 		}
 		public String toString() {
-			return "getDistanceToClosestNonEdibleGhost";
+			return "getNumberOfActivePowerPills";
+		}
+	},
+	getDistToClosestPill {
+		public Object executeFunction(Game game) {
+			return game.getDistToClosestPill(game.getPacmanCurrentNodeIndex());
+		}
+		public String toString() {
+			return "getDistToClosestPill";
+		}
+	},
+	getDistToClosestPowerPill {
+		public Object executeFunction(Game game) {
+			return game.getDistToClosestPowerPill(game.getPacmanCurrentNodeIndex());
+		}
+		public String toString() {
+			return "getDistToClosestPowerPill";
 		}
 	};
 
