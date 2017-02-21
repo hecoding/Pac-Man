@@ -73,7 +73,7 @@ public class IfNode extends Node {
 			str = str + children.get(0).pretty(tabs + "\t");
 		str = str + System.lineSeparator() + tabs + " }" + System.lineSeparator();
 		if(children.size() > 1)
-			str = str + tabs + "else{ " + System.lineSeparator() + children.get(1).pretty(tabs + "\t") + System.lineSeparator() + tabs + " }" ;
+			str = str + tabs + " else{ " + System.lineSeparator() + children.get(1).pretty(tabs + "\t") + System.lineSeparator() + tabs + " }" ;
 		
 		return str;
 	}
