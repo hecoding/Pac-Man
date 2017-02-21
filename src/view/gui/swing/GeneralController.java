@@ -98,6 +98,10 @@ public class GeneralController {
 		return this.iterPerIndividual;
 	}
 	
+	public void setItersPerIndividual(int itersPerIndiv) {
+		this.iterPerIndividual = itersPerIndiv;
+	}
+	
 	public int getChromosomeLength() {
 		return this.chromosomeLength;
 	}

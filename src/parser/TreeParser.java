@@ -61,9 +61,17 @@ public class TreeParser {
 		
 		str = str.replaceAll("([ ]{3,})|(\t)|(\r)|(\n)", "");
 		str = str.replace(' ', '_');
+		
 		str = str.replace("&&", "and");
 		str = str.replace("||", "or");
-		
+
+		str = str.replace("==", "EQ");
+		str = str.replace("!=", "NE");
+		str = str.replace("<=", "LE");	//always check before checking <
+		str = str.replace(">=", "GE");	//always check before checking >
+		str = str.replace("<", "LT");
+		str = str.replace(">", "GT");
+				
 		return str;
 	}
 
