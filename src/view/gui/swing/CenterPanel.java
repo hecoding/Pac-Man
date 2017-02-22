@@ -178,6 +178,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 			public void run() {
 				progressBar.setVisible(true);
 				cancelButton.setVisible(true);
+				plot.getDomainAxis().setRange(0, gCtrl.getGenerations());
 				//plot.setVisible(false);
 			}
 		});
