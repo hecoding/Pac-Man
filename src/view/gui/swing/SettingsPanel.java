@@ -128,6 +128,10 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					gCtrl.setPopulationSize(Integer.parseInt(populationText.getText()));
 					gCtrl.setGenerations(Integer.parseInt(generationText.getText()));
 					gCtrl.setItersPerIndividual(Integer.parseInt(iterPerIndText.getText()));
+					gCtrl.setChromosomeLength(Integer.parseInt(chromosomeLengthText.getText()));
+					gCtrl.setCodonUpperBound(Integer.parseInt(codonUpperBoundText.getText()));
+					gCtrl.setMaxCntWrappings(Integer.parseInt(maxCntWrappingsText.getText()));
+					gCtrl.setNumOfObjectives(Integer.parseInt(numOfObjectivesText.getText()));
 					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
@@ -141,11 +145,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					//ctrl.setRangeParameters(rangeParametersCheck.isSelected());*/
 					//if(rangeParametersCheck.isSelected())
 					//	setRanges();
-					
-					gCtrl.setChromosomeLength(Integer.parseInt(chromosomeLengthText.getText()));
-					gCtrl.setCodonUpperBound(Integer.parseInt(codonUpperBoundText.getText()));
-					gCtrl.setMaxCntWrappings(Integer.parseInt(maxCntWrappingsText.getText()));
-					gCtrl.setNumOfObjectives(Integer.parseInt(numOfObjectivesText.getText()));
 					
 					gCtrl.execute();
 				} /*catch(IllegalChromosomeException ex) {
@@ -984,6 +983,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	private void saveDefaults() {
 		populationTextDefault = populationText.getText();
 		generationTextDefault = generationText.getText();
+		iterPerIndTextDefault = iterPerIndText.getText();
+		chromosomeLengthTextDefault = chromosomeLengthText.getText();
+		codonUpperBoundTextDefault = codonUpperBoundText.getText();
+		maxCntWrappingsTextDefault = maxCntWrappingsText.getText();
+		numOfObjectivesTextDefault = numOfObjectivesText.getText();
 		//heightTextDefault = heightText.getText();
 		//tournamentGroupsTextDefault = tournamentGroupsText.getText();
 		crossoverSliderDefault = crossoverSlider.getValue();
@@ -994,17 +998,16 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		//crossoverBoxDefault = crossoverBox.getSelectedItem();
 		//mutationBoxDefault = mutationBox.getSelectedItem();
 		//contentBasedTerminationCheckDefault = contentBasedTerminationCheck.isSelected();
-		
-		iterPerIndTextDefault = iterPerIndText.getText();
-		chromosomeLengthTextDefault = chromosomeLengthText.getText();
-		codonUpperBoundTextDefault = codonUpperBoundText.getText();
-		maxCntWrappingsTextDefault = maxCntWrappingsText.getText();
-		numOfObjectivesTextDefault = numOfObjectivesText.getText();
 	}
 	
 	private void restoreDefaults() {
 		populationText.setText(populationTextDefault);
 		generationText.setText(generationTextDefault);
+		iterPerIndText.setText(iterPerIndTextDefault);
+		chromosomeLengthText.setText(chromosomeLengthTextDefault);
+		codonUpperBoundText.setText(codonUpperBoundTextDefault);
+		maxCntWrappingsText.setText(maxCntWrappingsTextDefault);
+		numOfObjectivesText.setText(numOfObjectivesTextDefault);
 		//heightText.setText(heightTextDefault);
 		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
 		crossoverSlider.setValue(crossoverSliderDefault);
@@ -1015,12 +1018,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		//crossoverBox.setSelectedItem(crossoverBoxDefault);
 		//mutationBox.setSelectedItem(mutationBoxDefault);
 		//contentBasedTerminationCheck.setSelected(contentBasedTerminationCheckDefault);
-		
-		iterPerIndText.setText(iterPerIndTextDefault);
-		chromosomeLengthText.setText(chromosomeLengthTextDefault);
-		codonUpperBoundText.setText(codonUpperBoundTextDefault);
-		maxCntWrappingsText.setText(maxCntWrappingsTextDefault);
-		numOfObjectivesText.setText(numOfObjectivesTextDefault);
 	}
 	
 	/*private void setRanges() {
