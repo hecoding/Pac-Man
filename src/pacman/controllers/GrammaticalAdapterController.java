@@ -17,7 +17,7 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 	
 	public GrammaticalAdapterController(String fenotipo) {
 		this.fenotipoStr = fenotipo;
-		tree = TreeParser.parseTree(fenotipoStr, null);
+		tree = TreeParser.parseTree(fenotipoStr);
 	}
 	
 	public void reset(){

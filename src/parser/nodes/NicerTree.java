@@ -6,26 +6,23 @@ import pacman.game.Game;
 public class NicerTree {
 
 	private Node root;
-	private Game game;
 	
-	public NicerTree(Node r, Game g) {
+	public NicerTree(Node r) {
 		root = r;
-		game = g;
 	}
 	
-	public Node execute(){
+	public Node execute(Game game){
 		return root.execute(game);
 	}
 	
 	public MOVE executeAndGetMove(Game g){
-		game = g;
-		Node tn = this.execute();
+		Node tn = this.execute(g);
 		if (tn == null)
 			return MOVE.NEUTRAL;
 		if (tn.children.size() != 0){
 			System.out.println();
 		}
-		return ((TerminalNode) this.execute()).getMove(game);
+		return ((TerminalNode) this.execute(g)).getMove(g);
 	}
 	
 	public String toString(){

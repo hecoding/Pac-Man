@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pacman.game.Game;
 import parser.operators.BooleanOperator;
 import parser.function.BooleanFunc;
 import parser.function.NumericFunc;
@@ -18,16 +17,16 @@ import parser.operators.NumericOperator;
 public class TreeParser {
 	
 	
-	public static NicerTree parseTree(String str, Game game){
+	public static NicerTree parseTree(String str){
 					
 		List<String> strList = new ArrayList<String>(Arrays.asList(str.split("_")));
-		Node root = parseTree(strList, game);
+		Node root = parseTree(strList);
 
-		NicerTree tree = new NicerTree(root, game);		
+		NicerTree tree = new NicerTree(root);		
 		return tree;
 	}
 	
-	private static Node parseTree(List<String> strList, Game game){
+	private static Node parseTree(List<String> strList){
 		
 		Node node = null;
 		
@@ -36,12 +35,12 @@ public class TreeParser {
 			node = parseIfNode(strList.subList(1, closeParentesisIndex));
 			
 			int closeBracketIndex = findCloseBracketNumber(1, strList.subList(closeParentesisIndex+1, strList.size()), 0) + closeParentesisIndex+1;
-			node.addChildren(parseTree(strList.subList(closeParentesisIndex+1, closeBracketIndex), game));
+			node.addChildren(parseTree(strList.subList(closeParentesisIndex+1, closeBracketIndex)));
 			
 			int possibleElseIndex = closeBracketIndex + 1;
 			if(possibleElseIndex < strList.size() && strList.get(possibleElseIndex).equals("else{")){
 				closeBracketIndex = findCloseBracketNumber(1,strList.subList(possibleElseIndex + 2, strList.size()),0) + possibleElseIndex + 2;
-				node.addChildren(parseTree(strList.subList(possibleElseIndex+1, closeBracketIndex), game));
+				node.addChildren(parseTree(strList.subList(possibleElseIndex+1, closeBracketIndex)));
 				
 			}
 			

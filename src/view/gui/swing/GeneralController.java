@@ -12,7 +12,6 @@ import jeco.core.operator.evaluator.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
-import pacman.game.Game;
 import parser.TreeParser;
 import parser.nodes.NicerTree;
 
@@ -183,7 +182,7 @@ public class GeneralController {
 	}
 	
 	public String getBestProgramPretty() {
-		NicerTree tree = TreeParser.parseTree(this.getBestProgram(), new Game(0));
+		NicerTree tree = TreeParser.parseTree(this.getBestProgram());
 		
 		return tree.pretty();
 	}
