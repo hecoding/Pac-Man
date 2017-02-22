@@ -53,6 +53,8 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
+ 	long beforeTime = 0;
+ 	
 	public CenterPanel(GeneralController gCtrl) {
 		this.gCtrl = gCtrl;
 		this.gCtrl.addObserver(this);
@@ -202,7 +204,27 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	
 	@Override
 	public void onIncrement(int n) {
+		if(this.aSecondHavePassed())
+			updateGraphPanel();
+	}
+	
+	public boolean aSecondHavePassed() {
+		double secondsCup = 0.5;
 		
+		if(this.beforeTime == 0) {
+			this.beforeTime = System.nanoTime();
+			return true;
+		}
+		
+		long current = System.nanoTime();
+		double elapsedSeconds = ((current - this.beforeTime) / 1000000000.0);
+		
+		if(elapsedSeconds > secondsCup) {
+			this.beforeTime = current;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	private void updateGraphPanel() {
