@@ -179,7 +179,7 @@ public class GeneralController {
 	}
 	
 	public String getBestProgram() {
-		return ProgramWorker.phenotypeString;
+		return ProgramWorker.problem.generatePhenotype(ProgramWorker.solutions.get(0)).toString();
 	}
 	
 	public String getBestProgramPretty() {
