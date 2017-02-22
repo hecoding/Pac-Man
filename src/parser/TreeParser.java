@@ -58,7 +58,7 @@ public class TreeParser {
 	
 	public static String clean(String str){
 		
-		str = str.replaceAll("([ ]{3,})|(\t)|(\r)|(\n)", "");
+		str = str.replaceAll("([ ]{2,})|(\t)|(\r)|(\n)", "");
 		
 		str = str.replace("&&", "and");
 		str = str.replace("||", "or");
@@ -78,12 +78,14 @@ public class TreeParser {
 	}
 	
 	public static String introduceSpaces(String str) {
+		str = str.replace("if (", "if(");
+		str = str.replace(") {", "){");
 		str = str.replaceAll("\\((?!\\_|\\ )", "( ");		//add space after "(" when neccesary
 		str = str.replaceAll("\\{(?!\\_|\\ )", "{ ");		//add space after "{" when neccesary
 		str = str.replaceAll("(?<!\\_|\\ )\\)", " )");	//add space before ")" when neccesary
 		str = str.replaceAll("(?<!\\_|\\ )\\}", " }");	//add space before "}" when neccesary
 		
-		str = str.replace("}else{", "} else{");			//add space before "else{" when neccesary
+		str = str.replaceAll("(\\}else\\{)|(\\}else\\ \\{)|(\\}\\ else\\ \\{)", "} else{");	//add space before "else{" when neccesary
 		
 		str = str.replaceAll("\\!(?!\\_|\\ )", "! ");		//add space after "!" when neccesary
 		
