@@ -37,7 +37,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	private JPanel settings;
  	private JPanel buttonPanel;
  	JButton showAndPlayButton;
- 	JButton runButton;
+ 	JButton trainButton;
  	JButton resetButton;
  	
  	JTextField populationText;
@@ -118,11 +118,13 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		showAndPlayButton.setVisible(false);
 		buttonPanel.add(showAndPlayButton, BorderLayout.PAGE_START);
 		
-		runButton = new JButton("Run");
-		runButton.setMnemonic(KeyEvent.VK_L);
-		runButton.addActionListener(new ActionListener() {
+		trainButton = new JButton("Train");
+		trainButton.setMnemonic(KeyEvent.VK_L);
+		trainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					guiCtrl.changeFocusToFitness();
+					
 					gCtrl.setPopulationSize(Integer.parseInt(populationText.getText()));
 					gCtrl.setGenerations(Integer.parseInt(generationText.getText()));
 					gCtrl.setItersPerIndividual(Integer.parseInt(iterPerIndText.getText()));
@@ -164,7 +166,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 				}
 			}
 		});
-		buttonPanel.add(runButton, BorderLayout.CENTER);
+		buttonPanel.add(trainButton, BorderLayout.CENTER);
 		resetButton = new JButton("Reset");
 		resetButton.setMnemonic(KeyEvent.VK_R);
 		resetButton.setToolTipText("Set initial values");
@@ -1048,7 +1050,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	public void onStart() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				runButton.setVisible(true);
+				trainButton.setVisible(true);
 				resetButton.setVisible(true);
 			}
 		});

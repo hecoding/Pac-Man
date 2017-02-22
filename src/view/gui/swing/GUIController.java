@@ -9,6 +9,10 @@ public class GUIController {
 		
 	}
 	
+	public void changeFocusToFitness() {
+		this.centerPanel.tabs.setSelectedIndex(0);
+	}
+	
 	public void changeFocusToGame() {
 		this.centerPanel.tabs.setSelectedIndex(3);
 	}
