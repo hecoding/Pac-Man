@@ -59,7 +59,6 @@ public class TreeParser {
 	public static String clean(String str){
 		
 		str = str.replaceAll("([ ]{3,})|(\t)|(\r)|(\n)", "");
-		str = str.replace(' ', '_');
 		
 		str = str.replace("&&", "and");
 		str = str.replace("||", "or");
@@ -71,6 +70,42 @@ public class TreeParser {
 		str = str.replace("<", "LT");
 		str = str.replace(">", "GT");
 				
+		str = introduceSpaces(str);
+		
+		str = str.replace(' ', '_');
+		
+		return str;
+	}
+	
+	public static String introduceSpaces(String str) {
+		str = str.replaceAll("\\((?!\\_|\\ )", "( ");		//add space after "(" when neccesary
+		str = str.replaceAll("\\{(?!\\_|\\ )", "{ ");		//add space after "{" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )\\)", " )");	//add space before ")" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )\\}", " }");	//add space before "}" when neccesary
+		
+		str = str.replace("}else{", "} else{");			//add space before "else{" when neccesary
+		
+		str = str.replaceAll("\\!(?!\\_|\\ )", "! ");		//add space after "!" when neccesary
+		
+		str = str.replaceAll("&&(?!\\_|\\ )", "&& ");				//add space after "&&" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )&&", " &&");			//add space before "&&" when neccesary
+		str = str.replaceAll("\\|\\|(?!\\_|\\ )", "|| ");		//add space after "(" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )\\|\\|", " ||");		//add space before "&&" when neccesary
+		
+
+		str = str.replaceAll("EQ(?!\\_|\\ )", "EQ ");		//add space after "EQ" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )EQ", " EQ");	//add space before "EQ" when neccesary
+		str = str.replaceAll("NE(?!\\_|\\ )", "NE ");		//add space after "EQ" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )NE", " NE");	//add space before "NE" when neccesary
+		str = str.replaceAll("LT(?!\\_|\\ )", "LT ");		//add space after "LT" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )LT", " LT");	//add space before "LT" when neccesary
+		str = str.replaceAll("GT(?!\\_|\\ )", "GT ");		//add space after "GT" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )GT", " GT");	//add space before "GT" when neccesary
+		str = str.replaceAll("LE(?!\\_|\\ )", "LE ");		//add space after "LE" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )LE", " LE");	//add space before "LE" when neccesary
+		str = str.replaceAll("GE(?!\\_|\\ )", "GE ");		//add space after "GE" when neccesary
+		str = str.replaceAll("(?<!\\_|\\ )GE", " GE");	//add space before "GE" when neccesary
+		
 		return str;
 	}
 
