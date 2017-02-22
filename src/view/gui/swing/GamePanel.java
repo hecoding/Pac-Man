@@ -1,6 +1,7 @@
 package view.gui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.text.PlainDocument;
 
 import pacman.CustomExecutor;
 import pacman.controllers.GrammaticalAdapterController;
@@ -101,6 +103,8 @@ public class GamePanel extends JPanel {
 		this.add(buttonPanel, BorderLayout.LINE_START);
 		
 		this.drafText = new JTextArea();
+		this.drafText.getDocument().putProperty(PlainDocument.tabSizeAttribute, 4);
+		this.drafText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.add(new JScrollPane(drafText), BorderLayout.CENTER);
 	}
 	

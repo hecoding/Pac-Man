@@ -1,6 +1,7 @@
 package view.gui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.text.PlainDocument;
 
 public class LogPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -27,6 +29,8 @@ public class LogPanel extends JPanel {
 	
 	private void initGUI() {
 		logText = new JTextArea();
+		logText.getDocument().putProperty(PlainDocument.tabSizeAttribute, 4);
+		logText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		logText.setEditable(false);
 		logText.setLineWrap(true);
 		logText.setWrapStyleWord(true);

@@ -3,6 +3,7 @@ package view.gui.swing;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.text.PlainDocument;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -128,6 +130,8 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		
 		// Program tab
 		programText = new JTextArea();
+		programText.getDocument().putProperty(PlainDocument.tabSizeAttribute, 4);
+		programText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		programText.setEditable(false);
 		programText.setLineWrap(true);
 		programText.setWrapStyleWord(true);
