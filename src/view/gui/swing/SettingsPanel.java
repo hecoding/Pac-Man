@@ -27,6 +27,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import jeco.core.util.observer.AlgObserver;
 
@@ -48,7 +50,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JTextField maxCntWrappingsText;
  	JTextField numOfObjectivesText;
  	JTextField heightText;
+ 	JTextField crossoverText;
  	JSlider crossoverSlider;
+ 	JTextField mutationText;
  	JSlider mutationSlider;
  	JSlider elitismSlider;
  	JPanel initialization;
@@ -192,7 +196,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		population.add(populationLabel);
 		populationText = new JTextField(4);
 		defaultborder = populationText.getBorder();
-		populationText.setInputVerifier(new IntegerNonZeroVerifier());
+		populationText.setInputVerifier(new PositiveIntegerVerifier());
 		population.add(populationText);
 		population.setMaximumSize(population.getPreferredSize());
 		population.setMinimumSize(population.getPreferredSize());
@@ -205,27 +209,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel generationsLabel = new JLabel("Generations");
 		generations.add(generationsLabel);
 		generationText = new JTextField(4);
-		generationText.setInputVerifier(new InputVerifier() {
-			public boolean verify(JComponent input) {
-				try {
-					int a = Integer.parseInt(((JTextField) input).getText());
-					if (a >= 1) {
-						generationText.setBorder(defaultborder);
-						guiCtrl.setErrors(false);
-						return true;
-					}
-					else {
-						generationText.setBorder(BorderFactory.createLineBorder(Color.red));
-						guiCtrl.setErrors(true);
-						return false;
-					}
-				} catch (NumberFormatException e) {
-					generationText.setBorder(BorderFactory.createLineBorder(Color.red));
-					guiCtrl.setErrors(true);
-					return false;
-				}
-			}
-		});
+		generationText.setInputVerifier(new PositiveIntegerVerifier());
 		generations.add(generationText);
 		generations.setMaximumSize(generations.getPreferredSize());
 		generations.setMinimumSize(generations.getPreferredSize());
@@ -236,27 +220,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel iterPerIndLabel = new JLabel("Iter per ind");
 		iterPerInd.add(iterPerIndLabel);
 		iterPerIndText = new JTextField(4);
-		iterPerIndText.setInputVerifier(new InputVerifier() {
-			public boolean verify(JComponent input) {
-				try {
-					int a = Integer.parseInt(((JTextField) input).getText());
-					if (a >= 1) {
-						iterPerIndText.setBorder(defaultborder);
-						guiCtrl.setErrors(false);
-						return true;
-					}
-					else {
-						iterPerIndText.setBorder(BorderFactory.createLineBorder(Color.red));
-						guiCtrl.setErrors(true);
-						return false;
-					}
-				} catch (NumberFormatException e) {
-					iterPerIndText.setBorder(BorderFactory.createLineBorder(Color.red));
-					guiCtrl.setErrors(true);
-					return false;
-				}
-			}
-		});
+		iterPerIndText.setInputVerifier(new PositiveIntegerVerifier());
 		iterPerInd.add(iterPerIndText);
 		iterPerInd.setMaximumSize(iterPerInd.getPreferredSize());
 		iterPerInd.setMinimumSize(iterPerInd.getPreferredSize());
@@ -267,27 +231,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel chromosomeLengthLabel = new JLabel("Chromosome length");
 		chromosomeLength.add(chromosomeLengthLabel);
 		chromosomeLengthText = new JTextField(4);
-		chromosomeLengthText.setInputVerifier(new InputVerifier() {
-			public boolean verify(JComponent input) {
-				try {
-					int a = Integer.parseInt(((JTextField) input).getText());
-					if (a >= 1) {
-						chromosomeLengthText.setBorder(defaultborder);
-						guiCtrl.setErrors(false);
-						return true;
-					}
-					else {
-						chromosomeLengthText.setBorder(BorderFactory.createLineBorder(Color.red));
-						guiCtrl.setErrors(true);
-						return false;
-					}
-				} catch (NumberFormatException e) {
-					chromosomeLengthText.setBorder(BorderFactory.createLineBorder(Color.red));
-					guiCtrl.setErrors(true);
-					return false;
-				}
-			}
-		});
+		chromosomeLengthText.setInputVerifier(new PositiveIntegerVerifier());
 		chromosomeLength.add(chromosomeLengthText);
 		chromosomeLength.setMaximumSize(chromosomeLength.getPreferredSize());
 		chromosomeLength.setMinimumSize(chromosomeLength.getPreferredSize());
@@ -298,27 +242,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel codonUpperBoundLabel = new JLabel("Codon upper bound");
 		codonUpperBound.add(codonUpperBoundLabel);
 		codonUpperBoundText = new JTextField(4);
-		codonUpperBoundText.setInputVerifier(new InputVerifier() {
-			public boolean verify(JComponent input) {
-				try {
-					int a = Integer.parseInt(((JTextField) input).getText());
-					if (a >= 1) {
-						codonUpperBoundText.setBorder(defaultborder);
-						guiCtrl.setErrors(false);
-						return true;
-					}
-					else {
-						codonUpperBoundText.setBorder(BorderFactory.createLineBorder(Color.red));
-						guiCtrl.setErrors(true);
-						return false;
-					}
-				} catch (NumberFormatException e) {
-					codonUpperBoundText.setBorder(BorderFactory.createLineBorder(Color.red));
-					guiCtrl.setErrors(true);
-					return false;
-				}
-			}
-		});
+		codonUpperBoundText.setInputVerifier(new PositiveIntegerVerifier());
 		codonUpperBound.add(codonUpperBoundText);
 		codonUpperBound.setMaximumSize(codonUpperBound.getPreferredSize());
 		codonUpperBound.setMinimumSize(codonUpperBound.getPreferredSize());
@@ -329,27 +253,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel maxCntWrappingsLabel = new JLabel("Max cnt wrappings");
 		maxCntWrappings.add(maxCntWrappingsLabel);
 		maxCntWrappingsText = new JTextField(4);
-		maxCntWrappingsText.setInputVerifier(new InputVerifier() {
-			public boolean verify(JComponent input) {
-				try {
-					int a = Integer.parseInt(((JTextField) input).getText());
-					if (a >= 1) {
-						maxCntWrappingsText.setBorder(defaultborder);
-						guiCtrl.setErrors(false);
-						return true;
-					}
-					else {
-						maxCntWrappingsText.setBorder(BorderFactory.createLineBorder(Color.red));
-						guiCtrl.setErrors(true);
-						return false;
-					}
-				} catch (NumberFormatException e) {
-					maxCntWrappingsText.setBorder(BorderFactory.createLineBorder(Color.red));
-					guiCtrl.setErrors(true);
-					return false;
-				}
-			}
-		});
+		maxCntWrappingsText.setInputVerifier(new PositiveIntegerAndZeroVerifier());
 		maxCntWrappings.add(maxCntWrappingsText);
 		maxCntWrappings.setMaximumSize(maxCntWrappings.getPreferredSize());
 		maxCntWrappings.setMinimumSize(maxCntWrappings.getPreferredSize());
@@ -360,27 +264,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel numOfObjectivesLabel = new JLabel("# of objectives");
 		numOfObjectives.add(numOfObjectivesLabel);
 		numOfObjectivesText = new JTextField(4);
-		numOfObjectivesText.setInputVerifier(new InputVerifier() {
-			public boolean verify(JComponent input) {
-				try {
-					int a = Integer.parseInt(((JTextField) input).getText());
-					if (a >= 1) {
-						numOfObjectivesText.setBorder(defaultborder);
-						guiCtrl.setErrors(false);
-						return true;
-					}
-					else {
-						numOfObjectivesText.setBorder(BorderFactory.createLineBorder(Color.red));
-						guiCtrl.setErrors(true);
-						return false;
-					}
-				} catch (NumberFormatException e) {
-					numOfObjectivesText.setBorder(BorderFactory.createLineBorder(Color.red));
-					guiCtrl.setErrors(true);
-					return false;
-				}
-			}
-		});
+		numOfObjectivesText.setInputVerifier(new PositiveIntegerVerifier());
 		numOfObjectives.add(numOfObjectivesText);
 		numOfObjectives.setMaximumSize(numOfObjectives.getPreferredSize());
 		numOfObjectives.setMinimumSize(numOfObjectives.getPreferredSize());
@@ -501,6 +385,35 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JLabel crossoverLabel = new JLabel("Crossover");
 		JPanel crossSel = new JPanel();
 		crossSel.add(crossoverLabel);
+		crossoverText = new JTextField(4);
+		crossoverText.setInputVerifier(new DoubleLessThanZeroVerifier());
+		crossoverText.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				try {
+					crossoverSlider.setValue( (int) (Double.parseDouble(crossoverText.getText()) * 100) );
+					crossoverText.setBorder(defaultborder);
+				} catch (NumberFormatException ex) {
+					crossoverText.setBorder(BorderFactory.createLineBorder(Color.red));
+				}
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				try {
+					crossoverSlider.setValue( (int) (Double.parseDouble(crossoverText.getText()) * 100) );
+					crossoverText.setBorder(defaultborder);
+				} catch (NumberFormatException ex) {
+					crossoverText.setBorder(BorderFactory.createLineBorder(Color.red));
+				}
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		crossSel.add(crossoverText);
 		//crossoverBox = new JComboBox<String>();
 		//crossSel.add(crossoverBox);
 		crossoverMethodPanel.add(crossSel);
@@ -513,9 +426,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		crossoverSlider.setMajorTickSpacing(30);
 		crossoverSlider.setMinorTickSpacing(5);
 		crossoverSlider.setPaintTicks(true);
-		crossoverSlider.setPaintLabels(true);
-		crossoverSlider.setToolTipText(crossoverSlider.getValue() + " %");
-		crossoverSlider.addChangeListener(new SliderListener());
+		crossoverSlider.setPaintLabels(false);
+		//crossoverSlider.setToolTipText(crossoverSlider.getValue() + " %");
+		crossoverSlider.addChangeListener(new SliderListenerAndUpdater(crossoverText));
 		crossoverSlider.setMaximumSize(crossoverSlider.getPreferredSize());
 		crossoverSlider.setMinimumSize(crossoverSlider.getPreferredSize());
 		crossoverSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -535,8 +448,39 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationPanel.setLayout(new BoxLayout(mutationPanel, BoxLayout.Y_AXIS));
 		
 		mutationMethodPanel = new JPanel();
+		JPanel mutationTitle = new JPanel();
 		JLabel mutationLabel = new JLabel("Mutation");
-		mutationMethodPanel.add(mutationLabel);
+		mutationTitle.add(mutationLabel);
+		mutationText = new JTextField(4);
+		mutationText.setInputVerifier(new DoubleLessThanZeroVerifier());
+		mutationText.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				try {
+					mutationSlider.setValue( (int) (Double.parseDouble(mutationText.getText()) * 100) );
+					mutationText.setBorder(defaultborder);
+				} catch (NumberFormatException ex) {
+					mutationText.setBorder(BorderFactory.createLineBorder(Color.red));
+				}
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				try {
+					mutationSlider.setValue( (int) (Double.parseDouble(mutationText.getText()) * 100) );
+					mutationText.setBorder(defaultborder);
+				} catch (NumberFormatException ex) {
+					mutationText.setBorder(BorderFactory.createLineBorder(Color.red));
+				}
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		mutationTitle.add(mutationText);
+		mutationMethodPanel.add(mutationTitle);
 		//mutationBox = new JComboBox<String>();
 		//mutationMethodPanel.add(mutationBox);
 		mutationMethodPanel.setMaximumSize(mutationMethodPanel.getPreferredSize());
@@ -548,8 +492,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationSlider.setMajorTickSpacing(30);
 		mutationSlider.setMinorTickSpacing(5);
 		mutationSlider.setPaintTicks(true);
-		mutationSlider.setPaintLabels(true);
-		mutationSlider.setToolTipText(mutationSlider.getValue() + " %");
+		mutationSlider.setPaintLabels(false);
+		//mutationSlider.setToolTipText(mutationSlider.getValue() + " %");
+		mutationSlider.addChangeListener(new SliderListenerAndUpdater(mutationText));
 		mutationSlider.addChangeListener(new SliderListener());
 		mutationSlider.setMaximumSize(mutationSlider.getPreferredSize());
 		mutationSlider.setMinimumSize(mutationSlider.getPreferredSize());
@@ -942,7 +887,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.generationText.setText(String.valueOf(this.gCtrl.getGenerations()));
 		//this.heightText.setText(String.valueOf(this.ctrl.getHeight()));
 		//this.tournamentGroupsText.setText(Integer.toString( this.ctrl.getTournamentSelectionGroups() ));
+		this.crossoverText.setText(String.valueOf(this.gCtrl.getCrossProb()));
 		this.crossoverSlider.setValue((int) (this.gCtrl.getCrossProb() * 100));
+		this.mutationText.setText(String.valueOf(this.gCtrl.getMutationProb()));
 		this.mutationSlider.setValue((int) (this.gCtrl.getMutationProb() * 100));/*
 		this.elitismSlider.setValue((int) (this.problem. * 100));
 		for (String item : this.ctrl.getInitializationStrategyList()) {
@@ -1070,6 +1017,27 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		
 	}
 
+	class SliderListenerAndUpdater implements ChangeListener {
+		JTextField text;
+		
+		public SliderListenerAndUpdater(JTextField text) {
+			this.text = text;
+		}
+		
+		public void stateChanged(ChangeEvent e) {
+			JSlider source = (JSlider)e.getSource();
+	        if (!source.getValueIsAdjusting()) {
+	        	if((Double.parseDouble(this.text.getText()) * 100) != source.getValue()) {
+	        		try {
+	        			this.text.setText(String.valueOf(source.getValue() / 100.0));
+	        		} catch(IllegalStateException ex) {
+	        			// too fast clicking
+	        		}
+	        	}
+	        }
+		}
+	}
+	
 	class SliderListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			JSlider source = (JSlider)e.getSource();
@@ -1080,7 +1048,33 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		}
 	}
 	
-	class IntegerNonZeroVerifier extends InputVerifier {
+	class PositiveIntegerAndZeroVerifier extends InputVerifier {
+
+		@Override
+		public boolean verify(JComponent input) {
+			JTextField field = (JTextField) input;
+			try {
+				int a = Integer.parseInt(((JTextField) input).getText());
+				if (a >= 0) {
+					field.setBorder(defaultborder);
+					guiCtrl.setErrors(false);
+					return true;
+				}
+				else {
+					field.setBorder(BorderFactory.createLineBorder(Color.red));
+					guiCtrl.setErrors(true);
+					return false;
+				}
+			} catch (NumberFormatException e) {
+				field.setBorder(BorderFactory.createLineBorder(Color.red));
+				guiCtrl.setErrors(true);
+				return false;
+			}
+		}
+		
+	}
+	
+	class PositiveIntegerVerifier extends InputVerifier {
 
 		@Override
 		public boolean verify(JComponent input) {
