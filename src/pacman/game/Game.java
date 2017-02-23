@@ -3,6 +3,9 @@ package pacman.game;
 import java.util.BitSet;
 import java.util.EnumMap;
 import java.util.Random;
+
+import jeco.core.operator.evaluator.GameInfo;
+
 import java.util.Map.Entry;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
@@ -46,6 +49,16 @@ public final class Game
 	//the data relating to pacman and the ghosts are stored in respective data structures for clarity
 	private PacMan pacman;
 	private EnumMap<GHOST, Ghost> ghosts;
+	private GameInfo gi;
+
+	//Game information methods
+	public GameInfo getGi() {
+		return gi;
+	}
+
+	public void setGi(GameInfo gi) {
+		this.gi = gi;
+	}
 
 	//mazes are only loaded once since they don't change over time
 	private static Maze[] mazes=new Maze[NUM_MAZES];;
@@ -85,10 +98,15 @@ public final class Game
 	 */
 	public Game(long seed)
 	{		
+		this.gi = new GameInfo(); //Manual inicialization for non evolutionary executions (test games..)
 		this.seed=seed;
 		rnd=new Random(seed);
 		
 		_init(0);
+	}
+	
+	public void initGi(){
+		this.gi = new GameInfo();
 	}
 	
 	/**
@@ -153,6 +171,10 @@ public final class Game
 		_levelReset();
 	}
 	
+	public int getLevelCount() {
+		return levelCount;
+	}
+
 	/**
 	 * _level reset.
 	 */
@@ -306,7 +328,8 @@ public final class Game
 	public Game copy()
 	{
 		Game copy=new Game();
-			
+		
+		copy.initGi();
 		copy.seed=seed;
 		copy.rnd=new Random(seed);
 		copy.currentMaze=currentMaze;		
@@ -354,6 +377,13 @@ public final class Game
 		updatePacMan(pacManMove);
 		updateGhosts(ghostMoves);	
 		updateGame();
+		
+		//Game info updates
+		if (powerPillWasEaten)
+			gi.increasePowerPillsEaten();
+		
+		if(pillWasEaten)
+			gi.increasePillsEaten();
 	}
 	
 	public void advanceGameWithoutReverse(MOVE pacManMove,EnumMap<GHOST,MOVE> ghostMoves)
@@ -674,6 +704,9 @@ public final class Game
 			{
 				if(ghost.edibleTime>0)									//pac-man eats ghost
 				{
+					//game info update
+					gi.increaseGhostsEaten();
+					
 					score+=GHOST_EAT_SCORE*ghostEatMultiplier;
 					ghostEatMultiplier*=2;
 					ghost.edibleTime=0;					

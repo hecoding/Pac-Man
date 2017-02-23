@@ -1,10 +1,8 @@
 package jeco.core.operator.evaluator;
 
-import java.util.ArrayList;
-
 public interface FitnessEvaluatorInterface {
 	
-	public double evaluate(ArrayList<Double> params);
+	public double evaluate(GameInfo gi);
 
 	public String getName();
 	

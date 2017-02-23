@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.mutable.MutableDouble;
 
+import jeco.core.operator.evaluator.GameInfo;
 import pacman.controllers.Controller;
 import pacman.controllers.GrammaticalAdapterController;
 import pacman.controllers.HumanController;
@@ -47,15 +48,15 @@ public class CustomExecutor {
 	 *
 	 * @param args the command line arguments
 	 */
-	public double runExecution(GrammaticalAdapterController pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, int trials) {
-		double scoreSum = 0;
+	public GameInfo runExecution(GrammaticalAdapterController pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, int trials) {
+		ArrayList<GameInfo> gsi = new ArrayList<GameInfo>();
 		
 		for( int i = 0 ; i < trials; ++i){
 			pacManController.reset();
-			scoreSum += this.runGame(pacManController, ghostController);
+			gsi.add(this.runGame(pacManController, ghostController));
 		}
 		
-		return scoreSum/trials;
+		return GameInfo.averageGamesInfo(gsi);
 	}
 	
 	
@@ -68,11 +69,12 @@ public class CustomExecutor {
 	 * @param ghostController The Ghosts controller
 	 * @return 
 	 */
-	public int runGame(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController)
+	public GameInfo runGame(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController)
 	{
-		int maxscore = 0;
+		GameInfo gi = new GameInfo();
 		int lastLevel = 0;
 		Game game=new Game(0);
+		game.setGi(gi);
 		
 		while(!game.gameOver()){
 			
@@ -83,7 +85,10 @@ public class CustomExecutor {
 			lastLevel = game.getCurrentLevel();
 		}
 		
-		return game.getScore();
+		gi.setScore(game.getScore());
+		gi.setLastLevelReached(game.getLevelCount());
+		gi.setLastLevelReached(lastLevel);
+		return gi;
 	}
 	
 	/**
@@ -117,7 +122,7 @@ public class CustomExecutor {
 	}
 	
 	public static Game getNewGame() {
-		
+		GameInfo gi = new GameInfo();
 		return new Game(0);
 	}
 	

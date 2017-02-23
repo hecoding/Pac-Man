@@ -14,6 +14,7 @@ import java.util.EnumMap;
 import java.util.logging.Logger;
 
 import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
+import jeco.core.operator.evaluator.GameInfo;
 import jeco.core.operator.evaluator.NaiveFitness;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
@@ -85,32 +86,31 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		GrammaticalAdapterController pacman = new GrammaticalAdapterController(phenotype.toString());
 		Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 		
-		double score = exec.runExecution(pacman, ghosts, iterPerIndividual);
-		fitnessParams.clear();
-		fitnessParams.add(score);
+		GameInfo avgGameInfo = exec.runExecution(pacman, ghosts, iterPerIndividual);
 		
-		double fitness = fitnessFunc.evaluate(fitnessParams);
+		double avgFitness = fitnessFunc.evaluate(avgGameInfo);
 		
 		// Security check
-		if (fitness < 0) {
+		if (avgFitness < 0) {
 			logger.severe("ERROR: NEGATIVE FITNESS");
-			fitness = 0;
+			System.err.println("FITNESS < 0!!!!!!");
+			avgFitness = 0;
 		}
 		
 		// Log best fitness and respective phenotype
-		if (fitness < bestFitness){
+		if (avgFitness < bestFitness){
 			try {
-				writer.write("Best fitness found: " + fitness +
-						", with score: " + score +
+				writer.write("Best fitness found: " + avgFitness +
+						", with score: " + avgGameInfo.getScore() +
 						" and phenotype: " + phenotype + System.lineSeparator());
-				this.bestFitness = fitness;
+				this.bestFitness = avgFitness;
 			} catch (IOException e) {
 				System.err.println("Error writing in log.");
 				e.printStackTrace();
 			}
 		}
 		
-		solution.getObjectives().set(0, fitness);
+		solution.getObjectives().set(0, avgFitness);
 	}	
 
 	@Override
