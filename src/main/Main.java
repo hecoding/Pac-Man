@@ -24,6 +24,15 @@ public class Main {
 	  	tree.executeAndGetMove();
 	  	*/
 		
+	  	// para probar el inserta espacios
+	  	/*
+	  	String test = "if( ! isJunction && isJunction ){ getDirectionTowardsClosestPill } else{ if( getDistanceToClosestJunctionLeft == 2 ){ getDirectionTowardsClosestPill } else{ getDirectionTowardsClosestPill } }";
+		System.out.println(TreeParser.introduceSpaces(test));
+		test = "if( ! isJunction && isJunction ){ getDirectionTowardsClosestPill } else{ if( getDistanceToClosestJunctionLeft == 2 ){ getDirectionTowardsClosestPill } else{ getDirectionTowardsClosestPill } }\r\n";
+		System.out.print(TreeParser.introduceSpaces(test));
+		test = "if(_!_isJunction_&&_isJunction_){_getDirectionTowardsClosestPill_}_else{_if(_getDistanceToClosestJunctionLeft_==_2_){_getDirectionTowardsClosestPill_}_else{_getDirectionTowardsClosestPill_}_}\r\n";
+		System.out.print(TreeParser.introduceSpaces(test));
+		*/
 		
 		/*
 		// para probar generación de gramáticas
