@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JButton;
@@ -65,6 +66,7 @@ public class GamePanel extends JPanel {
 		buttonPanel.add(this.TV, gc);
 		
 		runButton = new JButton("Run code");
+		runButton.setMnemonic(KeyEvent.VK_R);
 		runButton.setToolTipText("Run this code on pacman window");
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

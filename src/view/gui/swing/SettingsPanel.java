@@ -113,6 +113,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		buttonPanel = new JPanel(new BorderLayout());
 		
 		showAndPlayButton = new JButton("Show & play best");
+		showAndPlayButton.setMnemonic(KeyEvent.VK_S);
 		showAndPlayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guiCtrl.changeFocusToGame();
@@ -123,7 +124,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		buttonPanel.add(showAndPlayButton, BorderLayout.PAGE_START);
 		
 		trainButton = new JButton("Train");
-		trainButton.setMnemonic(KeyEvent.VK_L);
+		trainButton.setMnemonic(KeyEvent.VK_T);
 		trainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -171,7 +172,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		});
 		buttonPanel.add(trainButton, BorderLayout.CENTER);
 		resetButton = new JButton("Reset");
-		resetButton.setMnemonic(KeyEvent.VK_R);
 		resetButton.setToolTipText("Set initial values");
 		resetButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
