@@ -994,8 +994,35 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	public void onStart() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				trainButton.setVisible(true);
-				resetButton.setVisible(true);
+				trainButton.setEnabled(false);
+				resetButton.setEnabled(false);
+				
+				populationText.setEnabled(false);
+			 	generationText.setEnabled(false);
+			 	iterPerIndText.setEnabled(false);
+			 	chromosomeLengthText.setEnabled(false);
+			 	codonUpperBoundText.setEnabled(false);
+			 	maxCntWrappingsText.setEnabled(false);
+			 	numOfObjectivesText.setEnabled(false);
+			 	crossoverText.setEnabled(false);
+			 	crossoverSlider.setEnabled(false);
+			 	mutationText.setEnabled(false);
+			 	mutationSlider.setEnabled(false);
+			 	/*
+			 	heightText.setEnabled(false);
+			 	elitismSlider;
+			 	initialization;
+			 	initializationBox;
+			 	selection;
+			 	selectionBox;
+			 	crossoverMethodPanel;
+			 	crossoverBox;
+			 	tournamentGroups;
+			 	tournamentGroupsText;
+			 	mutationMethodPanel;
+			 	mutationBox;
+			 	contentBasedTerminationCheck;
+			 	rangeParametersCheck;*/
 			}
 		});
 	}
@@ -1008,6 +1035,18 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 				for (Component cmp : buttonPanel.getComponents()) {
 					cmp.setEnabled(true);
 				}
+				
+				populationText.setEnabled(true);
+			 	generationText.setEnabled(true);
+			 	iterPerIndText.setEnabled(true);
+			 	chromosomeLengthText.setEnabled(true);
+			 	codonUpperBoundText.setEnabled(true);
+			 	maxCntWrappingsText.setEnabled(true);
+			 	numOfObjectivesText.setEnabled(true);
+			 	crossoverText.setEnabled(true);
+			 	crossoverSlider.setEnabled(true);
+			 	mutationText.setEnabled(true);
+			 	mutationSlider.setEnabled(true);
 			}
 		});
 	}
