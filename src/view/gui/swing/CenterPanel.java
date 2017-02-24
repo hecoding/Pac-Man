@@ -128,7 +128,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		rangeAxis.setAutoRangeIncludesZero(false);
 		
 		graphPanel.add(new ChartPanel(chart), BorderLayout.CENTER);
-		tabs.add("Fitness", graphPanel);
+		tabs.add("Progress", graphPanel);
 		
 		// Program tab
 		programText = new JTextArea();
@@ -139,7 +139,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		programText.setWrapStyleWord(true);
 		programPanel.setLayout(new BorderLayout());
 		programPanel.add(new JScrollPane(programText), BorderLayout.CENTER);
-		tabs.add("Program", programPanel);
+		tabs.add("Derivation", programPanel);
 		
 		// Log tab
 		logPanel = new LogPanel(this.gCtrl);
