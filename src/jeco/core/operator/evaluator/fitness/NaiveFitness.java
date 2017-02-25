@@ -1,4 +1,6 @@
-package jeco.core.operator.evaluator;
+package jeco.core.operator.evaluator.fitness;
+
+import pacman.game.util.GameInfo;
 
 public class NaiveFitness implements FitnessEvaluatorInterface {
 

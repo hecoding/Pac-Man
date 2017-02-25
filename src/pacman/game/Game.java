@@ -3,9 +3,6 @@ package pacman.game;
 import java.util.BitSet;
 import java.util.EnumMap;
 import java.util.Random;
-
-import jeco.core.operator.evaluator.GameInfo;
-
 import java.util.Map.Entry;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
@@ -15,6 +12,7 @@ import pacman.game.internal.Maze;
 import pacman.game.internal.Node;
 import pacman.game.internal.PacMan;
 import pacman.game.internal.PathsCache;
+import pacman.game.util.GameInfo;
 
 import static pacman.game.Constants.*;
 

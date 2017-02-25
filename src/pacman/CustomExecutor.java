@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.mutable.MutableDouble;
 
-import jeco.core.operator.evaluator.GameInfo;
 import pacman.controllers.Controller;
 import pacman.controllers.GrammaticalAdapterController;
 import pacman.controllers.HumanController;
@@ -32,6 +31,7 @@ import pacman.game.Game;
 import pacman.game.GameView;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
+import pacman.game.util.GameInfo;
 
 import static pacman.game.Constants.*;
 

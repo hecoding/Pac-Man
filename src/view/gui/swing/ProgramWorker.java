@@ -8,7 +8,7 @@ import javax.swing.SwingWorker;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
-import jeco.core.operator.evaluator.NaiveFitness;
+import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;

@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
-import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
-import jeco.core.operator.evaluator.NaiveFitness;
+import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
+import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;

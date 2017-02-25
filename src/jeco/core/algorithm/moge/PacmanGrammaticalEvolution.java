@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.logging.Logger;
 
-import jeco.core.operator.evaluator.FitnessEvaluatorInterface;
-import jeco.core.operator.evaluator.GameInfo;
-import jeco.core.operator.evaluator.NaiveFitness;
+import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
+import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
@@ -25,6 +24,7 @@ import pacman.controllers.GrammaticalAdapterController;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
+import pacman.game.util.GameInfo;
 
 
 public class PacmanGrammaticalEvolution extends AbstractProblemGE {
