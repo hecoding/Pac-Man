@@ -2288,4 +2288,41 @@ public final class Game
 		return result.intValue();
 	}
 	
+	//***********************FUNCIONES DE ALTO NIVEL************************
+	//USANDO:
+	/*
+	 * Una gramatica con 10,20,30,40 como distancias
+	 * Distancia a fantasma comible mas cercano
+	 * Distancia a fantasma no comible mas cercano
+	 * Huir
+	 * Atacar
+	 * Farmear
+	 */
+
+	public MOVE huir(){
+		/*Mirar powerpill mas cercana, su distancia de pacman a ella ppd
+		 *Si las distancias son mayores desde todos los fantasmas a la PP que la de pacman, ir a por la PP
+		 *Si no, huir en la direccion por la que se tarde mas en llegar a un fantasma
+		 */
+		//Hacer esto en dos casos, junction y no (4 vs 2 dirs)
+		
+		if(isJunction(getPacmanCurrentNodeIndex())){
+			
+		}
+	}
+	
+	public MOVE atacar(){
+		/*
+		 *Mirar si se puede llegar al fantasma comible mas cercano
+		 *Antes de que pueda llegar ningun fantasma no comible a el
+		 *Si tal, ir a comerselo, si no, llamada a farmear 
+		 */
+	}
+	
+	public MOVE farmear(){
+		/*
+		 * Ir a por pill mas cercana a la que no llegen antes los fantasmas
+		 */
+	}
+	
 }
