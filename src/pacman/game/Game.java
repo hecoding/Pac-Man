@@ -1971,7 +1971,7 @@ public final class Game
 		return caches[mazeIndex].getPathDistanceFromA2B(fromNodeIndex,toNodeIndex,lastMoveMade);
 	}	
 	
-	/** UNTESTED
+	/**
 	 * Returns the distance to the closest powerpill in a given direction
 	 */
 	public int getDistToClosestPowerPill4d(int pacmanNode, MOVE direction){
@@ -1994,7 +1994,7 @@ public final class Game
 		return mindist;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the distance to the closest powerpill in any direction
 	 */
 	public int getDistToClosestPowerPill(int pacmanNode){
@@ -2020,7 +2020,7 @@ public final class Game
 		return mindist;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the distance to the closest pill in a given direction
 	 */
 	public int getDistToClosestPill4d(int pacmanNode, MOVE direction){
@@ -2043,7 +2043,7 @@ public final class Game
 		return mindist;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the distance to the closest pill in any direction
 	 */
 	public int getDistToClosestPill(int pacmanNode){
@@ -2069,7 +2069,7 @@ public final class Game
 		return mindist;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the direction towards the closest edible ghost (NEUTRAL if no edible ghosts avaiable)
 	 */
 	public MOVE getDirectionTowardsClosestEdibleGhost(int pacmanNode){
@@ -2081,7 +2081,7 @@ public final class Game
 		return ret;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns true/false depending if a movement is possible in a given direction
 	 */
 	public boolean isDirectionTakeable(int pacmanNode, MOVE direction){
@@ -2096,7 +2096,7 @@ public final class Game
 		return ret;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the movement opposed to the direction of the closest non edible ghost
 	 */
 	public MOVE getDirectionAwayFromClosestNonEdibleGhost(int pacmanNode){
@@ -2108,7 +2108,7 @@ public final class Game
 		return ret;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the movement towards the closest PowerPill
 	 */
 	public MOVE getDirectionTowardsClosestPowerPill(int pacmanNode){
@@ -2120,7 +2120,7 @@ public final class Game
 		return ret;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the movement towards the closest Pill
 	 */
 	public MOVE getDirectionTowardsClosestPill(int pacmanNode){
@@ -2132,7 +2132,7 @@ public final class Game
 		return ret;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the index of the closest junction to the Pacman
 	 */
 	public int getClosestJunction(int pacmanLocation, MOVE lastMoveMade)
@@ -2154,7 +2154,7 @@ public final class Game
 		return minJunctionIndex;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the number of exits of the closest junction to Pacman
 	 */
 	public int getClosestJunctionExitsNumber(int pacmanLocation, MOVE lastMoveMade)
@@ -2164,7 +2164,7 @@ public final class Game
 		return currentMaze.graph[closestJunctionIndex].numNeighbouringNodes;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the distance of Pacman to the closest intersection
 	 * Same as getClosestJunction() function but returning the distance
 	 */
@@ -2187,7 +2187,7 @@ public final class Game
 		return minDistance;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the distance of the closest non-edible ghost to the closest junction to Pacman
 	 */
 	public int getClosestNonEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
@@ -2211,7 +2211,7 @@ public final class Game
 		return minDistance;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the distance of the closest edible ghost to the closest junction to Pacman
 	 */
 	public int getClosestEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
@@ -2236,7 +2236,7 @@ public final class Game
 		return minDistance;
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the geometric mean of the distance between Pacman and all the non-edible ghosts
 	 * Ghosts in the lair are also taken into account
 	 */
@@ -2263,7 +2263,7 @@ public final class Game
 		return result.intValue();
 	}
 	
-	/** UNTESTED
+	/**
 	 * Returns the geometric mean of the Pacman distance to all the edible ghosts
 	 */
 	public int getGeometricMeanDistanceToEdibleGhosts(int pacmanLocation)
@@ -2299,30 +2299,90 @@ public final class Game
 	 * Farmear
 	 */
 
+	
+	/**Mirar powerpill mas cercana, su distancia de pacman a ella ppd
+	 *Si las distancias son mayores desde todos los fantasmas a la PP que la de pacman, ir a por la PP
+	 *Si no, huir en la direccion por la que se tarde mas en llegar a un fantasma
+	 */
 	public MOVE huir(){
-		/*Mirar powerpill mas cercana, su distancia de pacman a ella ppd
-		 *Si las distancias son mayores desde todos los fantasmas a la PP que la de pacman, ir a por la PP
-		 *Si no, huir en la direccion por la que se tarde mas en llegar a un fantasma
-		 */
-		//Hacer esto en dos casos, junction y no (4 vs 2 dirs)
 		
-		if(isJunction(getPacmanCurrentNodeIndex())){
-			
+		boolean go2pp = true;
+		
+		int closestpp = getClosestPowerPill(getPacmanCurrentNodeIndex());
+
+		int distpmpp = (int)getDistance(getPacmanCurrentNodeIndex(), closestpp, DM.PATH); //returns double with different DMs
+		
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				if((int)getDistance(closestpp, ghost.currentNodeIndex, DM.PATH) < distpmpp)
+					go2pp = false;
+			}
 		}
+		
+		if(go2pp)
+			return getNextMoveTowardsTarget(getPacmanCurrentNodeIndex(), closestpp, DM.PATH);
+		else{
+			return getNextMoveAwayFromTarget(getPacmanCurrentNodeIndex(), getClosestNonEdibleGhost(getPacmanCurrentNodeIndex()).currentNodeIndex, DM.PATH);
+		}		
+		
 	}
 	
+	/**
+	 *Mirar si se puede llegar al fantasma comible mas cercano
+	 *Antes de que pueda llegar ningun fantasma no comible a el
+	 *Si tal, ir a comerselo, si no, llamada a farmear
+	 */
 	public MOVE atacar(){
-		/*
-		 *Mirar si se puede llegar al fantasma comible mas cercano
-		 *Antes de que pueda llegar ningun fantasma no comible a el
-		 *Si tal, ir a comerselo, si no, llamada a farmear 
-		 */
+		
+		boolean atk = true;
+		
+		int closestg = getClosestEdibleGhost(getPacmanCurrentNodeIndex()).currentNodeIndex;
+
+		int distpmg = (int)getDistance(getPacmanCurrentNodeIndex(), closestg, DM.PATH);
+		
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				if((int)getDistance(closestg, ghost.currentNodeIndex, DM.PATH) < distpmg)
+					atk = false;
+			}
+		}
+		
+		if(atk)
+			return getNextMoveTowardsTarget(getPacmanCurrentNodeIndex(), closestg, DM.PATH);
+		else{
+			return farmear();
+		}		
 	}
 	
+	/**
+	 * Ir a por pill mas cercana a la que no llegen antes los fantasmas antes, si no puede llegar a ninguna se aleja de ellos
+	 */
 	public MOVE farmear(){
-		/*
-		 * Ir a por pill mas cercana a la que no llegen antes los fantasmas
-		 */
+		
+		boolean go2p = true;
+		
+		int closestp = getClosestPill(getPacmanCurrentNodeIndex());
+
+		int distpmp = (int)getDistance(getPacmanCurrentNodeIndex(), closestp, DM.PATH);
+		
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				if((int)getDistance(closestp, ghost.currentNodeIndex, DM.PATH) < distpmp)
+					go2p = false;
+			}
+		}
+		
+		if(go2p)
+			return getNextMoveTowardsTarget(getPacmanCurrentNodeIndex(), closestp, DM.PATH);
+		else{
+			return getNextMoveAwayFromTarget(getPacmanCurrentNodeIndex(), getClosestNonEdibleGhost(getPacmanCurrentNodeIndex()).currentNodeIndex, DM.PATH);
+		}		
 	}
 	
 }
