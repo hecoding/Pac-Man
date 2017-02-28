@@ -7,6 +7,7 @@
                   | atacar
                   | farmear
 <condition> ::= <number-func>_<number-operator>_<number>
+              | <number-func>_<number-operator>_<number-func>
 <number-func> ::= getDistanceToClosestNonEdibleGhost
                 | getDistanceToClosestEdibleGhost
 <number-operator> ::= EQ
