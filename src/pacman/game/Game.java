@@ -2310,7 +2310,15 @@ public final class Game
 		
 		int closestpp = getClosestPowerPill(getPacmanCurrentNodeIndex());
 
-		int distpmpp = (int)getDistance(getPacmanCurrentNodeIndex(), closestpp, DM.PATH); //returns double with different DMs
+		if (closestpp < 0) {
+			Ghost nonEdibleGhost = getClosestNonEdibleGhost(getPacmanCurrentNodeIndex());
+			if (nonEdibleGhost != null)
+				return getNextMoveAwayFromTarget(getPacmanCurrentNodeIndex(), getClosestNonEdibleGhost(getPacmanCurrentNodeIndex()).currentNodeIndex, DM.PATH);
+			else
+				return MOVE.NEUTRAL;
+		}
+		
+		double distpmpp = getDistance(getPacmanCurrentNodeIndex(), closestpp, DM.PATH); //returns double with different DMs
 		
 		for (Ghost ghost : this.ghosts.values())
 		{
@@ -2337,16 +2345,49 @@ public final class Game
 	public MOVE atacar(){
 		
 		boolean atk = true;
-		
-		int closestg = getClosestEdibleGhost(getPacmanCurrentNodeIndex()).currentNodeIndex;
+		Ghost g = getClosestEdibleGhost(getPacmanCurrentNodeIndex());
+		if (g == null)
+			return MOVE.NEUTRAL;
+		int closestg = g.currentNodeIndex;
 
-		int distpmg = (int)getDistance(getPacmanCurrentNodeIndex(), closestg, DM.PATH);
+		double distpmg = getDistance(getPacmanCurrentNodeIndex(), closestg, DM.PATH);
 		
 		for (Ghost ghost : this.ghosts.values())
 		{
 			if (!ghost.isEdible() && !ghost.isInLair())
 			{
-				if((int)getDistance(closestg, ghost.currentNodeIndex, DM.PATH) < distpmg)
+				if(getDistance(closestg, ghost.currentNodeIndex, DM.PATH) < distpmg)
+					atk = false;
+			}
+		}
+		
+		if(atk)
+			return getNextMoveTowardsTarget(getPacmanCurrentNodeIndex(), closestg, DM.PATH);
+		else{
+			return MOVE.NEUTRAL;
+		}		
+	}
+	
+	/**
+	 *Mirar si se puede llegar al fantasma comible mas cercano
+	 *Antes de que pueda llegar ningun fantasma no comible a el
+	 *Si tal, ir a comerselo, si no, llamada a farmear
+	 */
+	public MOVE atacarCheta(){
+		
+		boolean atk = true;
+		Ghost g = getClosestEdibleGhost(getPacmanCurrentNodeIndex());
+		if (g == null)
+			return farmear();
+		int closestg = g.currentNodeIndex;
+
+		double distpmg = getDistance(getPacmanCurrentNodeIndex(), closestg, DM.PATH);
+		
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				if(getDistance(closestg, ghost.currentNodeIndex, DM.PATH) < distpmg)
 					atk = false;
 			}
 		}
@@ -2366,14 +2407,49 @@ public final class Game
 		boolean go2p = true;
 		
 		int closestp = getClosestPill(getPacmanCurrentNodeIndex());
+		if (closestp < 0) {
+			int closestpp = getClosestPowerPill(getPacmanCurrentNodeIndex());
+			return getNextMoveTowardsTarget(getPacmanCurrentNodeIndex(), closestpp, DM.PATH);
+		}
 
-		int distpmp = (int)getDistance(getPacmanCurrentNodeIndex(), closestp, DM.PATH);
+		double distpmp = getDistance(getPacmanCurrentNodeIndex(), closestp, DM.PATH);
 		
 		for (Ghost ghost : this.ghosts.values())
 		{
 			if (!ghost.isEdible() && !ghost.isInLair())
 			{
-				if((int)getDistance(closestp, ghost.currentNodeIndex, DM.PATH) < distpmp)
+				if(getDistance(closestp, ghost.currentNodeIndex, DM.PATH) < distpmp)
+					go2p = false;
+			}
+		}
+		
+		if(go2p)
+			return getNextMoveTowardsTarget(getPacmanCurrentNodeIndex(), closestp, DM.PATH);
+		else{
+			return MOVE.NEUTRAL;
+		}		
+	}
+	
+	/**
+	 * Ir a por pill mas cercana a la que no llegen antes los fantasmas antes, si no puede llegar a ninguna se aleja de ellos
+	 */
+	public MOVE farmearCheta(){
+		
+		boolean go2p = true;
+		
+		int closestp = getClosestPill(getPacmanCurrentNodeIndex());
+		if (closestp < 0) {
+			int closestpp = getClosestPowerPill(getPacmanCurrentNodeIndex());
+			return getNextMoveTowardsTarget(getPacmanCurrentNodeIndex(), closestpp, DM.PATH);
+		}
+
+		double distpmp = getDistance(getPacmanCurrentNodeIndex(), closestp, DM.PATH);
+		
+		for (Ghost ghost : this.ghosts.values())
+		{
+			if (!ghost.isEdible() && !ghost.isInLair())
+			{
+				if(getDistance(closestp, ghost.currentNodeIndex, DM.PATH) < distpmp)
 					go2p = false;
 			}
 		}

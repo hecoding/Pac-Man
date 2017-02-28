@@ -103,6 +103,39 @@ public enum Action implements Function {
 		public String toString() {
 			return "getDirectionTowardsClosestEdibleGhost";
 		}
+	},
+	huir{
+        public MOVE getMove(Game game) { 
+            return game.huir();
+        }
+		public Object executeFunction(Game game) {
+			return null;
+		}
+		public String toString() {
+			return "huir";
+		}
+	},
+	atacar{
+        public MOVE getMove(Game game) { 
+            return game.atacar();
+        }
+		public Object executeFunction(Game game) {
+			return null;
+		}
+		public String toString() {
+			return "atacar";
+		}
+	},
+	farmear{
+        public MOVE getMove(Game game) { 
+            return game.farmear();
+        }
+		public Object executeFunction(Game game) {
+			return null;
+		}
+		public String toString() {
+			return "farmear";
+		}
 	};
 	
     //template method
