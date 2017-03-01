@@ -233,7 +233,7 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		dataset2.addSeries(absoluteSeries);
 		
 		try {
-			ChartUtilities.saveChartAsJPEG(new File(selecAlgo + " - " + crossAlgo + " - " + mutAlgo + ".jpeg"), chart, 1920, 1080);
+			ChartUtilities.saveChartAsJPEG(new File("logs/" + selecAlgo + " - " + crossAlgo + " - " + mutAlgo + ".jpeg"), chart, 1920, 1080);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
