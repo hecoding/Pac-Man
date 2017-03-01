@@ -55,6 +55,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JTextField mutationText;
  	JSlider mutationSlider;
  	JSlider elitismSlider;
+ 	JPanel grammar;
+ 	JComboBox<String> grammarBox;
  	JPanel initialization;
  	JComboBox<String> initializationBox;
  	JPanel selection;
@@ -76,6 +78,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	int crossoverSliderDefault;
 	int mutationSliderDefault;
 	int elitismSliderDefault;
+	Object grammarBoxDefault;
 	Object initializationBoxDefault;
 	Object selectionBoxDefault;
 	Object crossoverBoxDefault;
@@ -140,6 +143,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
+					gCtrl.setGrammar((String) grammarBox.getSelectedItem());
 					//ctrl.setElitismPercentage(elitismSlider.getValue());
 					//ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
 					//ctrl.setSelectionParameter(tournamentGroupsText.getText());
@@ -509,6 +513,24 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		d.setMaximumSize(new Dimension(420, 1));
 		settings.add(d);
 		//---------------------------------------------
+				
+		grammar = new JPanel();
+		grammar.setLayout(new BoxLayout(grammar, BoxLayout.Y_AXIS));
+		
+		JLabel grammarLabel = new JLabel("Grammar");
+		JPanel justforpadding = new JPanel();
+		justforpadding.add(grammarLabel);
+		justforpadding.setAlignmentX(Component.CENTER_ALIGNMENT);
+		grammar.add(justforpadding);
+		
+		grammarBox = new JComboBox<String>();
+		grammarBox.setPreferredSize(new Dimension(200, grammarBox.getPreferredSize().height));
+		grammar.add(grammarBox);
+		grammar.setMaximumSize(grammar.getPreferredSize());
+		grammar.setMinimumSize(grammar.getPreferredSize());
+		grammar.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(grammar);
+		
 		/*
 		JPanel elitism = new JPanel();
 		elitism.setLayout(new BoxLayout(elitism, BoxLayout.Y_AXIS));
@@ -890,7 +912,14 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.crossoverText.setText(String.valueOf(this.gCtrl.getCrossProb()));
 		this.crossoverSlider.setValue((int) (this.gCtrl.getCrossProb() * 100));
 		this.mutationText.setText(String.valueOf(this.gCtrl.getMutationProb()));
-		this.mutationSlider.setValue((int) (this.gCtrl.getMutationProb() * 100));/*
+		this.mutationSlider.setValue((int) (this.gCtrl.getMutationProb() * 100));
+		for(String item : this.gCtrl.getCleanGrammarNames()) {
+			this.grammarBox.addItem(item);
+		}
+		this.grammarBox.setSelectedItem(this.gCtrl.getCleanGrammar());
+		grammar.setMaximumSize(grammar.getPreferredSize());
+		grammar.setMinimumSize(grammar.getPreferredSize());
+		/*
 		this.elitismSlider.setValue((int) (this.problem. * 100));
 		for (String item : this.ctrl.getInitializationStrategyList()) {
 			this.initializationBox.addItem(item);			
@@ -939,6 +968,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		//tournamentGroupsTextDefault = tournamentGroupsText.getText();
 		crossoverSliderDefault = crossoverSlider.getValue();
 		mutationSliderDefault = mutationSlider.getValue();
+		grammarBoxDefault = grammarBox.getSelectedItem();
 		//elitismSliderDefault = elitismSlider.getValue();
 		//initializationBoxDefault = initializationBox.getSelectedItem();
 		//selectionBoxDefault = selectionBox.getSelectedItem();
@@ -959,6 +989,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
 		crossoverSlider.setValue(crossoverSliderDefault);
 		mutationSlider.setValue(mutationSliderDefault);
+		grammarBox.setSelectedItem(grammarBoxDefault);
 		//elitismSlider.setValue(elitismSliderDefault);
 		//initializationBox.setSelectedItem(initializationBoxDefault);
 		//selectionBox.setSelectedItem(selectionBoxDefault);
@@ -1008,6 +1039,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	crossoverSlider.setEnabled(false);
 			 	mutationText.setEnabled(false);
 			 	mutationSlider.setEnabled(false);
+			 	grammarBox.setEnabled(false);
 			 	/*
 			 	heightText.setEnabled(false);
 			 	elitismSlider;
@@ -1047,6 +1079,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	crossoverSlider.setEnabled(true);
 			 	mutationText.setEnabled(true);
 			 	mutationSlider.setEnabled(true);
+			 	grammarBox.setEnabled(true);
 			}
 		});
 	}
