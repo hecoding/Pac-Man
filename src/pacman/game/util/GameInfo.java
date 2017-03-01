@@ -156,4 +156,12 @@ public class GameInfo {
 		return giFinal;
 	}
 	
+	@Override
+	public String toString()
+	{
+		String toRet = "Individuo GameInfo\n{\n";
+		
+		return toRet;
+	}
+	
 }

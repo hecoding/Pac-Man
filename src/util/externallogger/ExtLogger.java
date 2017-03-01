@@ -25,7 +25,7 @@ public class ExtLogger {
 	}
 	
 	public void generateCSV(ExtLog log, String filename){
-		String header = "Probabilidad_de_mutación,Probabilidad_de_cruce,Tamaño_de_la_población,Número_de_iteraciones,Iteraciones_por_individuo,Función_de_fitness,Fitness,Puntos_promedio,Fenotipo,Tiempo_de_Ejecución";
+		String header = "Probabilidad_de_mutacion,Probabilidad_de_cruce,Tamano_de_la_poblacion,Numero_de_iteraciones,Iteraciones_por_individuo,Algoritmos,Fitness,Puntos_promedio,Fenotipo,Tiempo_de_Ejecucion";
 		boolean isHeaderMissing = false;
 		String filePath = "logs/".concat(filename);
 

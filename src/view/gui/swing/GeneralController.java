@@ -1,14 +1,32 @@
 package view.gui.swing;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import javax.swing.JProgressBar;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
+import jeco.core.operator.crossover.CombinatorialCrossover;
+import jeco.core.operator.crossover.CrossoverOperator;
+import jeco.core.operator.crossover.CycleCrossover;
+import jeco.core.operator.crossover.SBXCrossover;
+import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
 import jeco.core.operator.evaluator.fitness.NaiveFitness;
+import jeco.core.operator.mutation.BooleanMutation;
+import jeco.core.operator.mutation.CombinatorialMutation;
+import jeco.core.operator.mutation.IntegerFlipMutation;
+import jeco.core.operator.mutation.MutationOperator;
+import jeco.core.operator.mutation.NonUniformMutation;
+import jeco.core.operator.mutation.SwapMutation;
+import jeco.core.operator.selection.BinaryTournament;
+import jeco.core.operator.selection.BinaryTournamentNSGAII;
+import jeco.core.operator.selection.EliteSelectorOperator;
+import jeco.core.operator.selection.SelectionOperator;
+import jeco.core.operator.selection.TournamentSelect;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
@@ -41,29 +59,95 @@ public class GeneralController {
 		
 	}
 	
-	public void execute() {
+	public void execute() {		
+		/***
+		 * 
+		 * TEST BENCH CODE
+		 * 
+		***/
 		// First create the problem
 		problem = new PacmanGrammaticalEvolution("test/gramaticadelaqueseforjanlossuenos.bnf",
 				populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual,
 				this.numOfObjectives, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
 				);
-		// Second create the algorithm (here we do a dirty trick to preserve observers)
-		if(algorithm != null)
-			algorithmObservers = algorithm.getObservers();
-		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
-		algorithm.setObservers(algorithmObservers);
 		
-		// We can set different operators using
-	  	//algorithm.setSelectionOperator(selectionOperator);
-		//algorithm.setCrossoverOperator(crossoverOperator);
-		//algorithm.setMutationOperator(mutationOperator);
 		
-		// Set multithreading
-		int avalaibleThreads = Runtime.getRuntime().availableProcessors();
-		algorithmWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
-		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker, this);
+		//Create lists with algorithms. Can't use generic arrays due to Java compiler restrictions.
+	  	LinkedList<SelectionOperator<Variable<Integer>>> selectionOperators = new LinkedList<SelectionOperator<Variable<Integer>>>();
+	  	selectionOperators.add(new BinaryTournament<Variable<Integer>>());
+	  	selectionOperators.add(new BinaryTournamentNSGAII<Variable<Integer>>());
+	  	selectionOperators.add(new EliteSelectorOperator<Variable<Integer>>());
+	  	selectionOperators.add(new TournamentSelect<Variable<Integer>>());
+	  	
+	  	LinkedList<CrossoverOperator<Variable<Integer>>> crossoverOperators = new LinkedList<CrossoverOperator<Variable<Integer>>>();
+	  	crossoverOperators.add(new CombinatorialCrossover(crossProb));
+	  	crossoverOperators.add(new CycleCrossover<Variable<Integer>>(crossProb));
+	  	//crossoverOperators.add(new SBXCrossover<Variable<Integer>>(problem, 20, crossProb)); Cant use it with Integer variables
+	  	crossoverOperators.add(new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, crossProb, SinglePointCrossover.ALLOW_REPETITION));
+	  	
+	  	LinkedList<MutationOperator<Variable<Integer>>> mutationOperators = new LinkedList<MutationOperator<Variable<Integer>>>();
+	  	mutationOperators.add(new CombinatorialMutation(mutationProb, 0, codonUpperBound));
+	  	mutationOperators.add(new IntegerFlipMutation<>(problem, mutationProb));
+	  	mutationOperators.add(new SwapMutation<Variable<Integer>>(mutationProb));
 		
-		programWorker.execute();
+		
+	  	for(SelectionOperator<Variable<Integer>> selectionOperator : selectionOperators)
+	  	{
+		  	for(CrossoverOperator<Variable<Integer>> crossOverOperator : crossoverOperators)
+		  	{
+				for(MutationOperator<Variable<Integer>> mutationOperator : mutationOperators)
+				{
+					//Hay que volver a definir todo cada vez que se ejecuta un bucle
+					// Second create the algorithm (here we do a dirty trick to preserve observers)
+					if(algorithm != null)
+						algorithmObservers = algorithm.getObservers();
+					algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+					algorithm.setObservers(algorithmObservers);
+					
+					// Set multithreading
+					int avalaibleThreads = Runtime.getRuntime().availableProcessors();
+					algorithmWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
+					programWorker = new ProgramWorker(algorithm, problem, algorithmWorker, this, selectionOperator.toString(), crossOverOperator.toString(), mutationOperator.toString());
+					
+					// We can set different operators using
+				  	algorithm.setSelectionOperator(selectionOperator);
+					algorithm.setCrossoverOperator(crossOverOperator);
+					algorithm.setMutationOperator(mutationOperator);
+					
+					System.out.println(selectionOperator.toString() + " - " + crossOverOperator.toString() + " - " + mutationOperator.toString());
+					
+					programWorker.execute();
+					
+					//Added for Test Bench
+					try {
+						programWorker.get();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+		  	}
+	  	}
+		
+		//Added for Test Bench
+		try {
+			programWorker.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/***
+		 * 
+		 * TEST BENCH CODE - END
+		 * 
+		***/
 	}
 	
 	public void addObserver(AlgObserver o) {
