@@ -88,6 +88,7 @@ public class CustomExecutor {
 		gi.setScore(game.getScore());
 		gi.setLastLevelReached(game.getLevelCount());
 		gi.setLastLevelReached(lastLevel);
+		gi.setTimeLasted(game.getTotalTime());
 		return gi;
 	}
 	
