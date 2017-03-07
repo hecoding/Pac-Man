@@ -50,6 +50,6 @@ public class FileList {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(listFilesInto("./test", ".bnf"));
+		System.out.println(listFilesInto("./grammar", ".bnf"));
 	}
 }

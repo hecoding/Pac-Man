@@ -30,7 +30,8 @@ public class GeneralController {
 	double mutationProb = 0.02;
   	double crossProb = 0.6;
   	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
-  	String grammar = "./test/gramaticadelaqueseforjanlossuenos.bnf";
+  	String grammarFolder ="./grammar/";
+  	String grammar = grammarFolder + "base.bnf";
 
 	int iterPerIndividual = 3;// = 10; // games ran per evaluation
   	
@@ -168,11 +169,11 @@ public class GeneralController {
 	}
 	
 	public ArrayList<String> getGrammarNames() {
-		return FileList.listFilesInto("./test", ".bnf");
+		return FileList.listFilesInto(this.grammarFolder, ".bnf");
 	}
 	
 	public ArrayList<String> getCleanGrammarNames() {
-		return FileList.cleanListFiles("./test", ".bnf");
+		return FileList.cleanListFiles(this.grammarFolder, ".bnf");
 	}
 	
 	public void setGrammar(String grammar) {
