@@ -30,6 +30,8 @@ import jeco.core.problem.Variable;
 public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   
   public static final Logger logger = Logger.getLogger(NSGAII.class.getName());
+  
+  private static final boolean jecoPopulationMerge = false; //True si se quiere usar la forma de generar la nueva población a partir de la nueva generacion y la antigua de jeco.
 
   /////////////////////////////////////////////////////////////////////////
   protected int maxGenerations;
@@ -138,13 +140,52 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       } // for
       problem.evaluate(childPop);
 
-      // Create the solutionSet union of solutionSet and offSpring
-      Solutions<Variable<Integer>> mixedPop = new Solutions<Variable<Integer>>();
-      mixedPop.addAll(population);
-      mixedPop.addAll(childPop);
+      if(jecoPopulationMerge)
+      {
+    	// Create the solutionSet union of solutionSet and offSpring
+	      Solutions<Variable<Integer>> mixedPop = new Solutions<Variable<Integer>>();
+	      mixedPop.addAll(population);
+	      mixedPop.addAll(childPop);
+	      
+	      // Reducing the union
+	      population = reduce(mixedPop, maxPopulationSize);
+      }
+      else
+      {
+    	  //Metodo propio temporal
+    	  if(childPop.size() < maxPopulationSize)
+    	  {
+    		  population.sort(dominance);
+    		  
+    		  final int elite = 10;
+    		  int i = 0;
+    		  while((i != elite) && (childPop.size() != maxPopulationSize))  
+    		  {
+    			  childPop.add(population.get(i));
+    			  i++;
+    		  }
+    	  }
+    	  else
+    	  {
+    		  population.sort(dominance);
+    		  childPop.sort(dominance);
+    		  
+    		  final int elite = 10;
+    		  for(int i = 0; i < elite; i++)
+    		  {  			  
+    			  childPop.remove(childPop.size() - 1);
+    		  }
+    		  for(int i = 0; i < elite; i++)
+    		  {  			  
+    			  childPop.add(population.get(i));
+    		  }
+    	  }
+    	  
+    	  //childPop.sort(dominance);
+    	  //population = childPop;
+    	  population = reduce(childPop, maxPopulationSize);
+      }
 
-      // Reducing the union
-      population = reduce(mixedPop, maxPopulationSize);
       logger.fine("Generation " + currentGeneration + "/" + maxGenerations + "\n" + population.toString());
   } // step
 
