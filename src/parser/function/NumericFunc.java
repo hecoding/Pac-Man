@@ -107,14 +107,6 @@ public enum NumericFunc implements Function{
 			return "getDistToClosestPill";
 		}
 	},
-	getDistToClosestPillCurrent {
-		public Object executeFunction(Game game) {
-			return game.getDistToClosestPill4d(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getDistToClosestPillCurrent";
-		}
-	},
 	getDistToClosestPillUp {
 		public Object executeFunction(Game game) {
 			return game.getDistToClosestPill4d(game.getPacmanCurrentNodeIndex(), MOVE.UP);
@@ -153,14 +145,6 @@ public enum NumericFunc implements Function{
 		}
 		public String toString() {
 			return "getDistToClosestPowerPill";
-		}
-	},
-	getDistToClosestPowerPillCurrent {
-		public Object executeFunction(Game game) {
-			return game.getDistToClosestPowerPill4d(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getDistToClosestPowerPillCurrent";
 		}
 	},
 	getDistToClosestPowerPillUp {
