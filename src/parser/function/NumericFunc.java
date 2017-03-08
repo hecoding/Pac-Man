@@ -200,7 +200,7 @@ public enum NumericFunc implements Function{
 			return game.getClosestJunctionExitsNumber(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
 		}
 		public String toString() {
-			return "getClosestJunctionExitsNumberCurret";
+			return "getClosestJunctionExitsNumberCurrent";
 		}
 	},
 	getClosestJunctionExitsNumberUp {
