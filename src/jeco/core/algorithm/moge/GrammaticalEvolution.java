@@ -152,34 +152,13 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       }
       else
       {
-    	  //Metodo propio temporal
-    	  if(childPop.size() < maxPopulationSize)
-    	  {
-    		  population.sort(dominance);
-    		  
-    		  final int elite = 10;
-    		  int i = 0;
-    		  while((i != elite) && (childPop.size() != maxPopulationSize))  
-    		  {
-    			  childPop.add(population.get(i));
-    			  i++;
-    		  }
-    	  }
-    	  else
-    	  {
-    		  population.sort(dominance);
-    		  childPop.sort(dominance);
-    		  
-    		  final int elite = 10;
-    		  for(int i = 0; i < elite; i++)
-    		  {  			  
-    			  childPop.remove(childPop.size() - 1);
-    		  }
-    		  for(int i = 0; i < elite; i++)
-    		  {  			  
-    			  childPop.add(population.get(i));
-    		  }
-    	  }
+    	  //Metodo propio temporal    	  
+    	  population.sort(dominance);
+    	  final int elite = 20;
+		  for(int i = 0; i < elite; i++)
+		  {  			  
+			  childPop.add(population.get(i));
+		  }
     	  
     	  //childPop.sort(dominance);
     	  //population = childPop;
