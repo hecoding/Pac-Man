@@ -1998,24 +1998,17 @@ public final class Game
 	 * Returns the distance to the closest powerpill in any direction
 	 */
 	public int getDistToClosestPowerPill(int pacmanNode){
+		int dist;
 		int mindist=Integer.MAX_VALUE;
+		int [] PPIndices = getPowerPillIndices();
 		
-		if(currentMaze.graph[pacmanNode].neighbourhood.size()==0)//lair
-			return 0;
-		
-		int down = getDistToClosestPowerPill4d(pacmanNode, MOVE.DOWN);
-		int up = getDistToClosestPowerPill4d(pacmanNode, MOVE.UP);
-		int left = getDistToClosestPowerPill4d(pacmanNode, MOVE.LEFT);
-		int right = getDistToClosestPowerPill4d(pacmanNode, MOVE.RIGHT);
-		
-		if(down < mindist)
-			mindist = down;
-		if(up < mindist)
-			mindist = up;
-		if(left < mindist)
-			mindist = left;
-		if(right < mindist)
-			mindist = right;
+		for(int i = 0; i < PPIndices.length; i++){
+			if(isPowerPillStillAvailable(PPIndices[i])){
+				dist = getShortestPathDistance(pacmanNode, PPIndices[i]);
+				if (dist < mindist)
+					mindist = dist;
+			}
+		}
 		
 		return mindist;
 	}
