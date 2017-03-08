@@ -2148,6 +2148,26 @@ public final class Game
 	}
 	
 	/**
+	 * Returns the index of the closest junction to the Pacman
+	 */
+	public int getClosestJunctionUpgraded(int pacmanLocation, MOVE lastMoveMade)
+	{
+		int currentNode = getNeighbour(getPacmanCurrentNodeIndex(), lastMoveMade);
+		if (currentNode == -1)
+			return -1;
+		
+		while(!isJunction(currentNode)) {
+			int[] newNodes = getNeighbouringNodes(currentNode);
+			if(newNodes[0] == currentNode)
+				currentNode = newNodes[1];
+			else
+				currentNode = newNodes[0];
+		}
+		
+		return currentNode;
+	}
+	
+	/**
 	 * Returns the number of exits of the closest junction to Pacman
 	 */
 	public int getClosestJunctionExitsNumber(int pacmanLocation, MOVE lastMoveMade)
