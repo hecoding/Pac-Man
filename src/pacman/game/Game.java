@@ -2221,6 +2221,8 @@ public final class Game
 	 */
 	public int getClosestNonEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE direction) {
 		int junctionIndex = getClosestJunctionUpgraded(pacmanLocation, direction);
+		if (junctionIndex == -1)
+			return -1;
 		
 		int minDistance = Integer.MAX_VALUE;
 		for (Ghost ghost : this.ghosts.values()) {
@@ -2240,6 +2242,9 @@ public final class Game
 	 */
 	public int getClosestEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE direction) {
 		int junctionIndex = getClosestJunctionUpgraded(pacmanLocation, direction);
+		
+		if (junctionIndex == -1)
+			return Integer.MAX_VALUE;
 		
 		int minDistance = Integer.MAX_VALUE;
 		for (Ghost ghost : this.ghosts.values()) {
