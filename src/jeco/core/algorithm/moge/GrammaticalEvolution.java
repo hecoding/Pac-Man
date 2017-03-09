@@ -14,8 +14,10 @@ import jeco.core.operator.crossover.CrossoverOperator;
 import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.mutation.IntegerFlipMutation;
 import jeco.core.operator.mutation.MutationOperator;
+import jeco.core.operator.mutation.SwapMutation;
 import jeco.core.operator.selection.BinaryTournamentNSGAII;
 import jeco.core.operator.selection.SelectionOperator;
+import jeco.core.operator.selection.TournamentSelect;
 import jeco.core.problem.Problem;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
@@ -55,9 +57,9 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       super(problem);
       this.maxPopulationSize = maxPopulationSize;
       this.maxGenerations = maxGenerations;
-      this.mutationOperator = new IntegerFlipMutation<Variable<Integer>>(problem, probMutation);
+      this.mutationOperator = new SwapMutation<Variable<Integer>>(probMutation);
       this.crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, probCrossover, SinglePointCrossover.ALLOW_REPETITION);
-      this.selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
+      this.selectionOperator = new TournamentSelect<Variable<Integer>>();
       
       this.absoluteBest = Double.POSITIVE_INFINITY; // as this is minimization
       this.absoluteBestObjetives = new ArrayList<>(this.maxGenerations);
@@ -152,9 +154,9 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       }
       else
       {
-    	  //Metodo propio temporal    	  
+    	  //Metodo propio    	  
     	  population.sort(dominance);
-    	  final int elite = 20;
+    	  final int elite = 10;
 		  for(int i = 0; i < elite; i++)
 		  {  			  
 			  childPop.add(population.get(i));
