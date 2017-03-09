@@ -2128,6 +2128,7 @@ public final class Game
 	/**
 	 * Returns the index of the closest junction to the Pacman
 	 */
+	@Deprecated
 	public int getClosestJunction(int pacmanLocation, MOVE lastMoveMade)
 	{
 		int[] junctionIndices = getJunctionIndices();
@@ -2148,20 +2149,29 @@ public final class Game
 	}
 	
 	/**
-	 * Returns the index of the closest junction to the Pacman
+	 * Returns the index of the closest junction to Pacman following a direction
+	 * if pacmanLocation is a junction, returns the next junction
+	 * if the immediate first node is a wall, returns -1
+	 * the algorithm doesn't get stuck on corners
 	 */
-	public int getClosestJunctionUpgraded(int pacmanLocation, MOVE lastMoveMade)
+	public int getClosestJunctionUpgraded(int pacmanLocation, MOVE direction)
 	{
-		int currentNode = getNeighbour(getPacmanCurrentNodeIndex(), lastMoveMade);
+		int oldNode = pacmanLocation;
+		int currentNode = getNeighbour(pacmanLocation, direction);
 		if (currentNode == -1)
 			return -1;
 		
+		
 		while(!isJunction(currentNode)) {
 			int[] newNodes = getNeighbouringNodes(currentNode);
-			if(newNodes[0] == currentNode)
+			if(newNodes[0] == oldNode) {
+				oldNode = currentNode;
 				currentNode = newNodes[1];
-			else
+			}
+			else {
+				oldNode = currentNode;
 				currentNode = newNodes[0];
+			}
 		}
 		
 		return currentNode;
