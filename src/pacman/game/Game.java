@@ -2154,8 +2154,7 @@ public final class Game
 	 * if the immediate first node is a wall, returns -1
 	 * the algorithm doesn't get stuck on corners
 	 */
-	public int getClosestJunctionUpgraded(int pacmanLocation, MOVE direction)
-	{
+	public int getClosestJunctionUpgraded(int pacmanLocation, MOVE direction) {
 		int oldNode = pacmanLocation;
 		int currentNode = getNeighbour(pacmanLocation, direction);
 		if (currentNode == -1)
@@ -2180,9 +2179,11 @@ public final class Game
 	/**
 	 * Returns the number of exits of the closest junction to Pacman
 	 */
-	public int getClosestJunctionExitsNumber(int pacmanLocation, MOVE lastMoveMade)
+	public int getClosestJunctionExitsNumber(int pacmanLocation, MOVE direction)
 	{
-		int closestJunctionIndex = getClosestJunction(pacmanLocation, lastMoveMade);
+		int closestJunctionIndex = getClosestJunctionUpgraded(pacmanLocation, direction);
+		if(closestJunctionIndex == -1)
+			return 0;
 		
 		return currentMaze.graph[closestJunctionIndex].numNeighbouringNodes;
 	}
@@ -2191,43 +2192,43 @@ public final class Game
 	 * Returns the distance of Pacman to the closest intersection
 	 * Same as getClosestJunction() function but returning the distance
 	 */
-	public int getDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
+	public int getDistanceToClosestJunction(int pacmanLocation, MOVE direction)
 	{
-		int[] junctionIndices = getJunctionIndices();
+		int oldNode = pacmanLocation;
+		int currentNode = getNeighbour(pacmanLocation, direction);
+		if (currentNode == -1)
+			return Integer.MAX_VALUE;
 		
-		int minJunctionIndex = junctionIndices[0];
-		int minDistance = getShortestPathDistance(pacmanLocation, minJunctionIndex, lastMoveMade);
-		for(int i = 1; i < junctionIndices.length; i++)
-		{
-			int junctionDist = getShortestPathDistance(pacmanLocation, junctionIndices[i], lastMoveMade);
-			if(junctionDist < minDistance)
-			{
-				minJunctionIndex = junctionIndices[i];
-				minDistance = junctionDist;
+		int distance = 1;
+		while(!isJunction(currentNode)) {
+			int[] newNodes = getNeighbouringNodes(currentNode);
+			if(newNodes[0] == oldNode) {
+				oldNode = currentNode;
+				currentNode = newNodes[1];
 			}
+			else {
+				oldNode = currentNode;
+				currentNode = newNodes[0];
+			}
+			distance++;
 		}
 		
-		return minDistance;
+		return distance;
 	}
 	
 	/**
 	 * Returns the distance of the closest non-edible ghost to the closest junction to Pacman
 	 */
-	public int getClosestNonEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
-	{
-		int junctionIndex = getClosestJunction(pacmanLocation, lastMoveMade);
+	public int getClosestNonEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE direction) {
+		int junctionIndex = getClosestJunctionUpgraded(pacmanLocation, direction);
 		
 		int minDistance = Integer.MAX_VALUE;
-		for (Ghost ghost : this.ghosts.values())
-		{
-			if (!ghost.isEdible() && !ghost.isInLair())
-			{
-				int distance = this.getShortestPathDistance(junctionIndex, ghost.currentNodeIndex);
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair())	{
+				int distance = this.getShortestPathDistance(ghost.currentNodeIndex, junctionIndex, ghost.lastMoveMade);
 	
 				if (distance < minDistance)
-				{
 					minDistance = distance;
-				}
 			}
 		}
 		
@@ -2237,22 +2238,16 @@ public final class Game
 	/**
 	 * Returns the distance of the closest edible ghost to the closest junction to Pacman
 	 */
-	public int getClosestEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE lastMoveMade)
-	{
-		int junctionIndex = getClosestJunction(pacmanLocation, lastMoveMade);
+	public int getClosestEdibleGhostDistanceToClosestJunction(int pacmanLocation, MOVE direction) {
+		int junctionIndex = getClosestJunctionUpgraded(pacmanLocation, direction);
 		
 		int minDistance = Integer.MAX_VALUE;
-		for (Ghost ghost : this.ghosts.values())
-		{
-			//No need to check if the ghost is in lair as its edible
-			if (ghost.isEdible())
-			{
+		for (Ghost ghost : this.ghosts.values()) {
+			if (ghost.isEdible() && !ghost.isInLair())	{
 				int distance = this.getShortestPathDistance(junctionIndex, ghost.currentNodeIndex);
 	
 				if (distance < minDistance)
-				{
 					minDistance = distance;
-				}
 			}
 		}
 		
