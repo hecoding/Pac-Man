@@ -99,18 +99,18 @@ public class PathsCache
 	}
 	
 	
-	//For ghosts (or pacman) (AKA you can't turn back, you've a given direction)
+	//For ghosts (or pacman) (AKA you can't turn back, you've a given direction) T1 = NEW ONE, T2 = ORIGINAL
 	public int getPathDistanceFromA2B(int a, int b, MOVE lastMoveMade)
 	{
-		//int t1 = getDistanceFromA2BUPG(a, b, lastMoveMade);
-		int t2 = getPathFromA2B(a, b, lastMoveMade).length;
+		int t1 = getDistanceFromA2BUPG(a, b, lastMoveMade);
+		//int t2 = getPathFromA2B(a, b, lastMoveMade).length;
 
 		//if(t1 != t2){
 		//	System.out.println("MIA: " + t1 + "  ORIG: "+t2);
 		//}
 		
-		return t2;
-		//return t1;
+		//return t2;
+		return t1;
 	}
 	
 	public int getDistanceFromA2BUPG(int a, int b, MOVE lastMoveMade){
