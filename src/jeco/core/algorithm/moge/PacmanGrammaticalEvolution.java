@@ -128,7 +128,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	int iterPerIndividual = 2; // games ran per evaluation
 	  	
 		// First create the problem
-		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("test/pacman.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
+		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("grammar/base.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
 		// Second create the algorithm
 		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
 		

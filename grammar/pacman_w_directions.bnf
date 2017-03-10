@@ -1,0 +1,4 @@
+<expr> ::= ? <cond> <expr> | <expr> <action> <expr> | <action> <expr> | <action>
+<cond> ::= P
+<action> ::= <mov> | H | C
+<mov> ::= U | D | R | L

@@ -15,6 +15,6 @@ Marcar sólo `master` y darle a `Finish`
 Dentro del proyecto, navegar hasta `src/main` y ejecutar la clase `Main.java`. Se abrirá la GUI.
 
 ## Ver el código
-[Configura tu Eclipse](https://github.com/hecoding/Pac-Man/wiki/Configuraci%C3%B3n-Eclipse) para que se vea bien el código.
+[Configura tu Eclipse](https://github.com/hecoding/Pac-Man/wiki/%5BHOW-TO%5D-Configurar-Eclipse) para que se vea bien el código.
 
 ### [Ver la documentación](https://github.com/hecoding/Pac-Man/wiki)

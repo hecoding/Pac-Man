@@ -14,6 +14,7 @@ import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
 import parser.TreeParser;
 import parser.nodes.NicerTree;
+import util.FileList;
 
 public class GeneralController {
 	static ProgramWorker programWorker;
@@ -29,6 +30,8 @@ public class GeneralController {
 	double mutationProb = 0.02;
   	double crossProb = 0.6;
   	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
+  	String grammarFolder ="./grammar/";
+  	String grammar = grammarFolder + "base.bnf";
 
 	int iterPerIndividual = 3;// = 10; // games ran per evaluation
   	
@@ -43,7 +46,7 @@ public class GeneralController {
 	
 	public void execute() {
 		// First create the problem
-		problem = new PacmanGrammaticalEvolution("test/gramaticadelaqueseforjanlossuenos.bnf",
+		problem = new PacmanGrammaticalEvolution(grammar,
 				populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual,
 				this.numOfObjectives, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
 				);
@@ -155,6 +158,35 @@ public class GeneralController {
 	
 	public void setMutationProb(double prob) {
 		this.mutationProb = prob;
+	}
+	
+	public String getGrammar() {
+		return this.grammar;
+	}
+	
+	public String getCleanGrammar() {
+		return FileList.cleanFileName(this.grammar);
+	}
+	
+	public ArrayList<String> getGrammarNames() {
+		return FileList.listFilesInto(this.grammarFolder, ".bnf");
+	}
+	
+	public ArrayList<String> getCleanGrammarNames() {
+		return FileList.cleanListFiles(this.grammarFolder, ".bnf");
+	}
+	
+	public void setGrammar(String grammar) {
+		this.grammar = this.getGrammarRealName(grammar);
+	}
+	
+	private String getGrammarRealName(String s) {
+		for(String g : this.getGrammarNames()) {
+			if(s.equals(FileList.cleanFileName(g)))
+				return g;
+		}
+		
+		return null;
 	}
 	
 	public ArrayList<Double> getWorstObjectives() {
