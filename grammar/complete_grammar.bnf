@@ -7,9 +7,17 @@
                   | getDirectionAwayFromClosestNonEdibleGhost
                   | getDirectionTowardsClosestEdibleGhost
                   | getDirectionTowardsClosestPowerPill
+                  | huir
+                  | atacar
+                  | farmear
 				  | <simpleMoves>
-<condition> ::= <number-func>_<number-operator>_<number>
+<condition> ::= <boolean-func>
+              | <boolean-func>_<boolean-operator>_<boolean-func>
+              | <number-func>_<number-operator>_<number>
               | <number-func>_<number-operator>_<number-func>
+<boolean-func> ::= <boolean-api>
+                 | !_<boolean-api>
+<boolean-api> ::= isJunction
 <boolean-operator> ::= and
                      | or
 <number-func> ::= getDistanceToClosestNonEdibleGhost
@@ -33,6 +41,22 @@
                 | getDistToClosestPowerPillDown
                 | getDistToClosestPowerPillLeft
                 | getDistToClosestPowerPillRight
+                | getClosestJunctionExitsNumberUp
+                | getClosestJunctionExitsNumberDown
+                | getClosestJunctionExitsNumberLeft
+                | getClosestJunctionExitsNumberRight
+                | getDistanceToClosestJunctionUp
+                | getDistanceToClosestJunctionDown
+                | getDistanceToClosestJunctionLeft
+                | getDistanceToClosestJunctionRight
+                | getClosestNonEdibleGhostDistanceToClosestJunctionUp
+                | getClosestNonEdibleGhostDistanceToClosestJunctionDown
+                | getClosestNonEdibleGhostDistanceToClosestJunctionLeft
+                | getClosestNonEdibleGhostDistanceToClosestJunctionRight
+                | getClosestEdibleGhostDistanceToClosestJunctionUp
+                | getClosestEdibleGhostDistanceToClosestJunctionDown
+                | getClosestEdibleGhostDistanceToClosestJunctionLeft
+                | getClosestEdibleGhostDistanceToClosestJunctionRight
                 | getGeometricMeanDistanceToNonEdibleGhosts
                 | getGeometricMeanDistanceToEdibleGhosts
 <number-operator> ::= EQ
@@ -45,4 +69,10 @@
                 | moveDown
                 | moveLeft
                 | moveRight
-<number> ::= 0 | 5 | 10 | 15 | 20 | 30 | 40 | 50
+<number> ::= 0
+           | <nonzero-digit>
+           | <nonzero-digit><digit>
+           
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<nonzero-digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9

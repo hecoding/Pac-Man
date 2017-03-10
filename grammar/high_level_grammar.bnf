@@ -1,0 +1,19 @@
+<grammar> ::= <selection-statement>
+<selection-statement> ::= if(_<condition>_){_<statement>_}_else{_<statement>_}
+                        | if(_<condition>_){_<statement>_}
+<statement> ::= <terminal-func>
+              | <selection-statement>
+<terminal-func> ::= huir
+                  | atacar
+                  | farmear
+<condition> ::= <number-func>_<number-operator>_<number>
+              | <number-func>_<number-operator>_<number-func>
+<number-func> ::= getDistanceToClosestNonEdibleGhost
+                | getDistanceToClosestEdibleGhost
+<number-operator> ::= EQ
+                    | NE
+                    | LT
+                    | GT
+                    | LE
+                    | GE
+<number> ::= 0 | 5 | 10 | 20 | 30 | 40

@@ -9,9 +9,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return MOVE.UP; 
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "moveUp";
 		}
@@ -20,9 +17,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return MOVE.DOWN; 
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "moveDown";
 		}
@@ -31,9 +25,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return MOVE.LEFT; 
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "moveLeft";
 		}
@@ -42,9 +33,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return MOVE.RIGHT; 
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "moveRight";
 		}
@@ -53,9 +41,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return MOVE.NEUTRAL; 
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "moveNeutral";
 		}
@@ -64,9 +49,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return game.getDirectionTowardsClosestPowerPill(game.getPacmanCurrentNodeIndex());
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "getDirectionTowardsClosestPowerPill";
 		}
@@ -75,9 +57,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return game.getDirectionTowardsClosestPill(game.getPacmanCurrentNodeIndex());
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "getDirectionTowardsClosestPill";
 		}
@@ -86,9 +65,6 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return game.getDirectionAwayFromClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex());
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "getDirectionAwayFromClosestNonEdibleGhost";
 		}
@@ -97,16 +73,41 @@ public enum Action implements Function {
         public MOVE getMove(Game game) { 
             return game.getDirectionTowardsClosestEdibleGhost(game.getPacmanCurrentNodeIndex());
         }
-		public Object executeFunction(Game game) {
-			return null;
-		}
 		public String toString() {
 			return "getDirectionTowardsClosestEdibleGhost";
+		}
+	},
+	huir{
+        public MOVE getMove(Game game) { 
+            return game.huir();
+        }
+		public String toString() {
+			return "huir";
+		}
+	},
+	atacar{
+        public MOVE getMove(Game game) { 
+            return game.atacar();
+        }
+		public String toString() {
+			return "atacar";
+		}
+	},
+	farmear{
+        public MOVE getMove(Game game) { 
+            return game.farmear();
+        }
+		public String toString() {
+			return "farmear";
 		}
 	};
 	
     //template method
     public abstract MOVE getMove(Game game);
     public abstract String toString();
+
+	public Object executeFunction(Game game) {
+		return null;
+	}
 	
 }
