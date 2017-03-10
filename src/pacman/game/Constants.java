@@ -18,13 +18,75 @@ public final class Constants
 	 */
 	public enum MOVE 
 	{
-		UP 		{ public MOVE opposite(){return MOVE.DOWN;		};},	
-		RIGHT 	{ public MOVE opposite(){return MOVE.LEFT;		};}, 	
-		DOWN 	{ public MOVE opposite(){return MOVE.UP;		};},		
-		LEFT 	{ public MOVE opposite(){return MOVE.RIGHT;		};}, 	
-		NEUTRAL	{ public MOVE opposite(){return MOVE.NEUTRAL;	};};	
-		
+		UP {
+			public MOVE opposite() {
+				return MOVE.DOWN;
+			}
+
+			public MOVE R90() {
+				return MOVE.RIGHT;
+			}
+
+			public MOVE L90() {
+				return MOVE.LEFT;
+			};
+		},
+		RIGHT {
+			public MOVE opposite() {
+				return MOVE.LEFT;
+			}
+
+			public MOVE R90() {
+				return MOVE.DOWN;
+			}
+
+			public MOVE L90() {
+				return MOVE.UP;
+			};
+		},
+		DOWN {
+			public MOVE opposite() {
+				return MOVE.UP;
+			}
+
+			public MOVE R90() {
+				return MOVE.LEFT;
+			}
+
+			public MOVE L90() {
+				return MOVE.RIGHT;
+			};
+		},
+		LEFT {
+			public MOVE opposite() {
+				return MOVE.RIGHT;
+			}
+
+			public MOVE R90() {
+				return MOVE.UP;
+			}
+
+			public MOVE L90() {
+				return MOVE.DOWN;
+			};
+		},
+		NEUTRAL {
+			public MOVE opposite() {
+				return MOVE.NEUTRAL;
+			}
+
+			public MOVE R90() {
+				return MOVE.NEUTRAL;
+			}
+
+			public MOVE L90() {
+				return MOVE.NEUTRAL;
+			};
+		};
+
 		public abstract MOVE opposite();
+		public abstract MOVE R90();
+		public abstract MOVE L90();
 	};
 	
 	/**

@@ -18,7 +18,7 @@ public enum NumericFunc implements Function{
 			return game.getDistanceToClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
 		}
 		public String toString() {
-			return "getDistanceToClosestNonEdibleGhostCurernt";
+			return "getDistanceToClosestNonEdibleGhostCurrent";
 		}
 	},getDistanceToClosestNonEdibleGhostUp {
 		public Object executeFunction(Game game) {

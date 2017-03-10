@@ -48,7 +48,7 @@ public class PathsCache
 			junctions[i].computeShortestPaths();
 	}
 
-	//for Ms Pac-Man
+	//for Ms Pac-Man (AKA you can turn back anytime)
 	public int[] getPathFromA2B(int a, int b)
 	{
 		//not going anywhere
@@ -98,12 +98,105 @@ public class PathsCache
 		return concat(closestFromJunctions.get(minFrom).path, shortestPath, closestToJunctions.get(minTo).reversePath);
 	}
 	
-	/////// ghosts //////////
 	
-	//To be made more efficient shortly.
+	//For ghosts (or pacman) (AKA you can't turn back, you've a given direction)
 	public int getPathDistanceFromA2B(int a, int b, MOVE lastMoveMade)
 	{
+/*		int t1= getDistanceFromA2B(a, b, lastMoveMade);
+		int t2 = getPathFromA2B(a, b, lastMoveMade).length;
+
+		if(t1 != t2)
+			System.out.println("MIA: " + t1 + "  ORIG: "+t2);
+		
+		return t2;*/
+		
 		return getPathFromA2B(a, b, lastMoveMade).length;
+	}
+	
+	//Auxiliary function in case you don't need the path to calculate distances given a forced direction
+	//-------------------------------
+	//IN THE WORKS
+	//DONT DELETE
+	//-------------------------------
+	
+	public int getDistanceFromA2B(int a, int b, MOVE lastMoveMade){
+		if(a == b)
+			return 0;
+		else{
+			int distU = 10000, distD = 10000, distL = 10000, distR = 10000;
+			int nSalidas = 0;
+			
+			if(game.isDirectionTakeable(a, MOVE.UP)){
+				nSalidas++;
+				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.UP), b);
+			}
+			if(game.isDirectionTakeable(a, MOVE.DOWN)){
+				nSalidas++;
+				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.DOWN), b);
+			}
+			if(game.isDirectionTakeable(a, MOVE.LEFT)){
+				nSalidas++;
+				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.LEFT), b);
+			}
+			if(game.isDirectionTakeable(a, MOVE.RIGHT)){
+				nSalidas++;
+				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.RIGHT), b);
+			}
+			
+			//Determinar la direccion de la ruta mas corta
+			int dmc;
+			MOVE rmc;
+			if(distU < distD){
+				rmc = MOVE.UP;
+				dmc = distU;
+			}
+			else{
+				rmc = MOVE.DOWN;
+				dmc = distD;
+			}
+			if(distL < dmc){
+				rmc = MOVE.LEFT;
+				dmc = distL;
+			}
+			if(distR < dmc){
+				rmc = MOVE.RIGHT;
+				dmc = distR;
+			}
+			
+			//Distincion de casos
+			char caso;
+			if(nSalidas == 2 && !game.isDirectionTakeable(a, lastMoveMade))
+				caso = 'L';
+			else if(nSalidas == 2 && game.isDirectionTakeable(a, lastMoveMade))
+				caso = 'I';
+			else
+				caso = 'J';
+			
+			int distance = -1;
+			//Switch
+			switch (caso) {
+			case 'L':
+				if(game.isDirectionTakeable(a, lastMoveMade.L90()))
+					distance = 1 + getDistanceFromA2B(game.getNeighbour(a, lastMoveMade.L90()), b, lastMoveMade.L90());
+				else
+					distance = 1 + getDistanceFromA2B(game.getNeighbour(a, lastMoveMade.R90()), b, lastMoveMade.R90());
+				break;
+			case 'I':
+				distance = 1 + getDistanceFromA2B(game.getNeighbour(a, lastMoveMade), b, lastMoveMade);
+				break;
+			case 'J':
+				if (rmc != lastMoveMade.opposite())
+					distance = dmc + 1;
+				else
+					distance = getPathFromA2B(a, b, lastMoveMade).length;
+				break;
+			default:
+				break;
+			}
+			
+			return distance;
+			
+		}
 	}
 	
 	public int[] getPathFromA2B(int a, int b, MOVE lastMoveMade)
