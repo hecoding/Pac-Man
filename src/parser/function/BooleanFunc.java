@@ -40,7 +40,7 @@ public enum BooleanFunc implements Function {
 		public String toString() {
 			return "isJunctionSafeRight";
 		}
-	},;
+	};
 
 	@Override
 	public abstract Object executeFunction(Game game);
