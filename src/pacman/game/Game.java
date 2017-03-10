@@ -1473,6 +1473,7 @@ public final class Game
     public int getNeighbour(int nodeIndex, MOVE moveToBeMade)
     {
     	Integer neighbour=currentMaze.graph[nodeIndex].neighbourhood.get(moveToBeMade);
+    	
     	return neighbour==null ? -1 : neighbour;
     }
     	
@@ -1928,7 +1929,6 @@ public final class Game
 	 * @param lastMoveMade The last move made
 	 * @return the shortest path from start to target
 	 */
-	@Deprecated
 	public int[] getShortestPath(int fromNodeIndex,int toNodeIndex,MOVE lastMoveMade)
 	{
 		if(currentMaze.graph[fromNodeIndex].neighbourhood.size()==0)//lair
@@ -2257,6 +2257,34 @@ public final class Game
 		}
 		
 		return minDistance;
+	}
+	
+	/**
+	 * Returns true if Pacman can reach safely the closest junction
+	 * Can be optimized 
+	 */
+	
+	public boolean isJunctionSafe(int pacmanLocation, MOVE direction) {
+		if (getNeighbour(pacmanLocation, direction) == -1)
+			return false;
+		
+		int ghostDistanceToJunction = getClosestNonEdibleGhostDistanceToClosestJunction(pacmanLocation, direction);
+		int pacmanDistanceToJunction = getDistanceToClosestJunction(pacmanLocation, direction);
+		if (ghostDistanceToJunction > pacmanDistanceToJunction)	//Pacman is closer to the junction than any ghost
+			return true;
+		
+		//check if any ghost is between junction and Pacman
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair())	{
+				int distanceGhostToPacman = this.getShortestPathDistance(ghost.currentNodeIndex, pacmanLocation, ghost.lastMoveMade);	//check if the ghost is going towards or away from pacman
+	
+				if (pacmanDistanceToJunction <= distanceGhostToPacman)	//ghost is between junction and Pacman and facing Pacman
+					return false;
+			}
+		}
+	
+		return true;
+		
 	}
 	
 	/**

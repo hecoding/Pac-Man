@@ -18,6 +18,10 @@
 <boolean-func> ::= <boolean-api>
                  | !_<boolean-api>
 <boolean-api> ::= isJunction
+                | isJunctionSafeUp
+                | isJunctionSafeDown
+                | isJunctionSafeLeft
+                | isJunctionSafeRight
 <boolean-operator> ::= and
                      | or
 <number-func> ::= getDistanceToClosestNonEdibleGhost
