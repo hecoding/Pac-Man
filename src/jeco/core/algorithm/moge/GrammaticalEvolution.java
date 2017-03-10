@@ -57,9 +57,9 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       super(problem);
       this.maxPopulationSize = maxPopulationSize;
       this.maxGenerations = maxGenerations;
-      this.mutationOperator = new SwapMutation<Variable<Integer>>(probMutation);
+      this.mutationOperator = new IntegerFlipMutation<Variable<Integer>>(problem, probMutation);
       this.crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, probCrossover, SinglePointCrossover.ALLOW_REPETITION);
-      this.selectionOperator = new TournamentSelect<Variable<Integer>>();
+      this.selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
       
       this.absoluteBest = Double.POSITIVE_INFINITY; // as this is minimization
       this.absoluteBestObjetives = new ArrayList<>(this.maxGenerations);
