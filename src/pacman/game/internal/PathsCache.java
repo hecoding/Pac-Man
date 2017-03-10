@@ -102,103 +102,68 @@ public class PathsCache
 	//For ghosts (or pacman) (AKA you can't turn back, you've a given direction)
 	public int getPathDistanceFromA2B(int a, int b, MOVE lastMoveMade)
 	{
-/*		int t1= getDistanceFromA2B(a, b, lastMoveMade);
+		//int t1 = getDistanceFromA2BUPG(a, b, lastMoveMade);
 		int t2 = getPathFromA2B(a, b, lastMoveMade).length;
 
-		if(t1 != t2)
-			System.out.println("MIA: " + t1 + "  ORIG: "+t2);
+		//if(t1 != t2){
+		//	System.out.println("MIA: " + t1 + "  ORIG: "+t2);
+		//}
 		
-		return t2;*/
-		
-		return getPathFromA2B(a, b, lastMoveMade).length;
+		return t2;
+		//return t1;
 	}
 	
-	//Auxiliary function in case you don't need the path to calculate distances given a forced direction
-	//-------------------------------
-	//IN THE WORKS
-	//DONT DELETE
-	//-------------------------------
-	
-	public int getDistanceFromA2B(int a, int b, MOVE lastMoveMade){
-		if(a == b)
-			return 0;
-		else{
-			int distU = 10000, distD = 10000, distL = 10000, distR = 10000;
-			int nSalidas = 0;
+	public int getDistanceFromA2BUPG(int a, int b, MOVE lastMoveMade){
+
+			//not going anywhere
+			if(a==b)
+				return 0;
 			
-			if(game.isDirectionTakeable(a, MOVE.UP)){
-				nSalidas++;
-				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.UP), b);
-			}
-			if(game.isDirectionTakeable(a, MOVE.DOWN)){
-				nSalidas++;
-				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.DOWN), b);
-			}
-			if(game.isDirectionTakeable(a, MOVE.LEFT)){
-				nSalidas++;
-				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.LEFT), b);
-			}
-			if(game.isDirectionTakeable(a, MOVE.RIGHT)){
-				nSalidas++;
-				distU = game.getShortestPathDistance(game.getNeighbour(a, MOVE.RIGHT), b);
-			}
+			if(game.isJunction(a))
+				return getPathFromA2B(a, b, lastMoveMade).length;
+
+			//first, go to closest junction (there is only one since we can't reverse)
+			JunctionData fromJunction = nodes[a].getNearestJunction(lastMoveMade);
 			
-			//Determinar la direccion de la ruta mas corta
-			int dmc;
-			MOVE rmc;
-			if(distU < distD){
-				rmc = MOVE.UP;
-				dmc = distU;
-			}
-			else{
-				rmc = MOVE.DOWN;
-				dmc = distD;
-			}
-			if(distL < dmc){
-				rmc = MOVE.LEFT;
-				dmc = distL;
-			}
-			if(distR < dmc){
-				rmc = MOVE.RIGHT;
-				dmc = distR;
+			//if target is on the way to junction, then we are done
+			for (int i = 0; i < fromJunction.path.length; i++)
+				if (fromJunction.path[i] == b)
+					return (i+1);
+			
+			//we have reached a junction, fromJunction, which we entered with moveEnteredJunction
+			int junctionFrom = fromJunction.nodeID;
+			MOVE moveEnteredJunction = fromJunction.lastMove.equals(MOVE.NEUTRAL) ? lastMoveMade : fromJunction.lastMove; //if we are at a junction, consider last move instead
+
+			//EN ESTE PUNTO ESTA LINEA HACE QUE FUNCIONE BIEN
+			//return fromJunction.path.length + (getPathFromA2B(junctionFrom, b, moveEnteredJunction).length);
+			
+			//Distancia de la junction al destino tomada libremente
+			int distJunct = game.getShortestPathDistance(junctionFrom,b);
+			
+			//Distancia del nodo anterior a la junction al destino tomada libremente
+			int neighidx = game.getNeighbour(junctionFrom, moveEnteredJunction.opposite());
+			
+			int distAnt = game.getShortestPathDistance(neighidx, b);
+			
+			int [] vecinos = game.getNeighbouringNodes(junctionFrom);
+			
+			
+			boolean ok = true; // OK representa que no hay otro vecino a la junction que tenga la misma distancia a b que el nodo del que venimos
+			for(int i = 0; i < vecinos.length; i++){
+				if(vecinos[i] != neighidx && game.getShortestPathDistance(vecinos[i],b) == distAnt)
+					ok = false;
 			}
 			
-			//Distincion de casos
-			char caso;
-			if(nSalidas == 2 && !game.isDirectionTakeable(a, lastMoveMade))
-				caso = 'L';
-			else if(nSalidas == 2 && game.isDirectionTakeable(a, lastMoveMade))
-				caso = 'I';
-			else
-				caso = 'J';
-			
-			int distance = -1;
-			//Switch
-			switch (caso) {
-			case 'L':
-				if(game.isDirectionTakeable(a, lastMoveMade.L90()))
-					distance = 1 + getDistanceFromA2B(game.getNeighbour(a, lastMoveMade.L90()), b, lastMoveMade.L90());
-				else
-					distance = 1 + getDistanceFromA2B(game.getNeighbour(a, lastMoveMade.R90()), b, lastMoveMade.R90());
-				break;
-			case 'I':
-				distance = 1 + getDistanceFromA2B(game.getNeighbour(a, lastMoveMade), b, lastMoveMade);
-				break;
-			case 'J':
-				if (rmc != lastMoveMade.opposite())
-					distance = dmc + 1;
-				else
-					distance = getPathFromA2B(a, b, lastMoveMade).length;
-				break;
-			default:
-				break;
+			//Si distJunct distant-1, es que el camino mejor que sale de la junction NO es del que venimos, asique no hay problema
+			if(distJunct == distAnt-1 && ok){
+				//System.out.println("RETORNO OPTIMIZADO");
+				return fromJunction.path.length + distJunct; //Devolvemos lo que tardamos en llegar a la junction + lo que se tarda desde ella
 			}
-			
-			return distance;
-			
-		}
+			else //Si el camino mejor SI es por donde venimos, devolvemos lo que se tarda en llegar a la junction + el calculo direccionado de distancia a partir d ella
+				return fromJunction.path.length + (getPathFromA2B(junctionFrom, b, moveEnteredJunction).length);
+		
 	}
-	
+
 	public int[] getPathFromA2B(int a, int b, MOVE lastMoveMade)
 	{
 		//not going anywhere

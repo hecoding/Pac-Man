@@ -1473,7 +1473,6 @@ public final class Game
     public int getNeighbour(int nodeIndex, MOVE moveToBeMade)
     {
     	Integer neighbour=currentMaze.graph[nodeIndex].neighbourhood.get(moveToBeMade);
-    	
     	return neighbour==null ? -1 : neighbour;
     }
     	
@@ -1929,6 +1928,7 @@ public final class Game
 	 * @param lastMoveMade The last move made
 	 * @return the shortest path from start to target
 	 */
+	@Deprecated
 	public int[] getShortestPath(int fromNodeIndex,int toNodeIndex,MOVE lastMoveMade)
 	{
 		if(currentMaze.graph[fromNodeIndex].neighbourhood.size()==0)//lair
