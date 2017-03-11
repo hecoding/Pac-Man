@@ -12,7 +12,13 @@ public class NaiveFitness implements FitnessEvaluatorInterface {
 	public static double fitnessToPoints(double fitness) {
 		return 100000 - fitness;
 	}
+	
+	@Override
+	public double worstFitness() {
+		return 100000;
+	}
 
+	@Override
 	public String getName() {
 		return "Naive Fitness";
 	}
