@@ -38,7 +38,6 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	public double mutationProb;
   	public double crossProb;
   	public MOFitnessWrapper fitnessWrapper;
-  	private ArrayList<Double> bestFitness;
   	public int iterPerIndividual; // games ran per evaluation
   	public int codonUpperBound;
   	
@@ -96,19 +95,6 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 				logger.severe("ERROR: NEGATIVE FITNESS");
 				System.err.println("FITNESS < 0!!!!!!");
 				MOFitness.set(i, this.fitnessWrapper.getWorstFitness(i));
-			}
-		}
-		
-		// Log best fitness and respective phenotype
-		if (bestFitness == null || MOFitness.get(0) < bestFitness.get(0)){ // jorge dime cómo querías la comparación
-			try {
-				writer.write("Best fitness found: " + MOFitness +
-						", with score: " + avgGameInfo.getScore() +
-						" and phenotype: " + phenotype + System.lineSeparator());
-				this.bestFitness = MOFitness;
-			} catch (IOException e) {
-				System.err.println("Error writing in log.");
-				e.printStackTrace();
 			}
 		}
 		

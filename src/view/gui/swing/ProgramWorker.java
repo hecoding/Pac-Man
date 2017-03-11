@@ -89,11 +89,11 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		// Log solution
 		for (Solution<Variable<Integer>> solution : solutions) {
 			extFitness = solution.getObjectives().get(0);
-		 	extAvgPoints = NaiveFitness.fitnessToPoints(solution.getObjectives().get(0));
+		 	extAvgPoints = NaiveFitness.fitnessToPoints(solution.getObjectives().get(0)); // TODO wrapper.naive.fitnesstopoints
 		 	extPhenotype = problem.generatePhenotype(solution).toString();
 			
 			logger.info(System.lineSeparator());
-			logger.info("Fitness =  " + solution.getObjectives().get(0));
+			logger.info("Fitness =  " + solution.getObjectives());
 			logger.info("Average points = " + NaiveFitness.fitnessToPoints( solution.getObjectives().get(0) ));
 			phenotypeString = problem.generatePhenotype(solution).toString();
 			logger.info("Phenotype = (" + phenotypeString + ")");
@@ -112,7 +112,7 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	
 		  	ExtLogger extlogger = new ExtLogger();
 		  	extlogger.generateCSV(extLog, csvName);
-		  	//extlogger.generateTXT(milog, nombreTXT); (Pendiente poner bonito para TXT)
+		  	//extlogger.generateTXT(milog, nombreTXT); (TODO Pendiente poner bonito para TXT)
 	    }
 		
 		/*
