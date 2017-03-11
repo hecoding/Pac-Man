@@ -41,6 +41,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
   	public ArrayList<Double> fitnessParams = new ArrayList<>(2); // for efficiency. NOT static
   	private Double bestFitness = Double.POSITIVE_INFINITY; // because minimization
   	public int iterPerIndividual; // games ran per evaluation
+  	public int codonUpperBound;
   	
   	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, FitnessEvaluatorInterface fitnessFunc, int iterPerIndividual, int numberOfObjectives, int chromosomeLength, int maxCntWrappings, int codonUpperBound) {
   		super(pathToBnf, numberOfObjectives, chromosomeLength, maxCntWrappings, codonUpperBound);
@@ -51,6 +52,8 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		this.crossProb = probCrossover;
 		this.fitnessFunc = fitnessFunc;
 		this.iterPerIndividual = iterPerIndividual;
+		//chromosomeLenght == numOfVariables, no need to save
+		this.codonUpperBound = codonUpperBound;
 		
 		// Create log
 		if(writer == null) {
@@ -115,7 +118,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 
 	@Override
 	public PacmanGrammaticalEvolution clone() {
-		PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(super.pathToBnf, this.populationSize, this.generations, this.mutationProb, this.crossProb, this.fitnessFunc, this.iterPerIndividual);
+		PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(this.pathToBnf, this.populationSize, this.generations, this.mutationProb, this.crossProb, this.fitnessFunc, this.iterPerIndividual, this.numberOfObjectives, this.numberOfVariables, this.maxCntWrappings, this.codonUpperBound);
 		return clone;
 	}
 
