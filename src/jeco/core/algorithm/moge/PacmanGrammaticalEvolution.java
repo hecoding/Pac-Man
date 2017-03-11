@@ -129,11 +129,12 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	double crossProb = 0.6;
 	  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
 	  	int iterPerIndividual = 2; // games ran per evaluation
+	  	int elite = 10;
 	  	
 		// First create the problem
 		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("grammar/base.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
 		// Second create the algorithm
-		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, elite);
 		
 		// We can set operators using
 		//algorithm.setSelectionOperator(selectionOperator);

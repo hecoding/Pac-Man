@@ -57,8 +57,12 @@ public abstract class AbstractProblemGE extends Problem<Variable<Integer>> {
 		if(correctSol)
 			evaluate(solution, phenotype);
 		else {
-			for(int i=0; i<super.numberOfObjectives; ++i) {
-				solution.getObjectives().set(i, Double.POSITIVE_INFINITY);
+			for(int i=0; i<super.numberOfObjectives; ++i)
+			{
+				//solution.getObjectives().set(i, Double.POSITIVE_INFINITY);
+				//Sustituir infinito por el número máximo que puede devolver el fitness
+				//TODO ver si se puede volver a poner infinito o hacerlo generico independientemente de la función fitness que se utilice (es getter del peor fitness posible, por ejemplo)
+				solution.getObjectives().set(i, 100000.0);
 			}
 		}
 	}

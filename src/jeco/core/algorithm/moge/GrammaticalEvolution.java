@@ -15,6 +15,7 @@ import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.mutation.IntegerFlipMutation;
 import jeco.core.operator.mutation.MutationOperator;
 import jeco.core.operator.selection.BinaryTournamentNSGAII;
+import jeco.core.operator.selection.EliteSelectorOperator;
 import jeco.core.operator.selection.SelectionOperator;
 import jeco.core.problem.Problem;
 import jeco.core.problem.Solution;
@@ -30,6 +31,8 @@ import jeco.core.problem.Variable;
 public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   
   public static final Logger logger = Logger.getLogger(NSGAII.class.getName());
+  
+  private static final boolean jecoPopulationMerge = false; // true if you want to mix old and new generations and then select best individuals
 
   /////////////////////////////////////////////////////////////////////////
   protected int maxGenerations;
@@ -48,8 +51,10 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   public ArrayList<Double> bestObjetives;
   public ArrayList<Double> averageObjetives;
   public ArrayList<Double> worstObjetives;
+  ////////////////////////////////////////////////////////////////////////
+  private final int eliteSize;
 
-  public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover) {
+  public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, int eliteSize) {
       super(problem);
       this.maxPopulationSize = maxPopulationSize;
       this.maxGenerations = maxGenerations;
@@ -62,10 +67,12 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       this.bestObjetives = new ArrayList<>(this.maxGenerations);
       this.averageObjetives = new ArrayList<>(this.maxGenerations);
       this.worstObjetives = new ArrayList<>(this.maxGenerations);
+      
+      this.eliteSize = eliteSize;
   }
 
   public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations) {
-    this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY);
+    this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY, EliteSelectorOperator.DEFAULT_ELITE_SIZE);
   }
 
   @Override
@@ -138,13 +145,25 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       } // for
       problem.evaluate(childPop);
 
-      // Create the solutionSet union of solutionSet and offSpring
-      Solutions<Variable<Integer>> mixedPop = new Solutions<Variable<Integer>>();
-      mixedPop.addAll(population);
-      mixedPop.addAll(childPop);
+      if(jecoPopulationMerge) {
+    	// Create the solutionSet union of solutionSet and offSpring
+	      Solutions<Variable<Integer>> mixedPop = new Solutions<Variable<Integer>>();
+	      mixedPop.addAll(population);
+	      mixedPop.addAll(childPop);
+	      
+	      // Reducing the union
+	      population = reduce(mixedPop, maxPopulationSize);
+      }
+      else {
+    	  // Own method  	  
+    	  population.sort(dominance);
+		  for(int i = 0; i < eliteSize; i++) {  			  
+			  childPop.add(population.get(i));
+		  }
+    	  
+    	  population = reduce(childPop, maxPopulationSize);
+      }
 
-      // Reducing the union
-      population = reduce(mixedPop, maxPopulationSize);
       logger.fine("Generation " + currentGeneration + "/" + maxGenerations + "\n" + population.toString());
   } // step
 
