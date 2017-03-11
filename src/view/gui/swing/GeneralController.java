@@ -210,7 +210,10 @@ public class GeneralController {
 	}
 	
 	public String getBestProgram() {
-		return ProgramWorker.problem.generatePhenotype(ProgramWorker.solutions.get(0)).toString();
+		if(ProgramWorker.solutions == null)
+			return "";
+		else
+			return ProgramWorker.problem.generatePhenotype(ProgramWorker.solutions.get(0)).toString();
 	}
 	
 	public String getBestProgramPretty() {
