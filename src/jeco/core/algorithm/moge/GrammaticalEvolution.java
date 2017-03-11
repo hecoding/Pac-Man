@@ -16,6 +16,7 @@ import jeco.core.operator.mutation.IntegerFlipMutation;
 import jeco.core.operator.mutation.MutationOperator;
 import jeco.core.operator.mutation.SwapMutation;
 import jeco.core.operator.selection.BinaryTournamentNSGAII;
+import jeco.core.operator.selection.EliteSelectorOperator;
 import jeco.core.operator.selection.SelectionOperator;
 import jeco.core.operator.selection.TournamentSelect;
 import jeco.core.problem.Problem;
@@ -52,8 +53,10 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   public ArrayList<Double> bestObjetives;
   public ArrayList<Double> averageObjetives;
   public ArrayList<Double> worstObjetives;
+  ////////////////////////////////////////////////////////////////////////
+  private final int eliteSize;
 
-  public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover) {
+  public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, int eliteSize) {
       super(problem);
       this.maxPopulationSize = maxPopulationSize;
       this.maxGenerations = maxGenerations;
@@ -66,10 +69,12 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       this.bestObjetives = new ArrayList<>(this.maxGenerations);
       this.averageObjetives = new ArrayList<>(this.maxGenerations);
       this.worstObjetives = new ArrayList<>(this.maxGenerations);
+      
+      this.eliteSize = eliteSize;
   }
 
   public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations) {
-    this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY);
+    this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY, EliteSelectorOperator.DEFAULT_ELITE_SIZE);
   }
 
   @Override
@@ -156,14 +161,11 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       {
     	  //Metodo propio    	  
     	  population.sort(dominance);
-    	  final int elite = 10;
-		  for(int i = 0; i < elite; i++)
+		  for(int i = 0; i < eliteSize; i++)
 		  {  			  
 			  childPop.add(population.get(i));
 		  }
     	  
-    	  //childPop.sort(dominance);
-    	  //population = childPop;
     	  population = reduce(childPop, maxPopulationSize);
       }
 
