@@ -35,15 +35,16 @@ public class CLIView {
 		double mutationProb = 0.02;
 	  	double crossProb = 0.6;
 	  	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
-	  	int iterPerIndividual = 2; // games ran per evaluation
+	  	int iterPerIndividual = 3;// = 20; // games ran per evaluation
 	  	int numberOfVariables = 100;
 	  	int codonUpperBound = 256;
 	  	int maxCntWrappings = 3;
+	  	int elite = 10;
 	  	
 		// First create the problem
 		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("grammar/base.bnf", populationSize, generations, mutationProb, crossProb, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
 		// Second create the algorithm
-		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, elite);
 		
 		// We can set different operators using
 	  	//algorithm.setSelectionOperator(selectionOperator);

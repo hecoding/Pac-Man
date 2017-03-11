@@ -120,11 +120,12 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	int numberOfVariables = 100;
 	  	int codonUpperBound = 256;
 	  	int maxCntWrappings = 3;
+	  	int elite = 10;
 	  	
 		// First create the problem
 		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("grammar/base.bnf", populationSize, generations, mutationProb, crossProb, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
 		// Second create the algorithm
-		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, elite);
 		
 		// We can set operators using
 		//algorithm.setSelectionOperator(selectionOperator);

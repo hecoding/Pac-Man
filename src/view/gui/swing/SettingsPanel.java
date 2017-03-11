@@ -54,6 +54,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JSlider crossoverSlider;
  	JTextField mutationText;
  	JSlider mutationSlider;
+ 	JTextField elitismText;
  	JSlider elitismSlider;
  	JPanel grammar;
  	JComboBox<String> grammarBox;
@@ -67,6 +68,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JTextField tournamentGroupsText;
  	JPanel mutationMethodPanel;
  	JComboBox<String> mutationBox;
+ 	JPanel elitismMethodPanel;
+ 	JComboBox<String> elitismBox;
  	JCheckBox contentBasedTerminationCheck;
  	JCheckBox rangeParametersCheck;
  	ButtonGroup bg;
@@ -275,12 +278,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		numOfObjectives.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(numOfObjectives);
 		
-		//- iter per indiv
-		//- public static final int CHROMOSOME_LENGTH_DEFAULT = 100;	
-		//- public static final int CODON_UPPER_BOUND_DEFAULT = 256;
-		//- public static final int MAX_CNT_WRAPPINGS_DEFAULT = 3;
-		//- public static final int NUM_OF_OBJECTIVES_DEFAULT = 2;
-		// path to bnf
 		//---------------------------------------------
 		
 		// antes tenía 200 de ancho
@@ -509,6 +506,73 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		settings.add(mutationPanel);
 		
 		//---------------------------------------------
+		JSeparator e = new JSeparator();
+		e.setMaximumSize(new Dimension(420, 1));
+		settings.add(e);
+		//---------------------------------------------
+		
+		
+		JPanel elitism = new JPanel();
+		elitism.setLayout(new BoxLayout(elitism, BoxLayout.Y_AXIS));
+		
+		elitismMethodPanel = new JPanel();
+		JPanel elitismTitle = new JPanel();
+		JLabel elitismLabel = new JLabel("Elitism");
+		elitismTitle.add(elitismLabel);
+		elitismText = new JTextField(4);
+		elitismText.setInputVerifier(new DoubleLessThanZeroVerifier());
+		elitismText.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				try {
+					elitismSlider.setValue( (int) (Double.parseDouble(elitismText.getText()) * 100) );
+					elitismText.setBorder(defaultborder);
+				} catch (NumberFormatException ex) {
+					elitismText.setBorder(BorderFactory.createLineBorder(Color.red));
+				}
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				try {
+					elitismSlider.setValue( (int) (Double.parseDouble(elitismText.getText()) * 100) );
+					elitismText.setBorder(defaultborder);
+				} catch (NumberFormatException ex) {
+					elitismText.setBorder(BorderFactory.createLineBorder(Color.red));
+				}
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		elitismTitle.add(elitismText);
+		elitismMethodPanel.add(elitismTitle);
+		//mutationBox = new JComboBox<String>();
+		//mutationMethodPanel.add(mutationBox);
+		elitismMethodPanel.setMaximumSize(elitismMethodPanel.getPreferredSize());
+		elitismMethodPanel.setMinimumSize(elitismMethodPanel.getPreferredSize());
+		elitismMethodPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		elitism.add(elitismMethodPanel);
+		
+		elitismSlider = new JSlider(0,100);
+		elitismSlider.setMajorTickSpacing(30);
+		elitismSlider.setMinorTickSpacing(5);
+		elitismSlider.setPaintTicks(true);
+		elitismSlider.setPaintLabels(false);
+		//elitismSlider.setToolTipText(elitismSlider.getValue() + " %");
+		elitismSlider.addChangeListener(new SliderListenerAndUpdater(elitismText));
+		elitismSlider.addChangeListener(new SliderListener());
+		elitismSlider.setMaximumSize(elitismSlider.getPreferredSize());
+		elitismSlider.setMinimumSize(elitismSlider.getPreferredSize());
+		elitismSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		elitism.add(elitismSlider);
+		
+		elitism.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(elitism);
+		
+		//---------------------------------------------
 		JSeparator d = new JSeparator();
 		d.setMaximumSize(new Dimension(420, 1));
 		settings.add(d);
@@ -532,28 +596,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		settings.add(grammar);
 		
 		/*
-		JPanel elitism = new JPanel();
-		elitism.setLayout(new BoxLayout(elitism, BoxLayout.Y_AXIS));
-		
-		JLabel elitismLabel = new JLabel("Elitism");
-		elitismLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		elitism.add(elitismLabel);
-		
-		elitismSlider = new JSlider(0,100);
-		elitismSlider.setMajorTickSpacing(30);
-		elitismSlider.setMinorTickSpacing(5);
-		elitismSlider.setPaintTicks(true);
-		elitismSlider.setPaintLabels(true);
-		elitismSlider.setToolTipText(elitismSlider.getValue() + " %");
-		elitismSlider.addChangeListener(new SliderListener());
-		elitismSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
-		elitism.add(elitismSlider);
-		
-		elitism.setMaximumSize(elitism.getPreferredSize());
-		elitism.setMinimumSize(elitism.getPreferredSize());
-		elitism.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(elitism);
-		
 		//---------------------------------------------
 		
 		JPanel contentBasedTermination = new JPanel();
@@ -913,6 +955,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.crossoverSlider.setValue((int) (this.gCtrl.getCrossProb() * 100));
 		this.mutationText.setText(String.valueOf(this.gCtrl.getMutationProb()));
 		this.mutationSlider.setValue((int) (this.gCtrl.getMutationProb() * 100));
+		this.elitismText.setText(String.valueOf(this.gCtrl.getElitismPercentage()));
+		this.elitismSlider.setValue((int) (this.gCtrl.getElitismPercentage() * 100));
 		for(String item : this.gCtrl.getCleanGrammarNames()) {
 			this.grammarBox.addItem(item);
 		}
@@ -967,8 +1011,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		//tournamentGroupsTextDefault = tournamentGroupsText.getText();
 		crossoverSliderDefault = crossoverSlider.getValue();
 		mutationSliderDefault = mutationSlider.getValue();
+		elitismSliderDefault = elitismSlider.getValue();
 		grammarBoxDefault = grammarBox.getSelectedItem();
-		//elitismSliderDefault = elitismSlider.getValue();
 		//initializationBoxDefault = initializationBox.getSelectedItem();
 		//selectionBoxDefault = selectionBox.getSelectedItem();
 		//crossoverBoxDefault = crossoverBox.getSelectedItem();
@@ -988,6 +1032,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
 		crossoverSlider.setValue(crossoverSliderDefault);
 		mutationSlider.setValue(mutationSliderDefault);
+		elitismSlider.setValue(elitismSliderDefault);
 		grammarBox.setSelectedItem(grammarBoxDefault);
 		//elitismSlider.setValue(elitismSliderDefault);
 		//initializationBox.setSelectedItem(initializationBoxDefault);
@@ -1038,10 +1083,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	crossoverSlider.setEnabled(false);
 			 	mutationText.setEnabled(false);
 			 	mutationSlider.setEnabled(false);
+			 	elitismText.setEnabled(false);
+			 	elitismSlider.setEnabled(false);
 			 	grammarBox.setEnabled(false);
 			 	/*
 			 	heightText.setEnabled(false);
-			 	elitismSlider;
 			 	initialization;
 			 	initializationBox;
 			 	selection;
@@ -1078,6 +1124,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	crossoverSlider.setEnabled(true);
 			 	mutationText.setEnabled(true);
 			 	mutationSlider.setEnabled(true);
+			 	elitismText.setEnabled(true);
+			 	elitismSlider.setEnabled(true);
 			 	grammarBox.setEnabled(true);
 			}
 		});

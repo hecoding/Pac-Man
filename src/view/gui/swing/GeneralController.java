@@ -35,6 +35,7 @@ public class GeneralController {
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
 
 	int iterPerIndividual = 3;// = 10; // games ran per evaluation
+	double elitismPerc = 0.1;
   	
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
@@ -53,7 +54,7 @@ public class GeneralController {
 		// Second create the algorithm (here we do a dirty trick to preserve observers)
 		if(algorithm != null)
 			algorithmObservers = algorithm.getObservers();
-		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, (int) Math.floor(elitismPerc * populationSize));
 		algorithm.setObservers(algorithmObservers);
 		
 		// We can set different operators using
@@ -154,6 +155,10 @@ public class GeneralController {
 	
 	public void setMutationProb(double prob) {
 		this.mutationProb = prob;
+	}
+	
+	public double getElitismPercentage() {
+		return this.elitismPerc;
 	}
 	
 	public String getGrammar() {
