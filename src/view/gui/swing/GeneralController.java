@@ -32,8 +32,8 @@ public class GeneralController {
   	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
   	String grammarFolder ="./grammar/";
   	String grammar = grammarFolder + "base.bnf";
-
 	int iterPerIndividual = 3;// = 10; // games ran per evaluation
+	int elite = 10;
   	
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
@@ -53,7 +53,7 @@ public class GeneralController {
 		// Second create the algorithm (here we do a dirty trick to preserve observers)
 		if(algorithm != null)
 			algorithmObservers = algorithm.getObservers();
-		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, elite);
 		algorithm.setObservers(algorithmObservers);
 		
 		// We can set different operators using

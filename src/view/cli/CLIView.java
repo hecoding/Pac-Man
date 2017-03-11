@@ -36,11 +36,12 @@ public class CLIView {
 	  	double crossProb = 0.6;
 	  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
 	  	int iterPerIndividual = 3;// = 10; // games ran per evaluation
+	  	int elite = 10;
 	  	
 		// First create the problem
 		problem = new PacmanGrammaticalEvolution("test/pacman.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
 		// Second create the algorithm
-		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
+		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, elite);
 		
 		// We can set different operators using
 	  	//algorithm.setSelectionOperator(selectionOperator);

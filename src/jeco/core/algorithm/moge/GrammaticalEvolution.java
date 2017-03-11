@@ -14,11 +14,9 @@ import jeco.core.operator.crossover.CrossoverOperator;
 import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.mutation.IntegerFlipMutation;
 import jeco.core.operator.mutation.MutationOperator;
-import jeco.core.operator.mutation.SwapMutation;
 import jeco.core.operator.selection.BinaryTournamentNSGAII;
 import jeco.core.operator.selection.EliteSelectorOperator;
 import jeco.core.operator.selection.SelectionOperator;
-import jeco.core.operator.selection.TournamentSelect;
 import jeco.core.problem.Problem;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
@@ -34,7 +32,7 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   
   public static final Logger logger = Logger.getLogger(NSGAII.class.getName());
   
-  private static final boolean jecoPopulationMerge = false; //True si se quiere usar la forma de generar la nueva población a partir de la nueva generacion y la antigua de jeco.
+  private static final boolean jecoPopulationMerge = false; // true if you want to mix old and new generations and then select best individuals
 
   /////////////////////////////////////////////////////////////////////////
   protected int maxGenerations;
@@ -147,8 +145,7 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       } // for
       problem.evaluate(childPop);
 
-      if(jecoPopulationMerge)
-      {
+      if(jecoPopulationMerge) {
     	// Create the solutionSet union of solutionSet and offSpring
 	      Solutions<Variable<Integer>> mixedPop = new Solutions<Variable<Integer>>();
 	      mixedPop.addAll(population);
@@ -157,12 +154,10 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
 	      // Reducing the union
 	      population = reduce(mixedPop, maxPopulationSize);
       }
-      else
-      {
-    	  //Metodo propio    	  
+      else {
+    	  // Own method  	  
     	  population.sort(dominance);
-		  for(int i = 0; i < eliteSize; i++)
-		  {  			  
+		  for(int i = 0; i < eliteSize; i++) {  			  
 			  childPop.add(population.get(i));
 		  }
     	  
