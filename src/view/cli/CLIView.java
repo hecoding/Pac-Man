@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
-import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
+import jeco.core.operator.evaluator.fitness.MOFitnessWrapper;
 import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
@@ -34,11 +34,14 @@ public class CLIView {
 		int generations = 100;// = 500;
 		double mutationProb = 0.02;
 	  	double crossProb = 0.6;
-	  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
-	  	int iterPerIndividual = 3;// = 10; // games ran per evaluation
+	  	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
+	  	int iterPerIndividual = 2; // games ran per evaluation
+	  	int numberOfVariables = 100;
+	  	int codonUpperBound = 256;
+	  	int maxCntWrappings = 3;
 	  	
 		// First create the problem
-		problem = new PacmanGrammaticalEvolution("test/pacman.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
+		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("grammar/base.bnf", populationSize, generations, mutationProb, crossProb, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
 		// Second create the algorithm
 		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
 		

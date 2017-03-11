@@ -8,6 +8,7 @@ import javax.swing.SwingWorker;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
+import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
 import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
@@ -101,8 +102,12 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		if(externalLogger) {
 		  	//String txtName = "Registro.txt";
 		  	String csvName = "Registro.csv";
+		  	String fitns = "[";
+		  	for(FitnessEvaluatorInterface func : ctrl.getFitnessFuncs())
+		  		fitns += func.getName();
+		  	fitns = "]";
 		  	
-		  	ExtLog extLog = new ExtLog(ctrl.getMutationProb(), ctrl.getCrossProb(), ctrl.getPopulationSize(), ctrl.getGenerations(), ctrl.getItersPerIndividual(), ctrl.getFitnessFunc().getName(),
+		  	ExtLog extLog = new ExtLog(ctrl.getMutationProb(), ctrl.getCrossProb(), ctrl.getPopulationSize(), ctrl.getGenerations(), ctrl.getItersPerIndividual(), fitns,
 		  			extFitness.doubleValue(), extAvgPoints, extPhenotype, totalTime);
 	
 		  	ExtLogger extlogger = new ExtLogger();

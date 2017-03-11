@@ -139,7 +139,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					gCtrl.setChromosomeLength(Integer.parseInt(chromosomeLengthText.getText()));
 					gCtrl.setCodonUpperBound(Integer.parseInt(codonUpperBoundText.getText()));
 					gCtrl.setMaxCntWrappings(Integer.parseInt(maxCntWrappingsText.getText()));
-					gCtrl.setNumOfObjectives(Integer.parseInt(numOfObjectivesText.getText()));
 					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
@@ -269,6 +268,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		numOfObjectives.add(numOfObjectivesLabel);
 		numOfObjectivesText = new JTextField(4);
 		numOfObjectivesText.setInputVerifier(new PositiveIntegerVerifier());
+		numOfObjectivesText.setEditable(false);
 		numOfObjectives.add(numOfObjectivesText);
 		numOfObjectives.setMaximumSize(numOfObjectives.getPreferredSize());
 		numOfObjectives.setMinimumSize(numOfObjectives.getPreferredSize());
@@ -963,7 +963,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		chromosomeLengthTextDefault = chromosomeLengthText.getText();
 		codonUpperBoundTextDefault = codonUpperBoundText.getText();
 		maxCntWrappingsTextDefault = maxCntWrappingsText.getText();
-		numOfObjectivesTextDefault = numOfObjectivesText.getText();
 		//heightTextDefault = heightText.getText();
 		//tournamentGroupsTextDefault = tournamentGroupsText.getText();
 		crossoverSliderDefault = crossoverSlider.getValue();
@@ -984,7 +983,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		chromosomeLengthText.setText(chromosomeLengthTextDefault);
 		codonUpperBoundText.setText(codonUpperBoundTextDefault);
 		maxCntWrappingsText.setText(maxCntWrappingsTextDefault);
-		numOfObjectivesText.setText(numOfObjectivesTextDefault);
+		numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfObjectives()));
 		//heightText.setText(heightTextDefault);
 		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
 		crossoverSlider.setValue(crossoverSliderDefault);
@@ -1074,7 +1073,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	chromosomeLengthText.setEnabled(true);
 			 	codonUpperBoundText.setEnabled(true);
 			 	maxCntWrappingsText.setEnabled(true);
-			 	numOfObjectivesText.setEnabled(true);
+			 	numOfObjectivesText.setEnabled(false);
 			 	crossoverText.setEnabled(true);
 			 	crossoverSlider.setEnabled(true);
 			 	mutationText.setEnabled(true);

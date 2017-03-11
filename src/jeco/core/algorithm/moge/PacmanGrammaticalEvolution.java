@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.logging.Logger;
 
-import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
+import jeco.core.operator.evaluator.fitness.MOFitnessWrapper;
 import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
@@ -37,20 +37,19 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	public int generations;
 	public double mutationProb;
   	public double crossProb;
-  	public FitnessEvaluatorInterface fitnessFunc;
-  	public ArrayList<Double> fitnessParams = new ArrayList<>(2); // for efficiency. NOT static
-  	private Double bestFitness = Double.POSITIVE_INFINITY; // because minimization
+  	public MOFitnessWrapper fitnessWrapper;
+  	private ArrayList<Double> bestFitness;
   	public int iterPerIndividual; // games ran per evaluation
   	public int codonUpperBound;
   	
-  	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, FitnessEvaluatorInterface fitnessFunc, int iterPerIndividual, int numberOfObjectives, int chromosomeLength, int maxCntWrappings, int codonUpperBound) {
-  		super(pathToBnf, numberOfObjectives, chromosomeLength, maxCntWrappings, codonUpperBound);
+  	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, MOFitnessWrapper fitnessWrapper, int iterPerIndividual, int chromosomeLength, int maxCntWrappings, int codonUpperBound) {
+  		super(pathToBnf, fitnessWrapper.getNumberOfObjs(), chromosomeLength, maxCntWrappings, codonUpperBound);
   		
   		this.populationSize = maxPopulationSize;
 		this.generations = maxGenerations;
 		this.mutationProb = probMutation;
 		this.crossProb = probCrossover;
-		this.fitnessFunc = fitnessFunc;
+		this.fitnessWrapper = fitnessWrapper;
 		this.iterPerIndividual = iterPerIndividual;
 		//chromosomeLenght == numOfVariables, no need to save
 		this.codonUpperBound = codonUpperBound;
@@ -80,10 +79,6 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		}
   	}
 
-	public PacmanGrammaticalEvolution(String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, FitnessEvaluatorInterface fitnessFunc, int iterPerIndividual) {
-		this(pathToBnf, maxPopulationSize, maxGenerations, probMutation, probCrossover, fitnessFunc, iterPerIndividual, NUM_OF_OBJECTIVES_DEFAULT, CHROMOSOME_LENGTH_DEFAULT, MAX_CNT_WRAPPINGS_DEFAULT, CODON_UPPER_BOUND_DEFAULT);
-	}
-
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		CustomExecutor exec = new CustomExecutor();
 		GrammaticalAdapterController pacman = new GrammaticalAdapterController(phenotype.toString());
@@ -91,34 +86,41 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		
 		GameInfo avgGameInfo = exec.runExecution(pacman, ghosts, iterPerIndividual);
 		
-		double avgFitness = fitnessFunc.evaluate(avgGameInfo);
+		ArrayList<Double> MOFitness = fitnessWrapper.evaluate(avgGameInfo);
 		
 		// Security check
-		if (avgFitness < 0) {
-			logger.severe("ERROR: NEGATIVE FITNESS");
-			System.err.println("FITNESS < 0!!!!!!");
-			avgFitness = 0;
+		for (int i = 0; i < MOFitness.size(); i++) {
+			Double objFitness = MOFitness.get(i);
+			
+			if (objFitness < 0) {
+				logger.severe("ERROR: NEGATIVE FITNESS");
+				System.err.println("FITNESS < 0!!!!!!");
+				MOFitness.set(i, this.fitnessWrapper.getWorstFitness(i));
+			}
 		}
 		
 		// Log best fitness and respective phenotype
-		if (avgFitness < bestFitness){
+		if (bestFitness == null || MOFitness.get(0) < bestFitness.get(0)){ // jorge dime cómo querías la comparación
 			try {
-				writer.write("Best fitness found: " + avgFitness +
+				writer.write("Best fitness found: " + MOFitness +
 						", with score: " + avgGameInfo.getScore() +
 						" and phenotype: " + phenotype + System.lineSeparator());
-				this.bestFitness = avgFitness;
+				this.bestFitness = MOFitness;
 			} catch (IOException e) {
 				System.err.println("Error writing in log.");
 				e.printStackTrace();
 			}
 		}
 		
-		solution.getObjectives().set(0, avgFitness);
+		// Return objectives
+		for (int i = 0; i < MOFitness.size(); i++) {
+			solution.getObjectives().set(i, MOFitness.get(i));
+		}
 	}	
 
 	@Override
 	public PacmanGrammaticalEvolution clone() {
-		PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(this.pathToBnf, this.populationSize, this.generations, this.mutationProb, this.crossProb, this.fitnessFunc, this.iterPerIndividual, this.numberOfObjectives, this.numberOfVariables, this.maxCntWrappings, this.codonUpperBound);
+		PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(this.pathToBnf, this.populationSize, this.generations, this.mutationProb, this.crossProb, this.fitnessWrapper, this.iterPerIndividual, this.numberOfVariables, this.maxCntWrappings, this.codonUpperBound);
 		return clone;
 	}
 
@@ -127,11 +129,14 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 		int generations = 100;// = 500;
 		double mutationProb = 0.02;
 	  	double crossProb = 0.6;
-	  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
+	  	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
 	  	int iterPerIndividual = 2; // games ran per evaluation
+	  	int numberOfVariables = 100;
+	  	int codonUpperBound = 256;
+	  	int maxCntWrappings = 3;
 	  	
 		// First create the problem
-		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("grammar/base.bnf", populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual);
+		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution("grammar/base.bnf", populationSize, generations, mutationProb, crossProb, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
 		// Second create the algorithm
 		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb);
 		
