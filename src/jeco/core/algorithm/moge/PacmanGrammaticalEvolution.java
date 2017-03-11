@@ -77,6 +77,17 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 			}
 		}
   	}
+  	
+  	public void evaluate(Solution<Variable<Integer>> solution) {
+		Phenotype phenotype = generatePhenotype(solution);
+		if(correctSol)
+			evaluate(solution, phenotype);
+		else {
+			for(int i=0; i<super.numberOfObjectives; ++i) {
+				solution.getObjectives().set(i, this.fitnessWrapper.getWorstFitness(i));
+			}
+		}
+	}
 
 	public void evaluate(Solution<Variable<Integer>> solution, Phenotype phenotype) {
 		CustomExecutor exec = new CustomExecutor();
