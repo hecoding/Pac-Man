@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+
+import util.GitConn;
+
 import java.io.OutputStreamWriter;
 
 /*
@@ -14,8 +17,13 @@ import java.io.OutputStreamWriter;
 public class ExtLogger {
 
 	private static BufferedWriter writer;
+	private GitConn gitc;
 	
 	public ExtLogger() {
+		//Establish git connection
+		gitc = new GitConn();
+		
+		//Create logs folder if nonexistant
 		File dir = new File("logs");
 		
 		if(!dir.exists() || !dir.isDirectory()) {
@@ -25,7 +33,7 @@ public class ExtLogger {
 	}
 	
 	public void generateCSV(ExtLog log, String filename){
-		String header = "Probabilidad_de_mutación,Probabilidad_de_cruce,Tamaño_de_la_población,Número_de_iteraciones,Iteraciones_por_individuo,Función_de_fitness,Fitness,Puntos_promedio,Fenotipo,Tiempo_de_Ejecución";
+		String header = "Mutation_probability,Crossing_probability,Population_size,Number_of_iterations,Iterations_per_element,Fitness_function,Fitness,Average_score,Phenotype,Execution_time,Last_commit_hash";
 		boolean isHeaderMissing = false;
 		String filePath = "logs/".concat(filename);
 
@@ -57,8 +65,13 @@ public class ExtLogger {
 		try {
 			if(isHeaderMissing)
 				writer.write(header + System.lineSeparator());
-				
-			writer.write(log.getMutationProb() + "," + log.getCrossProb() + "," + log.getTamPob() + "," + log.getNumIteraciones() + "," + log.getIteracionesPorIndividuo() + "," + log.getFitnessFunc() + "," + log.getFitness() + "," + log.getAveragePoints() + "," + log.getPhenotype() + "," + log.getExecTime() + System.lineSeparator());
+			
+			String hash = null;
+			if(gitc.isConnected())
+				hash = gitc.getLastCommitHash();
+			if(hash == null)
+				hash = "Git connection not established.";
+			writer.write(log.getMutationProb() + "," + log.getCrossProb() + "," + log.getTamPob() + "," + log.getNumIteraciones() + "," + log.getIteracionesPorIndividuo() + "," + log.getFitnessFunc() + "," + log.getFitness() + "," + log.getAveragePoints() + "," + log.getPhenotype() + "," + log.getExecTime() + "," + hash + System.lineSeparator());
 			
 		} catch (IOException e) {
 			System.err.println("Error writing " + filename);
