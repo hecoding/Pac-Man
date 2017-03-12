@@ -45,6 +45,38 @@ public enum Action implements Function {
 			return "moveNeutral";
 		}
 	},
+	smartmoveUp{
+        public MOVE getMove(Game game) { 
+            return game.getSmartmove(game.getPacmanCurrentNodeIndex(), MOVE.UP); 
+        }
+		public String toString() {
+			return "smartmoveUp";
+		}
+	},
+	smartmoveDown{
+        public MOVE getMove(Game game) { 
+            return game.getSmartmove(game.getPacmanCurrentNodeIndex(), MOVE.DOWN); 
+        }
+		public String toString() {
+			return "smartmoveDown";
+		}
+	},
+	smartmoveLeft{
+        public MOVE getMove(Game game) { 
+            return game.getSmartmove(game.getPacmanCurrentNodeIndex(), MOVE.LEFT); 
+        }
+		public String toString() {
+			return "smartmoveLeft";
+		}
+	},
+	smartmoveRight{
+        public MOVE getMove(Game game) { 
+            return game.getSmartmove(game.getPacmanCurrentNodeIndex(), MOVE.RIGHT); 
+        }
+		public String toString() {
+			return "smartmoveRight";
+		}
+	},
 	getDirectionTowardsClosestPowerPill{
         public MOVE getMove(Game game) { 
             return game.getDirectionTowardsClosestPowerPill(game.getPacmanCurrentNodeIndex());

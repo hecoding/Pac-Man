@@ -2339,6 +2339,31 @@ public final class Game
 		return result.intValue();
 	}
 	
+	/**
+	 * direction moves modified to avoid jam situations
+	 * returns direction on junctions
+	 * returns direction on tunnels if direction is a possible move
+	 * returns last move on tunnels if direction it's not a possible move
+	 */
+	public MOVE getSmartmove(int pacmanLocation, MOVE direction) {
+		
+		if (isJunction(pacmanLocation))		//returns direction on junctions
+			return direction;
+		else if (getNeighbour(pacmanLocation, direction) != -1)		//returns direction on tunnels if direction is a possible move
+			return direction;
+		else {		//returns last move on tunnels if direction it's not a possible move
+			if (getNeighbour(pacmanLocation, getPacmanLastMoveMade()) != -1)		// 'I' tunnel
+				return getPacmanLastMoveMade();
+			else if (getNeighbour(pacmanLocation, getPacmanLastMoveMade().L90()) != -1)	// 'L' tunnel 90º left
+				return getPacmanLastMoveMade().L90();
+			else if (getNeighbour(pacmanLocation, getPacmanLastMoveMade().R90()) != -1)	// 'L' tunnel 90º right
+				return getPacmanLastMoveMade().R90();
+			else
+				return MOVE.NEUTRAL;	//unknown situation
+		}
+		
+	}
+	
 	//***********************FUNCIONES DE ALTO NIVEL************************
 	//USANDO:
 	/*
