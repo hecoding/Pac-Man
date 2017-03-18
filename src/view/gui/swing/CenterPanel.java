@@ -238,19 +238,19 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		absoluteSeries.clear();
 		
 		for(int i = 0; i < this.gCtrl.getWorstObjectives().size(); i++) {
-			worstSeries.add(i, this.gCtrl.getWorstObjectives().get(i));
+			worstSeries.add(i, this.gCtrl.getWorstObjectives().get(i).get(0));
 		}
 		
 		for(int i = 0; i < this.gCtrl.getBestObjectives().size(); i++) {
-			bestSeries.add(i, this.gCtrl.getBestObjectives().get(i));
+			bestSeries.add(i, this.gCtrl.getBestObjectives().get(i).get(0));
 		}
 		
-		for(int i = 0; i < this.gCtrl.getAverageObjetives().size(); i++) {
-			avgSeries.add(i, this.gCtrl.getAverageObjetives().get(i));
+		for(int i = 0; i < this.gCtrl.getAverageObjectives().size(); i++) {
+			avgSeries.add(i, this.gCtrl.getAverageObjectives().get(i).get(0));
 		}
 		
-		for(int i = 0; i < this.gCtrl.getAbsoluteBestObjetives().size(); i++) {
-			absoluteSeries.add(i, this.gCtrl.getAbsoluteBestObjetives().get(i));
+		for(int i = 0; i < this.gCtrl.getAbsoluteBestObjectives().size(); i++) {
+			absoluteSeries.add(i, this.gCtrl.getAbsoluteBestObjectives().get(i).get(0));
 		}
 		
 		this.dataset.addSeries(worstSeries);

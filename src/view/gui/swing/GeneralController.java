@@ -193,19 +193,19 @@ public class GeneralController {
 		return null;
 	}
 	
-	public ArrayList<Double> getWorstObjectives() {
+	public ArrayList<ArrayList<Double>> getWorstObjectives() {
 		return algorithm.worstObjetives;
 	}
 	
-	public ArrayList<Double> getBestObjectives() {
+	public ArrayList<ArrayList<Double>> getBestObjectives() {
 		return algorithm.bestObjetives;
 	}
 	
-	public ArrayList<Double> getAverageObjetives() {
+	public ArrayList<ArrayList<Double>> getAverageObjectives() {
 		return algorithm.averageObjetives;
 	}
 	
-	public ArrayList<Double> getAbsoluteBestObjetives() {
+	public ArrayList<ArrayList<Double>> getAbsoluteBestObjectives() {
 		return algorithm.absoluteBestObjetives;
 	}
 	
