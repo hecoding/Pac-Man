@@ -27,6 +27,8 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	public static String phenotypeString;
 	private static GeneralController ctrl;
 	
+	private long etaStart;
+	
 	
 	public ProgramWorker(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, MasterWorkerThreads<Variable<Integer>> algorithmWorker, GeneralController ctrl) {
 		ProgramWorker.ctrl = ctrl;
@@ -34,6 +36,8 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		if(progressBar == null)
 			progressBar = new JProgressBar();
 		
+		progressBar.setStringPainted(true);
+		progressBar.setString("Initializing...");
 		logger = GrammaticalEvolution.logger;
 		ProgramWorker.problem = problem;
 		ProgramWorker.algorithmWorker = algorithmWorker;
@@ -49,7 +53,15 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	
 	@Override
 	protected void process(List<Integer> chunks) {
-		progressBar.setValue(chunks.get(0));
+		Integer currentStep = chunks.get(0);
+		if(currentStep == 1)
+			etaStart = System.nanoTime();
+		
+		progressBar.setValue(currentStep);
+		
+		long elapsedTime = System.nanoTime() - etaStart;
+		long remainingTime = (elapsedTime * (100 / currentStep)) - elapsedTime;
+		progressBar.setString("ETA: " + formatNanoSeconds(remainingTime));
 	}
 
 	@Override
@@ -137,6 +149,33 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 			progressBar = new JProgressBar();
 		
 		return progressBar;
+	}
+	
+	public static String formatNanoSeconds(long timeInNanoSeconds) {
+		int timeInSeconds = (int) Math.floor(timeInNanoSeconds / 1000000000.0);
+		int hours = timeInSeconds / 3600;
+		int secondsLeft = timeInSeconds - hours * 3600;
+		int minutes = secondsLeft / 60;
+		int seconds = secondsLeft - minutes * 60;
+
+		String formattedTime = "";
+		if (hours > 0) {
+			if (hours < 10)
+				formattedTime += "0";
+			formattedTime += hours + ":";
+		}
+
+		if (minutes > 0) {
+			if (minutes < 10)
+				formattedTime += "0";
+			formattedTime += minutes + ":";
+		}
+
+		if (seconds < 10)
+			formattedTime += "0";
+		formattedTime += seconds ;
+
+		return formattedTime;
 	}
 }
 
