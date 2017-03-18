@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,8 @@ import javax.swing.text.PlainDocument;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.LegendItem;
+import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -43,6 +46,14 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JProgressBar progressBar;
  	JButton cancelButton;
  	GeneralController gCtrl;
+ 	
+ 	Color transparent = new Color(0,0,0,0);
+	Color lighterGray = new Color(200, 200, 200);
+	Color blue = new Color(175, 224, 229);
+	Color blue1 = new Color(119, 141, 178);
+	Color blue2 = new Color(46, 77, 127);
+	BasicStroke stroke1 = new BasicStroke(0.8f);
+	BasicStroke stroke2 = new BasicStroke(2.5f);
  	
  	ArrayList<XYPlot> subplots;
  	ArrayList<ArrayList<XYSeries>> series;
@@ -130,6 +141,12 @@ public class CenterPanel extends JPanel implements AlgObserver {
 			plot.add(subp);
 		}
         plot.setOrientation(PlotOrientation.VERTICAL);
+        
+        LegendItemCollection chartLegend = new LegendItemCollection();
+        chartLegend.add(new LegendItem("Population range", null, null, null, new Rectangle(10, 10), blue));
+        chartLegend.add(new LegendItem("Generation average", null, null, null, new Rectangle(10, 1), stroke1, blue1));
+        chartLegend.add(new LegendItem("Absolute best", null, null, null, new Rectangle(10, 1), stroke2, blue2));
+        plot.setFixedLegendItems(chartLegend);
 		
 		return new ChartPanel(new JFreeChart("", plot));
 	}
@@ -149,19 +166,13 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		datasetCol.add(dataset2);
 		this.datasets.add(datasetCol);
 		
-		Color transparent = new Color(0,0,0,0);
-		Color lighterGray = new Color(200, 200, 200);
-		Color blue = new Color(175, 224, 229);
-		Color blue1 = new Color(119, 141, 178);
-		Color blue2 = new Color(46, 77, 127);
-		
 		XYPlot plot = new XYPlot();
 		plot.setDataset(0, dataset2);
 		XYLineAndShapeRenderer lineRenderer = new XYLineAndShapeRenderer(true, false);
 		lineRenderer.setSeriesPaint(0, blue1);
-		lineRenderer.setSeriesStroke(0, new BasicStroke(0.8f));
+		lineRenderer.setSeriesStroke(0, stroke1);
 		lineRenderer.setSeriesPaint(1, blue2);
-		lineRenderer.setSeriesStroke(1, new BasicStroke(2.5f));
+		lineRenderer.setSeriesStroke(1, stroke2);
 		if(numOfPlot == 0) {
 			lineRenderer.setSeriesVisibleInLegend(0, true);
 			lineRenderer.setSeriesVisibleInLegend(1, true);
