@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,10 +18,11 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.text.PlainDocument;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYDifferenceRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -42,14 +44,9 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JButton cancelButton;
  	GeneralController gCtrl;
  	
- 	JFreeChart chart;
- 	XYPlot plot;
- 	XYSeries worstSeries;
-	XYSeries bestSeries;
-	XYSeries avgSeries;
-	XYSeries absoluteSeries;
- 	XYSeriesCollection dataset;
- 	XYSeriesCollection dataset2;
+ 	ArrayList<XYPlot> subplots;
+ 	ArrayList<ArrayList<XYSeries>> series;
+	ArrayList<ArrayList<XYSeriesCollection>> datasets;
  	JTextArea programText;
  	JPanel runButtonPanel;
  	
@@ -59,6 +56,10 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		this.gCtrl = gCtrl;
 		this.gCtrl.addObserver(this);
 		this.progressBar = this.gCtrl.getProgressBar();
+		
+		this.subplots = new ArrayList<>(this.gCtrl.getNumOfObjectives());
+		this.datasets = new ArrayList<>(this.gCtrl.getNumOfObjectives());
+		this.series = new ArrayList<>(this.gCtrl.getNumOfObjectives());
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -74,60 +75,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		this.setLayout(new BorderLayout());
 		
 		// Fitness tab
-		worstSeries = new XYSeries("Worst of generation");
-		bestSeries = new XYSeries("Best of generation");
-		avgSeries = new XYSeries("Generation average");
-		absoluteSeries = new XYSeries("Absolute best");
-		
-		dataset = new XYSeriesCollection();
-		dataset2 = new XYSeriesCollection();
-		
-		Color transparent = new Color(0,0,0,0);
-		Color lighterGray = new Color(200, 200, 200);
-		Color blue = new Color(175, 224, 229);
-		Color blue1 = new Color(119, 141, 178);
-		Color blue2 = new Color(46, 77, 127);
-		
-		chart = ChartFactory.createXYAreaChart("", "Generations", "Fitness", dataset);
-		chart.setBackgroundPaint(Color.white);
-		
-		plot = chart.getXYPlot();
-		plot.setDataset(0, dataset2);
-		XYLineAndShapeRenderer lineRenderer = new XYLineAndShapeRenderer(true, false);
-		lineRenderer.setSeriesPaint(0, blue1);
-		lineRenderer.setSeriesStroke(0, new BasicStroke(0.8f));
-		lineRenderer.setSeriesPaint(1, blue2);
-		lineRenderer.setSeriesStroke(1, new BasicStroke(2.5f));
-		plot.setRenderer(0, lineRenderer);
-		
-		plot.setDataset(1, this.dataset);
-		XYDifferenceRenderer diffRenderer = new XYDifferenceRenderer(
-				blue, blue, false
-			);
-		diffRenderer.setSeriesPaint(0, transparent);
-		diffRenderer.setSeriesPaint(1, transparent);
-		diffRenderer.setSeriesVisibleInLegend(0, false);
-		diffRenderer.setSeriesVisibleInLegend(1, false);
-		plot.setRenderer(1, diffRenderer);
-		plot.setOutlinePaint(null);
-		plot.setBackgroundPaint(Color.white);
-		plot.setForegroundAlpha(1);
-		plot.setDomainGridlinePaint(lighterGray);
-		plot.setRangeGridlinePaint(lighterGray);
-		
-		NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-		domainAxis.setTickMarkPaint(Color.black);
-		domainAxis.setLowerMargin(0.0);
-		domainAxis.setUpperMargin(0.0);
-		domainAxis.setAutoRangeIncludesZero(false);
-		
-		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-		rangeAxis.setTickMarkPaint(Color.black);
-		rangeAxis.setLowerMargin(0.01);
-		rangeAxis.setUpperMargin(0.01);
-		rangeAxis.setAutoRangeIncludesZero(false);
-		
-		graphPanel.add(new ChartPanel(chart), BorderLayout.CENTER);
+		graphPanel.add(this.createGeneralChartPanel(), BorderLayout.CENTER);
 		tabs.add("Progress", graphPanel);
 		
 		// Program tab
@@ -171,6 +119,90 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		lowBar.add(cancelButton, BorderLayout.LINE_END);
 		this.add(lowBar, BorderLayout.PAGE_END);
 	}
+	
+	public ChartPanel createGeneralChartPanel() {
+		CombinedDomainXYPlot plot = new CombinedDomainXYPlot(new NumberAxis("Generations"));
+		plot.setGap(10.0);
+		
+		for (int i = 0; i < this.gCtrl.getNumOfObjectives(); i++) {
+			XYPlot subp = this.createSubplot(i);
+			this.subplots.add(subp);
+			plot.add(subp);
+		}
+        plot.setOrientation(PlotOrientation.VERTICAL);
+		
+		return new ChartPanel(new JFreeChart("", plot));
+	}
+	
+	public XYPlot createSubplot(int numOfPlot) {
+		ArrayList<XYSeries> serie = new ArrayList<>(4);
+		serie.add(new XYSeries("Worst of generation"));
+		serie.add(new XYSeries("Best of generation"));
+		serie.add(new XYSeries("Generation average"));
+		serie.add(new XYSeries("Absolute best"));
+		this.series.add(serie);
+		
+		XYSeriesCollection dataset1 = new XYSeriesCollection();
+		XYSeriesCollection dataset2 = new XYSeriesCollection();
+		ArrayList<XYSeriesCollection> datasetCol = new ArrayList<>(2);
+		datasetCol.add(dataset1);
+		datasetCol.add(dataset2);
+		this.datasets.add(datasetCol);
+		
+		Color transparent = new Color(0,0,0,0);
+		Color lighterGray = new Color(200, 200, 200);
+		Color blue = new Color(175, 224, 229);
+		Color blue1 = new Color(119, 141, 178);
+		Color blue2 = new Color(46, 77, 127);
+		
+		XYPlot plot = new XYPlot();
+		plot.setDataset(0, dataset2);
+		XYLineAndShapeRenderer lineRenderer = new XYLineAndShapeRenderer(true, false);
+		lineRenderer.setSeriesPaint(0, blue1);
+		lineRenderer.setSeriesStroke(0, new BasicStroke(0.8f));
+		lineRenderer.setSeriesPaint(1, blue2);
+		lineRenderer.setSeriesStroke(1, new BasicStroke(2.5f));
+		if(numOfPlot == 0) {
+			lineRenderer.setSeriesVisibleInLegend(0, true);
+			lineRenderer.setSeriesVisibleInLegend(1, true);
+		}
+		else {
+			lineRenderer.setSeriesVisibleInLegend(0, false);
+			lineRenderer.setSeriesVisibleInLegend(1, false);
+		}
+		plot.setRenderer(0, lineRenderer);
+		
+		plot.setDataset(1, dataset1);
+		XYDifferenceRenderer diffRenderer = new XYDifferenceRenderer(
+				blue, blue, false
+			);
+		diffRenderer.setSeriesPaint(0, transparent);
+		diffRenderer.setSeriesPaint(1, transparent);
+		diffRenderer.setSeriesVisibleInLegend(0, false);
+		diffRenderer.setSeriesVisibleInLegend(1, false);
+		plot.setRenderer(1, diffRenderer);
+		plot.setOutlinePaint(null);
+		plot.setBackgroundPaint(Color.white);
+		plot.setForegroundAlpha(1);
+		plot.setDomainGridlinePaint(lighterGray);
+		plot.setRangeGridlinePaint(lighterGray);
+		
+		NumberAxis domainAxis = new NumberAxis("");
+		plot.setDomainAxis(domainAxis);
+		domainAxis.setTickMarkPaint(Color.black);
+		domainAxis.setLowerMargin(0.0);
+		domainAxis.setUpperMargin(0.0);
+		domainAxis.setAutoRangeIncludesZero(false);
+		
+		NumberAxis rangeAxis = new NumberAxis(this.gCtrl.getFitnessName(numOfPlot));
+		plot.setRangeAxis(rangeAxis);
+		rangeAxis.setTickMarkPaint(Color.black);
+		rangeAxis.setLowerMargin(0.01);
+		rangeAxis.setUpperMargin(0.01);
+		rangeAxis.setAutoRangeIncludesZero(false);
+		
+		return plot;
+	}
 
 	@Override
 	public void onStart() {
@@ -178,7 +210,9 @@ public class CenterPanel extends JPanel implements AlgObserver {
 			public void run() {
 				progressBar.setVisible(true);
 				cancelButton.setVisible(true);
-				plot.getDomainAxis().setRange(0, gCtrl.getGenerations());
+				for (XYPlot plot : subplots) {
+					plot.getDomainAxis().setRange(0, gCtrl.getGenerations());
+				}
 				//plot.setVisible(false);
 			}
 		});
@@ -229,37 +263,46 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	}
 	
 	private void updateGraphPanel() {
-		this.dataset.removeAllSeries();
-		this.dataset2.removeAllSeries();
-		
-		worstSeries.clear();
-		bestSeries.clear();
-		avgSeries.clear();
-		absoluteSeries.clear();
-		
-		for(int i = 0; i < this.gCtrl.getWorstObjectives().size(); i++) {
-			worstSeries.add(i, this.gCtrl.getWorstObjectives().get(i).get(0));
+		for (int i = 0; i < this.gCtrl.getNumOfObjectives(); i++) {
+			ArrayList<XYSeriesCollection> dataset = this.datasets.get(i);
+			for (XYSeriesCollection collec : dataset) {
+				collec.removeAllSeries();
+			}
+			
+			XYSeries worstSeries = this.series.get(i).get(0);
+			XYSeries bestSeries = this.series.get(i).get(1);
+			XYSeries avgSeries = this.series.get(i).get(2);
+			XYSeries absoluteSeries = this.series.get(i).get(3);
+			
+			worstSeries.clear();
+			bestSeries.clear();
+			avgSeries.clear();
+			absoluteSeries.clear();
+			
+			for(int j = 0; j < this.gCtrl.getWorstObjectives().size(); j++) {
+				worstSeries.add(j, this.gCtrl.getWorstObjectives().get(j).get(i));
+			}
+			
+			for(int j = 0; j < this.gCtrl.getBestObjectives().size(); j++) {
+				bestSeries.add(j, this.gCtrl.getBestObjectives().get(j).get(i));
+			}
+			
+			for(int j = 0; j < this.gCtrl.getAverageObjectives().size(); j++) {
+				avgSeries.add(j, this.gCtrl.getAverageObjectives().get(j).get(i));
+			}
+			
+			for(int j = 0; j < this.gCtrl.getAbsoluteBestObjectives().size(); j++) {
+				absoluteSeries.add(j, this.gCtrl.getAbsoluteBestObjectives().get(j).get(i));
+			}
+			
+			dataset.get(0).addSeries(worstSeries);
+			dataset.get(0).addSeries(bestSeries);
+			
+			dataset.get(1).addSeries(avgSeries);
+			dataset.get(1).addSeries(absoluteSeries);
+			
+			// plot.setVisible(true);
 		}
-		
-		for(int i = 0; i < this.gCtrl.getBestObjectives().size(); i++) {
-			bestSeries.add(i, this.gCtrl.getBestObjectives().get(i).get(0));
-		}
-		
-		for(int i = 0; i < this.gCtrl.getAverageObjectives().size(); i++) {
-			avgSeries.add(i, this.gCtrl.getAverageObjectives().get(i).get(0));
-		}
-		
-		for(int i = 0; i < this.gCtrl.getAbsoluteBestObjectives().size(); i++) {
-			absoluteSeries.add(i, this.gCtrl.getAbsoluteBestObjectives().get(i).get(0));
-		}
-		
-		this.dataset.addSeries(worstSeries);
-		this.dataset.addSeries(bestSeries);
-		
-		this.dataset2.addSeries(avgSeries);
-		this.dataset2.addSeries(absoluteSeries);
-		
-		// plot.setVisible(true);
 	}
 
 }

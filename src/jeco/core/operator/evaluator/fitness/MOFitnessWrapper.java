@@ -43,5 +43,9 @@ public class MOFitnessWrapper {
 	public int getNumberOfObjs() {
 		return this.funcs.size();
 	}
+	
+	public String getFuncName(int i) {
+		return this.funcs.get(i).getName();
+	}
 
 }
