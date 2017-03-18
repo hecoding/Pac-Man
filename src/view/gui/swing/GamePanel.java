@@ -7,13 +7,21 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.PlainDocument;
 
 import pacman.CustomExecutor;
@@ -35,6 +43,8 @@ public class GamePanel extends JPanel {
 	String savedInitialState;
 	Game initialGame;
 	JPanel TV;
+	int defaultTick = 19;
+	AtomicInteger tick;
 	JPanel buttonPanel;
 	
 	public GamePanel(GeneralController ctrl) {
@@ -50,6 +60,7 @@ public class GamePanel extends JPanel {
 	private void initGUI() {
 		game = CustomExecutor.getNewGame(); // TODO this line slows down the whole GUI initialization
 		gv = CustomExecutor.getGameViewFromGame(this.game);
+		tick = new AtomicInteger(defaultTick);
 		
 		this.setLayout(new BorderLayout());
 		
@@ -63,7 +74,45 @@ public class GamePanel extends JPanel {
 		gc.weighty = 0.2;
 		TV = new JPanel(new BorderLayout());
 		TV.add(this.gv, BorderLayout.CENTER);
-		buttonPanel.add(this.TV, gc);
+		
+		JPanel speedPanel = new JPanel(new BorderLayout());
+		JSlider speedSlider = new JSlider(5, 50);
+		speedSlider.setInverted(true);
+		speedSlider.setValue(defaultTick);
+		speedSlider.addChangeListener(new TickSliderListener());
+		speedSlider.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(SwingUtilities.isRightMouseButton(e))
+					speedSlider.setValue(defaultTick);
+			}
+		});
+		speedSlider.setToolTipText("Right click to reset speed value.");
+		JLabel speedLabel = new JLabel("Speed");
+		speedLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		speedPanel.add(speedLabel, BorderLayout.PAGE_START);
+		speedPanel.add(speedSlider, BorderLayout.CENTER);
+		JPanel tvAndControls = new JPanel(new BorderLayout());
+		tvAndControls.add(this.TV, BorderLayout.CENTER);
+		tvAndControls.add(speedPanel, BorderLayout.PAGE_END);
+		buttonPanel.add(tvAndControls, gc);
 		
 		runButton = new JButton("Run code");
 		runButton.setMnemonic(KeyEvent.VK_R);
@@ -129,7 +178,7 @@ public class GamePanel extends JPanel {
         		
         		String prog = ctrl.getCleanProgram(drafText.getText());
         		beginDraftExecution();
-        		CustomExecutor.runGameView(new GrammaticalAdapterController(prog), new StarterGhosts(), game, gv, 19, stopIt);
+        		CustomExecutor.runGameView(new GrammaticalAdapterController(prog), new StarterGhosts(), game, gv, tick, stopIt);
         		endDraftExecution();
         	}
         }
@@ -168,5 +217,14 @@ public class GamePanel extends JPanel {
 	private void endDraftExecution() {
 		runButton.setEnabled(true);
 		stopButton.setVisible(false);
+	}
+	
+	class TickSliderListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			JSlider source = (JSlider)e.getSource();
+			if (!source.getValueIsAdjusting()) {
+				tick.set((int)source.getValue());
+			}
+		}
 	}
 }

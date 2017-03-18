@@ -46,11 +46,11 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   protected CrossoverOperator<Variable<Integer>> crossoverOperator;
   protected SelectionOperator<Variable<Integer>> selectionOperator;
   /////////////////////////////////////////////////////////////////////////
-  public Double absoluteBest;
-  public ArrayList<Double> absoluteBestObjetives;
-  public ArrayList<Double> bestObjetives;
-  public ArrayList<Double> averageObjetives;
-  public ArrayList<Double> worstObjetives;
+  public Solution<Variable<Integer>> absoluteBest;
+  public ArrayList<ArrayList<Double>> absoluteBestObjetives;
+  public ArrayList<ArrayList<Double>> bestObjetives;
+  public ArrayList<ArrayList<Double>> averageObjetives;
+  public ArrayList<ArrayList<Double>> worstObjetives;
   ////////////////////////////////////////////////////////////////////////
   private final int eliteSize;
 
@@ -62,7 +62,6 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       this.crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, probCrossover, SinglePointCrossover.ALLOW_REPETITION);
       this.selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
       
-      this.absoluteBest = Double.POSITIVE_INFINITY; // as this is minimization
       this.absoluteBestObjetives = new ArrayList<>(this.maxGenerations);
       this.bestObjetives = new ArrayList<>(this.maxGenerations);
       this.averageObjetives = new ArrayList<>(this.maxGenerations);
@@ -193,24 +192,32 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   }
   
   protected void collectStatistics() {
-	  Double currentBest = this.population.get(0).getObjectives().get(0);
+	  Solution<Variable<Integer>> currentBest = this.population.get(0);
+	  Comparator<Solution<Variable<Integer>>> comparator = this.dominance;
 	  
-	  if (currentBest < this.absoluteBest) {
-		  this.absoluteBestObjetives.add(currentBest);
+	  if (this.absoluteBest == null || comparator.compare(currentBest, this.absoluteBest) < 0) {
+		  this.absoluteBestObjetives.add(currentBest.getObjectives());
 		  this.absoluteBest = currentBest;
 	  }
 	  else
-		  this.absoluteBestObjetives.add(this.absoluteBest);
+		  this.absoluteBestObjetives.add(this.absoluteBest.getObjectives());
 	  
-	  Double sum = 0.0;
-	  for(Solution<Variable<Integer>> sol : this.population) {
-		  sum += sol.getObjectives().get(0);
+	  ArrayList<Double> avg = new ArrayList<>(population.get(0).getObjectives().size());
+	  for (int i = 0; i < population.get(0).getObjectives().size(); i++) {
+		  avg.add(0.0);
 	  }
-	  double average = sum / this.maxPopulationSize;
-	  this.averageObjetives.add(average);
+	  for(Solution<Variable<Integer>> sol : this.population) {
+		  for (int i = 0; i < sol.getObjectives().size(); i++) {
+			  avg.set(i, avg.get(i) + sol.getObjective(i));
+		  }
+	  }
+	  for (int i = 0; i < avg.size(); i++) {
+		  avg.set(i, avg.get(i) / this.maxPopulationSize);
+	  }
+	  this.averageObjetives.add(avg);
 	  
-      this.bestObjetives.add(currentBest);
-      this.worstObjetives.add(this.population.get(this.maxPopulationSize - 1).getObjectives().get(0));
+      this.bestObjetives.add(currentBest.getObjectives());
+      this.worstObjetives.add(this.population.get(this.maxPopulationSize - 1).getObjectives());
   }
 
   public void setMutationOperator(MutationOperator<Variable<Integer>> mutationOperator) {
