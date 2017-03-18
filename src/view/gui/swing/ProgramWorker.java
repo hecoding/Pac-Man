@@ -8,6 +8,7 @@ import javax.swing.SwingWorker;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
+import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
 import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Solution;
@@ -88,11 +89,11 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		// Log solution
 		for (Solution<Variable<Integer>> solution : solutions) {
 			extFitness = solution.getObjectives().get(0);
-		 	extAvgPoints = NaiveFitness.fitnessToPoints(solution.getObjectives().get(0));
+		 	extAvgPoints = NaiveFitness.fitnessToPoints(solution.getObjectives().get(0)); // TODO wrapper.naive.fitnesstopoints
 		 	extPhenotype = problem.generatePhenotype(solution).toString();
 			
 			logger.info(System.lineSeparator());
-			logger.info("Fitness =  " + solution.getObjectives().get(0));
+			logger.info("Fitness =  " + solution.getObjectives());
 			logger.info("Average points = " + NaiveFitness.fitnessToPoints( solution.getObjectives().get(0) ));
 			phenotypeString = problem.generatePhenotype(solution).toString();
 			logger.info("Phenotype = (" + phenotypeString + ")");
@@ -101,13 +102,17 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		if(externalLogger) {
 		  	//String txtName = "Registro.txt";
 		  	String csvName = "Registro.csv";
+		  	String fitns = "[";
+		  	for(FitnessEvaluatorInterface func : ctrl.getFitnessFuncs())
+		  		fitns += func.getName();
+		  	fitns = "]";
 		  	
-		  	ExtLog extLog = new ExtLog(ctrl.getMutationProb(), ctrl.getCrossProb(), ctrl.getPopulationSize(), ctrl.getGenerations(), ctrl.getItersPerIndividual(), ctrl.getFitnessFunc().getName(),
+		  	ExtLog extLog = new ExtLog(ctrl.getMutationProb(), ctrl.getCrossProb(), ctrl.getPopulationSize(), ctrl.getGenerations(), ctrl.getItersPerIndividual(), fitns,
 		  			extFitness.doubleValue(), extAvgPoints, extPhenotype, totalTime);
 	
 		  	ExtLogger extlogger = new ExtLogger();
 		  	extlogger.generateCSV(extLog, csvName);
-		  	//extlogger.generateTXT(milog, nombreTXT); (Pendiente poner bonito para TXT)
+		  	//extlogger.generateTXT(milog, nombreTXT); (TODO Pendiente poner bonito para TXT)
 	    }
 		
 		/*

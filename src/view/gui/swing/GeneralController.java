@@ -8,6 +8,7 @@ import javax.swing.JProgressBar;
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
 import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
+import jeco.core.operator.evaluator.fitness.MOFitnessWrapper;
 import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
@@ -29,16 +30,16 @@ public class GeneralController {
 	int generations = 100;// = 500;
 	double mutationProb = 0.02;
   	double crossProb = 0.6;
-  	FitnessEvaluatorInterface fitnessFunc = new NaiveFitness();
   	String grammarFolder ="./grammar/";
   	String grammar = grammarFolder + "base.bnf";
+  	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
+
 	int iterPerIndividual = 3;// = 10; // games ran per evaluation
 	double elitismPerc = 0.1;
   	
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
   	int maxCntWrappings = PacmanGrammaticalEvolution.MAX_CNT_WRAPPINGS_DEFAULT;
-  	int numOfObjectives = PacmanGrammaticalEvolution.NUM_OF_OBJECTIVES_DEFAULT;
 	
 	public GeneralController() {
 		
@@ -46,9 +47,9 @@ public class GeneralController {
 	
 	public void execute() {
 		// First create the problem
-		problem = new PacmanGrammaticalEvolution(grammar,
-				populationSize, generations, mutationProb, crossProb, fitnessFunc, iterPerIndividual,
-				this.numOfObjectives, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
+		problem = new PacmanGrammaticalEvolution(
+				grammar, populationSize, generations, mutationProb, crossProb, fitnessWrapper,
+				iterPerIndividual, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
 				);
 		// Second create the algorithm (here we do a dirty trick to preserve observers)
 		if(algorithm != null)
@@ -116,12 +117,12 @@ public class GeneralController {
 		return this.codonUpperBound;
 	}
 	
-  	public FitnessEvaluatorInterface getFitnessFunc() {
-		return fitnessFunc;
+  	public ArrayList<FitnessEvaluatorInterface> getFitnessFuncs() {
+		return this.fitnessWrapper.funcs;
 	}
 
-	public void setFitnessFunc(FitnessEvaluatorInterface fitnessFunc) {
-		this.fitnessFunc = fitnessFunc;
+	public void setFitnessFuncs(ArrayList<FitnessEvaluatorInterface> fitnessFuncs) {
+		this.fitnessWrapper = new MOFitnessWrapper(fitnessFuncs);
 	}
 	
 	public void setCodonUpperBound(int upperBound) {
@@ -137,11 +138,7 @@ public class GeneralController {
 	}
 	
 	public int getNumOfObjectives() {
-		return this.numOfObjectives;
-	}
-	
-	public void setNumOfObjectives(int num) {
-		this.numOfObjectives = num;
+		return this.fitnessWrapper.getNumberOfObjs();
 	}
 	
 	public double getCrossProb() {
