@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -74,10 +76,35 @@ public class GamePanel extends JPanel {
 		TV.add(this.gv, BorderLayout.CENTER);
 		
 		JPanel speedPanel = new JPanel(new BorderLayout());
-		JSlider speedSlider = new JSlider(0, 50);
+		JSlider speedSlider = new JSlider(5, 50);
 		speedSlider.setInverted(true);
 		speedSlider.setValue(defaultTick);
 		speedSlider.addChangeListener(new TickSliderListener());
+		speedSlider.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(SwingUtilities.isRightMouseButton(e))
+					speedSlider.setValue(defaultTick);
+			}
+		});
+		speedSlider.setToolTipText("Right click to reset speed value.");
 		JLabel speedLabel = new JLabel("Speed");
 		speedLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		speedPanel.add(speedLabel, BorderLayout.PAGE_START);
