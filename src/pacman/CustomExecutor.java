@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.mutable.MutableDouble;
 
@@ -104,7 +105,7 @@ public class CustomExecutor {
 	 * @param visual Indicates whether or not to use visuals
 	 * @param delay The delay between time-steps
 	 */
-	public static void runGameView(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,Game game,GameView gv,int delay,AtomicBoolean stop)
+	public static void runGameView(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,Game game,GameView gv,AtomicInteger delay,AtomicBoolean stop)
 	{
 		int lastLevel = 0;
 		
@@ -116,7 +117,7 @@ public class CustomExecutor {
 	        game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
 	        lastLevel = game.getCurrentLevel();
 	        
-	        try{Thread.sleep(delay);}catch(Exception e){}
+	        try{Thread.sleep(delay.get());}catch(Exception e){}
 	        
 	        gv.repaint();
 		}
