@@ -37,8 +37,8 @@ public class LHSCrossover extends CrossoverOperator<Variable<Integer>>
 			if(expansionParent1.isEmpty() || expansionParent2.isEmpty())
 			{
 				//No crossover, return the parents as children
-				children.add(parent1);
-				children.add(parent2);
+				children.add(parent1.clone());
+				children.add(parent2.clone());
 			}
 			else
 			{			
@@ -49,8 +49,8 @@ public class LHSCrossover extends CrossoverOperator<Variable<Integer>>
 				if(point_parent2 < 0)
 				{
 					//No crossover, return the parents as children
-					children.add(parent1);
-					children.add(parent2);
+					children.add(parent1.clone());
+					children.add(parent2.clone());
 				}
 				else
 				{				
@@ -135,8 +135,8 @@ public class LHSCrossover extends CrossoverOperator<Variable<Integer>>
 		else
 		{
 			//No crossover, return the parents as childs
-			children.add(parent1);
-			children.add(parent2);
+			children.add(parent1.clone());
+			children.add(parent2.clone());
 		}
 		
 		if(children.size() != 2)
