@@ -12,14 +12,6 @@ public enum NumericFunc implements Function{
 		public String toString() {
 			return "getDistanceToClosestNonEdibleGhost";
 		}
-	},getDistanceToClosestNonEdibleGhostCurrent
-	{
-		public Object executeFunction(Game game) {
-			return game.getDistanceToClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getDistanceToClosestNonEdibleGhostCurrent";
-		}
 	},getDistanceToClosestNonEdibleGhostUp {
 		public Object executeFunction(Game game) {
 			return game.getDistanceToClosestNonEdibleGhost(game.getPacmanCurrentNodeIndex(), MOVE.UP);
@@ -54,13 +46,6 @@ public enum NumericFunc implements Function{
 		}
 		public String toString() {
 			return "getDistanceToClosestEdibleGhost";
-		}
-	},getDistanceToClosestEdibleGhostCurrent {
-		public Object executeFunction(Game game) {
-			return game.getDistanceToClosestEdibleGhost(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getDistanceToClosestEdibleGhostCurrent";
 		}
 	},getDistanceToClosestEdibleGhostUp {
 		public Object executeFunction(Game game) {
@@ -179,14 +164,6 @@ public enum NumericFunc implements Function{
 			return "getDistToClosestPowerPillRight";
 		}
 	},
-	getClosestJunctionExitsNumberCurrent {
-		public Object executeFunction(Game game) {
-			return game.getClosestJunctionExitsNumber(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getClosestJunctionExitsNumberCurrent";
-		}
-	},
 	getClosestJunctionExitsNumberUp {
 		public Object executeFunction(Game game) {
 			return game.getClosestJunctionExitsNumber(game.getPacmanCurrentNodeIndex(), MOVE.UP);
@@ -217,13 +194,6 @@ public enum NumericFunc implements Function{
 		}
 		public String toString() {
 			return "getClosestJunctionExitsNumberRight";
-		}
-	},getDistanceToClosestJunctionCurrent {
-		public Object executeFunction(Game game) {
-			return game.getDistanceToClosestJunction(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getDistanceToClosestJunctionCurrent";
 		}
 	},
 	getDistanceToClosestJunctionUp {
@@ -258,14 +228,6 @@ public enum NumericFunc implements Function{
 			return "getDistanceToClosestJunctionRight";
 		}
 	},
-	getClosestNonEdibleGhostDistanceToClosestJunctionCurrent {
-		public Object executeFunction(Game game) {
-			return game.getClosestNonEdibleGhostDistanceToClosestJunction(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getClosestNonEdibleGhostDistanceToClosestJunctionCurrent";
-		}
-	},
 	getClosestNonEdibleGhostDistanceToClosestJunctionUp {
 		public Object executeFunction(Game game) {
 			return game.getClosestNonEdibleGhostDistanceToClosestJunction(game.getPacmanCurrentNodeIndex(), MOVE.UP);
@@ -296,14 +258,6 @@ public enum NumericFunc implements Function{
 		}
 		public String toString() {
 			return "getClosestNonEdibleGhostDistanceToClosestJunctionRight";
-		}
-	},
-	getClosestEdibleGhostDistanceToClosestJunctionCurrent {
-		public Object executeFunction(Game game) {
-			return game.getClosestEdibleGhostDistanceToClosestJunction(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL);
-		}
-		public String toString() {
-			return "getClosestEdibleGhostDistanceToClosestJunctionCurrent";
 		}
 	},
 	getClosestEdibleGhostDistanceToClosestJunctionUp {
