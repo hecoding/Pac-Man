@@ -7,9 +7,9 @@ public class PointsNoGhostMultFitness implements FitnessEvaluatorInterface {
 
 	@Override
 	public double evaluate(GameInfo gi) {
-		double points = gi.getPillsEaten()*Constants.PILL;
-		points += gi.getPowerPillsEaten()*Constants.POWER_PILL;
-		points += gi.getGhostsEaten()*Constants.GHOST_EAT_SCORE;
+		double points = gi.getAvgPillsEaten()*Constants.PILL;
+		points += gi.getAvgPowerPillsEaten()*Constants.POWER_PILL;
+		points += gi.getAvgGhostsEaten()*Constants.GHOST_EAT_SCORE;
 		return 100000 - points;
 	}
 	
