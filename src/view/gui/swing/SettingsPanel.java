@@ -56,6 +56,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JSlider mutationSlider;
  	JTextField elitismText;
  	JSlider elitismSlider;
+ 	JButton btnSelectObjetives;
+	String[] objetiveOptions;
+	int[] objetiveSelectedIndices;
  	JPanel grammar;
  	JComboBox<String> grammarBox;
  	JPanel initialization;
@@ -267,7 +270,20 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		settings.add(maxCntWrappings);
 		
 		JPanel numOfObjectives = new JPanel();
-		JLabel numOfObjectivesLabel = new JLabel("# of objectives");
+		JLabel numOfObjectivesLabel = new JLabel("#");
+		
+		this.objetiveOptions = new String[]{"opt1", "opt2"};
+		this.objetiveSelectedIndices = new int[]{0};
+		btnSelectObjetives = new JButton("select objetives");
+		btnSelectObjetives.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ObjetiveSelectorPanel objPanel = new ObjetiveSelectorPanel(objetiveOptions, objetiveSelectedIndices);
+				JOptionPane.showMessageDialog(null, objPanel);
+				objetiveSelectedIndices = objPanel.selectedObjs();	//TODO only if accepted
+			}
+		});
+		numOfObjectives.add(btnSelectObjetives);
+
 		numOfObjectives.add(numOfObjectivesLabel);
 		numOfObjectivesText = new JTextField(4);
 		numOfObjectivesText.setInputVerifier(new PositiveIntegerVerifier());
@@ -1086,6 +1102,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	elitismText.setEnabled(false);
 			 	elitismSlider.setEnabled(false);
 			 	grammarBox.setEnabled(false);
+			 	btnSelectObjetives.setEnabled(false);
 			 	/*
 			 	heightText.setEnabled(false);
 			 	initialization;
@@ -1127,6 +1144,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	elitismText.setEnabled(true);
 			 	elitismSlider.setEnabled(true);
 			 	grammarBox.setEnabled(true);
+			 	btnSelectObjetives.setEnabled(true);
 			}
 		});
 	}
