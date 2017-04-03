@@ -2268,7 +2268,7 @@ public final class Game
 		if (getNeighbour(pacmanLocation, direction) == -1)
 			return false;
 		
-		int ghostDistanceToJunction = getClosestNonEdibleGhostDistanceToClosestJunction(pacmanLocation, direction);
+		int ghostDistanceToJunction = getClosestNonEdibleGhostDistanceToClosestJunction(pacmanLocation, direction); //Not the real distance (as it doesnt uses ghost last move, but it doesnt needs to be
 		int pacmanDistanceToJunction = getDistanceToClosestJunction(pacmanLocation, direction);
 		if (ghostDistanceToJunction > pacmanDistanceToJunction)	//Pacman is closer to the junction than any ghost
 			return true;
