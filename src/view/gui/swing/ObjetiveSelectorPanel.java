@@ -30,17 +30,22 @@ public class ObjetiveSelectorPanel extends JPanel{
 		        }
 		    }
 		});
-		for (int i = 0; i < options.length; i++) {
-			
-		}
 		listCurrentObjs.setSelectedIndices(indices);
 		
 		JScrollPane scrollPane = new JScrollPane(listCurrentObjs);
 		add(scrollPane);
 	}
 	
-	public int[] selectedObjs() {
+	public void setOptions(String[] options) {
+		listCurrentObjs.setListData(options);
+	}
+	
+	public int[] getSelectedIndices() {
 		return listCurrentObjs.getSelectedIndices();
+	}
+	
+	public void setSelectedIndices(int[] indices) {
+		listCurrentObjs.setSelectedIndices(indices);
 	}
 
 }

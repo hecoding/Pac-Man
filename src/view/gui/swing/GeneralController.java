@@ -145,6 +145,10 @@ public class GeneralController {
 		return this.fitnessWrapper.getNumberOfObjs();
 	}
 	
+	public String[] getObjectivesNames() {
+		return this.fitnessWrapper.getFuncNames();
+	}
+	
 	public double getCrossProb() {
 		return this.crossProb;
 	}

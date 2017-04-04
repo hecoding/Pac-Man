@@ -57,8 +57,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JTextField elitismText;
  	JSlider elitismSlider;
  	JButton btnSelectObjetives;
-	String[] objetiveOptions;
-	int[] objetiveSelectedIndices;
+	ObjetiveSelectorPanel objectiveSelector;
  	JPanel grammar;
  	JComboBox<String> grammarBox;
  	JPanel initialization;
@@ -95,6 +94,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	String codonUpperBoundTextDefault;
 	String maxCntWrappingsTextDefault;
 	String numOfObjectivesTextDefault;
+	int[] objectiveSelectedIndicesDefault;
 	
 	JTextField pomin, pomax, postep, gomin, gomax, gostep, comin, comax, costep, momin, momax, mostep, eomin, eomax, eostep;
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
@@ -293,15 +293,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		objectivescacaPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		objectivesPanel.add(objectivescacaPanel);
 		
-		objetiveOptions = new String[]{"opt1", "opt2"};
-		objetiveSelectedIndices = new int[]{0};
 		btnSelectObjetives = new JButton("Select objectives");
-		ObjetiveSelectorPanel objPanel = new ObjetiveSelectorPanel(objetiveOptions, objetiveSelectedIndices);
+		objectiveSelector = new ObjetiveSelectorPanel(new String[]{""}, new int[]{0});
 		btnSelectObjetives.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, objPanel, "Multi-bjective selector", JOptionPane.PLAIN_MESSAGE);
-				objetiveSelectedIndices = objPanel.selectedObjs();
-				numOfObjectivesText.setText(String.valueOf(objetiveSelectedIndices.length));
+				JOptionPane.showMessageDialog(null, objectiveSelector, "Multi-bjective selector", JOptionPane.PLAIN_MESSAGE);
+				numOfObjectivesText.setText(String.valueOf(objectiveSelector.getSelectedIndices().length));
 			}
 		});
 		btnSelectObjetives.setMaximumSize(btnSelectObjetives.getPreferredSize());
@@ -1030,6 +1027,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.codonUpperBoundText.setText(String.valueOf(this.gCtrl.getCodonUpperBound()));
 		this.maxCntWrappingsText.setText(String.valueOf(this.gCtrl.getMaxCntWrappings()));
 		this.numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfObjectives()));
+		this.objectiveSelector.setOptions(this.gCtrl.getObjectivesNames());
+		this.objectiveSelector.setSelectedIndices(new int[]{0});
 		
 		saveDefaults();
 	}
@@ -1047,6 +1046,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationSliderDefault = mutationSlider.getValue();
 		elitismSliderDefault = elitismSlider.getValue();
 		grammarBoxDefault = grammarBox.getSelectedItem();
+		objectiveSelectedIndicesDefault = objectiveSelector.getSelectedIndices();
 		//initializationBoxDefault = initializationBox.getSelectedItem();
 		//selectionBoxDefault = selectionBox.getSelectedItem();
 		//crossoverBoxDefault = crossoverBox.getSelectedItem();
@@ -1068,6 +1068,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationSlider.setValue(mutationSliderDefault);
 		elitismSlider.setValue(elitismSliderDefault);
 		grammarBox.setSelectedItem(grammarBoxDefault);
+		objectiveSelector.setSelectedIndices(objectiveSelectedIndicesDefault);
 		//elitismSlider.setValue(elitismSliderDefault);
 		//initializationBox.setSelectedItem(initializationBoxDefault);
 		//selectionBox.setSelectedItem(selectionBoxDefault);
