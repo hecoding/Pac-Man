@@ -296,11 +296,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		objetiveOptions = new String[]{"opt1", "opt2"};
 		objetiveSelectedIndices = new int[]{0};
 		btnSelectObjetives = new JButton("Select objectives");
+		ObjetiveSelectorPanel objPanel = new ObjetiveSelectorPanel(objetiveOptions, objetiveSelectedIndices);
 		btnSelectObjetives.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ObjetiveSelectorPanel objPanel = new ObjetiveSelectorPanel(objetiveOptions, objetiveSelectedIndices);
-				JOptionPane.showMessageDialog(null, objPanel);
-				objetiveSelectedIndices = objPanel.selectedObjs();	//TODO only if accepted
+				JOptionPane.showMessageDialog(null, objPanel, "Multi-bjective selector", JOptionPane.PLAIN_MESSAGE);
+				objetiveSelectedIndices = objPanel.selectedObjs();
+				numOfObjectivesText.setText(String.valueOf(objetiveSelectedIndices.length));
 			}
 		});
 		btnSelectObjetives.setMaximumSize(btnSelectObjetives.getPreferredSize());
