@@ -2,6 +2,7 @@ package view.gui.swing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.logging.Logger;
 
@@ -227,7 +228,10 @@ public class GeneralController {
 	}
 	
 	public ArrayList<String> getCleanGrammarNames() {
-		return FileList.cleanListFiles(this.grammarFolder, ".bnf");
+		ArrayList<String> ret = FileList.cleanListFiles(this.grammarFolder, ".bnf");
+		Collections.sort(ret);
+		
+		return ret;
 	}
 	
 	public void setGrammar(String grammar) {
@@ -252,7 +256,10 @@ public class GeneralController {
 	}
 	
 	public ArrayList<String> getGhostControllerNames() {
-		return new ArrayList<String>(Arrays.asList(ghostControllerFactory.getRegisteredKeys()));
+		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(ghostControllerFactory.getRegisteredKeys()));
+		Collections.sort(ret);
+		
+		return ret;
 	}
 	
 	public ArrayList<ArrayList<Double>> getWorstObjectives() {
