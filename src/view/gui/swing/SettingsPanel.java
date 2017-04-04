@@ -269,12 +269,33 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		maxCntWrappings.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(maxCntWrappings);
 		
-		JPanel numOfObjectives = new JPanel();
-		JLabel numOfObjectivesLabel = new JLabel("#");
+		//---------------------------------------------
+		JSeparator a = new JSeparator();
+		a.setMaximumSize(new Dimension(420, 1));
+		settings.add(a);
+		//---------------------------------------------
 		
-		this.objetiveOptions = new String[]{"opt1", "opt2"};
-		this.objetiveSelectedIndices = new int[]{0};
-		btnSelectObjetives = new JButton("select objetives");
+		JPanel objectivesPanel = new JPanel();
+		objectivesPanel.setLayout(new BoxLayout(objectivesPanel, BoxLayout.Y_AXIS));
+		
+		JPanel objectivescacaPanel = new JPanel();
+		JPanel objectivesTitle = new JPanel();
+		JLabel numOfObjectivesLabel = new JLabel("Objectives #");
+		objectivesTitle.add(numOfObjectivesLabel);
+		numOfObjectivesText = new JTextField(4);
+		numOfObjectivesText.setInputVerifier(new PositiveIntegerVerifier());
+		numOfObjectivesText.setEditable(false);
+		objectivesTitle.add(numOfObjectivesText);
+		objectivescacaPanel.add(objectivesTitle);
+		
+		objectivescacaPanel.setMaximumSize(objectivescacaPanel.getPreferredSize());
+		objectivescacaPanel.setMinimumSize(objectivescacaPanel.getPreferredSize());
+		objectivescacaPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		objectivesPanel.add(objectivescacaPanel);
+		
+		objetiveOptions = new String[]{"opt1", "opt2"};
+		objetiveSelectedIndices = new int[]{0};
+		btnSelectObjetives = new JButton("Select objectives");
 		btnSelectObjetives.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ObjetiveSelectorPanel objPanel = new ObjetiveSelectorPanel(objetiveOptions, objetiveSelectedIndices);
@@ -282,17 +303,13 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 				objetiveSelectedIndices = objPanel.selectedObjs();	//TODO only if accepted
 			}
 		});
-		numOfObjectives.add(btnSelectObjetives);
-
-		numOfObjectives.add(numOfObjectivesLabel);
-		numOfObjectivesText = new JTextField(4);
-		numOfObjectivesText.setInputVerifier(new PositiveIntegerVerifier());
-		numOfObjectivesText.setEditable(false);
-		numOfObjectives.add(numOfObjectivesText);
-		numOfObjectives.setMaximumSize(numOfObjectives.getPreferredSize());
-		numOfObjectives.setMinimumSize(numOfObjectives.getPreferredSize());
-		numOfObjectives.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(numOfObjectives);
+		btnSelectObjetives.setMaximumSize(btnSelectObjetives.getPreferredSize());
+		btnSelectObjetives.setMinimumSize(btnSelectObjetives.getPreferredSize());
+		btnSelectObjetives.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		objectivesPanel.add(btnSelectObjetives);
+		
+		objectivesPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(objectivesPanel);
 		
 		//---------------------------------------------
 		
