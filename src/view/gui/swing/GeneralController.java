@@ -16,6 +16,7 @@ import jeco.core.util.observer.AlgObserver;
 import parser.TreeParser;
 import parser.nodes.NicerTree;
 import util.FileList;
+import view.gui.swing.factory.ObjectiveFactory;
 
 public class GeneralController {
 	static ProgramWorker programWorker;
@@ -40,9 +41,12 @@ public class GeneralController {
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
   	int maxCntWrappings = PacmanGrammaticalEvolution.MAX_CNT_WRAPPINGS_DEFAULT;
+  	
+  	static ObjectiveFactory objectiveFactory = ObjectiveFactory.getInstance();
 	
 	public GeneralController() {
-		
+		// Register all objectives into its factory
+		objectiveFactory.register(new NaiveFitness());
 	}
 	
 	public void execute() {
@@ -141,12 +145,24 @@ public class GeneralController {
 		this.maxCntWrappings = maxCntWrappings;
 	}
 	
-	public int getNumOfObjectives() {
+	public String[] getObjectivesNames() {
+		return objectiveFactory.getRegisteredKeys();
+	}
+	
+	public int getNumOfSelectedObjectives() {
 		return this.fitnessWrapper.getNumberOfObjs();
 	}
 	
-	public String[] getObjectivesNames() {
+	public String[] getSelectedObjectivesNames() {
 		return this.fitnessWrapper.getFuncNames();
+	}
+	
+	public void setSelectedObjectives(String[] names) {
+		this.fitnessWrapper.clear();
+		
+		for (String name : names) {
+			this.fitnessWrapper.addObjectiveFunction(objectiveFactory.create(name));
+		}
 	}
 	
 	public double getCrossProb() {

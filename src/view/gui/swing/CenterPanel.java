@@ -68,9 +68,9 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		this.gCtrl.addObserver(this);
 		this.progressBar = this.gCtrl.getProgressBar();
 		
-		this.subplots = new ArrayList<>(this.gCtrl.getNumOfObjectives());
-		this.datasets = new ArrayList<>(this.gCtrl.getNumOfObjectives());
-		this.series = new ArrayList<>(this.gCtrl.getNumOfObjectives());
+		this.subplots = new ArrayList<>(this.gCtrl.getNumOfSelectedObjectives());
+		this.datasets = new ArrayList<>(this.gCtrl.getNumOfSelectedObjectives());
+		this.series = new ArrayList<>(this.gCtrl.getNumOfSelectedObjectives());
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -135,7 +135,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		CombinedDomainXYPlot plot = new CombinedDomainXYPlot(new NumberAxis("Generations"));
 		plot.setGap(10.0);
 		
-		for (int i = 0; i < this.gCtrl.getNumOfObjectives(); i++) {
+		for (int i = 0; i < this.gCtrl.getNumOfSelectedObjectives(); i++) {
 			XYPlot subp = this.createSubplot(i);
 			this.subplots.add(subp);
 			plot.add(subp);
@@ -274,7 +274,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
 	}
 	
 	private void updateGraphPanel() {
-		for (int i = 0; i < this.gCtrl.getNumOfObjectives(); i++) {
+		for (int i = 0; i < this.gCtrl.getNumOfSelectedObjectives(); i++) {
 			ArrayList<XYSeriesCollection> dataset = this.datasets.get(i);
 			for (XYSeriesCollection collec : dataset) {
 				collec.removeAllSeries();

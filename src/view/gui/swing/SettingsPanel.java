@@ -149,6 +149,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
 					gCtrl.setGrammar((String) grammarBox.getSelectedItem());
+					gCtrl.setSelectedObjectives(objectiveSelector.getSelectedValues());
 					//ctrl.setElitismPercentage(elitismSlider.getValue());
 					//ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
 					//ctrl.setSelectionParameter(tournamentGroupsText.getText());
@@ -1026,9 +1027,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.chromosomeLengthText.setText(String.valueOf(this.gCtrl.getChromosomeLength()));
 		this.codonUpperBoundText.setText(String.valueOf(this.gCtrl.getCodonUpperBound()));
 		this.maxCntWrappingsText.setText(String.valueOf(this.gCtrl.getMaxCntWrappings()));
-		this.numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfObjectives()));
+		this.numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfSelectedObjectives()));
 		this.objectiveSelector.setOptions(this.gCtrl.getObjectivesNames());
-		this.objectiveSelector.setSelectedIndices(new int[]{0});
+		this.objectiveSelector.setSelectedValues(this.gCtrl.getSelectedObjectivesNames());
 		
 		saveDefaults();
 	}
@@ -1061,7 +1062,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		chromosomeLengthText.setText(chromosomeLengthTextDefault);
 		codonUpperBoundText.setText(codonUpperBoundTextDefault);
 		maxCntWrappingsText.setText(maxCntWrappingsTextDefault);
-		numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfObjectives()));
+		numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfSelectedObjectives()));
 		//heightText.setText(heightTextDefault);
 		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
 		crossoverSlider.setValue(crossoverSliderDefault);

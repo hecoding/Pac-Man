@@ -2,6 +2,7 @@ package view.gui.swing;
 
 import javax.swing.JPanel;
 import javax.swing.JList;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JScrollPane;
 
@@ -46,6 +47,18 @@ public class ObjetiveSelectorPanel extends JPanel{
 	
 	public void setSelectedIndices(int[] indices) {
 		listCurrentObjs.setSelectedIndices(indices);
+	}
+	
+	public String[] getSelectedValues() {
+		return this.listCurrentObjs.getSelectedValuesList().toArray(new String[this.listCurrentObjs.getModel().getSize()]);
+	}
+	
+	public void setSelectedValues(String[] values) {
+		this.listCurrentObjs.clearSelection();
+		
+		for (String val : values) {
+			this.listCurrentObjs.setSelectedValue(val, false);
+		}
 	}
 
 }

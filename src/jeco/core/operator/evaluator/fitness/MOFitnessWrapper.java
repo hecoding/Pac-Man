@@ -59,5 +59,9 @@ public class MOFitnessWrapper {
 		
 		return ret;
 	}
+	
+	public void clear() {
+		this.funcs.clear();
+	}
 
 }
