@@ -1,6 +1,8 @@
 package view.gui.swing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.logging.Logger;
 
 import javax.swing.JProgressBar;
@@ -13,9 +15,18 @@ import jeco.core.operator.evaluator.fitness.NaiveFitness;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
+import pacman.controllers.Controller;
+import pacman.controllers.examples.AggressiveGhosts;
+import pacman.controllers.examples.Legacy;
+import pacman.controllers.examples.Legacy2TheReckoning;
+import pacman.controllers.examples.RandomGhosts;
+import pacman.controllers.examples.StarterGhosts;
+import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
 import parser.TreeParser;
 import parser.nodes.NicerTree;
 import util.FileList;
+import view.gui.swing.factory.GhostControllerFactory;
 import view.gui.swing.factory.ObjectiveFactory;
 
 public class GeneralController {
@@ -34,6 +45,7 @@ public class GeneralController {
   	String grammarFolder ="./grammar/";
   	String grammar = grammarFolder + "base.bnf";
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
+  	Controller<EnumMap<GHOST,MOVE>> ghostController = new StarterGhosts();
 
 	int iterPerIndividual = 3;// = 10; // games ran per evaluation
 	double elitismPerc = 0.1;
@@ -42,17 +54,38 @@ public class GeneralController {
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
   	int maxCntWrappings = PacmanGrammaticalEvolution.MAX_CNT_WRAPPINGS_DEFAULT;
   	
+  	static GhostControllerFactory ghostControllerFactory = GhostControllerFactory.getInstance();
+  	String selectedGhostController = ghostController.getClass().getSimpleName();
   	static ObjectiveFactory objectiveFactory = ObjectiveFactory.getInstance();
+  	String[] selectedFitnessObjectives = fitnessWrapper.getFuncNames();
 	
 	public GeneralController() {
+		// Register all ghost controllers
+		ghostControllerFactory.register(AggressiveGhosts.class);
+		ghostControllerFactory.register(Legacy.class);
+		ghostControllerFactory.register(Legacy2TheReckoning.class);
+		ghostControllerFactory.register(RandomGhosts.class);
+		ghostControllerFactory.register(StarterGhosts.class);
+		
 		// Register all objectives into its factory
 		objectiveFactory.register(new NaiveFitness());
 	}
 	
 	public void execute() {
-		// First create the problem
+		// Create multiobjective wrapper
+		this.fitnessWrapper.clear();
+		for (String name : this.selectedFitnessObjectives) {
+			this.fitnessWrapper.addObjectiveFunction(objectiveFactory.create(name));
+		}
+		
+		// Create ghosts controller
+		ghostController = ghostControllerFactory.create(this.selectedGhostController);
+		
+		
+		// Now first create the problem
 		problem = new PacmanGrammaticalEvolution(
-				grammar, populationSize, generations, mutationProb, crossProb, fitnessWrapper,
+				ghostController, grammar,
+				populationSize, generations, mutationProb, crossProb, fitnessWrapper,
 				iterPerIndividual, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
 				);
 		// Second create the algorithm (here we do a dirty trick to preserve observers)
@@ -158,11 +191,7 @@ public class GeneralController {
 	}
 	
 	public void setSelectedObjectives(String[] names) {
-		this.fitnessWrapper.clear();
-		
-		for (String name : names) {
-			this.fitnessWrapper.addObjectiveFunction(objectiveFactory.create(name));
-		}
+		this.selectedFitnessObjectives = names;
 	}
 	
 	public double getCrossProb() {
@@ -212,6 +241,18 @@ public class GeneralController {
 		}
 		
 		return null;
+	}
+	
+	public String getGhostControllerName() {
+		return this.ghostController.getClass().getSimpleName();
+	}
+	
+	public void setSelectedGhostController(String ghostCtrl) {
+		this.selectedGhostController = ghostCtrl;
+	}
+	
+	public ArrayList<String> getGhostControllerNames() {
+		return new ArrayList<String>(Arrays.asList(ghostControllerFactory.getRegisteredKeys()));
 	}
 	
 	public ArrayList<ArrayList<Double>> getWorstObjectives() {

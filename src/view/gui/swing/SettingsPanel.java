@@ -60,6 +60,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	ObjetiveSelectorPanel objectiveSelector;
  	JPanel grammar;
  	JComboBox<String> grammarBox;
+ 	JPanel ghostControllerPanel;
+ 	JComboBox<String> ghostControllerBox;
  	JPanel initialization;
  	JComboBox<String> initializationBox;
  	JPanel selection;
@@ -95,6 +97,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	String maxCntWrappingsTextDefault;
 	String numOfObjectivesTextDefault;
 	int[] objectiveSelectedIndicesDefault;
+	Object selectedGhostControllerDefault;
 	
 	JTextField pomin, pomax, postep, gomin, gomax, gostep, comin, comax, costep, momin, momax, mostep, eomin, eomax, eostep;
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
@@ -150,6 +153,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
 					gCtrl.setGrammar((String) grammarBox.getSelectedItem());
 					gCtrl.setSelectedObjectives(objectiveSelector.getSelectedValues());
+					gCtrl.setSelectedGhostController((String) ghostControllerBox.getSelectedItem());
 					//ctrl.setElitismPercentage(elitismSlider.getValue());
 					//ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
 					//ctrl.setSelectionParameter(tournamentGroupsText.getText());
@@ -298,7 +302,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		objectiveSelector = new ObjetiveSelectorPanel(new String[]{""}, new int[]{0});
 		btnSelectObjetives.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, objectiveSelector, "Multi-bjective selector", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, objectiveSelector, "Multi-objective selector", JOptionPane.PLAIN_MESSAGE);
 				numOfObjectivesText.setText(String.valueOf(objectiveSelector.getSelectedIndices().length));
 			}
 		});
@@ -626,6 +630,29 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		grammar.setMinimumSize(grammar.getPreferredSize());
 		grammar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(grammar);
+		
+		//---------------------------------------------
+		JSeparator f = new JSeparator();
+		f.setMaximumSize(new Dimension(420, 1));
+		settings.add(f);
+		//---------------------------------------------
+				
+		ghostControllerPanel = new JPanel();
+		ghostControllerPanel.setLayout(new BoxLayout(ghostControllerPanel, BoxLayout.Y_AXIS));
+		
+		JLabel ghostControllerLabel = new JLabel("Ghost controller");
+		JPanel justforpadding2 = new JPanel();
+		justforpadding2.add(ghostControllerLabel);
+		justforpadding2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		ghostControllerPanel.add(justforpadding2);
+		
+		ghostControllerBox = new JComboBox<String>();
+		ghostControllerBox.setPreferredSize(new Dimension(200, ghostControllerBox.getPreferredSize().height));
+		ghostControllerPanel.add(ghostControllerBox);
+		ghostControllerPanel.setMaximumSize(ghostControllerPanel.getPreferredSize());
+		ghostControllerPanel.setMinimumSize(ghostControllerPanel.getPreferredSize());
+		ghostControllerPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(ghostControllerPanel);
 		
 		/*
 		//---------------------------------------------
@@ -995,6 +1022,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.grammarBox.setSelectedItem(this.gCtrl.getCleanGrammar());
 		grammar.setMaximumSize(grammar.getPreferredSize());
 		grammar.setMinimumSize(grammar.getPreferredSize());
+		for(String item : this.gCtrl.getGhostControllerNames()) {
+			this.ghostControllerBox.addItem(item);
+		}
+		this.ghostControllerBox.setSelectedItem(this.gCtrl.getGhostControllerName());
+		ghostControllerBox.setMaximumSize(ghostControllerBox.getPreferredSize());
+		ghostControllerBox.setMinimumSize(ghostControllerBox.getPreferredSize());
 		/*
 		this.elitismSlider.setValue((int) (this.problem. * 100));
 		for (String item : this.ctrl.getInitializationStrategyList()) {
@@ -1048,6 +1081,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		elitismSliderDefault = elitismSlider.getValue();
 		grammarBoxDefault = grammarBox.getSelectedItem();
 		objectiveSelectedIndicesDefault = objectiveSelector.getSelectedIndices();
+		selectedGhostControllerDefault = ghostControllerBox.getSelectedItem();
 		//initializationBoxDefault = initializationBox.getSelectedItem();
 		//selectionBoxDefault = selectionBox.getSelectedItem();
 		//crossoverBoxDefault = crossoverBox.getSelectedItem();
@@ -1070,6 +1104,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		elitismSlider.setValue(elitismSliderDefault);
 		grammarBox.setSelectedItem(grammarBoxDefault);
 		objectiveSelector.setSelectedIndices(objectiveSelectedIndicesDefault);
+		ghostControllerBox.setSelectedItem(selectedGhostControllerDefault);
 		//elitismSlider.setValue(elitismSliderDefault);
 		//initializationBox.setSelectedItem(initializationBoxDefault);
 		//selectionBox.setSelectedItem(selectionBoxDefault);
