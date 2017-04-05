@@ -21,7 +21,7 @@ public final class RandomGhosts extends Controller<EnumMap<GHOST,MOVE>>
 	 */
 	public EnumMap<GHOST,MOVE> getMove(Game game,long timeDue)
 	{	
-		moves.clear();
+		//moves.clear();
 		
 		for(GHOST ghostType : GHOST.values())
 			if(game.doesGhostRequireAction(ghostType))

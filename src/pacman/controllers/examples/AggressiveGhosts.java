@@ -24,7 +24,7 @@ public final class AggressiveGhosts extends Controller<EnumMap<GHOST,MOVE>>
 	 */
 	public EnumMap<GHOST,MOVE> getMove(Game game,long timeDue)
 	{		
-		myMoves.clear();
+		//myMoves.clear();
 		
 		for(GHOST ghost : GHOST.values())				//for each ghost
 			if(game.doesGhostRequireAction(ghost))		//if it requires an action
