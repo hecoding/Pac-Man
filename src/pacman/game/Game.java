@@ -1473,6 +1473,7 @@ public final class Game
     public int getNeighbour(int nodeIndex, MOVE moveToBeMade)
     {
     	Integer neighbour=currentMaze.graph[nodeIndex].neighbourhood.get(moveToBeMade);
+    	
     	return neighbour==null ? -1 : neighbour;
     }
     	
@@ -1928,7 +1929,6 @@ public final class Game
 	 * @param lastMoveMade The last move made
 	 * @return the shortest path from start to target
 	 */
-	@Deprecated
 	public int[] getShortestPath(int fromNodeIndex,int toNodeIndex,MOVE lastMoveMade)
 	{
 		if(currentMaze.graph[fromNodeIndex].neighbourhood.size()==0)//lair
@@ -2260,6 +2260,34 @@ public final class Game
 	}
 	
 	/**
+	 * Returns true if Pacman can reach safely the closest junction
+	 * Can be optimized 
+	 */
+	
+	public boolean isJunctionSafe(int pacmanLocation, MOVE direction) {
+		if (getNeighbour(pacmanLocation, direction) == -1)
+			return false;
+		
+		int ghostDistanceToJunction = getClosestNonEdibleGhostDistanceToClosestJunction(pacmanLocation, direction); //Not the real distance (as it doesnt uses ghost last move, but it doesnt needs to be
+		int pacmanDistanceToJunction = getDistanceToClosestJunction(pacmanLocation, direction);
+		if (ghostDistanceToJunction > pacmanDistanceToJunction)	//Pacman is closer to the junction than any ghost
+			return true;
+		
+		//check if any ghost is between junction and Pacman
+		for (Ghost ghost : this.ghosts.values()) {
+			if (!ghost.isEdible() && !ghost.isInLair())	{
+				int distanceGhostToPacman = this.getShortestPathDistance(ghost.currentNodeIndex, pacmanLocation, ghost.lastMoveMade);	//check if the ghost is going towards or away from pacman
+	
+				if (pacmanDistanceToJunction <= distanceGhostToPacman)	//ghost is between junction and Pacman and facing Pacman
+					return false;
+			}
+		}
+	
+		return true;
+		
+	}
+	
+	/**
 	 * Returns the geometric mean of the distance between Pacman and all the non-edible ghosts
 	 * Ghosts in the lair are also taken into account
 	 */
@@ -2309,6 +2337,31 @@ public final class Game
 		Double result = Math.pow(productOfDistances, 1/number); //counting only edible and out of lair ghosts
 		
 		return result.intValue();
+	}
+	
+	/**
+	 * direction moves modified to avoid jam situations
+	 * returns direction on junctions
+	 * returns direction on tunnels if direction is a possible move
+	 * returns last move on tunnels if direction it's not a possible move
+	 */
+	public MOVE getSmartmove(int pacmanLocation, MOVE direction) {
+		
+		if (isJunction(pacmanLocation))		//returns direction on junctions
+			return direction;
+		else if (getNeighbour(pacmanLocation, direction) != -1)		//returns direction on tunnels if direction is a possible move
+			return direction;
+		else {		//returns last move on tunnels if direction it's not a possible move
+			if (getNeighbour(pacmanLocation, getPacmanLastMoveMade()) != -1)		// 'I' tunnel
+				return getPacmanLastMoveMade();
+			else if (getNeighbour(pacmanLocation, getPacmanLastMoveMade().L90()) != -1)	// 'L' tunnel 90º left
+				return getPacmanLastMoveMade().L90();
+			else if (getNeighbour(pacmanLocation, getPacmanLastMoveMade().R90()) != -1)	// 'L' tunnel 90º right
+				return getPacmanLastMoveMade().R90();
+			else
+				return MOVE.NEUTRAL;	//unknown situation
+		}
+		
 	}
 	
 	//***********************FUNCIONES DE ALTO NIVEL************************
