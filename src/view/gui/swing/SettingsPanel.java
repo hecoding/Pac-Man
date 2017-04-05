@@ -1158,6 +1158,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	elitismSlider.setEnabled(false);
 			 	grammarBox.setEnabled(false);
 			 	btnSelectObjetives.setEnabled(false);
+			 	ghostControllerBox.setEnabled(false);
 			 	/*
 			 	heightText.setEnabled(false);
 			 	initialization;
@@ -1200,6 +1201,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	elitismSlider.setEnabled(true);
 			 	grammarBox.setEnabled(true);
 			 	btnSelectObjetives.setEnabled(true);
+			 	ghostControllerBox.setEnabled(true);
 			}
 		});
 	}
