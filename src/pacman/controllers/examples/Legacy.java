@@ -21,8 +21,8 @@ public class Legacy extends Controller<EnumMap<GHOST,MOVE>>
  	*/
 	public EnumMap<GHOST,MOVE> getMove(Game game,long timeDue)
 	{
-		myMoves.clear();
-		
+		//myMoves.clear();
+				
 		int targetNode=game.getPacmanCurrentNodeIndex();
 		
 		if(game.doesGhostRequireAction(GHOST.BLINKY))

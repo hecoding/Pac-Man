@@ -56,8 +56,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JSlider mutationSlider;
  	JTextField elitismText;
  	JSlider elitismSlider;
+ 	JButton btnSelectObjetives;
+	ObjetiveSelectorPanel objectiveSelector;
  	JPanel grammar;
  	JComboBox<String> grammarBox;
+ 	JPanel ghostControllerPanel;
+ 	JComboBox<String> ghostControllerBox;
  	JPanel initialization;
  	JComboBox<String> initializationBox;
  	JPanel selection;
@@ -92,6 +96,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	String codonUpperBoundTextDefault;
 	String maxCntWrappingsTextDefault;
 	String numOfObjectivesTextDefault;
+	int[] objectiveSelectedIndicesDefault;
+	Object selectedGhostControllerDefault;
 	
 	JTextField pomin, pomax, postep, gomin, gomax, gostep, comin, comax, costep, momin, momax, mostep, eomin, eomax, eostep;
 	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
@@ -146,6 +152,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
 					gCtrl.setGrammar((String) grammarBox.getSelectedItem());
+					gCtrl.setSelectedObjectives(objectiveSelector.getSelectedValues());
+					gCtrl.setSelectedGhostController((String) ghostControllerBox.getSelectedItem());
 					//ctrl.setElitismPercentage(elitismSlider.getValue());
 					//ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
 					//ctrl.setSelectionParameter(tournamentGroupsText.getText());
@@ -266,17 +274,45 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		maxCntWrappings.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(maxCntWrappings);
 		
-		JPanel numOfObjectives = new JPanel();
-		JLabel numOfObjectivesLabel = new JLabel("# of objectives");
-		numOfObjectives.add(numOfObjectivesLabel);
+		//---------------------------------------------
+		JSeparator a = new JSeparator();
+		a.setMaximumSize(new Dimension(420, 1));
+		settings.add(a);
+		//---------------------------------------------
+		
+		JPanel objectivesPanel = new JPanel();
+		objectivesPanel.setLayout(new BoxLayout(objectivesPanel, BoxLayout.Y_AXIS));
+		
+		JPanel objectivescacaPanel = new JPanel();
+		JPanel objectivesTitle = new JPanel();
+		JLabel numOfObjectivesLabel = new JLabel("Objectives #");
+		objectivesTitle.add(numOfObjectivesLabel);
 		numOfObjectivesText = new JTextField(4);
 		numOfObjectivesText.setInputVerifier(new PositiveIntegerVerifier());
 		numOfObjectivesText.setEditable(false);
-		numOfObjectives.add(numOfObjectivesText);
-		numOfObjectives.setMaximumSize(numOfObjectives.getPreferredSize());
-		numOfObjectives.setMinimumSize(numOfObjectives.getPreferredSize());
-		numOfObjectives.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(numOfObjectives);
+		objectivesTitle.add(numOfObjectivesText);
+		objectivescacaPanel.add(objectivesTitle);
+		
+		objectivescacaPanel.setMaximumSize(objectivescacaPanel.getPreferredSize());
+		objectivescacaPanel.setMinimumSize(objectivescacaPanel.getPreferredSize());
+		objectivescacaPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		objectivesPanel.add(objectivescacaPanel);
+		
+		btnSelectObjetives = new JButton("Select objectives");
+		objectiveSelector = new ObjetiveSelectorPanel(new String[]{""}, new int[]{0});
+		btnSelectObjetives.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, objectiveSelector, "Multi-objective selector", JOptionPane.PLAIN_MESSAGE);
+				numOfObjectivesText.setText(String.valueOf(objectiveSelector.getSelectedIndices().length));
+			}
+		});
+		btnSelectObjetives.setMaximumSize(btnSelectObjetives.getPreferredSize());
+		btnSelectObjetives.setMinimumSize(btnSelectObjetives.getPreferredSize());
+		btnSelectObjetives.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		objectivesPanel.add(btnSelectObjetives);
+		
+		objectivesPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(objectivesPanel);
 		
 		//---------------------------------------------
 		
@@ -594,6 +630,29 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		grammar.setMinimumSize(grammar.getPreferredSize());
 		grammar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(grammar);
+		
+		//---------------------------------------------
+		JSeparator f = new JSeparator();
+		f.setMaximumSize(new Dimension(420, 1));
+		settings.add(f);
+		//---------------------------------------------
+				
+		ghostControllerPanel = new JPanel();
+		ghostControllerPanel.setLayout(new BoxLayout(ghostControllerPanel, BoxLayout.Y_AXIS));
+		
+		JLabel ghostControllerLabel = new JLabel("Ghost controller");
+		JPanel justforpadding2 = new JPanel();
+		justforpadding2.add(ghostControllerLabel);
+		justforpadding2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		ghostControllerPanel.add(justforpadding2);
+		
+		ghostControllerBox = new JComboBox<String>();
+		ghostControllerBox.setPreferredSize(new Dimension(200, ghostControllerBox.getPreferredSize().height));
+		ghostControllerPanel.add(ghostControllerBox);
+		ghostControllerPanel.setMaximumSize(ghostControllerPanel.getPreferredSize());
+		ghostControllerPanel.setMinimumSize(ghostControllerPanel.getPreferredSize());
+		ghostControllerPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(ghostControllerPanel);
 		
 		/*
 		//---------------------------------------------
@@ -963,6 +1022,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.grammarBox.setSelectedItem(this.gCtrl.getCleanGrammar());
 		grammar.setMaximumSize(grammar.getPreferredSize());
 		grammar.setMinimumSize(grammar.getPreferredSize());
+		for(String item : this.gCtrl.getGhostControllerNames()) {
+			this.ghostControllerBox.addItem(item);
+		}
+		this.ghostControllerBox.setSelectedItem(this.gCtrl.getGhostControllerName());
+		ghostControllerBox.setMaximumSize(ghostControllerBox.getPreferredSize());
+		ghostControllerBox.setMinimumSize(ghostControllerBox.getPreferredSize());
 		/*
 		this.elitismSlider.setValue((int) (this.problem. * 100));
 		for (String item : this.ctrl.getInitializationStrategyList()) {
@@ -995,7 +1060,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.chromosomeLengthText.setText(String.valueOf(this.gCtrl.getChromosomeLength()));
 		this.codonUpperBoundText.setText(String.valueOf(this.gCtrl.getCodonUpperBound()));
 		this.maxCntWrappingsText.setText(String.valueOf(this.gCtrl.getMaxCntWrappings()));
-		this.numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfObjectives()));
+		this.numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfSelectedObjectives()));
+		this.objectiveSelector.setOptions(this.gCtrl.getObjectivesNames());
+		this.objectiveSelector.setSelectedValues(this.gCtrl.getSelectedObjectivesNames());
 		
 		saveDefaults();
 	}
@@ -1013,6 +1080,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationSliderDefault = mutationSlider.getValue();
 		elitismSliderDefault = elitismSlider.getValue();
 		grammarBoxDefault = grammarBox.getSelectedItem();
+		objectiveSelectedIndicesDefault = objectiveSelector.getSelectedIndices();
+		selectedGhostControllerDefault = ghostControllerBox.getSelectedItem();
 		//initializationBoxDefault = initializationBox.getSelectedItem();
 		//selectionBoxDefault = selectionBox.getSelectedItem();
 		//crossoverBoxDefault = crossoverBox.getSelectedItem();
@@ -1027,13 +1096,15 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		chromosomeLengthText.setText(chromosomeLengthTextDefault);
 		codonUpperBoundText.setText(codonUpperBoundTextDefault);
 		maxCntWrappingsText.setText(maxCntWrappingsTextDefault);
-		numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfObjectives()));
+		numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfSelectedObjectives()));
 		//heightText.setText(heightTextDefault);
 		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
 		crossoverSlider.setValue(crossoverSliderDefault);
 		mutationSlider.setValue(mutationSliderDefault);
 		elitismSlider.setValue(elitismSliderDefault);
 		grammarBox.setSelectedItem(grammarBoxDefault);
+		objectiveSelector.setSelectedIndices(objectiveSelectedIndicesDefault);
+		ghostControllerBox.setSelectedItem(selectedGhostControllerDefault);
 		//elitismSlider.setValue(elitismSliderDefault);
 		//initializationBox.setSelectedItem(initializationBoxDefault);
 		//selectionBox.setSelectedItem(selectionBoxDefault);
@@ -1086,6 +1157,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	elitismText.setEnabled(false);
 			 	elitismSlider.setEnabled(false);
 			 	grammarBox.setEnabled(false);
+			 	btnSelectObjetives.setEnabled(false);
 			 	/*
 			 	heightText.setEnabled(false);
 			 	initialization;
@@ -1127,6 +1199,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	elitismText.setEnabled(true);
 			 	elitismSlider.setEnabled(true);
 			 	grammarBox.setEnabled(true);
+			 	btnSelectObjetives.setEnabled(true);
 			}
 		});
 	}

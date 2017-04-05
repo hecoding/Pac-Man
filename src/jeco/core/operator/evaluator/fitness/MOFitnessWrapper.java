@@ -1,6 +1,8 @@
 package jeco.core.operator.evaluator.fitness;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import pacman.game.util.GameInfo;
 
 public class MOFitnessWrapper {
@@ -46,6 +48,20 @@ public class MOFitnessWrapper {
 	
 	public String getFuncName(int i) {
 		return this.funcs.get(i).getName();
+	}
+	
+	public String[] getFuncNames() {
+		String[] ret = new String[this.getNumberOfObjs()];
+		
+		for (FitnessEvaluatorInterface func : this.funcs) {
+			Arrays.fill(ret, func.getName());
+		}
+		
+		return ret;
+	}
+	
+	public void clear() {
+		this.funcs.clear();
 	}
 
 }
