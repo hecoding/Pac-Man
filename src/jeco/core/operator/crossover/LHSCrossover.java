@@ -98,9 +98,9 @@ public class LHSCrossover extends CrossoverOperator<Variable<Integer>>
 					child1.getVariables().addAll(queue1);
 					child2.getVariables().addAll(queue2);
 					
+					//Check if the new children length gets out of the maximum number of variables
 					ArrayList<Integer> expansionParent11 = _problem.generateRuleExpansionArray(child1);
-					ArrayList<Integer> expansionParent22 = _problem.generateRuleExpansionArray(child2);
-					
+					ArrayList<Integer> expansionParent22 = _problem.generateRuleExpansionArray(child2);					
 					if(expansionParent11.size() <= _problem.getNumberOfVariables())
 					{
 						while(child1.getVariables().size() > _problem.getNumberOfVariables())
@@ -139,10 +139,6 @@ public class LHSCrossover extends CrossoverOperator<Variable<Integer>>
 			children.add(parent2.clone());
 		}
 		
-		if(children.size() != 2)
-		{
-			System.out.println("Shit");
-		}
 		return children;
 	}
 
