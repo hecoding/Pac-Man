@@ -34,10 +34,6 @@ public class ObjectiveFactory {
 		}
 	}
 	
-	public boolean isRegistered(String id) {
-		return this.registered.containsKey(id);
-	}
-	
 	public String[] getRegisteredKeys() {
 		return this.registered.keySet().toArray(new String[this.registered.size()]).clone();
 	}

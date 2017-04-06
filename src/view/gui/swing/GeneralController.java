@@ -10,9 +10,7 @@ import javax.swing.JProgressBar;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
-import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
-import jeco.core.operator.evaluator.fitness.MOFitnessWrapper;
-import jeco.core.operator.evaluator.fitness.NaiveFitness;
+import jeco.core.operator.evaluator.fitness.*;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
@@ -69,9 +67,11 @@ public class GeneralController {
 		ghostControllerFactory.register(StarterGhosts.class);
 		
 		// Register all objectives into its factory
+		objectiveFactory.register(new LevelsCompletedFitness());
 		objectiveFactory.register(new NaiveFitness());
+		objectiveFactory.register(new PointsNoGhostMultFitness());
 	}
-	
+
 	public void execute() {
 		// Create multiobjective wrapper
 		this.fitnessWrapper.clear();
@@ -157,10 +157,6 @@ public class GeneralController {
 	
   	public ArrayList<FitnessEvaluatorInterface> getFitnessFuncs() {
 		return this.fitnessWrapper.funcs;
-	}
-
-	public void setFitnessFuncs(ArrayList<FitnessEvaluatorInterface> fitnessFuncs) {
-		this.fitnessWrapper = new MOFitnessWrapper(fitnessFuncs);
 	}
 	
 	public String getFitnessName(int i) {

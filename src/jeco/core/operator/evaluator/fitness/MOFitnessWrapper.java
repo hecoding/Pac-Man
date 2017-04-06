@@ -2,30 +2,22 @@ package jeco.core.operator.evaluator.fitness;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import pacman.game.util.GameInfo;
 
 public class MOFitnessWrapper {
 	public ArrayList<FitnessEvaluatorInterface> funcs;
 	
-	public MOFitnessWrapper() {
-		this.funcs = new ArrayList<>();
-	}
-	
 	public MOFitnessWrapper(FitnessEvaluatorInterface... funcs) {
 		this.funcs = new ArrayList<>(funcs.length);
-		
-		for (int i = 0; i < funcs.length; i++) {
-			this.funcs.add(funcs[i]);
-		}
-	}
-	
-	public MOFitnessWrapper(ArrayList<FitnessEvaluatorInterface> funcs) {
-		this((FitnessEvaluatorInterface[]) funcs.toArray());
+
+		Collections.addAll(this.funcs, funcs);
 	}
 
 	public void addObjectiveFunction(FitnessEvaluatorInterface f) {
-		this.funcs.add(f);
+		if (f != null)
+			this.funcs.add(f);
 	}
 	
 	public ArrayList<Double> evaluate(GameInfo gi) {

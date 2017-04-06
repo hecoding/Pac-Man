@@ -24,7 +24,7 @@ public class PointsNoGhostMultFitness implements FitnessEvaluatorInterface {
 
 	@Override
 	public String getName() {
-		return "Points w/o ghost mult Fitness";
+		return "Score without ghost-eaten multiplier";
 	}
 
 }

@@ -20,7 +20,7 @@ public class LevelsCompletedFitness implements FitnessEvaluatorInterface {
 
 	@Override
 	public String getName() {
-		return "Points w/o ghost mult Fitness";
+		return "Number of levels completed";
 	}
 
 }
