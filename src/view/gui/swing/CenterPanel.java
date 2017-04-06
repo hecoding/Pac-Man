@@ -46,6 +46,7 @@ public class CenterPanel extends JPanel implements AlgObserver {
  	JProgressBar progressBar;
  	JButton cancelButton;
  	GeneralController gCtrl;
+	JPanel graphPlaceholder;
  	
  	Color transparent = new Color(0,0,0,0);
 	Color lighterGray = new Color(200, 200, 200);
@@ -86,7 +87,9 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		this.setLayout(new BorderLayout());
 		
 		// Fitness tab
-		graphPanel.add(this.createGeneralChartPanel(), BorderLayout.CENTER);
+		graphPlaceholder = new JPanel(new BorderLayout());
+		graphPlaceholder.add(this.createGeneralChartPanel(), BorderLayout.CENTER);
+		graphPanel.add(graphPlaceholder, BorderLayout.CENTER);
 		tabs.add("Progress", graphPanel);
 		
 		// Program tab
@@ -215,12 +218,23 @@ public class CenterPanel extends JPanel implements AlgObserver {
 		return plot;
 	}
 
+	public void resetGeneralChart() {
+		subplots.clear();
+		series.clear();
+		datasets.clear();
+		graphPlaceholder.removeAll();
+		graphPlaceholder.add(createGeneralChartPanel());
+	}
+
 	@Override
 	public void onStart() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				progressBar.setVisible(true);
 				cancelButton.setVisible(true);
+
+				resetGeneralChart();
+
 				for (XYPlot plot : subplots) {
 					plot.getDomainAxis().setRange(0, gCtrl.getGenerations());
 				}
