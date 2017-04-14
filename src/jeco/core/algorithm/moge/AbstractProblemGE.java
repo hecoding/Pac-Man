@@ -69,6 +69,7 @@ public abstract class AbstractProblemGE extends Problem<Variable<Integer>> {
 		correctSol = true;
 		Phenotype phenotype = new Phenotype();
 		Rule firstRule = reader.getRules().get(0);
+		solution.getNoOptionsPhenotype().add(firstRule.size());
 		Production firstProduction = firstRule.get(solution.getVariables().get(currentIdx++).getValue() % firstRule.size());
 		processProduction(firstProduction, solution, phenotype);
 		return phenotype;
@@ -87,6 +88,7 @@ public abstract class AbstractProblemGE extends Problem<Variable<Integer>> {
 				}
 				if (currentIdx < solution.getVariables().size()) {
 					Rule rule = reader.findRule(symbol);
+					solution.getNoOptionsPhenotype().add(rule.size());
 					Production production = rule.get(solution.getVariables().get(currentIdx++).getValue() % rule.size());
 					processProduction(production, solution, phenotype);
 				}
