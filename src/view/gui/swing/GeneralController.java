@@ -85,9 +85,8 @@ public class GeneralController {
 		
 		// Now first create the problem
 		problem = new PacmanGrammaticalEvolution(
-				ghostController, grammar,
-				populationSize, generations, mutationProb, crossProb, fitnessWrapper,
-				iterPerIndividual, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
+				ghostController, grammar, fitnessWrapper, iterPerIndividual,
+				this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
 				);
 		// Second create the algorithm (here we do a dirty trick to preserve observers)
 		if(algorithm != null)

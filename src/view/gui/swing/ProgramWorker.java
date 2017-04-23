@@ -76,7 +76,7 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 
 	@Override
 	public void onIncrement(int n) {
-		int percentage = Math.round((n * 100) / problem.generations);
+		int percentage = Math.round((n * 100) / ctrl.getGenerations());
 		
 		publish(percentage); // this calls process()
 	}
