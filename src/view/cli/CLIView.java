@@ -44,7 +44,7 @@ public class CLIView {
 	  	Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 	  	
 		// First create the problem
-		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution(ghosts, grammar, populationSize, generations, mutationProb, crossProb, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
+		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution(ghosts, grammar, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
 		// Second create the algorithm
 		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, elite);
 		
