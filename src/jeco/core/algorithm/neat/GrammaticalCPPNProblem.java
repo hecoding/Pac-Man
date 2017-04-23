@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 
 public class GrammaticalCPPNProblem extends Problem<Variable<CPPN>> {
     public static final Logger logger = Logger.getLogger(GrammaticalCPPNProblem.class.getName());
-    private String pathToBnf;
     private BnfReader reader;
     private int currentIdx;
     private int currentWrp;
@@ -34,15 +33,13 @@ public class GrammaticalCPPNProblem extends Problem<Variable<CPPN>> {
 
     private Controller<EnumMap<Constants.GHOST,Constants.MOVE>> ghostController;
 
-    public GrammaticalCPPNProblem(Controller<EnumMap<Constants.GHOST,Constants.MOVE>> ghostController, String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, MOFitnessWrapper fitnessWrapper, int iterPerIndividual, int chromosomeLength, int maxCntWrappings, int codonUpperBound) { // TODO parametros que sobran
-        super(0, fitnessWrapper.getNumberOfObjs()); // TODO
+    public GrammaticalCPPNProblem(Controller<EnumMap<Constants.GHOST,Constants.MOVE>> ghostController, String pathToBnf, MOFitnessWrapper fitnessWrapper, int iterPerIndividual, int chromosomeLength) { // TODO parametros que sobran
+        super(0, fitnessWrapper.getNumberOfObjs()); // TODO what is number of variables here?
+
+        reader = new BnfReader();
+        reader.load(pathToBnf);
 
         this.ghostController = ghostController;
-        this.pathToBnf = pathToBnf;
-        this.populationSize = maxPopulationSize;
-        this.generations = maxGenerations;
-        this.mutationProb = probMutation;
-        this.crossProb = probCrossover;
         this.fitnessWrapper = fitnessWrapper;
         this.iterPerIndividual = iterPerIndividual;
     }
@@ -101,7 +98,7 @@ public class GrammaticalCPPNProblem extends Problem<Variable<CPPN>> {
     @Override
     public Problem<Variable<CPPN>> clone() {
         return null;
-    }
+    } // TODO
 
     public Phenotype generatePhenotype(Solution<Variable<CPPN>> solution) {
         currentIdx = 0;
@@ -109,9 +106,9 @@ public class GrammaticalCPPNProblem extends Problem<Variable<CPPN>> {
         correctSol = true;
         Phenotype phenotype = new Phenotype();
         Rule firstRule = reader.getRules().get(0);
-        //get idx from CPPN instead of codon
+        // TODO get idx from CPPN instead of codon. solution.getVariable(0).getValue().query(parameters)
         //Production firstProduction = firstRule.get(solution.getVariables().get(currentIdx++).getValue() % firstRule.size());
-        processProduction(firstProduction, solution, phenotype);
+        //processProduction(firstProduction, solution, phenotype);
         return phenotype;
     }
 
@@ -122,15 +119,16 @@ public class GrammaticalCPPNProblem extends Problem<Variable<CPPN>> {
             if (symbol.isTerminal()) {
                 phenotype.add(symbol.toString());
             } else {
-                if(currentIdx >= solution.getVariables().size() && currentWrp < maxCntWrappings) {
+                //if(currentIdx >= solution.getVariables().size() && currentWrp < maxCntWrappings) {
+                if(false) {
                     currentIdx = 0;
                     currentWrp++;
                 }
                 if (currentIdx < solution.getVariables().size()) {
                     Rule rule = reader.findRule(symbol);
-                    //get idx from CPPN instead of codon
+                    // TODO get idx from CPPN instead of codon. solution.getVariable(0).getValue().query(parameters)
                     //Production production = rule.get(solution.getVariables().get(currentIdx++).getValue() % rule.size());
-                    processProduction(production, solution, phenotype);
+                    //processProduction(production, solution, phenotype);
                 }
                 else {
                     correctSol = false;
