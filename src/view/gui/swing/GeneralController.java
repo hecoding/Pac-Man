@@ -39,15 +39,15 @@ public class GeneralController {
 	// Configure parameters
 	int populationSize = 100;// = 400;
 	int generations = 100;// = 500;
-	double mutationProb = 0.02;
-  	double crossProb = 0.6;
+	double crossProb = 0.2;
+	double mutationProb = 0.4;
   	String grammarFolder ="./grammar/";
   	String grammar = grammarFolder + "base.bnf";
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
-  	Controller<EnumMap<GHOST,MOVE>> ghostController = new StarterGhosts();
+  	Controller<EnumMap<GHOST,MOVE>> ghostController = new Legacy();
 
-	int iterPerIndividual = 3;// = 10; // games ran per evaluation
-	double elitismPerc = 0.1;
+	int iterPerIndividual = 10; // games ran per evaluation
+	double elitismPerc = 0.05;
   	
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
@@ -85,9 +85,8 @@ public class GeneralController {
 		
 		// Now first create the problem
 		problem = new PacmanGrammaticalEvolution(
-				ghostController, grammar,
-				populationSize, generations, mutationProb, crossProb, fitnessWrapper,
-				iterPerIndividual, this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
+				ghostController, grammar, fitnessWrapper, iterPerIndividual,
+				this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
 				);
 		// Second create the algorithm (here we do a dirty trick to preserve observers)
 		if(algorithm != null)

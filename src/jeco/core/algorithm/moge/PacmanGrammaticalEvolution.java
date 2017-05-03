@@ -33,22 +33,14 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	public static Path path = FileSystems.getDefault().getPath("logs", "Registro.log");
 	
 	//Execution parameters
-	public int populationSize;
-	public int generations;
-	public double mutationProb;
-  	public double crossProb;
   	public MOFitnessWrapper fitnessWrapper;
   	public int iterPerIndividual; // games ran per evaluation
   	public int codonUpperBound;
   	Controller<EnumMap<GHOST,MOVE>> ghostController;
   	
-  	public PacmanGrammaticalEvolution(Controller<EnumMap<GHOST,MOVE>> ghostController, String pathToBnf, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, MOFitnessWrapper fitnessWrapper, int iterPerIndividual, int chromosomeLength, int maxCntWrappings, int codonUpperBound) {
+  	public PacmanGrammaticalEvolution(Controller<EnumMap<GHOST,MOVE>> ghostController, String pathToBnf, MOFitnessWrapper fitnessWrapper, int iterPerIndividual, int chromosomeLength, int maxCntWrappings, int codonUpperBound) {
   		super(pathToBnf, fitnessWrapper.getNumberOfObjs(), chromosomeLength, maxCntWrappings, codonUpperBound);
-  		
-  		this.populationSize = maxPopulationSize;
-		this.generations = maxGenerations;
-		this.mutationProb = probMutation;
-		this.crossProb = probCrossover;
+
 		this.fitnessWrapper = fitnessWrapper;
 		this.iterPerIndividual = iterPerIndividual;
 		//chromosomeLenght == numOfVariables, no need to save
@@ -118,7 +110,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 
 	@Override
 	public PacmanGrammaticalEvolution clone() {
-		PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(this.ghostController, this.pathToBnf, this.populationSize, this.generations, this.mutationProb, this.crossProb, this.fitnessWrapper, this.iterPerIndividual, this.numberOfVariables, this.maxCntWrappings, this.codonUpperBound);
+		PacmanGrammaticalEvolution clone = new PacmanGrammaticalEvolution(this.ghostController, this.pathToBnf, this.fitnessWrapper, this.iterPerIndividual, this.numberOfVariables, this.maxCntWrappings, this.codonUpperBound);
 		return clone;
 	}
 
@@ -137,7 +129,7 @@ public class PacmanGrammaticalEvolution extends AbstractProblemGE {
 	  	Controller<EnumMap<GHOST,MOVE>> ghosts = new StarterGhosts();
 	  	
 		// First create the problem
-		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution(ghosts, grammar, populationSize, generations, mutationProb, crossProb, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
+		PacmanGrammaticalEvolution problem = new PacmanGrammaticalEvolution(ghosts, grammar, fitnessWrapper, iterPerIndividual, numberOfVariables, maxCntWrappings, codonUpperBound);
 		// Second create the algorithm
 		GrammaticalEvolution algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, elite);
 		
