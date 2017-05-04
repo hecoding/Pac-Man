@@ -10,16 +10,7 @@ public class Solution<V extends Variable<?>> {
   protected ArrayList<V> variables = new ArrayList<V>();
   protected ArrayList<Double> objectives = new ArrayList<Double>();
   protected HashMap<String, Number> properties = new HashMap<String, Number>();
-  protected ArrayList<Integer> noOptionsPhenotype = new ArrayList<Integer>();
-  
-  public ArrayList<Integer> getNoOptionsPhenotype() {
-	return noOptionsPhenotype;
-  }
 
-  public void setNoOptionsPhenotype(ArrayList<Integer> noOptionsPhenotype) {
-	this.noOptionsPhenotype = noOptionsPhenotype;
-  }
-  
   public Solution(int numberOfObjectives) {
     for (int i = 0; i < numberOfObjectives; ++i) {
       objectives.add(0.0);

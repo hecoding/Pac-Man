@@ -3,6 +3,7 @@ package jeco.core.operator.mutation;
 import jeco.core.problem.Problem;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Variable;
+import jeco.core.problem.solution.NeutralMutationSolution;
 import jeco.core.util.random.RandomGenerator;
 
 public class NeutralMutation<T extends Variable<Integer>> extends MutationOperator<T> {
@@ -14,12 +15,13 @@ public class NeutralMutation<T extends Variable<Integer>> extends MutationOperat
 	}
 
 	public Solution<T> execute(Solution<T> solution) {
-		for (int i = 0; i < solution.getVariables().size(); i++) {
+		NeutralMutationSolution nmSolution = (NeutralMutationSolution) solution;
+		for (int i = 0; i < nmSolution.getVariables().size(); i++) {
 			int lowerBound = (int)Math.round(problem.getLowerBound(i));
 			int upperBound = (int)Math.round(problem.getUpperBound(i));
 			
-			if(i < solution.getNoOptionsPhenotype().size())
-				solution.getVariables().get(i).setValue(neutralMutation(solution.getVariables().get(i).getValue(), solution.getNoOptionsPhenotype().get(i), lowerBound, upperBound));
+			if(i < nmSolution.getNoOptionsPhenotype().size())
+				nmSolution.getVariables().get(i).setValue(neutralMutation(nmSolution.getVariables().get(i).getValue(), nmSolution.getNoOptionsPhenotype().get(i), lowerBound, upperBound));
 		}
 		return solution;
 	} 

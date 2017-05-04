@@ -5,6 +5,7 @@ import jeco.core.problem.Problem;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
 import jeco.core.problem.Variable;
+import jeco.core.problem.solution.NeutralMutationSolution;
 import jeco.core.util.bnf.BnfReader;
 import jeco.core.util.bnf.Production;
 import jeco.core.util.bnf.Rule;
@@ -64,33 +65,36 @@ public abstract class AbstractProblemGE extends Problem<Variable<Integer>> {
 	}
 
 	public Phenotype generatePhenotype(Solution<Variable<Integer>> solution) {
+		NeutralMutationSolution nmSolution = (NeutralMutationSolution) solution;
 		currentIdx = 0;
 		currentWrp = 0;
 		correctSol = true;
 		Phenotype phenotype = new Phenotype();
 		Rule firstRule = reader.getRules().get(0);
-		solution.getNoOptionsPhenotype().add(firstRule.size());
-		Production firstProduction = firstRule.get(solution.getVariables().get(currentIdx++).getValue() % firstRule.size());
-		processProduction(firstProduction, solution, phenotype);
+		nmSolution.getNoOptionsPhenotype().add(firstRule.size());
+		Production firstProduction = firstRule.get(nmSolution.getVariables().get(currentIdx++).getValue() % firstRule.size());
+		processProduction(firstProduction, nmSolution, phenotype);
 		return phenotype;
 	}
 
 	public void processProduction(Production currentProduction, Solution<Variable<Integer>> solution, LinkedList<String> phenotype) {
+		NeutralMutationSolution nmSolution = (NeutralMutationSolution) solution;
+
 		if(!correctSol)
 			return;
 		for (Symbol symbol : currentProduction) {
 			if (symbol.isTerminal()) {
 				phenotype.add(symbol.toString());
 			} else {
-				if(currentIdx >= solution.getVariables().size() && currentWrp<maxCntWrappings) {
+				if(currentIdx >= nmSolution.getVariables().size() && currentWrp<maxCntWrappings) {
 					currentIdx = 0;
 					currentWrp++;
 				}
-				if (currentIdx < solution.getVariables().size()) {
+				if (currentIdx < nmSolution.getVariables().size()) {
 					Rule rule = reader.findRule(symbol);
-					solution.getNoOptionsPhenotype().add(rule.size());
-					Production production = rule.get(solution.getVariables().get(currentIdx++).getValue() % rule.size());
-					processProduction(production, solution, phenotype);
+					nmSolution.getNoOptionsPhenotype().add(rule.size());
+					Production production = rule.get(nmSolution.getVariables().get(currentIdx++).getValue() % rule.size());
+					processProduction(production, nmSolution, phenotype);
 				}
 				else {
 					correctSol = false;
@@ -103,7 +107,7 @@ public abstract class AbstractProblemGE extends Problem<Variable<Integer>> {
 	public Solutions<Variable<Integer>> newRandomSetOfSolutions(int size) {
 		Solutions<Variable<Integer>> solutions = new Solutions<Variable<Integer>>();
 		for (int i=0; i<size; ++i) {
-			Solution<Variable<Integer>> solI = new Solution<Variable<Integer>>(numberOfObjectives);
+			Solution<Variable<Integer>> solI = new NeutralMutationSolution(numberOfObjectives);
 			for (int j = 0; j < numberOfVariables; ++j) {
 				Variable<Integer> varJ = new Variable<Integer>(RandomGenerator.nextInteger((int) upperBound[j])); 
 				solI.getVariables().add(varJ);
