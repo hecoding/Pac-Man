@@ -77,6 +77,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JCheckBox contentBasedTerminationCheck;
  	JCheckBox rangeParametersCheck;
  	ButtonGroup bg;
+	JCheckBox neutralMutationCheck;
  	
  	String populationTextDefault;
 	String generationTextDefault;
@@ -86,6 +87,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	int mutationSliderDefault;
 	int elitismSliderDefault;
 	Object grammarBoxDefault;
+	boolean neutralMutationCheckDefault;
 	Object initializationBoxDefault;
 	Object selectionBoxDefault;
 	Object crossoverBoxDefault;
@@ -151,6 +153,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0);
+					gCtrl.setNeutralMutation(neutralMutationCheck.isSelected());
 					gCtrl.setGrammar((String) grammarBox.getSelectedItem());
 					gCtrl.setSelectedObjectives(objectiveSelector.getSelectedValues());
 					gCtrl.setSelectedGhostController((String) ghostControllerBox.getSelectedItem());
@@ -540,6 +543,19 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		
 		mutationPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(mutationPanel);
+
+		//---------------------------------------------
+
+		JPanel neutralMutation = new JPanel();
+		JLabel cbterm = new JLabel("Neutral mutation");
+		neutralMutation.add(cbterm);
+		neutralMutationCheck = new JCheckBox();
+		neutralMutation.add(neutralMutationCheck);
+		neutralMutation.setMaximumSize(neutralMutation.getPreferredSize());
+		neutralMutation.setMinimumSize(neutralMutation.getPreferredSize());
+		neutralMutation.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		neutralMutation.setToolTipText("Really cool description.");
+		settings.add(neutralMutation);
 		
 		//---------------------------------------------
 		JSeparator e = new JSeparator();
@@ -1016,6 +1032,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.mutationSlider.setValue((int) (this.gCtrl.getMutationProb() * 100));
 		this.elitismText.setText(String.valueOf(this.gCtrl.getElitismPercentage()));
 		this.elitismSlider.setValue((int) (this.gCtrl.getElitismPercentage() * 100));
+		this.neutralMutationCheck.setSelected(this.gCtrl.isNeutralMutationEnabled());
 		for(String item : this.gCtrl.getCleanGrammarNames()) {
 			this.grammarBox.addItem(item);
 		}
@@ -1079,6 +1096,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		crossoverSliderDefault = crossoverSlider.getValue();
 		mutationSliderDefault = mutationSlider.getValue();
 		elitismSliderDefault = elitismSlider.getValue();
+		neutralMutationCheckDefault = neutralMutationCheck.isSelected();
 		grammarBoxDefault = grammarBox.getSelectedItem();
 		objectiveSelectedIndicesDefault = objectiveSelector.getSelectedIndices();
 		selectedGhostControllerDefault = ghostControllerBox.getSelectedItem();
@@ -1102,6 +1120,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		crossoverSlider.setValue(crossoverSliderDefault);
 		mutationSlider.setValue(mutationSliderDefault);
 		elitismSlider.setValue(elitismSliderDefault);
+		neutralMutationCheck.setSelected(neutralMutationCheckDefault);
 		grammarBox.setSelectedItem(grammarBoxDefault);
 		objectiveSelector.setSelectedIndices(objectiveSelectedIndicesDefault);
 		ghostControllerBox.setSelectedItem(selectedGhostControllerDefault);
@@ -1156,6 +1175,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	mutationSlider.setEnabled(false);
 			 	elitismText.setEnabled(false);
 			 	elitismSlider.setEnabled(false);
+			 	neutralMutationCheck.setEnabled(false);
 			 	grammarBox.setEnabled(false);
 			 	btnSelectObjetives.setEnabled(false);
 			 	ghostControllerBox.setEnabled(false);
@@ -1199,6 +1219,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	mutationSlider.setEnabled(true);
 			 	elitismText.setEnabled(true);
 			 	elitismSlider.setEnabled(true);
+			 	neutralMutationCheck.setEnabled(true);
 			 	grammarBox.setEnabled(true);
 			 	btnSelectObjetives.setEnabled(true);
 			 	ghostControllerBox.setEnabled(true);

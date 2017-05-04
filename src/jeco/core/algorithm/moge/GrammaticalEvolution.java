@@ -32,7 +32,7 @@ import jeco.core.problem.Variable;
 public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   
   public static final Logger logger = Logger.getLogger(NSGAII.class.getName());
-  private boolean NEUTRALMUTATION = true;  
+  private boolean NEUTRALMUTATION = false;
   private static final boolean jecoPopulationMerge = false; // true if you want to mix old and new generations and then select best individuals
 
   /////////////////////////////////////////////////////////////////////////
@@ -72,6 +72,11 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       
       this.eliteSize = eliteSize;
   }
+
+    public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations, double probMutation, double probCrossover, int eliteSize, boolean neutralMutation) {
+      this(problem, maxPopulationSize, maxGenerations, probMutation, probCrossover, eliteSize);
+      this.NEUTRALMUTATION = neutralMutation;
+    }
 
   public GrammaticalEvolution(Problem<Variable<Integer>> problem, int maxPopulationSize, int maxGenerations) {
     this(problem, maxPopulationSize, maxGenerations, 1.0/problem.getNumberOfVariables(), SinglePointCrossover.DEFAULT_PROBABILITY, EliteSelectorOperator.DEFAULT_ELITE_SIZE);

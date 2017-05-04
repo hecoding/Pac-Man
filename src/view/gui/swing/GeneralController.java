@@ -45,6 +45,7 @@ public class GeneralController {
   	String grammar = grammarFolder + "base.bnf";
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
   	Controller<EnumMap<GHOST,MOVE>> ghostController = new Legacy();
+  	boolean neutralMutation = false;
 
 	int iterPerIndividual = 10; // games ran per evaluation
 	double elitismPerc = 0.05;
@@ -91,7 +92,7 @@ public class GeneralController {
 		// Second create the algorithm (here we do a dirty trick to preserve observers)
 		if(algorithm != null)
 			algorithmObservers = algorithm.getObservers();
-		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, (int) Math.floor(elitismPerc * populationSize));
+		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, (int) Math.floor(elitismPerc * populationSize), neutralMutation);
 		algorithm.setObservers(algorithmObservers);
 		
 		// We can set different operators using
@@ -208,6 +209,14 @@ public class GeneralController {
 	
 	public double getElitismPercentage() {
 		return this.elitismPerc;
+	}
+
+	public boolean isNeutralMutationEnabled() {
+		return this.neutralMutation;
+	}
+
+	public void setNeutralMutation(boolean b) {
+		this.neutralMutation = b;
 	}
 	
 	public String getGrammar() {
