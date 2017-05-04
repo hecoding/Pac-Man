@@ -14,6 +14,7 @@ import jeco.core.operator.crossover.CrossoverOperator;
 import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.mutation.IntegerFlipMutation;
 import jeco.core.operator.mutation.MutationOperator;
+import jeco.core.operator.mutation.NeutralMutation;
 import jeco.core.operator.selection.BinaryTournamentNSGAII;
 import jeco.core.operator.selection.EliteSelectorOperator;
 import jeco.core.operator.selection.SelectionOperator;
@@ -31,7 +32,7 @@ import jeco.core.problem.Variable;
 public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   
   public static final Logger logger = Logger.getLogger(NSGAII.class.getName());
-  
+  private boolean NEUTRALMUTATION = true;  
   private static final boolean jecoPopulationMerge = false; // true if you want to mix old and new generations and then select best individuals
 
   /////////////////////////////////////////////////////////////////////////
@@ -43,6 +44,7 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   protected Solutions<Variable<Integer>> population;
   public Solutions<Variable<Integer>> getPopulation() { return population; }
   protected MutationOperator<Variable<Integer>> mutationOperator;
+  protected NeutralMutation<Variable<Integer>> neutralMutation;
   protected CrossoverOperator<Variable<Integer>> crossoverOperator;
   protected SelectionOperator<Variable<Integer>> selectionOperator;
   /////////////////////////////////////////////////////////////////////////
@@ -59,6 +61,7 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       this.maxPopulationSize = maxPopulationSize;
       this.maxGenerations = maxGenerations;
       this.mutationOperator = new IntegerFlipMutation<Variable<Integer>>(problem, probMutation);
+      this.neutralMutation = new NeutralMutation<Variable<Integer>>(problem, probMutation);
       this.crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, probCrossover, SinglePointCrossover.ALLOW_REPETITION);
       this.selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
       
@@ -136,6 +139,10 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
           //obtain parents
           parent1 = selectionOperator.execute(population).get(0);
           parent2 = selectionOperator.execute(population).get(0);
+          if(NEUTRALMUTATION){
+	          neutralMutation.execute(parent1);
+	          neutralMutation.execute(parent2);
+          }
           Solutions<Variable<Integer>> offSpring = crossoverOperator.execute(parent1, parent2);
           for (Solution<Variable<Integer>> solution : offSpring) {
               mutationOperator.execute(solution);
