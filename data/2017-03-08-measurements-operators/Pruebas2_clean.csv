@@ -1,0 +1,16 @@
+Probabilidad_de_mutacion,Probabilidad_de_cruce,Tamano_de_la_poblacion,Numero_de_iteraciones,Iteraciones_por_individuo,Selección,Cruce,Mutación,Fitness,Puntos_promedio,Tiempo_de_Ejecucion
+0.1,0.6,100,100,3,BinaryTournament,SinglePointCrossover,CombinatorialMutation,94190.0,5810.0,154.162059764
+0.1,0.6,100,100,3,BinaryTournament,SinglePointCrossover,IntegerFlipMutation,94016.66666666667,5983.3333333333285,70.950426832
+0.1,0.6,100,100,3,BinaryTournament,SinglePointCrossover,SwapMutation,95053.33333333333,4946.6666666666715,27.509917609
+0.1,0.6,100,100,3,BinaryTournamentNSGAII,SinglePointCrossover,CombinatorialMutation,90873.33333333333,9126.666666666672,133.551940699
+0.1,0.6,100,100,3,BinaryTournamentNSGAII,SinglePointCrossover,IntegerFlipMutation,94193.33333333333,5806.6666666666715,131.460038436
+0.1,0.6,100,100,3,BinaryTournamentNSGAII,SinglePointCrossover,SwapMutation,91080.0,8920.0,65.262792134
+0.1,0.6,100,100,3,EliteSelectorOperator,CycleCrossover,CombinatorialMutation,94916.66666666667,5083.3333333333285,41.463686872
+0.1,0.6,100,100,3,EliteSelectorOperator,CycleCrossover,IntegerFlipMutation,93433.33333333333,6566.6666666666715,65.618624207
+0.1,0.6,100,100,3,EliteSelectorOperator,CycleCrossover,SwapMutation,94580.0,5420.0,15.170850491
+0.1,0.6,100,100,3,EliteSelectorOperator,SinglePointCrossover,CombinatorialMutation,92523.33333333333,7476.6666666666715,95.02967319
+0.1,0.6,100,100,3,EliteSelectorOperator,SinglePointCrossover,IntegerFlipMutation,95056.66666666667,4943.3333333333285,163.869941868
+0.1,0.6,100,100,3,EliteSelectorOperator,SinglePointCrossover,SwapMutation,94173.33333333333,5826.6666666666715,40.831337638
+0.1,0.6,100,100,3,TournamentSelect,SinglePointCrossover,CombinatorialMutation,90326.66666666667,9673.333333333328,34.363584598
+0.1,0.6,100,100,3,TournamentSelect,SinglePointCrossover,IntegerFlipMutation,92966.66666666667,7033.3333333333285,44.790943173
+0.1,0.6,100,100,3,TournamentSelect,SinglePointCrossover,SwapMutation,92840.0,7160.0,124.089899663
