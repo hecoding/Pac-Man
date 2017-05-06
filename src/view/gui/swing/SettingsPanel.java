@@ -572,14 +572,14 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		//---------------------------------------------
 
 		JPanel neutralMutation = new JPanel();
-		JLabel cbterm = new JLabel("Neutral mutation");
+		JLabel cbterm = new JLabel("+ Neutral mutation");
 		neutralMutation.add(cbterm);
 		neutralMutationCheck = new JCheckBox();
 		neutralMutation.add(neutralMutationCheck);
 		neutralMutation.setMaximumSize(neutralMutation.getPreferredSize());
 		neutralMutation.setMinimumSize(neutralMutation.getPreferredSize());
 		neutralMutation.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		neutralMutation.setToolTipText("Really cool description.");
+		neutralMutation.setToolTipText("Whereby a codon changes value but still encodes for the same derivation.");
 		settings.add(neutralMutation);
 		
 		//---------------------------------------------
