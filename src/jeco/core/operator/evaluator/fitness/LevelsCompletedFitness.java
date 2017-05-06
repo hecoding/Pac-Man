@@ -20,7 +20,7 @@ public class LevelsCompletedFitness implements FitnessEvaluatorInterface {
 
 	@Override
 	public String getName() {
-		return "Number of levels completed";
+		return "Number_of_levels_completed";
 	}
 
 }

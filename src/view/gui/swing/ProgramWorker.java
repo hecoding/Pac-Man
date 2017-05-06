@@ -1,5 +1,6 @@
 package view.gui.swing;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -95,32 +96,34 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	    totalTime /= 1000000000.0;
 		
 	    
-		Double extFitness = null;
-	    double extAvgPoints = -1;
+		ArrayList<Double> extFitnesses = new ArrayList<Double>();
 	    String extPhenotype = null;
+	    
 		// Log solution
 		for (Solution<Variable<Integer>> solution : solutions) {
-			extFitness = solution.getObjectives().get(0);
-		 	extAvgPoints = NaiveFitness.fitnessToPoints(solution.getObjectives().get(0)); // TODO wrapper.naive.fitnesstopoints
+			extFitnesses = solution.getObjectives();
 		 	extPhenotype = problem.generatePhenotype(solution).toString();
 			
 			logger.info(System.lineSeparator());
-			logger.info("Fitness =  " + solution.getObjectives());
-			logger.info("Average points = " + NaiveFitness.fitnessToPoints( solution.getObjectives().get(0) ));
+			logger.info("Fitness for selected objetive(s) =  " + solution.getObjectives());
 			phenotypeString = problem.generatePhenotype(solution).toString();
 			logger.info("Phenotype = (" + phenotypeString + ")");
 		}
 		
 		if(externalLogger) {
-		  	//String txtName = "Registro.txt";
+			ArrayList<FitnessEvaluatorInterface> fitnessFuncs = ctrl.getFitnessFuncs();
 		  	String csvName = "Registro.csv";
+		  	
 		  	String fitns = "[";
-		  	for(FitnessEvaluatorInterface func : ctrl.getFitnessFuncs())
-		  		fitns += func.getName();
-		  	fitns = "]";
+		  	for(int i = 0; i < fitnessFuncs.size(); i++){
+		  		fitns += fitnessFuncs.get(i).getName();
+		  		if(i != fitnessFuncs.size()-1)
+		  			fitns += ", ";
+		  	}
+		  	fitns += "]";
 		  	
 		  	ExtLog extLog = new ExtLog(ctrl.getMutationProb(), ctrl.getCrossProb(), ctrl.getPopulationSize(), ctrl.getGenerations(), ctrl.getItersPerIndividual(), fitns,
-		  			extFitness.doubleValue(), extAvgPoints, extPhenotype, totalTime);
+		  			extFitnesses, extPhenotype, totalTime);
 	
 		  	ExtLogger extlogger = new ExtLogger();
 		  	extlogger.generateCSV(extLog, csvName);
