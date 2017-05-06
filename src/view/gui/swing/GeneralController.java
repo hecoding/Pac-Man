@@ -74,6 +74,8 @@ public class GeneralController {
   	String[] selectedFitnessObjectives = fitnessWrapper.getFuncNames();
 	
 	public GeneralController() {
+		// Algorithm operators (selection, crossover, mutation) are very irregular so they are registered into its factory
+
 		// Register all ghost controllers
 		ghostControllerFactory.register(AggressiveGhosts.class);
 		ghostControllerFactory.register(Legacy.class);
