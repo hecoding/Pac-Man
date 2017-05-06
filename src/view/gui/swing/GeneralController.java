@@ -13,6 +13,8 @@ import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
 import jeco.core.operator.crossover.CrossoverOperator;
 import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.evaluator.fitness.*;
+import jeco.core.operator.mutation.IntegerFlipMutation;
+import jeco.core.operator.mutation.MutationOperator;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
@@ -29,6 +31,7 @@ import parser.nodes.NicerTree;
 import util.FileList;
 import view.gui.swing.factory.CrossoverOperatorFactory;
 import view.gui.swing.factory.GhostControllerFactory;
+import view.gui.swing.factory.MutationOperatorFactory;
 import view.gui.swing.factory.ObjectiveFactory;
 
 public class GeneralController {
@@ -49,6 +52,7 @@ public class GeneralController {
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
   	Controller<EnumMap<GHOST,MOVE>> ghostController = new Legacy();
   	CrossoverOperator crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, crossProb, SinglePointCrossover.ALLOW_REPETITION);
+	MutationOperator mutationOperator = new IntegerFlipMutation<Variable<Integer>>(problem, mutationProb);
   	boolean neutralMutation = false;
 
 	int iterPerIndividual = 10; // games ran per evaluation
@@ -60,6 +64,8 @@ public class GeneralController {
 
   	static CrossoverOperatorFactory crossoverOperatorFactory = CrossoverOperatorFactory.getInstance();
 	String selectedCrossoverOperator = crossoverOperator.getClass().getSimpleName();
+	static MutationOperatorFactory mutationOperatorFactory = MutationOperatorFactory.getInstance();
+	String selectedMutationOperator = mutationOperator.getClass().getSimpleName();
   	static GhostControllerFactory ghostControllerFactory = GhostControllerFactory.getInstance();
   	String selectedGhostController = ghostController.getClass().getSimpleName();
   	static ObjectiveFactory objectiveFactory = ObjectiveFactory.getInstance();
@@ -103,10 +109,9 @@ public class GeneralController {
 		
 		// Set crossover operator
 		algorithm.setCrossoverOperator(crossoverOperatorFactory.create(this.selectedCrossoverOperator, problem, crossProb));
-
+		algorithm.setMutationOperator(mutationOperatorFactory.create(this.selectedMutationOperator, problem, mutationProb));
 		//algorithm.setSelectionOperator(selectionOperator);
-		//algorithm.setMutationOperator(mutationOperator);
-		
+
 		// Set multithreading
 		int avalaibleThreads = Runtime.getRuntime().availableProcessors();
 		algorithmWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
@@ -271,7 +276,7 @@ public class GeneralController {
 	}
 
 	public void setSelectedMutationOperator(String mut) {
-		//TODO
+		this.selectedMutationOperator = mut;
 	}
 	
 	public ArrayList<String> getGhostControllerNames() {
@@ -289,8 +294,8 @@ public class GeneralController {
 	}
 
 	public ArrayList<String> getMutationOperatorNames() {
-		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(ghostControllerFactory.getRegisteredKeys()));
-		Collections.sort(ret);//TODO
+		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(mutationOperatorFactory.getRegisteredKeys()));
+		Collections.sort(ret);
 
 		return ret;
 	}
