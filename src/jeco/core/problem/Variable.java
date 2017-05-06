@@ -22,4 +22,10 @@ public class Variable<T> {
         Variable<T> var = (Variable<T>)right;
         return this.value.equals(var.value);
     }
+    
+    @Override
+    public String toString()
+    {
+    	return value.toString();
+    }
 }
