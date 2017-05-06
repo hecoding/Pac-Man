@@ -35,6 +35,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
  	JTextField maxCntWrappingsText;
  	JTextField numOfObjectivesText;
  	JTextField heightText;
+ 	JPanel selectionOperatorPanel;
+ 	JComboBox selectionOperatorBox;
  	JTextField crossoverText;
  	JSlider crossoverSlider;
 	JPanel crossoverOperatorPanel;
@@ -86,6 +88,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	String numOfObjectivesTextDefault;
 	int[] objectiveSelectedIndicesDefault;
 	Object selectedGhostControllerDefault;
+	Object selectedSelectionOperatorDefault;
 	Object selectedCrossoverOperatorDefault;
 	Object selectedMutationOperatorDefault;
 	
@@ -140,6 +143,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					gCtrl.setCodonUpperBound(Integer.parseInt(codonUpperBoundText.getText()));
 					gCtrl.setMaxCntWrappings(Integer.parseInt(maxCntWrappingsText.getText()));
 					//ctrl.setHeight(Integer.parseInt(heightText.getText()));
+					gCtrl.setSelectedSelectionOperator((String) selectionOperatorBox.getSelectedItem());
 					gCtrl.setCrossProb(crossoverSlider.getValue() / 100.0); // .0 is important
 					gCtrl.setSelectedCrossoverOperator((String) crossoverOperatorBox.getSelectedItem());
 					gCtrl.setMutationProb(mutationSlider.getValue() / 100.0); // .0 is important
@@ -307,6 +311,35 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		
 		objectivesPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(objectivesPanel);
+
+		//---------------------------------------------
+		JSeparator g = new JSeparator();
+		g.setMaximumSize(new Dimension(420, 1));
+		settings.add(g);
+		//---------------------------------------------
+
+		JPanel selectionPanel = new JPanel();
+		selectionPanel.setLayout(new BoxLayout(selectionPanel, BoxLayout.Y_AXIS));
+
+			selectionOperatorPanel = new JPanel();
+			selectionOperatorPanel.setLayout(new BoxLayout(selectionOperatorPanel, BoxLayout.Y_AXIS));
+
+			JLabel selectionOperatorLabel = new JLabel("Selection operator");
+			JPanel justforpadding5 = new JPanel();
+			justforpadding5.add(selectionOperatorLabel);
+			justforpadding5.setAlignmentX(Component.CENTER_ALIGNMENT);
+			selectionOperatorPanel.add(justforpadding5);
+
+			selectionOperatorBox = new JComboBox<String>();
+			selectionOperatorBox.setPreferredSize(new Dimension(200, selectionOperatorBox.getPreferredSize().height));
+			selectionOperatorPanel.add(selectionOperatorBox);
+			selectionOperatorPanel.setMaximumSize(selectionOperatorPanel.getPreferredSize());
+			selectionOperatorPanel.setMinimumSize(selectionOperatorPanel.getPreferredSize());
+			selectionOperatorPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+			selectionPanel.add(selectionOperatorPanel);
+
+		selectionPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings.add(selectionPanel);
 		
 		//---------------------------------------------
 		
@@ -1071,17 +1104,24 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		ghostControllerBox.setMaximumSize(ghostControllerBox.getPreferredSize());
 		ghostControllerBox.setMinimumSize(ghostControllerBox.getPreferredSize());
 
+		for(String item : this.gCtrl.getSelectionOperatorNames()) {
+			this.selectionOperatorBox.addItem(item);
+		}
+		this.selectionOperatorBox.setSelectedItem(this.gCtrl.getSelectedSelectionOperator());
+		selectionOperatorBox.setMaximumSize(selectionOperatorBox.getPreferredSize());
+		selectionOperatorBox.setMinimumSize(selectionOperatorBox.getPreferredSize());
+
 		for(String item : this.gCtrl.getCrossoverOperatorNames()) {
 			this.crossoverOperatorBox.addItem(item);
 		}
-		this.crossoverOperatorBox.setSelectedItem(this.gCtrl.getGhostControllerName());
+		this.crossoverOperatorBox.setSelectedItem(this.gCtrl.getSelectedCrossoverOperator());
 		crossoverOperatorBox.setMaximumSize(crossoverOperatorBox.getPreferredSize());
 		crossoverOperatorBox.setMinimumSize(crossoverOperatorBox.getPreferredSize());
 
 		for(String item : this.gCtrl.getMutationOperatorNames()) {
 			this.mutationOperatorBox.addItem(item);
 		}
-		this.mutationOperatorBox.setSelectedItem(this.gCtrl.getGhostControllerName());
+		this.mutationOperatorBox.setSelectedItem(this.gCtrl.getSelectedMutationOperator());
 		mutationOperatorBox.setMaximumSize(mutationOperatorBox.getPreferredSize());
 		mutationOperatorBox.setMinimumSize(mutationOperatorBox.getPreferredSize());
 		/*
@@ -1139,6 +1179,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		grammarBoxDefault = grammarBox.getSelectedItem();
 		objectiveSelectedIndicesDefault = objectiveSelector.getSelectedIndices();
 		selectedGhostControllerDefault = ghostControllerBox.getSelectedItem();
+		selectedSelectionOperatorDefault = selectionOperatorBox.getSelectedItem();
 		selectedCrossoverOperatorDefault = crossoverOperatorBox.getSelectedItem();
 		selectedMutationOperatorDefault = mutationOperatorBox.getSelectedItem();
 		//initializationBoxDefault = initializationBox.getSelectedItem();
@@ -1165,6 +1206,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		grammarBox.setSelectedItem(grammarBoxDefault);
 		objectiveSelector.setSelectedIndices(objectiveSelectedIndicesDefault);
 		ghostControllerBox.setSelectedItem(selectedGhostControllerDefault);
+		selectionOperatorBox.setSelectedItem(selectedSelectionOperatorDefault);
 		crossoverOperatorBox.setSelectedItem(selectedCrossoverOperatorDefault);
 		mutationOperatorBox.setSelectedItem(selectedMutationOperatorDefault);
 		//elitismSlider.setValue(elitismSliderDefault);
@@ -1222,6 +1264,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	grammarBox.setEnabled(false);
 			 	btnSelectObjetives.setEnabled(false);
 			 	ghostControllerBox.setEnabled(false);
+			 	selectionOperatorBox.setEnabled(false);
 			 	crossoverOperatorBox.setEnabled(false);
 			 	mutationOperatorBox.setEnabled(false);
 			 	/*
@@ -1268,6 +1311,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	grammarBox.setEnabled(true);
 			 	btnSelectObjetives.setEnabled(true);
 			 	ghostControllerBox.setEnabled(true);
+			 	selectionOperatorBox.setEnabled(true);
 			 	crossoverOperatorBox.setEnabled(true);
 			 	mutationOperatorBox.setEnabled(true);
 			}

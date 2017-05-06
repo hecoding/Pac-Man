@@ -15,6 +15,8 @@ import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.evaluator.fitness.*;
 import jeco.core.operator.mutation.IntegerFlipMutation;
 import jeco.core.operator.mutation.MutationOperator;
+import jeco.core.operator.selection.BinaryTournamentNSGAII;
+import jeco.core.operator.selection.SelectionOperator;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
@@ -29,10 +31,7 @@ import pacman.game.Constants.MOVE;
 import parser.TreeParser;
 import parser.nodes.NicerTree;
 import util.FileList;
-import view.gui.swing.factory.CrossoverOperatorFactory;
-import view.gui.swing.factory.GhostControllerFactory;
-import view.gui.swing.factory.MutationOperatorFactory;
-import view.gui.swing.factory.ObjectiveFactory;
+import view.gui.swing.factory.*;
 
 public class GeneralController {
 	static ProgramWorker programWorker;
@@ -51,6 +50,7 @@ public class GeneralController {
   	String grammar = grammarFolder + "base.bnf";
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
   	Controller<EnumMap<GHOST,MOVE>> ghostController = new Legacy();
+	SelectionOperator selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
   	CrossoverOperator crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, crossProb, SinglePointCrossover.ALLOW_REPETITION);
 	MutationOperator mutationOperator = new IntegerFlipMutation<Variable<Integer>>(problem, mutationProb);
   	boolean neutralMutation = false;
@@ -62,6 +62,8 @@ public class GeneralController {
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
   	int maxCntWrappings = PacmanGrammaticalEvolution.MAX_CNT_WRAPPINGS_DEFAULT;
 
+  	static SelectionOperatorFactory selectionOperatorFactory = SelectionOperatorFactory.getInstance();
+  	String selectedSelectionOperator = selectionOperator.getClass().getSimpleName();
   	static CrossoverOperatorFactory crossoverOperatorFactory = CrossoverOperatorFactory.getInstance();
 	String selectedCrossoverOperator = crossoverOperator.getClass().getSimpleName();
 	static MutationOperatorFactory mutationOperatorFactory = MutationOperatorFactory.getInstance();
@@ -107,10 +109,10 @@ public class GeneralController {
 		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, (int) Math.floor(elitismPerc * populationSize), neutralMutation);
 		algorithm.setObservers(algorithmObservers);
 		
-		// Set crossover operator
+		// Set operators
+		algorithm.setSelectionOperator(selectionOperatorFactory.create(this.selectedSelectionOperator, problem));
 		algorithm.setCrossoverOperator(crossoverOperatorFactory.create(this.selectedCrossoverOperator, problem, crossProb));
 		algorithm.setMutationOperator(mutationOperatorFactory.create(this.selectedMutationOperator, problem, mutationProb));
-		//algorithm.setSelectionOperator(selectionOperator);
 
 		// Set multithreading
 		int avalaibleThreads = Runtime.getRuntime().availableProcessors();
@@ -271,8 +273,24 @@ public class GeneralController {
 		this.selectedGhostController = ghostCtrl;
 	}
 
+	public String getSelectedSelectionOperator() {
+		return this.selectedSelectionOperator;
+	}
+
+	public void setSelectedSelectionOperator(String selec) {
+		this.selectedSelectionOperator = selec;
+	}
+
+	public String getSelectedCrossoverOperator() {
+		return this.selectedCrossoverOperator;
+	}
+
 	public void setSelectedCrossoverOperator(String cross) {
 		this.selectedCrossoverOperator = cross;
+	}
+
+	public String getSelectedMutationOperator() {
+		return this.selectedMutationOperator;
 	}
 
 	public void setSelectedMutationOperator(String mut) {
@@ -283,6 +301,13 @@ public class GeneralController {
 		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(ghostControllerFactory.getRegisteredKeys()));
 		Collections.sort(ret);
 		
+		return ret;
+	}
+
+	public ArrayList<String> getSelectionOperatorNames() {
+		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(selectionOperatorFactory.getRegisteredKeys()));
+		Collections.sort(ret);
+
 		return ret;
 	}
 
