@@ -10,6 +10,8 @@ import javax.swing.JProgressBar;
 
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
+import jeco.core.operator.crossover.CrossoverOperator;
+import jeco.core.operator.crossover.SinglePointCrossover;
 import jeco.core.operator.evaluator.fitness.*;
 import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
@@ -25,6 +27,7 @@ import pacman.game.Constants.MOVE;
 import parser.TreeParser;
 import parser.nodes.NicerTree;
 import util.FileList;
+import view.gui.swing.factory.CrossoverOperatorFactory;
 import view.gui.swing.factory.GhostControllerFactory;
 import view.gui.swing.factory.ObjectiveFactory;
 
@@ -45,6 +48,7 @@ public class GeneralController {
   	String grammar = grammarFolder + "base.bnf";
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
   	Controller<EnumMap<GHOST,MOVE>> ghostController = new Legacy();
+  	CrossoverOperator crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, crossProb, SinglePointCrossover.ALLOW_REPETITION);
   	boolean neutralMutation = false;
 
 	int iterPerIndividual = 10; // games ran per evaluation
@@ -53,7 +57,9 @@ public class GeneralController {
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
   	int codonUpperBound = PacmanGrammaticalEvolution.CODON_UPPER_BOUND_DEFAULT;
   	int maxCntWrappings = PacmanGrammaticalEvolution.MAX_CNT_WRAPPINGS_DEFAULT;
-  	
+
+  	static CrossoverOperatorFactory crossoverOperatorFactory = CrossoverOperatorFactory.getInstance();
+	String selectedCrossoverOperator = crossoverOperator.getClass().getSimpleName();
   	static GhostControllerFactory ghostControllerFactory = GhostControllerFactory.getInstance();
   	String selectedGhostController = ghostController.getClass().getSimpleName();
   	static ObjectiveFactory objectiveFactory = ObjectiveFactory.getInstance();
@@ -95,9 +101,10 @@ public class GeneralController {
 		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, (int) Math.floor(elitismPerc * populationSize), neutralMutation);
 		algorithm.setObservers(algorithmObservers);
 		
-		// We can set different operators using
-	  	//algorithm.setSelectionOperator(selectionOperator);
-		//algorithm.setCrossoverOperator(crossoverOperator);
+		// Set crossover operator
+		algorithm.setCrossoverOperator(crossoverOperatorFactory.create(this.selectedCrossoverOperator, problem, crossProb));
+
+		//algorithm.setSelectionOperator(selectionOperator);
 		//algorithm.setMutationOperator(mutationOperator);
 		
 		// Set multithreading
@@ -258,11 +265,33 @@ public class GeneralController {
 	public void setSelectedGhostController(String ghostCtrl) {
 		this.selectedGhostController = ghostCtrl;
 	}
+
+	public void setSelectedCrossoverOperator(String cross) {
+		this.selectedCrossoverOperator = cross;
+	}
+
+	public void setSelectedMutationOperator(String mut) {
+		//TODO
+	}
 	
 	public ArrayList<String> getGhostControllerNames() {
 		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(ghostControllerFactory.getRegisteredKeys()));
 		Collections.sort(ret);
 		
+		return ret;
+	}
+
+	public ArrayList<String> getCrossoverOperatorNames() {
+		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(crossoverOperatorFactory.getRegisteredKeys()));
+		Collections.sort(ret);
+
+		return ret;
+	}
+
+	public ArrayList<String> getMutationOperatorNames() {
+		ArrayList<String> ret = new ArrayList<String>(Arrays.asList(ghostControllerFactory.getRegisteredKeys()));
+		Collections.sort(ret);//TODO
+
 		return ret;
 	}
 	
