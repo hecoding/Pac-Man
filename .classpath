@@ -6,10 +6,9 @@
 	<classpathentry kind="lib" path="lib/jmetal4.5.jar"/>
 	<classpathentry kind="lib" path="lib/org-apache-commons-lang.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/Pac-Man/lib/jfreechart-1.0.19-fx-javadocs.zip!/jfreechart-1.0.19-fx-javadocs"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jgit-4.6.1.201703071140-r.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.24.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.24.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

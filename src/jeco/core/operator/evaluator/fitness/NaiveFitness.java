@@ -20,7 +20,7 @@ public class NaiveFitness implements FitnessEvaluatorInterface {
 
 	@Override
 	public String getName() {
-		return "Naive Fitness";
+		return "Naive_fitness";
 	}
 
 }
