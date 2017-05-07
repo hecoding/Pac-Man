@@ -113,9 +113,11 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.setBorder(new TitledBorder("Settings"));
 		
 		initSettings();
-		//this.add(new JScrollPane(settings), BorderLayout.CENTER);
-		this.add(settings, BorderLayout.CENTER);
-		
+		//this.add(settings, BorderLayout.CENTER); TODO
+		JScrollPane scrollpane = new JScrollPane(settings);
+		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.add(scrollpane, BorderLayout.CENTER);
+
 		buttonPanel = new JPanel(new BorderLayout());
 		
 		showAndPlayButton = new JButton("Show & play best");
