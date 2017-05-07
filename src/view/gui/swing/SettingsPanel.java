@@ -19,82 +19,55 @@ import jeco.core.util.observer.AlgObserver;
 
 public class SettingsPanel extends JPanel implements AlgObserver {
 	private static final long serialVersionUID = 1L;
-	private GeneralController gCtrl;
- 	private GUIController guiCtrl;
+	private final GeneralController gCtrl;
+ 	private final GUIController guiCtrl;
  	private JPanel settings;
  	private JPanel buttonPanel;
- 	JButton showAndPlayButton;
- 	JButton trainButton;
- 	JButton resetButton;
+ 	private JButton showAndPlayButton;
+ 	private JButton trainButton;
+ 	private JButton resetButton;
  	
- 	JTextField populationText;
- 	JTextField generationText;
- 	JTextField iterPerIndText;
- 	JTextField chromosomeLengthText;
- 	JTextField codonUpperBoundText;
- 	JTextField maxCntWrappingsText;
- 	JTextField numOfObjectivesText;
- 	JTextField heightText;
- 	JPanel selectionOperatorPanel;
- 	JComboBox selectionOperatorBox;
- 	JTextField crossoverText;
- 	JSlider crossoverSlider;
-	JPanel crossoverOperatorPanel;
-	JComboBox crossoverOperatorBox;
- 	JTextField mutationText;
- 	JSlider mutationSlider;
-	JPanel mutationOperatorPanel;
-	JComboBox mutationOperatorBox;
- 	JTextField elitismText;
- 	JSlider elitismSlider;
- 	JButton btnSelectObjetives;
-	ObjetiveSelectorPanel objectiveSelector;
- 	JPanel grammar;
- 	JComboBox<String> grammarBox;
- 	JPanel ghostControllerPanel;
- 	JComboBox<String> ghostControllerBox;
- 	JPanel initialization;
- 	JComboBox<String> initializationBox;
- 	JPanel selection;
- 	JPanel crossoverMethodPanel;
- 	JPanel tournamentGroups;
- 	JTextField tournamentGroupsText;
- 	JPanel mutationMethodPanel;
- 	JPanel elitismMethodPanel;
- 	JComboBox<String> elitismBox;
- 	JCheckBox contentBasedTerminationCheck;
- 	JCheckBox rangeParametersCheck;
- 	ButtonGroup bg;
-	JCheckBox neutralMutationCheck;
+ 	private JTextField populationText;
+ 	private JTextField generationText;
+ 	private JTextField iterPerIndText;
+ 	private JTextField chromosomeLengthText;
+ 	private JTextField codonUpperBoundText;
+ 	private JTextField maxCntWrappingsText;
+ 	private JTextField numOfObjectivesText;
+	private JComboBox<String> selectionOperatorBox;
+ 	private JTextField crossoverText;
+ 	private JSlider crossoverSlider;
+	private JComboBox<String> crossoverOperatorBox;
+ 	private JTextField mutationText;
+ 	private JSlider mutationSlider;
+	private JComboBox<String> mutationOperatorBox;
+ 	private JTextField elitismText;
+ 	private JSlider elitismSlider;
+ 	private JButton btnSelectObjetives;
+	private ObjetiveSelectorPanel objectiveSelector;
+ 	private JPanel grammar;
+ 	private JComboBox<String> grammarBox;
+	private JComboBox<String> ghostControllerBox;
+	private JCheckBox neutralMutationCheck;
  	
- 	String populationTextDefault;
-	String generationTextDefault;
-	String heightTextDefault;
-	String tournamentGroupsTextDefault;
-	int crossoverSliderDefault;
-	int mutationSliderDefault;
-	int elitismSliderDefault;
-	Object grammarBoxDefault;
-	boolean neutralMutationCheckDefault;
-	Object initializationBoxDefault;
-	Object selectionBoxDefault;
-	Object crossoverBoxDefault;
-	Object mutationBoxDefault;
-	boolean contentBasedTerminationCheckDefault;
-	String iterPerIndTextDefault;
-	String chromosomeLengthTextDefault;
-	String codonUpperBoundTextDefault;
-	String maxCntWrappingsTextDefault;
-	String numOfObjectivesTextDefault;
-	int[] objectiveSelectedIndicesDefault;
-	Object selectedGhostControllerDefault;
-	Object selectedSelectionOperatorDefault;
-	Object selectedCrossoverOperatorDefault;
-	Object selectedMutationOperatorDefault;
-	
-	JTextField pomin, pomax, postep, gomin, gomax, gostep, comin, comax, costep, momin, momax, mostep, eomin, eomax, eostep;
-	JRadioButton rangePopulationRadioButton, rangeGenerationRadioButton, rangeCrossRadioButton, rangeMutationRadioButton, rangeElitismRadioButton;
-	Border defaultborder;
+ 	private String populationTextDefault;
+	private String generationTextDefault;
+	private int crossoverSliderDefault;
+	private int mutationSliderDefault;
+	private int elitismSliderDefault;
+	private Object grammarBoxDefault;
+	private boolean neutralMutationCheckDefault;
+	private String iterPerIndTextDefault;
+	private String chromosomeLengthTextDefault;
+	private String codonUpperBoundTextDefault;
+	private String maxCntWrappingsTextDefault;
+	private int[] objectiveSelectedIndicesDefault;
+	private Object selectedGhostControllerDefault;
+	private Object selectedSelectionOperatorDefault;
+	private Object selectedCrossoverOperatorDefault;
+	private Object selectedMutationOperatorDefault;
+
+	private Border defaultborder;
 
 	public SettingsPanel(GUIController ctrl, GeneralController gCtrl) {
 		this.gCtrl = gCtrl;
@@ -137,7 +110,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					guiCtrl.changeFocusToFitness();
-					
+
 					gCtrl.setPopulationSize(Integer.parseInt(populationText.getText()));
 					gCtrl.setGenerations(Integer.parseInt(generationText.getText()));
 					gCtrl.setItersPerIndividual(Integer.parseInt(iterPerIndText.getText()));
@@ -154,29 +127,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 					gCtrl.setGrammar((String) grammarBox.getSelectedItem());
 					gCtrl.setSelectedObjectives(objectiveSelector.getSelectedValues());
 					gCtrl.setSelectedGhostController((String) ghostControllerBox.getSelectedItem());
-					//ctrl.setElitismPercentage(elitismSlider.getValue());
-					//ctrl.setInitializationStrategy((String) initializationBox.getSelectedItem());
-					//ctrl.setSelectionParameter(tournamentGroupsText.getText());
-					//ctrl.setSelectionStrategy((String) selectionBox.getSelectedItem());
-					//ctrl.setCrossoverStrategy((String) crossoverBox.getSelectedItem());
-					//ctrl.setMutationStrategy((String) mutationBox.getSelectedItem());
-					//ctrl.setContentBasedTermination(contentBasedTerminationCheck.isSelected());
-					//ctrl.setRangeParameters(rangeParametersCheck.isSelected());*/
-					//if(rangeParametersCheck.isSelected())
-					//	setRanges();
-					
+
 					gCtrl.execute();
-				} /*catch(IllegalChromosomeException ex) {
-					JOptionPane.showMessageDialog(null,
-							ex.getMessage(),
-							"Error", JOptionPane.ERROR_MESSAGE);
-					for (Component cmp : buttonPanel.getComponents()) {
-						cmp.setEnabled(true);
-					}
-				}*/ catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null,
-							ex.getMessage(),
-							"Error", JOptionPane.ERROR_MESSAGE);
 				} catch (IllegalArgumentException ex) {
 					JOptionPane.showMessageDialog(null,
 							ex.getMessage(),
@@ -323,7 +275,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		JPanel selectionPanel = new JPanel();
 		selectionPanel.setLayout(new BoxLayout(selectionPanel, BoxLayout.Y_AXIS));
 
-			selectionOperatorPanel = new JPanel();
+			JPanel selectionOperatorPanel = new JPanel();
 			selectionOperatorPanel.setLayout(new BoxLayout(selectionOperatorPanel, BoxLayout.Y_AXIS));
 
 			JLabel selectionOperatorLabel = new JLabel("Selection operator");
@@ -332,7 +284,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			justforpadding5.setAlignmentX(Component.CENTER_ALIGNMENT);
 			selectionOperatorPanel.add(justforpadding5);
 
-			selectionOperatorBox = new JComboBox<String>();
+			selectionOperatorBox = new JComboBox<>();
 			selectionOperatorBox.setPreferredSize(new Dimension(200, selectionOperatorBox.getPreferredSize().height));
 			selectionOperatorPanel.add(selectionOperatorBox);
 			selectionOperatorPanel.setMaximumSize(selectionOperatorPanel.getPreferredSize());
@@ -342,100 +294,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 
 		selectionPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(selectionPanel);
-		
-		//---------------------------------------------
-		
-		// antes tenía 200 de ancho
-		/*
-		JPanel height = new JPanel();
-		JLabel heightLabel = new JLabel("Max height");
-		height.add(heightLabel);
-		heightText = new JTextField(4);
-		heightText.setInputVerifier(new InputVerifier() {
-			public boolean verify(JComponent input) {
-				try {
-					int a = Integer.parseInt(((JTextField) input).getText());
-					if (a >= 1) {
-						heightText.setBorder(defaultborder);
-						ctrl.setErrors(false);
-						return true;
-					}
-					else {
-						heightText.setBorder(BorderFactory.createLineBorder(Color.red));
-						ctrl.setErrors(true);
-						return false;
-					}
-				} catch (NumberFormatException e) {
-					heightText.setBorder(BorderFactory.createLineBorder(Color.red));
-					ctrl.setErrors(true);
-					return false;
-				}
-			}
-		});
-		height.add(heightText);
-		height.setMaximumSize(height.getPreferredSize());
-		height.setMinimumSize(height.getPreferredSize());
-		height.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(height);
-		
-		//---------------------------------------------
-		JSeparator sep1 = new JSeparator();
-		sep1.setMaximumSize(new Dimension(420, 1));
-		settings.add(sep1);
-		//---------------------------------------------
-		
-		initialization = new JPanel();
-		initialization.setLayout(new BoxLayout(initialization, BoxLayout.Y_AXIS));
-		JPanel initializationSel = new JPanel();
-		JLabel initializationLabel = new JLabel("Initialisation");
-		initializationSel.add(initializationLabel);
-		initializationBox = new JComboBox<String>();
-		initializationSel.add(initializationBox);
-		initialization.add(initializationSel);
-		initialization.setMaximumSize(initialization.getPreferredSize());
-		initialization.setMinimumSize(initialization.getPreferredSize());
-		initialization.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(initialization);
-
-		//---------------------------------------------
-		JSeparator a = new JSeparator();
-		a.setMaximumSize(new Dimension(420, 1));
-		settings.add(a);
-		//---------------------------------------------
-		
-		selection = new JPanel();
-		selection.setLayout(new BoxLayout(selection, BoxLayout.Y_AXIS));
-		JPanel selectionSel = new JPanel();
-		JLabel selectionLabel = new JLabel("Selection");
-		selectionSel.add(selectionLabel);
-		selectionBox = new JComboBox<String>();
-		selectionBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getItem() == "Tournament") {
-					if(e.getStateChange() == ItemEvent.SELECTED) {
-						tournamentGroups.setVisible(true);
-						selection.setMaximumSize(selection.getPreferredSize());
-					}
-					else if(e.getStateChange() == ItemEvent.DESELECTED) {
-						tournamentGroups.setVisible(false);
-						selection.setMaximumSize(selection.getPreferredSize());
-					}
-				}
-			}
-		});
-		selectionSel.add(selectionBox);
-		selection.add(selectionSel);
-			tournamentGroups = new JPanel();
-			tournamentGroups.add(new JLabel("Group size"));
-			tournamentGroupsText = new JTextField(4);
-			tournamentGroups.add(tournamentGroupsText);
-			tournamentGroups.setVisible(false);
-			selection.add(tournamentGroups);
-		selection.setMaximumSize(selection.getPreferredSize());
-		selection.setMinimumSize(selection.getPreferredSize());
-		selection.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(selection);
-		*/
 
 		//---------------------------------------------
 		JSeparator b = new JSeparator();
@@ -445,40 +303,16 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		
 		JPanel crossoverPanel = new JPanel();
 		crossoverPanel.setLayout(new BoxLayout(crossoverPanel, BoxLayout.Y_AXIS));
-		
-		crossoverMethodPanel = new JPanel();
+
+		JPanel crossoverMethodPanel = new JPanel();
 		crossoverMethodPanel.setLayout(new BoxLayout(crossoverMethodPanel, BoxLayout.Y_AXIS));
 		JLabel crossoverLabel = new JLabel("Crossover");
 		JPanel crossSel = new JPanel();
 		crossSel.add(crossoverLabel);
 		crossoverText = new JTextField(4);
 		crossoverText.setInputVerifier(new DoubleLessThanZeroVerifier());
-		crossoverText.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				try {
-					crossoverSlider.setValue( (int) (Double.parseDouble(crossoverText.getText()) * 100) );
-					crossoverText.setBorder(defaultborder);
-				} catch (NumberFormatException ex) {
-					crossoverText.setBorder(BorderFactory.createLineBorder(Color.red));
-				}
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				try {
-					crossoverSlider.setValue( (int) (Double.parseDouble(crossoverText.getText()) * 100) );
-					crossoverText.setBorder(defaultborder);
-				} catch (NumberFormatException ex) {
-					crossoverText.setBorder(BorderFactory.createLineBorder(Color.red));
-				}
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-			}
-		});
+		crossoverSlider = new JSlider(); // init here so that sliderupdater doesn't nullpointer
+		crossoverText.getDocument().addDocumentListener(new SliderUpdater(crossoverSlider, crossoverText));
 		crossSel.add(crossoverText);
 		//crossoverBox = new JComboBox<String>();
 		//crossSel.add(crossoverBox);
@@ -488,7 +322,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		crossoverMethodPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		crossoverPanel.add(crossoverMethodPanel);
 		
-		crossoverSlider = new JSlider(0,100);
+		crossoverSlider.setMinimum(0);
+		crossoverSlider.setMaximum(100);
 		crossoverSlider.setMajorTickSpacing(30);
 		crossoverSlider.setMinorTickSpacing(5);
 		crossoverSlider.setPaintTicks(true);
@@ -500,7 +335,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		crossoverSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		crossoverPanel.add(crossoverSlider);
 
-			crossoverOperatorPanel = new JPanel();
+		JPanel crossoverOperatorPanel = new JPanel();
 			crossoverOperatorPanel.setLayout(new BoxLayout(crossoverOperatorPanel, BoxLayout.Y_AXIS));
 
 			JLabel crossoverOperatorLabel = new JLabel("Crossover operator");
@@ -509,7 +344,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			justforpadding3.setAlignmentX(Component.CENTER_ALIGNMENT);
 			crossoverOperatorPanel.add(justforpadding3);
 
-			crossoverOperatorBox = new JComboBox<String>();
+			crossoverOperatorBox = new JComboBox<>();
 			crossoverOperatorBox.setPreferredSize(new Dimension(200, crossoverOperatorBox.getPreferredSize().height));
 			crossoverOperatorPanel.add(crossoverOperatorBox);
 			crossoverOperatorPanel.setMaximumSize(crossoverOperatorPanel.getPreferredSize());
@@ -529,39 +364,15 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		
 		JPanel mutationPanel = new JPanel();
 		mutationPanel.setLayout(new BoxLayout(mutationPanel, BoxLayout.Y_AXIS));
-		
-		mutationMethodPanel = new JPanel();
+
+		JPanel mutationMethodPanel = new JPanel();
 		JPanel mutationTitle = new JPanel();
 		JLabel mutationLabel = new JLabel("Mutation");
 		mutationTitle.add(mutationLabel);
 		mutationText = new JTextField(4);
 		mutationText.setInputVerifier(new DoubleLessThanZeroVerifier());
-		mutationText.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				try {
-					mutationSlider.setValue( (int) (Double.parseDouble(mutationText.getText()) * 100) );
-					mutationText.setBorder(defaultborder);
-				} catch (NumberFormatException ex) {
-					mutationText.setBorder(BorderFactory.createLineBorder(Color.red));
-				}
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				try {
-					mutationSlider.setValue( (int) (Double.parseDouble(mutationText.getText()) * 100) );
-					mutationText.setBorder(defaultborder);
-				} catch (NumberFormatException ex) {
-					mutationText.setBorder(BorderFactory.createLineBorder(Color.red));
-				}
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-			}
-		});
+		mutationSlider = new JSlider(); // init here so that sliderupdater doesn't nullpointer
+		mutationText.getDocument().addDocumentListener(new SliderUpdater(mutationSlider, mutationText));
 		mutationTitle.add(mutationText);
 		mutationMethodPanel.add(mutationTitle);
 		//mutationBox = new JComboBox<String>();
@@ -570,8 +381,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationMethodPanel.setMinimumSize(mutationMethodPanel.getPreferredSize());
 		mutationMethodPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		mutationPanel.add(mutationMethodPanel);
-		
-		mutationSlider = new JSlider(0,100);
+
+		mutationSlider.setMinimum(0);
+		mutationSlider.setMaximum(100);
 		mutationSlider.setMajorTickSpacing(30);
 		mutationSlider.setMinorTickSpacing(5);
 		mutationSlider.setPaintTicks(true);
@@ -584,7 +396,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		mutationSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		mutationPanel.add(mutationSlider);
 
-			mutationOperatorPanel = new JPanel();
+		JPanel mutationOperatorPanel = new JPanel();
 			mutationOperatorPanel.setLayout(new BoxLayout(mutationOperatorPanel, BoxLayout.Y_AXIS));
 
 			JLabel mutationOperatorLabel = new JLabel("Mutation operator");
@@ -593,7 +405,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			justforpadding4.setAlignmentX(Component.CENTER_ALIGNMENT);
 			mutationOperatorPanel.add(justforpadding4);
 
-			mutationOperatorBox = new JComboBox<String>();
+			mutationOperatorBox = new JComboBox<>();
 			mutationOperatorBox.setPreferredSize(new Dimension(200, mutationOperatorBox.getPreferredSize().height));
 			mutationOperatorPanel.add(mutationOperatorBox);
 			mutationOperatorPanel.setMaximumSize(mutationOperatorPanel.getPreferredSize());
@@ -626,39 +438,15 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		
 		JPanel elitism = new JPanel();
 		elitism.setLayout(new BoxLayout(elitism, BoxLayout.Y_AXIS));
-		
-		elitismMethodPanel = new JPanel();
+
+		JPanel elitismMethodPanel = new JPanel();
 		JPanel elitismTitle = new JPanel();
 		JLabel elitismLabel = new JLabel("Elitism");
 		elitismTitle.add(elitismLabel);
 		elitismText = new JTextField(4);
 		elitismText.setInputVerifier(new DoubleLessThanZeroVerifier());
-		elitismText.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				try {
-					elitismSlider.setValue( (int) (Double.parseDouble(elitismText.getText()) * 100) );
-					elitismText.setBorder(defaultborder);
-				} catch (NumberFormatException ex) {
-					elitismText.setBorder(BorderFactory.createLineBorder(Color.red));
-				}
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				try {
-					elitismSlider.setValue( (int) (Double.parseDouble(elitismText.getText()) * 100) );
-					elitismText.setBorder(defaultborder);
-				} catch (NumberFormatException ex) {
-					elitismText.setBorder(BorderFactory.createLineBorder(Color.red));
-				}
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-			}
-		});
+		elitismSlider = new JSlider(); // init here so that sliderupdater doesn't nullpointer
+		elitismText.getDocument().addDocumentListener(new SliderUpdater(elitismSlider, elitismText));
 		elitismTitle.add(elitismText);
 		elitismMethodPanel.add(elitismTitle);
 		//mutationBox = new JComboBox<String>();
@@ -667,8 +455,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		elitismMethodPanel.setMinimumSize(elitismMethodPanel.getPreferredSize());
 		elitismMethodPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		elitism.add(elitismMethodPanel);
-		
-		elitismSlider = new JSlider(0,100);
+
+		elitismSlider.setMinimum(0);
+		elitismSlider.setMaximum(100);
 		elitismSlider.setMajorTickSpacing(30);
 		elitismSlider.setMinorTickSpacing(5);
 		elitismSlider.setPaintTicks(true);
@@ -699,7 +488,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		justforpadding.setAlignmentX(Component.CENTER_ALIGNMENT);
 		grammar.add(justforpadding);
 		
-		grammarBox = new JComboBox<String>();
+		grammarBox = new JComboBox<>();
 		grammarBox.setPreferredSize(new Dimension(200, grammarBox.getPreferredSize().height));
 		grammar.add(grammarBox);
 		grammar.setMaximumSize(grammar.getPreferredSize());
@@ -712,8 +501,8 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		f.setMaximumSize(new Dimension(420, 1));
 		settings.add(f);
 		//---------------------------------------------
-				
-		ghostControllerPanel = new JPanel();
+
+		JPanel ghostControllerPanel = new JPanel();
 		ghostControllerPanel.setLayout(new BoxLayout(ghostControllerPanel, BoxLayout.Y_AXIS));
 		
 		JLabel ghostControllerLabel = new JLabel("Ghost controller");
@@ -722,370 +511,18 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		justforpadding2.setAlignmentX(Component.CENTER_ALIGNMENT);
 		ghostControllerPanel.add(justforpadding2);
 		
-		ghostControllerBox = new JComboBox<String>();
+		ghostControllerBox = new JComboBox<>();
 		ghostControllerBox.setPreferredSize(new Dimension(200, ghostControllerBox.getPreferredSize().height));
 		ghostControllerPanel.add(ghostControllerBox);
 		ghostControllerPanel.setMaximumSize(ghostControllerPanel.getPreferredSize());
 		ghostControllerPanel.setMinimumSize(ghostControllerPanel.getPreferredSize());
 		ghostControllerPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		settings.add(ghostControllerPanel);
-		
-		/*
-		//---------------------------------------------
-		
-		JPanel contentBasedTermination = new JPanel();
-		JLabel cbterm = new JLabel("Quality termin. criteria");
-		contentBasedTermination.add(cbterm);
-		contentBasedTerminationCheck = new JCheckBox();
-		contentBasedTerminationCheck.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					generationsLabel.setText("Relative gen");
-					generations.setMaximumSize(generations.getPreferredSize());
-					generations.setMinimumSize(generations.getPreferredSize());
-				}
-				else if(e.getStateChange() == ItemEvent.DESELECTED) {
-					generationsLabel.setText("Generations");
-					generations.setMaximumSize(generations.getPreferredSize());
-					generations.setMinimumSize(generations.getPreferredSize());
-				}
-			}
-		});
-		contentBasedTermination.add(contentBasedTerminationCheck);
-		contentBasedTermination.setMaximumSize(contentBasedTermination.getPreferredSize());
-		contentBasedTermination.setMinimumSize(contentBasedTermination.getPreferredSize());
-		contentBasedTermination.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		contentBasedTermination.setToolTipText("Termination criteria based on the content. " + 
-				"It only increases a generation when a global fitness increment is produced.");
-		settings.add(contentBasedTermination);
-		
-		//---------------------------------------------
-			JSeparator e = new JSeparator();
-			e.setMaximumSize(new Dimension(420, 1));
-			settings.add(e);
-		//---------------------------------------------
-		
-		JPanel optionalPanel = new JPanel();
-		optionalPanel.setLayout(new BoxLayout(optionalPanel, BoxLayout.Y_AXIS));
-		JPanel optionalCheck = new JPanel();
-		JPanel optionalSettings = new JPanel();
-		JScrollPane scroll = new JScrollPane(optionalSettings);
-		scroll.setBorder(null);
-		scroll.setMinimumSize(new Dimension(0,0));
-		scroll.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		scroll.setVisible(false);
-		optionalPanel.add(optionalCheck);
-		optionalPanel.add(scroll);
-		
-		rangePopulationRadioButton = new JRadioButton();
-		rangeGenerationRadioButton = new JRadioButton();
-		rangeCrossRadioButton = new JRadioButton();
-		rangeMutationRadioButton = new JRadioButton();
-		rangeElitismRadioButton = new JRadioButton();
-		bg = new ButtonGroup();
-		bg.add(rangePopulationRadioButton);
-		bg.add(rangeGenerationRadioButton);
-		bg.add(rangeCrossRadioButton);
-		bg.add(rangeMutationRadioButton);
-		bg.add(rangeElitismRadioButton);
-		
-		optionalCheck.add(new JLabel("Parameter variations"));
-		rangeParametersCheck = new JCheckBox();
-		rangeParametersCheck.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					scroll.setVisible(true);
-					optionalPanel.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-					optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-					optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-				}
-				else if(e.getStateChange() == ItemEvent.DESELECTED) {
-					scroll.setVisible(false);
-					optionalPanel.setBorder(null);
-					optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-					optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-					
-					bg.clearSelection();
-					
-					populationText.setEnabled(true);
-					generationText.setEnabled(true);
-					contentBasedTerminationCheck.setEnabled(true);
-					crossoverSlider.setEnabled(true);
-					mutationSlider.setEnabled(true);
-					elitismSlider.setEnabled(true);
-				}
-			}
-		});
-		optionalCheck.add(rangeParametersCheck);
-		optionalCheck.setMaximumSize(optionalCheck.getPreferredSize());
-		optionalCheck.setMinimumSize(optionalCheck.getPreferredSize());
-		optionalCheck.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		
-		JPanel popTextOpt = new JPanel();
-		popTextOpt.setVisible(false);
-		optionalSettings.setLayout(new BoxLayout(optionalSettings, BoxLayout.Y_AXIS));
-			JPanel popOpt = new JPanel();
-			popOpt.setLayout(new BoxLayout(popOpt, BoxLayout.Y_AXIS));
-				JPanel go1 = new JPanel();
-					JLabel go11 = new JLabel("Population size");
-					go1.add(go11);
-					rangePopulationRadioButton.addItemListener(new ItemListener() {
-						public void itemStateChanged(ItemEvent e) {
-						    if (e.getStateChange() == ItemEvent.SELECTED) {
-						        popTextOpt.setVisible(true);
-						        popOpt.setMaximumSize(popOpt.getPreferredSize());
-								popOpt.setMinimumSize(popOpt.getPreferredSize());
-								optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								populationText.setEnabled(false);
-						    }
-						    else if (e.getStateChange() == ItemEvent.DESELECTED) {
-						    	popTextOpt.setVisible(false);
-						    	popOpt.setMaximumSize(popOpt.getPreferredSize());
-								popOpt.setMinimumSize(popOpt.getPreferredSize());
-								optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								populationText.setEnabled(true);
-						    }
-						}
-					});
-					go1.add(rangePopulationRadioButton);
-				popOpt.add(go1);
-				
-				pomin = new JTextField(4);
-				pomin.setInputVerifier(new IntegerNonZeroVerifier());
-				pomin.setToolTipText("min range");
-				pomax = new JTextField(4);
-				pomax.setInputVerifier(new IntegerNonZeroVerifier());
-				pomin.setToolTipText("max range");
-				postep = new JTextField(4);
-				postep.setInputVerifier(new IntegerNonZeroVerifier());
-				pomin.setToolTipText("step");
-				popTextOpt.add(pomin);
-				popTextOpt.add(pomax);
-				popTextOpt.add(postep);
-			popOpt.add(popTextOpt);
-			popOpt.setMaximumSize(popOpt.getPreferredSize());
-			popOpt.setMinimumSize(popOpt.getPreferredSize());
-			popOpt.setAlignmentX(Component.RIGHT_ALIGNMENT);
-			optionalSettings.add(popOpt);
-		
-			JPanel generOpt = new JPanel();
-			JPanel generTextOpt = new JPanel();
-			generTextOpt.setVisible(false);
-			generOpt.setLayout(new BoxLayout(generOpt, BoxLayout.Y_AXIS));
-				JPanel go2 = new JPanel();
-					JLabel go21 = new JLabel("Generations");
-					go2.add(go21);
-					rangeGenerationRadioButton.addItemListener(new ItemListener() {
-						public void itemStateChanged(ItemEvent e) {
-						    if (e.getStateChange() == ItemEvent.SELECTED) {
-						    	generTextOpt.setVisible(true);
-						    	generOpt.setMaximumSize(generOpt.getPreferredSize());
-						    	generOpt.setMinimumSize(generOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								generationText.setEnabled(false);
-								contentBasedTerminationCheck.setEnabled(false);
-						    }
-						    else if (e.getStateChange() == ItemEvent.DESELECTED) {
-						    	generTextOpt.setVisible(false);
-						    	generOpt.setMaximumSize(generOpt.getPreferredSize());
-						    	generOpt.setMinimumSize(generOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								generationText.setEnabled(true);
-								contentBasedTerminationCheck.setEnabled(true);
-						    }
-						}
-					});
-					go2.add(rangeGenerationRadioButton);
-				generOpt.add(go2);
-				
-				gomin = new JTextField(4);
-				gomin.setInputVerifier(new IntegerNonZeroVerifier());
-				gomin.setToolTipText("min range");
-				gomax = new JTextField(4);
-				gomax.setInputVerifier(new IntegerNonZeroVerifier());
-				gomax.setToolTipText("max range");
-				gostep = new JTextField(4);
-				gostep.setInputVerifier(new IntegerNonZeroVerifier());
-				gostep.setToolTipText("step");
-				generTextOpt.add(gomin);
-				generTextOpt.add(gomax);
-				generTextOpt.add(gostep);
-			generOpt.add(generTextOpt);
-			generOpt.setMaximumSize(generOpt.getPreferredSize());
-			generOpt.setMinimumSize(generOpt.getPreferredSize());
-			generOpt.setAlignmentX(Component.RIGHT_ALIGNMENT);
-			optionalSettings.add(generOpt);
-			
-			JPanel crossOpt = new JPanel();
-			JPanel crossTextOpt = new JPanel();
-			crossTextOpt.setVisible(false);
-			crossOpt.setLayout(new BoxLayout(crossOpt, BoxLayout.Y_AXIS));
-				JPanel co2 = new JPanel();
-					JLabel co21 = new JLabel("Crossover");
-					co2.add(co21);
-					rangeCrossRadioButton.addItemListener(new ItemListener() {
-						public void itemStateChanged(ItemEvent e) {
-						    if (e.getStateChange() == ItemEvent.SELECTED) {
-						    	crossTextOpt.setVisible(true);
-						    	crossOpt.setMaximumSize(crossOpt.getPreferredSize());
-						    	crossOpt.setMinimumSize(crossOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								crossoverSlider.setEnabled(false);
-						    }
-						    else if (e.getStateChange() == ItemEvent.DESELECTED) {
-						    	crossTextOpt.setVisible(false);
-						    	crossOpt.setMaximumSize(crossOpt.getPreferredSize());
-						    	crossOpt.setMinimumSize(crossOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								crossoverSlider.setEnabled(true);
-						    }
-						}
-					});
-					co2.add(rangeCrossRadioButton);
-				crossOpt.add(co2);
-				
-				comin = new JTextField(4);
-				comin.setInputVerifier(new DoubleLessThanZeroVerifier());
-				comin.setToolTipText("min range");
-				comax = new JTextField(4);
-				comax.setInputVerifier(new DoubleLessThanZeroVerifier());
-				comax.setToolTipText("max range");
-				costep = new JTextField(4);
-				costep.setInputVerifier(new DoubleLessThanZeroVerifier());
-				costep.setToolTipText("step");
-				crossTextOpt.add(comin);
-				crossTextOpt.add(comax);
-				crossTextOpt.add(costep);
-			crossOpt.add(crossTextOpt);
-			crossOpt.setMaximumSize(crossOpt.getPreferredSize());
-			crossOpt.setMinimumSize(crossOpt.getPreferredSize());
-			crossOpt.setAlignmentX(Component.RIGHT_ALIGNMENT);
-			optionalSettings.add(crossOpt);
-			
-			JPanel mutOpt = new JPanel();
-			JPanel mutTextOpt = new JPanel();
-			mutTextOpt.setVisible(false);
-			mutOpt.setLayout(new BoxLayout(mutOpt, BoxLayout.Y_AXIS));
-				JPanel mo2 = new JPanel();
-					JLabel mo21 = new JLabel("Mutation");
-					mo2.add(mo21);
-					rangeMutationRadioButton.addItemListener(new ItemListener() {
-						public void itemStateChanged(ItemEvent e) {
-						    if (e.getStateChange() == ItemEvent.SELECTED) {
-						    	mutTextOpt.setVisible(true);
-						    	mutOpt.setMaximumSize(mutOpt.getPreferredSize());
-						    	mutOpt.setMinimumSize(mutOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								mutationSlider.setEnabled(false);
-						    }
-						    else if (e.getStateChange() == ItemEvent.DESELECTED) {
-						    	mutTextOpt.setVisible(false);
-						    	mutOpt.setMaximumSize(mutOpt.getPreferredSize());
-						    	mutOpt.setMinimumSize(mutOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								mutationSlider.setEnabled(true);
-						    }
-						}
-					});
-					mo2.add(rangeMutationRadioButton);
-				mutOpt.add(mo2);
-				
-				momin = new JTextField(4);
-				momin.setInputVerifier(new DoubleLessThanZeroVerifier());
-				momin.setToolTipText("min range");
-				momax = new JTextField(4);
-				momax.setInputVerifier(new DoubleLessThanZeroVerifier());
-				momax.setToolTipText("max range");
-				mostep = new JTextField(4);
-				mostep.setInputVerifier(new DoubleLessThanZeroVerifier());
-				mostep.setToolTipText("step");
-				mutTextOpt.add(momin);
-				mutTextOpt.add(momax);
-				mutTextOpt.add(mostep);
-			mutOpt.add(mutTextOpt);
-			mutOpt.setMaximumSize(mutOpt.getPreferredSize());
-			mutOpt.setMinimumSize(mutOpt.getPreferredSize());
-			mutOpt.setAlignmentX(Component.RIGHT_ALIGNMENT);
-			optionalSettings.add(mutOpt);
-			
-			JPanel elitOpt = new JPanel();
-			JPanel elitTextOpt = new JPanel();
-			elitTextOpt.setVisible(false);
-			elitOpt.setLayout(new BoxLayout(elitOpt, BoxLayout.Y_AXIS));
-				JPanel eo2 = new JPanel();
-					JLabel eo21 = new JLabel("Elitism");
-					eo2.add(eo21);
-					rangeElitismRadioButton.addItemListener(new ItemListener() {
-						public void itemStateChanged(ItemEvent e) {
-						    if (e.getStateChange() == ItemEvent.SELECTED) {
-						    	elitTextOpt.setVisible(true);
-						    	elitOpt.setMaximumSize(elitOpt.getPreferredSize());
-						    	elitOpt.setMinimumSize(elitOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								elitismSlider.setEnabled(false);
-						    }
-						    else if (e.getStateChange() == ItemEvent.DESELECTED) {
-						    	elitTextOpt.setVisible(false);
-						    	elitOpt.setMaximumSize(elitOpt.getPreferredSize());
-						    	elitOpt.setMinimumSize(elitOpt.getPreferredSize());
-						    	optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-								optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-								
-								elitismSlider.setEnabled(true);
-						    }
-						}
-					});
-					eo2.add(rangeElitismRadioButton);
-				elitOpt.add(eo2);
-				
-				eomin = new JTextField(4);
-				eomin.setInputVerifier(new DoubleLessThanZeroVerifier());
-				eomin.setToolTipText("min range");
-				eomax = new JTextField(4);
-				eomax.setInputVerifier(new DoubleLessThanZeroVerifier());
-				eomax.setToolTipText("max range");
-				eostep = new JTextField(4);
-				eostep.setInputVerifier(new DoubleLessThanZeroVerifier());
-				eostep.setToolTipText("step");
-				elitTextOpt.add(eomin);
-				elitTextOpt.add(eomax);
-				elitTextOpt.add(eostep);
-			elitOpt.add(elitTextOpt);
-			elitOpt.setMaximumSize(elitOpt.getPreferredSize());
-			elitOpt.setMinimumSize(elitOpt.getPreferredSize());
-			elitOpt.setAlignmentX(Component.RIGHT_ALIGNMENT);
-			optionalSettings.add(elitOpt);
-			
-		optionalSettings.setMaximumSize(optionalSettings.getPreferredSize());
-		optionalSettings.setMinimumSize(optionalSettings.getPreferredSize());
-		optionalSettings.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(optionalPanel);
-		*/
 	}
 	
 	private void fillFields() {
 		this.populationText.setText(String.valueOf(this.gCtrl.getPopulationSize()));
 		this.generationText.setText(String.valueOf(this.gCtrl.getGenerations()));
-		//this.heightText.setText(String.valueOf(this.ctrl.getHeight()));
-		//this.tournamentGroupsText.setText(Integer.toString( this.ctrl.getTournamentSelectionGroups() ));
 		this.crossoverText.setText(String.valueOf(this.gCtrl.getCrossProb()));
 		this.crossoverSlider.setValue((int) (this.gCtrl.getCrossProb() * 100));
 		this.mutationText.setText(String.valueOf(this.gCtrl.getMutationProb()));
@@ -1126,34 +563,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		this.mutationOperatorBox.setSelectedItem(this.gCtrl.getSelectedMutationOperator());
 		mutationOperatorBox.setMaximumSize(mutationOperatorBox.getPreferredSize());
 		mutationOperatorBox.setMinimumSize(mutationOperatorBox.getPreferredSize());
-		/*
-		this.elitismSlider.setValue((int) (this.problem. * 100));
-		for (String item : this.ctrl.getInitializationStrategyList()) {
-			this.initializationBox.addItem(item);			
-		}
-		this.initializationBox.setSelectedItem(this.ctrl.getinitializationStrategy());
-		initialization.setMaximumSize(initialization.getPreferredSize());
-		initialization.setMinimumSize(initialization.getPreferredSize());
-		for (String item : this.ctrl.getSelectionStrategyList()) {
-			this.selectionBox.addItem(item);			
-		}
-		this.selectionBox.setSelectedItem(this.ctrl.getSelectionStrategy());
-		selection.setMaximumSize(selection.getPreferredSize());
-		selection.setMinimumSize(selection.getPreferredSize());
-		for (String item : this.ctrl.getCrossoverStrategyList()) {
-			this.crossoverBox.addItem(item);			
-		}
-		this.crossoverBox.setSelectedItem(this.ctrl.getCrossoverStrategy());
-		crossoverMethodPanel.setMaximumSize(crossoverMethodPanel.getPreferredSize());
-		crossoverMethodPanel.setMinimumSize(crossoverMethodPanel.getPreferredSize());
-		for (String item : this.ctrl.getMutationStrategyList()) {
-			this.mutationBox.addItem(item);			
-		}
-		this.mutationBox.setSelectedItem(this.ctrl.getMutationStrategy());
-		mutationMethodPanel.setMaximumSize(mutationMethodPanel.getPreferredSize());
-		mutationMethodPanel.setMinimumSize(mutationMethodPanel.getPreferredSize());
-		this.contentBasedTerminationCheck.setSelected(this.ctrl.isContentBasedTermination());
-		*/
+
 		this.iterPerIndText.setText(String.valueOf(this.gCtrl.getItersPerIndividual()));
 		this.chromosomeLengthText.setText(String.valueOf(this.gCtrl.getChromosomeLength()));
 		this.codonUpperBoundText.setText(String.valueOf(this.gCtrl.getCodonUpperBound()));
@@ -1172,8 +582,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		chromosomeLengthTextDefault = chromosomeLengthText.getText();
 		codonUpperBoundTextDefault = codonUpperBoundText.getText();
 		maxCntWrappingsTextDefault = maxCntWrappingsText.getText();
-		//heightTextDefault = heightText.getText();
-		//tournamentGroupsTextDefault = tournamentGroupsText.getText();
+
 		crossoverSliderDefault = crossoverSlider.getValue();
 		mutationSliderDefault = mutationSlider.getValue();
 		elitismSliderDefault = elitismSlider.getValue();
@@ -1184,11 +593,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		selectedSelectionOperatorDefault = selectionOperatorBox.getSelectedItem();
 		selectedCrossoverOperatorDefault = crossoverOperatorBox.getSelectedItem();
 		selectedMutationOperatorDefault = mutationOperatorBox.getSelectedItem();
-		//initializationBoxDefault = initializationBox.getSelectedItem();
-		//selectionBoxDefault = selectionBox.getSelectedItem();
-		//crossoverBoxDefault = crossoverBox.getSelectedItem();
-		//mutationBoxDefault = mutationBox.getSelectedItem();
-		//contentBasedTerminationCheckDefault = contentBasedTerminationCheck.isSelected();
 	}
 	
 	private void restoreDefaults() {
@@ -1199,8 +603,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		codonUpperBoundText.setText(codonUpperBoundTextDefault);
 		maxCntWrappingsText.setText(maxCntWrappingsTextDefault);
 		numOfObjectivesText.setText(String.valueOf(this.gCtrl.getNumOfSelectedObjectives()));
-		//heightText.setText(heightTextDefault);
-		//tournamentGroupsText.setText(tournamentGroupsTextDefault);
+
 		crossoverSlider.setValue(crossoverSliderDefault);
 		mutationSlider.setValue(mutationSliderDefault);
 		elitismSlider.setValue(elitismSliderDefault);
@@ -1211,36 +614,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		selectionOperatorBox.setSelectedItem(selectedSelectionOperatorDefault);
 		crossoverOperatorBox.setSelectedItem(selectedCrossoverOperatorDefault);
 		mutationOperatorBox.setSelectedItem(selectedMutationOperatorDefault);
-		//elitismSlider.setValue(elitismSliderDefault);
-		//initializationBox.setSelectedItem(initializationBoxDefault);
-		//selectionBox.setSelectedItem(selectionBoxDefault);
-		//crossoverBox.setSelectedItem(crossoverBoxDefault);
-		//mutationBox.setSelectedItem(mutationBoxDefault);
-		//contentBasedTerminationCheck.setSelected(contentBasedTerminationCheckDefault);
 	}
-	
-	/*private void setRanges() {
-		if(rangePopulationRadioButton.isSelected()) {
-			this.ctrl.setRanges(Double.parseDouble(pomin.getText()), Double.parseDouble(pomax.getText()), Double.parseDouble(postep.getText()));
-			this.ctrl.setParamRange("population");
-		}
-		else if(rangeGenerationRadioButton.isSelected()) {
-			this.ctrl.setRanges(Double.parseDouble(gomin.getText()), Double.parseDouble(gomax.getText()), Double.parseDouble(gostep.getText()));
-			this.ctrl.setParamRange("generations");
-		}
-		else if(rangeCrossRadioButton.isSelected()) {
-			this.ctrl.setRanges(Double.parseDouble(comin.getText()), Double.parseDouble(comax.getText()), Double.parseDouble(costep.getText()));
-			this.ctrl.setParamRange("crossover");
-		}
-		else if(rangeMutationRadioButton.isSelected()) {
-			this.ctrl.setRanges(Double.parseDouble(momin.getText()), Double.parseDouble(momax.getText()), Double.parseDouble(mostep.getText()));
-			this.ctrl.setParamRange("mutation");
-		}
-		else if(rangeElitismRadioButton.isSelected()) {
-			this.ctrl.setRanges(Double.parseDouble(eomin.getText()), Double.parseDouble(eomax.getText()), Double.parseDouble(eostep.getText()));
-			this.ctrl.setParamRange("elitism");
-		}
-	}*/
 
 	@Override
 	public void onStart() {
@@ -1269,20 +643,6 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			 	selectionOperatorBox.setEnabled(false);
 			 	crossoverOperatorBox.setEnabled(false);
 			 	mutationOperatorBox.setEnabled(false);
-			 	/*
-			 	heightText.setEnabled(false);
-			 	initialization;
-			 	initializationBox;
-			 	selection;
-			 	selectionBox;
-			 	crossoverMethodPanel;
-			 	crossoverBox;
-			 	tournamentGroups;
-			 	tournamentGroupsText;
-			 	mutationMethodPanel;
-			 	mutationBox;
-			 	contentBasedTerminationCheck;
-			 	rangeParametersCheck;*/
 			}
 		});
 	}
@@ -1326,7 +686,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	}
 
 	class SliderListenerAndUpdater implements ChangeListener {
-		JTextField text;
+		final JTextField text;
 		
 		public SliderListenerAndUpdater(JTextField text) {
 			this.text = text;
@@ -1350,7 +710,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		public void stateChanged(ChangeEvent e) {
 			JSlider source = (JSlider)e.getSource();
 	        if (!source.getValueIsAdjusting()) {
-	            int num = (int)source.getValue();
+	            int num = source.getValue();
 	            source.setToolTipText(String.valueOf(num) + " %");
 	        }
 		}
@@ -1432,6 +792,40 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			}
 		}
 		
+	}
+
+	class SliderUpdater implements DocumentListener {
+		final JSlider slider;
+		final JTextField text;
+
+		public SliderUpdater(JSlider slider, JTextField text) {
+			this.slider = slider;
+			this.text = text;
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			try {
+				this.slider.setValue( (int) (Double.parseDouble(this.text.getText()) * 100) );
+				this.text.setBorder(defaultborder);
+			} catch (NumberFormatException ex) {
+				this.text.setBorder(BorderFactory.createLineBorder(Color.red));
+			}
+		}
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			try {
+				this.slider.setValue( (int) (Double.parseDouble(this.text.getText()) * 100) );
+				this.text.setBorder(defaultborder);
+			} catch (NumberFormatException ex) {
+				this.text.setBorder(BorderFactory.createLineBorder(Color.red));
+			}
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+		}
 	}
 
 }
