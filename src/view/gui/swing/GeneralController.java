@@ -147,6 +147,10 @@ public class GeneralController {
 		return this.generations;
 	}
 	
+	public int getCurrentGeneration() {
+		return algorithm.getCurrentGeneration();
+	}
+	
 	public void setGenerations(int generations) {
 		this.generations = generations;
 	}

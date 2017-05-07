@@ -251,4 +251,9 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
   public void setMaxPopulationSize(int maxPopulationSize) {
       this.maxPopulationSize = maxPopulationSize;
   }
+  
+  public int getCurrentGeneration(){
+	  return this.currentGeneration;
+  }
+  
 }

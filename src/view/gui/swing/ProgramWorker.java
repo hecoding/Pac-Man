@@ -122,8 +122,11 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		  	}
 		  	fitns += "]";
 		  	
-		  	ExtLog extLog = new ExtLog(ctrl.getMutationProb(), ctrl.getCrossProb(), ctrl.getPopulationSize(), ctrl.getGenerations(), ctrl.getItersPerIndividual(), fitns,
-		  			extFitnesses, extPhenotype, totalTime);
+		  	int aborted = (ctrl.getCurrentGeneration() == ctrl.getGenerations()) ? 0 : 1;
+		  	
+		  	ExtLog extLog = new ExtLog(ctrl.getSelectedSelectionOperator(), ctrl.getSelectedMutationOperator(), ctrl.getMutationProb(),
+		  			ctrl.getSelectedCrossoverOperator(), ctrl.getCrossProb(), ctrl.getElitismPercentage(), ctrl.getPopulationSize(),
+		  			ctrl.getGenerations(), ctrl.getItersPerIndividual(), fitns, extFitnesses, extPhenotype, totalTime, aborted);
 	
 		  	ExtLogger extlogger = new ExtLogger();
 		  	extlogger.generateCSV(extLog, csvName);

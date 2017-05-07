@@ -31,7 +31,7 @@ public class ExtLogger {
 	}
 	
 	public void generateCSV(ExtLog log, String filename){
-		String header = "Mutation_prob,Crossover_prob,Pop_size,NoIterations,Iterations_per_solution,Fitness_functions,Fitness_scores,Phenotype,Exec_time,Last_commit_hash";
+		String header = "Selection_func,Mutation_func,Mutation_prob,Crossover_func,Crossover_prob,Elite_percent,Pop_size,NoIterations,Iterations_per_solution,Fitness_functions,Fitness_scores,Phenotype,Exec_time,Aborted,Last_commit_hash";
 		boolean isHeaderMissing = false;
 		String filePath = "logs/".concat(filename);
 
@@ -70,7 +70,7 @@ public class ExtLogger {
 			if(hash == null)
 				hash = "Git connection not established.";
 			
-			writer.write(log.getMutationProb() + "," + log.getCrossProb() + "," + log.getTamPob() + "," + log.getNumIteraciones() + "," + log.getIteracionesPorIndividuo() + "," + log.getFitnessFuncs().replace(" ", "") + "," + log.getFitness() + "," + log.getPhenotype() + "," + log.getExecTime() + "," + hash + System.lineSeparator());
+			writer.write(log.getSelecFunc() + "," + log.getMutaFunc() + "," + log.getMutationProb() + "," + log.getCrossFunc() + "," + log.getCrossProb() + "," + log.getElitePercent() + "," + log.getTamPob() + "," + log.getNumIteraciones() + "," + log.getIteracionesPorIndividuo() + "," + log.getFitnessFuncs().replace(" ", "") + "," + log.getFitness() + "," + log.getPhenotype() + "," + log.getExecTime() + "," + log.getAborted() + "," + hash + System.lineSeparator());
 			
 		} catch (IOException e) {
 			System.err.println("Error writing " + filename);
