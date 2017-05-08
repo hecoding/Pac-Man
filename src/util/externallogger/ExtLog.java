@@ -1,5 +1,7 @@
 package util.externallogger;
 
+import java.util.ArrayList;
+
 public class ExtLog { 
 
 	private double mutationProb	= -1;
@@ -7,21 +9,19 @@ public class ExtLog {
 	private int popSize = -1;
 	private int numOfIter = -1;
 	private int iterPerIndiv = -1;
-	private String fitnessFunc = null;
-	private double fitness = -1;
-	private double averagePoints = -1;
+	private String fitnessFuncs = null;
+	private ArrayList<Double> fitness = new ArrayList<Double>();
 	private String phenotype = null;
 	private double execTime = -1;
 	
-	public ExtLog (double mP, double cP, int tP, int nI, int iPI, String fF, double f, double aP, String p, double eT) {
+	public ExtLog (double mP, double cP, int tP, int nI, int iPI, String fF, ArrayList<Double> f, String p, double eT) {
 		this.mutationProb = mP;
 		this.crossProb = cP;
 		this.popSize = tP;
 		this.numOfIter = nI;
 		this.iterPerIndiv = iPI;
-		this.fitnessFunc = fF;
+		this.fitnessFuncs = fF;
 		this.fitness = f;
-		this.averagePoints = aP;
 		this.phenotype = p;
 		this.execTime = eT;
 	}	
@@ -46,16 +46,12 @@ public class ExtLog {
 		return iterPerIndiv;
 	}
 
-	public String getFitnessFunc() {
-		return fitnessFunc;
+	public String getFitnessFuncs() {
+		return fitnessFuncs;
 	}
 
-	public double getFitness() {
+	public ArrayList<Double> getFitness() {
 		return fitness;
-	}
-
-	public double getAveragePoints() {
-		return averagePoints;
 	}
 
 	public String getPhenotype() {

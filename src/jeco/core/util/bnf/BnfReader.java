@@ -594,4 +594,16 @@ public class BnfReader {
         }
     }
 
+    //Returns the index of the symbol in the BNF
+	public Integer indexOf(Symbol symbol) {
+		int i = 0;
+		for (Rule rule : rules) {
+	        	if (rule.lhs.equals(symbol)) {
+	            		return i;
+	        	}
+	        	i++;
+		  }
+	      	return null;
+	}
+
 }
