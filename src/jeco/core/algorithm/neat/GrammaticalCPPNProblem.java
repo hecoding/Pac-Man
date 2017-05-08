@@ -86,7 +86,7 @@ public class GrammaticalCPPNProblem extends Problem<Variable<CPPN>> {
         Solutions<Variable<CPPN>> solutions = new Solutions<>();
         for (int i=0; i<size; ++i) {
             Solution<Variable<CPPN>> solI = new Solution<>(numberOfObjectives);
-            for (int j = 0; j < numberOfVariables; ++j) {
+            for (int j = 0; j < numberOfVariables; ++j) { // TODO
                 //Variable<CPPN> varJ = new Variable<>(RandomGenerator.nextInteger((int) upperBound[j]));
                 //solI.getVariables().add(varJ);
             }
