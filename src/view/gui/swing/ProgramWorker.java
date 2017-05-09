@@ -54,14 +54,18 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	
 	@Override
 	protected void process(List<Integer> chunks) {
-		Integer currentStep = chunks.get(0);
+		Double currentStep = (double) chunks.get(0).intValue();
+		
 		if(currentStep == 1)
 			etaStart = System.nanoTime();
 		
-		progressBar.setValue(currentStep);
+		progressBar.setValue(currentStep.intValue());
 		
 		long elapsedTime = System.nanoTime() - etaStart;
-		long remainingTime = (elapsedTime * (100 / currentStep)) - elapsedTime;
+		if(currentStep == 0)
+			currentStep = 0.00000001;
+		long remainingTime = (long) ((elapsedTime * (100 / currentStep)) - elapsedTime);
+
 		progressBar.setString("ETA: " + formatNanoSeconds(remainingTime));
 	}
 
