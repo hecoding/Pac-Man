@@ -1,6 +1,8 @@
 package view.gui.swing;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,10 +30,15 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	public static String phenotypeString;
 	private static GeneralController ctrl;
 	
-	private long etaStart;
-	
+	private long lastIterStart;
+	private LinkedList<Long> etaQueue;
+	private int etaLenght;
+	private int generations;
+	long queueTime;
 	
 	public ProgramWorker(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, MasterWorkerThreads<Variable<Integer>> algorithmWorker, GeneralController ctrl) {
+		etaLenght = 5;
+		etaQueue = new LinkedList<Long>();
 		ProgramWorker.ctrl = ctrl;
 		algorithm.addObserver(this);
 		if(progressBar == null)
@@ -54,19 +61,37 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	
 	@Override
 	protected void process(List<Integer> chunks) {
-		Double currentStep = (double) chunks.get(0).intValue();
+		int currentStep = chunks.get(0).intValue();
 		
-		if(currentStep == 1)
-			etaStart = System.nanoTime();
+		if(currentStep == 1 || currentStep == 0){
+			lastIterStart = System.nanoTime();
+			generations = ctrl.getGenerations();
+		}
 		
-		progressBar.setValue(currentStep.intValue());
+		progressBar.setValue(currentStep);
 		
-		long elapsedTime = System.nanoTime() - etaStart;
-		if(currentStep == 0)
-			currentStep = 0.00000001;
-		long remainingTime = (long) ((elapsedTime * (100 / currentStep)) - elapsedTime);
+		long lastIterTime = System.nanoTime() - lastIterStart;
+		
+		if(etaQueue.size() < etaLenght){ //+2 margin
+			etaQueue.addFirst(lastIterTime);
+			queueTime += lastIterTime;
+		}
+		else{
+			queueTime -= etaQueue.pollLast();
+			etaQueue.addFirst(lastIterTime);
+			queueTime += lastIterTime;
+		}
+		
+		long remainingTime = (long) ((generations - currentStep) * (queueTime/etaLenght));
 
-		progressBar.setString("ETA: " + formatNanoSeconds(remainingTime));
+		System.out.println(currentStep);
+		
+		if(currentStep < etaLenght+2) //+2 margin
+			progressBar.setString("Calculating ETA . . .");
+		else
+			progressBar.setString("ETA: " + formatNanoSeconds(remainingTime) + " . . .");
+		
+		lastIterStart = System.nanoTime();
 	}
 
 	@Override
