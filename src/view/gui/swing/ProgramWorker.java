@@ -61,7 +61,7 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	
 	@Override
 	protected void process(List<Integer> chunks) {
-		int currentStep = chunks.get(0).intValue();
+		int currentStep = chunks.get(0);
 		
 		if(currentStep == 1 || currentStep == 0){
 			lastIterStart = System.nanoTime();
@@ -82,14 +82,12 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 			queueTime += lastIterTime;
 		}
 		
-		long remainingTime = (long) ((generations - currentStep) * (queueTime/etaLenght));
-
-		System.out.println(currentStep);
+		long remainingTime = (long) ((generations - currentStep) * (queueTime / etaLenght));
 		
-		if(currentStep < etaLenght+2) //+2 margin
-			progressBar.setString("Calculating ETA . . .");
+		if(currentStep < etaLenght + 2) //+2 margin
+			progressBar.setString("Calculating ETA...");
 		else
-			progressBar.setString("ETA: " + formatNanoSeconds(remainingTime) + " . . .");
+			progressBar.setString("ETA: " + formatNanoSeconds(remainingTime));
 		
 		lastIterStart = System.nanoTime();
 	}
