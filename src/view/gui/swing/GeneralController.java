@@ -97,7 +97,7 @@ public class GeneralController {
 		}
 		
 		// Create ghosts controller
-		ghostController = ghostControllerFactory.create(this.selectedGhostController);
+		ghostController = this.getNewGhostController();
 		
 		
 		// Now first create the problem
@@ -272,11 +272,15 @@ public class GeneralController {
 	}
 	
 	public String getGhostControllerName() {
-		return this.ghostController.getClass().getSimpleName();
+		return this.selectedGhostController;
 	}
 	
 	public void setSelectedGhostController(String ghostCtrl) {
 		this.selectedGhostController = ghostCtrl;
+	}
+
+	public Controller<EnumMap<GHOST, MOVE>> getNewGhostController() {
+		return ghostControllerFactory.create(this.selectedGhostController);
 	}
 
 	public String getSelectedSelectionOperator() {

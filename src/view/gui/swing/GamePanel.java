@@ -178,7 +178,7 @@ public class GamePanel extends JPanel {
         		
         		String prog = ctrl.getCleanProgram(drafText.getText());
         		beginDraftExecution();
-        		CustomExecutor.runGameView(new GrammaticalAdapterController(prog), new StarterGhosts(), game, gv, tick, stopIt);
+        		CustomExecutor.runGameView(new GrammaticalAdapterController(prog), ctrl.getNewGhostController(), game, gv, tick, stopIt);
         		endDraftExecution();
         	}
         }
