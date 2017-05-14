@@ -40,10 +40,10 @@
 % Title
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Title\thanks{Supported by Spanish Ministry of Economy and Competitiveness under grant TIN2014-55006-R {\color{red} Kiko, ¿quieres añadir algo aquí?}}
+\title{Title\thanks{Supported by Spanish Ministry of Economy and Competitiveness under grant TIN2014-55006-R {\color{red} Kiko, ¿quieres añadir algo aquí?. Sí, es el TIN2014-57028-R }}
 }
 
-\author{Nombre 1, Nombre 2, ..., Antonio A. S\'{a}nchez-Ruiz {\color{red} En el orden que queráis}}
+\author{Nombre 1, Nombre 5, ..., Antonio A. S\'{a}nchez-Ruiz {\color{red} En el orden que queráis}}
 
 \institute{
 	Dep. Ingenier\'{\i}a del Software e Inteligencia Artificial \\
@@ -88,15 +88,42 @@ Dejar para el final
 %\begin{figure}[tb]
 %	\centering
 %	\includegraphics[width=0.35\textwidth]{images/tetris.png}
-%	\caption{A screen of the Tetris game.}
+%	\{A screen of the Tetris game.}
 %	\label{fig:tetris}
 %\end{figure}
 
 
 \begin{itemize}
 \item Cómo funciona el juego (imagen)
+\\
+
+In our version of the game {\color{red}(referencia a su git)} we use a set of four pregenerated toroidal 2D labyrinths, in which the ghosts and PacMan move. The ghosts always start in the "Lair", a rectangle in the middle of the map in which PacMan cannot enter. PacMan starts in the bottom of the map.
+
+Each labyrinth is composed of corridors and junctions filled with a lot of pills and four powerpills. Both give points to PacMan as he walks over them, and powerpills make him able to eat the ghosts for a short period of time, while also slowing them. Eating ghosts will give PacMan points, earning some extra ones if he eats various ghosts in a row during the same powerpill buff duration.
+
+Pacman will try to eat all the pills and powerpills to advance levels, while avoiding the ghosts, which will try to hunt him, making him lose a live when they walk over him. A level is completed when there are no pills or powerpills left, and there are an infinite number of levels, repeating the same set of 4 labyrinths consecutively.
+
+Pacman will strive to eat all the pills and powerpills in the map to advance levels, while trying to get as much points as possible eating any ghosts he can, since each 10.000 points achieved he gets an extra life.
+
+The game ends either when PacMan loses his three lives or after 24.000 turns, considering a turn passes every time both PacMan and the ghosts make a movement.
+
+
 \item Arquitectura para creat bots
+\\
+
+Both the ghosts and PacMan use controllers to determine which movement is the best to make every turn. These controllers are the ones that must be implemented to participate in the competitions, which can be done using any technique avaiable.
+
+Every turn the game provides the controllers with it's current state, so that the controller can seek relevant information it needs to choose a movement. 
+
+{\color{red}optar por "nosotros no hemos tenido en cuenta esta estructura para crear una interfaz que permita investigar diferentes técnicas de evolución gramátical combinadas" o pasar todo a formato concurso. Veo mas viable lo primero}
+
+
 \item Competiciones en las que se ha usado
+\\
+
+.........
+
+
 \end{itemize}
 
 
@@ -128,7 +155,7 @@ Dejar para el final
 \begin{itemize}
 \item En qué consiste el multi-objetivo
 \item por qué es interesante considerar varios objetivos en el juego
-\item Experimentos y resultados (¿comparación con otros bots?, ¿estrategias aprendidas?)
+\item Experimentos y resultados  ¿estrategias aprendidas?)
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -139,8 +166,22 @@ Dejar para el final
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{itemize}
-\item Sobre IA (otras técnicas) y pac-man
-\item Sobre genéticos, evolutivos y juegos
+\item Decision Trees and Behaviour Trees
+\\
+Decision Trees are a special type of graphs commonly used in Artificial Inteligence to represent complex outputs depending on different conditions. These conditions are evaluated by the inner nodes of the tree, usually called conditional nodes, which depending on the output of the condition they hold they set which child node to process. Terminal nodes are the outputs that will be obtained from the decision tree. 
+%$http://www.aihorizon.com/essays/generalai/decision_trees.htm$ 
+Decisions trees are fast to process once build and can model complex decision schemes and strategies. The main drawback is the incapacity of outputting more than one action, each execution of a Decision Tree outputs a single deterministic action based on the current state of the environment variables.
+Behaviors trees can be seen as a different way of representing Finite States Machines (FSM). They were developed to avoid the exponential growth of FSMs representing the AI of NPCs in video games. Their structure is similar to the one of a Decision Tree but with more types of inner nodes, like loop nodes, which enables the encode of more complex decision schemes and strategies outputting several possible actions in a single execution of the tree.
+%$http://gaia.fdi.ucm.es/sites/cosecivi14/es/papers/27.pdf$
+\item Genetic Programming
+\\
+Genetic Programming is one of the many different groups of algorithms that exists inside Evolutionary Algorithms. Genetic Programming tries to produce the best program, in a determined programming language, using an Evolutionary Algorithm approach. The programs are encoded using trees (genome)  in which each node represents a token of the chosen programming language, hence each individual of the population is a program which will be selected, crossover and mutated using different selection, corssover and mutation operators and his genome will be translated into the final program (fenotype) and will be evaluated. This process is repeated several times and the final solution will be the individual with the program with the best score of the whole population. A problem with Genetic Programming is that the use of trees to encode the genome is very heavy in terms of memory specially when bloating occurs.  %$https://link.springer.com/book/10.2991/978-94-6239-255-7#page=190$
+%$http://ieeexplore.ieee.org/abstract/document/7849864/$
+%$https://link.springer.com/chapter/10.1007/978-3-319-49001-4_4$
+%$https://link.springer.com/chapter/10.1007/3-540-36599-0_19$
+\item Grammatical Evolution
+\\
+
 \item Sobre Multi-objetivo y juegos 
 \item Sobre operadores u otras cosas que hayáis utilizado
 \item ...
@@ -163,6 +204,3 @@ Añadir al final la URL al repositorio de GitHub
 \bibliography{references}
 
 \end{document}
-
-
-
