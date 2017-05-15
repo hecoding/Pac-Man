@@ -34,6 +34,8 @@
 % To use Call inside another Call (algorithms)
 %\MakeRobust{\Call}
 
+\newcommand{\pacman}{Ms. Pac-Man vs. Ghosts }
+\newcommand{\paco}{Pac-Man }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -78,8 +80,8 @@ Dejar para el final
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\section{Ms. Pac-Man vs. Ghosts AI}
-\label{sec:pacman}
+\section{\pacman AI}
+\label{sec:pacmanai}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -158,6 +160,65 @@ Every turn the game provides the controllers with it's current state, so that th
 \item Experimentos y resultados  ¿estrategias aprendidas?)
 \end{itemize}
 
+\subsection{Definition}
+Multi-objective optimization arises when a single objective with several constraints may not adequately represent the problem being faced. It can be formulated as
+\begin{equation}
+\begin{aligned}
+& \underset{x}{\text{min}}
+& & F(x) = [f_1(x), f_2(x), \cdots, f_k(x)] \\
+& \text{s.t.} & &  G(x) = [g_1(x), g_2(x), \cdots, g_m(x)] \leq 0 \\
+& & &  H(x) = [h_1(x), h_2(x), \cdots, h_m(x)] = 0 \\
+\end{aligned}
+\end{equation}
+
+If some objective function is to be maximized, it is equivalent to minimize its negative.
+
+Note that because $F(x)$ is a vector, if two or more of the components of $F(x)$ are conflicting, there is no unique solution to this problem. Instead, the concept of non-domination, also non-inferiority called Pareto optimality \cite{Censor:78}, must be used to characterize the objectives. A non-dominated solution is one in which it is not possible to move feasibly from it to increase an objective without decreasing at least one of the others.
+
+% https://en.wikipedia.org/wiki/Multi-objective_optimization
+% https://ocw.mit.edu/courses/engineering-systems-division/esd-77-multidisciplinary-system-design-optimization-spring-2010/lecture-notes/MITESD_77S10_lec14.pdf
+
+\subsection{Why to apply it}
+Our initial (\textit{fitness}) function to optimize was
+\begin{equation} % label: naivefitness
+f = 10000 - score
+% caption: Naive fitness
+\end{equation}
+note that we are minimizing.
+
+Score points, as originally defined in the source code for \pacman competition, are gained applying the following criteria:
+\begin{itemize}
+\item Eat pill: $10$ points.
+\item Eat power pill: $50$ points.
+\item Eat ghost: $200$ points ($200x$ when eating in a row).
+\end{itemize}
+
+This, when using a single objective function that maximizes score, inevitably leads to bots that keep moving around a power pill until one or more ghosts approach. Then \paco eats the power pill and proceed to eat as many ghosts as possible, making good profit out of it.
+
+This strategy only works when there are still power pills available. With no power pills left, \paco keeps rambling until a ghost eats it and the game is over. So it is clear that we need to counterbalance ghost score to pass to next level.
+
+Instead of overcomplicating the objective function trying to fulfill several goals, we simply define several objective functions in charge of different desirable aspects of the bots.
+
+\begin{equation}
+f_2 = 100 - \text{last level reached}
+% caption: levels completed
+\end{equation}
+
+We can even define the vanilla score function without the ghost multiplier.
+\begin{equation}
+\begin{split}
+f_3 = 100000 - & (\text{pills eaten} \times \text{pill score} \\
+& + \text{power pills eaten} \times \text{power pill score} \\
+& + \text{ghosts eaten} \times \text{ghost score}) \\
+% caption: no ghosts multiplier
+\end{split}
+\end{equation}
+
+With a combination like $F = [f_2, f_3]$ a working multi-objective function can be created.
+
+\subsection{Exp}
+NSGAII
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \section{Related Work}
@@ -199,6 +260,7 @@ Genetic Programming is one of the many different groups of algorithms that exist
 Dejar para el final
 
 Añadir al final la URL al repositorio de GitHub
+\url{https://github.com/hecoding/Pac-Man}
 
 \bibliographystyle{splncs}
 \bibliography{references}
