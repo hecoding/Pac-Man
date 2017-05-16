@@ -100,21 +100,21 @@ Dejar para el final
 \item Cómo funciona el juego ({\color{red} imagen sin copyright...?})
 \\
 
-In our version of the game {\color{red}(referencia a su git)} we use a set of four pregenerated toroidal 2D labyrinths, in which the ghosts and PacMan move. The ghosts always start in the "Lair", a rectangle in the middle of the map in which PacMan cannot enter. PacMan starts in the bottom of the map.
+In our version of the game {\color{red}(referencia a su git)} we use a set of four pregenerated toroidal 2D labyrinths, in which the ghosts and \paco move. The ghosts always start in the "Lair", a rectangle in the middle of the map in which \paco cannot enter. \paco starts in the bottom of the map.
 
-Each labyrinth is composed of corridors and junctions filled with a lot of pills and four powerpills. Both give points to PacMan as he walks over them, and powerpills make him able to eat the ghosts for a short period of time, while also slowing them. Eating ghosts will give PacMan points, earning some extra ones if he eats various ghosts in a row during the same powerpill buff duration.
+Each labyrinth is composed of corridors and junctions filled with a lot of pills and four powerpills. Both give points to \paco as he walks over them, and powerpills make him able to eat the ghosts for a short period of time, while also slowing them. Eating ghosts will give \paco points, earning some extra ones if he eats various ghosts in a row during the same powerpill buff duration.
 
-Pacman will try to eat all the pills and powerpills to advance levels, while avoiding the ghosts, which will try to hunt him, making him lose a live when they walk over him. A level is completed when there are no pills or powerpills left, and there are an infinite number of levels, repeating the same set of 4 labyrinths consecutively.
+\paco will try to eat all the pills and powerpills to advance levels, while avoiding the ghosts, which will try to hunt him, making him lose a live when they walk over him. A level is completed when there are no pills or powerpills left, and there are an infinite number of levels, repeating the same set of 4 labyrinths consecutively.
 
-Pacman will strive to eat all the pills and powerpills in the map to advance levels, while trying to get as much points as possible eating any ghosts he can, since each 10.000 points achieved he gets an extra life.
+\paco will strive to eat all the pills and powerpills in the map to advance levels, while trying to get as much points as possible eating any ghosts he can, since each 10.000 points achieved he gets an extra life.
 
-The game ends either when PacMan loses his three lives or after 24.000 turns, considering a turn passes every time both PacMan and the ghosts make a movement.
+The game ends either when \paco loses his three lives or after 24.000 turns, considering a turn passes every time both \paco and the ghosts make a movement.
 
 
 \item Arquitectura para creat bots
 \\
 
-Both the ghosts and PacMan use controllers to determine which movement is the best to make every turn. These controllers are the ones that must be implemented to participate in the competitions, which can be done using any technique avaiable.
+Both the ghosts and \paco use controllers to determine which movement is the best to make every turn. These controllers are the ones that must be implemented to participate in the competitions, which can be done using any technique available.
 
 Every turn the game provides the controllers with it's current state, so that the controller can seek relevant information it needs to choose a movement. 
 
@@ -124,7 +124,7 @@ Every turn the game provides the controllers with it's current state, so that th
 \item Competiciones en las que se ha usado
 \\
 
-PacMan has been used in many bot implementing competitions, of which the most impotant are:
+\paco has been used in many bot implementing competitions, of which the most important are:
 
 \begin{itemize}
 \setlength{\itemindent}{-.3cm}
@@ -133,7 +133,7 @@ PacMan has been used in many bot implementing competitions, of which the most im
 This competition took place six times between 2007 and 2011. It used a different architecture to ours in which the participants had to capture the screen of the game to obtain game status information. 
 \item "Ms. Pac-Man Vs. Ghost Team Competition"{\color{red} link a http://www.pacmanvghosts.co.uk/}
 
-Currently active, this competition was held in CIG 2016{\color{red} link a http://www.pacmanvghosts.co.uk/files/ms-pac-man.pdf} and is to be held again in 2017. It uses our same base architecture, although in their implementation the visibility of the agents is limited by "Partial Observability", in which both PacMan and the ghosts can only obtain information of the game that is in their line of sight, this is, the corridor they are in or, if they are in a junction, the corridors that cross that junction.
+Currently active, this competition was held in CIG 2016{\color{red} link a http://www.pacmanvghosts.co.uk/files/ms-pac-man.pdf} and is to be held again in 2017. It uses our same base architecture, although in their implementation the visibility of the agents is limited by "Partial Observability", in which both \paco and the ghosts can only obtain information of the game that is in their line of sight, this is, the corridor they are in or, if they are in a junction, the corridors that cross that junction.
 \end{itemize}
 
  
@@ -160,12 +160,12 @@ Currently active, this competition was held in CIG 2016{\color{red} link a http:
 \end{itemize}
 
 \subsection{General idea}
-Since the beggining we decided to take a Grammatical Evolution aproach. This means evolving several solutions or expressions, which belong to the lenguage generated by a user defined context-free grammar, more precisely a Backus-Naur Form denoted grammar. 
+Since the beginning we decided to take a Grammatical Evolution approach. This means evolving several solutions or expressions, which belong to the language generated by a user defined context-free grammar, more precisely a Backus-Naur Form denoted grammar. 
 
-By using Grammatical evolution we were able to reduce and refine the search space the evolutive algorithm will explore, deciding to generate only Reactive Artificial Intelligence based bots. This type of Artificial Intelligence first evaluates the world and then executes and actions, following in our case condition-action rules defined by the grammar
+By using Grammatical evolution we were able to reduce and refine the search space the evolutionary algorithm will explore, deciding to generate only Reactive Artificial Intelligence based bots. This type of Artificial Intelligence first evaluates the world and then executes and actions, following in our case condition-action rules defined by the grammar
 
 \subsection{Frameworks}
-We use the PacMan implementation described in section 2 as our starting point, integrated with JECO (\textit{Java Evolutionary COmputation library}) {\color{red} link a https://github.com/jlrisco/jeco}. JECO is a framework which supports different evolutionary computation techniques, including what we wanted to try in PacMan: Simple and multi-objective grammatical evolution.
+We use the \paco implementation described in section 2 as our starting point, integrated with JECO (\textit{Java Evolutionary COmputation library}) {\color{red} link a https://github.com/jlrisco/jeco}. JECO is a framework which supports different evolutionary computation techniques, including what we wanted to try in \paco: Simple and multi-objective grammatical evolution.
 
 
 \subsection{Actions and functions}
@@ -205,7 +205,7 @@ getDistanceToClosestEdibleGhost(directional) & obtains distance to closest edibl
 getNumberOfActivePowerPills & obtains the number of active power pills \\ \hline
 getDistToClosestPill & obtains the distance to the closest power pill \\ \hline
 getDistToClosestPill(directional) & obtains the distance to the closest power pill following a direction \\ \hline
-getJunction & checks if Pac-Man is currently at a junction \\ \hline
+getJunction & checks if \paco is currently at a junction \\ \hline
 \end{tabular}%
 }
 \caption{Functions used}
@@ -213,7 +213,7 @@ getJunction & checks if Pac-Man is currently at a junction \\ \hline
 \end{table}
 
 \subsection{Grammars}
-Because the usage of grammars, we decided to desing two grammars, both including said condition-action rules, like if(cond){action} and if(cond){action}else{action} ({\color{red} bloque de codigo})
+Because the usage of grammars, we decided to design two grammars, both including said condition-action rules, like if(cond){action} and if(cond){action}else{action} ({\color{red} bloque de codigo})
 
 However, one of the grammar only includes low to medium level actions and functions, and the other including high-level actions and functions, being the second a result of the inclusion of expert knowledge({\color{red} mencionar sistemas expertos?!}).
 
@@ -221,16 +221,20 @@ Finally, both grammars include discrete numbers, much more efficient than ranges
 
 \subsection{Operators}
 The usage of the Grammatical Evolution algorithm requires using crossover and mutation operators. We have implemented and tested several operators, including: ({\color{red} lista})
-After said tests comparing selection, elite, crossover and mutation operators as well as their hyperparameters, we obtained the best results using: Tournament selection with elite, LHS crossover and or combinatorial or swap mutation ({\color{red} completar})
+After said tests comparing selection, elite, crossover and mutation operators as well as their hyper-parameters, we obtained the best results using: Tournament selection with elite, LHS crossover and or combinatorial or swap mutation ({\color{red} completar})
 
 \subsection{Results}
 After analysing the results after each execution we discovered several facts. 
 
 First of all, most executions using the medium-level grammar were able to find a bug on the ghost starter controllers, exploiting it and being able to complete endless levels.
 
-After that discovery we decided to use a significantly harder ghost bots ("Legacy 2: The Reckoning" ghost controller). However, the new bots generated using the medium-level grammar tend to generate bots which manage to get stuck next to power pills (stopping themselfs), wait for the ghosts to be close and proceding to eat first the power pill and then the ghosts, now edible. This hunter behaviour allows Pac-Man bots to achieve notable scores, but happens to be a local minimum.
+After that discovery we decided to use a significantly harder ghost bots ("Legacy 2: The Reckoning" ghost controller). However, the new bots generated using the medium-level grammar tend to generate bots which manage to get stuck next to power pills (stopping themselves), wait for the ghosts to be close and proceeding to eat first the power pill and then the ghosts, now edible. This hunter behaviour allows \paco bots to achieve notable scores, but happens to be a local minimum.
 
-Finally, the bots generated by the high-level grammar share almost almost always the same code, and achieve even higher scores, eating pills conservarively by avoiding ghosts.
+Finally, the bots generated by the high-level grammar share almost almost always the same code, and achieve even higher scores, eating pills conservatively by avoiding ghosts.
+
+% he escrito un poco y resulta que tú tienes lo mismo, te lo dejo aquí por si te sirve
+%\paragraph{Camper}
+%\paco abuses ghost eating multiplier by waiting around a joint until enough ghosts appear. Then eats a power pill and begins hunting close edible ghosts, reaching a score of $11000$ points very quickly. This is the result of optimize vanilla \pacman score \ref{vanilla_pacman_score}.
 
 ({\color{red} bloque de codigo})
 
@@ -275,6 +279,7 @@ f = 10000 - score
 
 Score points, as originally defined in the source code for \pacman competition, are gained applying the following criteria:
 \begin{itemize}
+\label{vanilla_pacman_score}
 \item Eat pill: $10$ points.
 \item Eat power pill: $50$ points.
 \item Eat ghost: $200$ points ($200x$ when eating in a row).
@@ -284,7 +289,8 @@ This, when using a single objective function that maximizes score, inevitably le
 
 This strategy only works when there are still power pills available. With no power pills left, \paco keeps rambling until a ghost eats it and the game is over. So it is clear that we need to counterbalance ghost score to pass to next level.
 
-Instead of overcomplicating the objective function trying to fulfill several goals, we simply define several objective functions in charge of different desirable aspects of the bots.
+Instead of overcomplicating the objective function trying to fulfil several goals, we simply define several objective functions in charge of different desirable aspects of the bots.
+{\color{red} necesitamos un argumento más convincente, con pruebas hechas incluso}
 
 \begin{equation}
 f_2 = 100 - \text{last level reached}
@@ -304,7 +310,10 @@ f_3 = 100000 - & (\text{pills eaten} \times \text{pill score} \\
 With a combination like $F = [f_2, f_3]$ a working multi-objective function can be created.
 
 \subsection{Exp}
-NSGAII
+{\color{red} No hay resultados porque no hay suficientes pruebas multi-objetivo, ni ideas para pruebas. Por tanto tampoco datos para graficar. Los únicos experimentos y gráficos que hay pueden verse aquí \url{https://github.com/hecoding/Pac-Man/tree/measurements}}
+
+\subsubsection{Learned strategies}
+{\color{red}No hay estrategias conocidas exclusivamente debidas a multiobjetivo, que sepa.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -314,11 +323,11 @@ NSGAII
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Decision Trees and Behaviour Trees}
-Decision Trees are a special type of graphs commonly used in Artificial Inteligence to represent complex outputs depending on different conditions. These conditions are evaluated by the inner nodes of the tree, usually called conditional nodes, which depending on the output of the condition they hold they set which child node to process. Terminal nodes are the outputs that will be obtained from the decision tree. 
+Decision Trees are a special type of graphs commonly used in Artificial Intelligence to represent complex outputs depending on different conditions. These conditions are evaluated by the inner nodes of the tree, usually called conditional nodes, which depending on the output of the condition they hold they set which child node to process. Terminal nodes are the outputs that will be obtained from the decision tree. 
 %$http://www.aihorizon.com/essays/generalai/decision_trees.htm$ 
 Decisions trees are fast to process once build and can model complex decision schemes and strategies. The main drawback is the incapacity of outputting more than one action, each execution of a Decision Tree outputs a single deterministic action based on the current state of the environment variables.
 
-Behaviors trees can be seen as a different way of representing Finite States Machines (FSM). They were developed to avoid the exponential growth of FSMs representing the AI of NPCs in video games. Their structure is similar to the one of a Decision Tree but with more types of inner nodes, like loop nodes, which enables the encode of more complex decision schemes and strategies outputting several possible actions in a single execution of the tree.
+Behaviours trees can be seen as a different way of representing Finite States Machines (FSM). They were developed to avoid the exponential growth of FSMs representing the AI of NPCs in video games. Their structure is similar to the one of a Decision Tree but with more types of inner nodes, like loop nodes, which enables the encode of more complex decision schemes and strategies outputting several possible actions in a single execution of the tree.
 %$http://gaia.fdi.ucm.es/sites/cosecivi14/es/papers/27.pdf$
 \subsection{Genetic Programming}
 Genetic Programming is one of the many different branches of algorithms that exist inside Evolutionary Algorithms.
