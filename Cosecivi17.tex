@@ -20,6 +20,7 @@
 \usepackage{amsmath}
 %\usepackage{mathabx}
 \usepackage{hyperref}
+\usepackage{listings}
 
 %\usepackage{hyperref}
 %\usepackage{subfigure}
@@ -37,8 +38,8 @@
 \graphicspath{{images/}}
 
 \newcommand{\pacman}{Ms. Pac-Man vs. Ghosts }
-\newcommand\tab[1][1cm]{\hspace*{#1}}
 \newcommand{\paco}{Pac-Man }
+\newcommand\tab[1][1cm]{\hspace*{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -48,12 +49,12 @@
 \title{Title\thanks{Supported by Spanish Ministry of Economy and Competitiveness under grants TIN2014-55006-R and TIN2014-57028-R}
 }
 
-\author{{\color{red} los que faltan}, José Miguel Tajuelo Garrigós, Jorge Vieira Luna, Carlos Cervigon Rückauer, Antonio A. S\'{a}nchez-Ruiz}
+\author{Héctor Laria Mantecón, Jorge Sánchez Cremades, José Miguel Tajuelo Garrigós, Jorge Vieira Luna, Carlos Cervigon Rückauer, Antonio A. S\'{a}nchez-Ruiz}
 
 \institute{
 	Dep. Ingenier\'{\i}a del Software e Inteligencia Artificial \\
 	Universidad Complutense de Madrid (Spain) \\
-	\email{{\color{red} los que faltan}, jtajuelo@ucm.es, jovieira@ucm.es, {\color{red} correo de carlos}, antsanch@ucm.es}
+	\email{\{hlaria, jorsan06, jtajuelo, jovieira, ccervigon, antsanch\}@ucm.es}
 }
 
 \begin{document}
@@ -85,6 +86,64 @@ Dejar para el final
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+\section{Related Work}
+\label{sec:relatedWork}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+{\color{red}ANTONIO: no hay que explicar las cosas como si fuera un libro de texto, hay que referenciar los trabajos científicos más relevantes (relacionados con lo que hemos hecho) y decir cual es la aportación de cada uno y en que se diferencia lo que hemos hecho nosotros.}
+
+{\color{red}CARLOS: Los apartados de este punto 5 no veo que tengan sentido contarlos al final. Yo los pondría entre los apartados 1 y 2, explicando en orden las diferentes técnicas: programación genética, gramáticas evolutivas, decision trees, behavior trees. ; luego pondría referencias a los trabajos que se han hecho en cada área: Ejemplo ver apartado II: http://geneura.ugr.es/cig2012/papers/paper8.pdf
+
+...y la parte de multiobjetivo debería ir entonces al apartado 4}
+
+\subsection{Genetic Programming}
+Genetic Programming is one of the many different branches of algorithms that exist inside Evolutionary Algorithms.
+%Libro de Carlos
+Genetic Programming tries to produce the best program, in a determined programming language, using an Evolutionary Algorithm approach. The programs are encoded using trees (genome)  in which each node represents a token of the chosen programming language, hence each individual of the population is a program which will be selected, crossover and mutated using different selection, crossover and mutation operators and his genome will be transformed into the final program (phenotype) and will be evaluated. This process is repeated several times and the final solution will be the individual with the program with the best score of the whole population.
+%Lbro de Carlos
+Genetic Programming main drawback is that the use of trees to encode the genome is very heavy in terms of memory, specially when bloating occurs.  
+%$https://link.springer.com/chapter/10.1007/3-540-36599-0_19$
+
+Genetic Programming has been used previously to evolve Artificial Intelligence controllers, concretely, Koza 
+%J. R. Koza, Genetic Programming: On the Programming of Computers
+%by Means of Natural Selection v. 1 (Complex Adaptive Systems). MIT
+%Press, 2 1992.
+used a Genetic Programming approach for developing a controller for the Pac-Man character of a custom version of the game. He used a set of high level operators for maze information retrieval (DISF - Distance to Fruit) and Pac-Man direct control (AFRUIT - Advance to Fruit). %Poner en italic
+More work about Artificial Intelligence in Pac-Man using Genetic Programming has been made, Alhejali and Lucas 
+%A. Alhejali and S. Lucas, “Evolving diverse Ms. Pac-Man playing agents
+%using genetic programming,” in Computational Intelligence (UKCI),
+%2010 UK Workshop on, sept 2010, pp. 1–6
+also used high level operators with some of them even more abstract (isInDanger(takes two arguments), IsToEnergizerSafe(takes two arguments) or toSafety) while Brandstetter and Ahmadi 
+% http://geneura.ugr.es/cig2012/papers/paper8.pdf
+used low level action operators for Pac-Man movement (UP, DOWN...), obtaining better results in points compared with the previous controllers.
+\subsection{Grammatical Evolution}
+Grammatical Evolution is similar to Genetic Programming in that both evolve programs to find the best one but the encoding of the programs (genotype) in Grammatical Evolution is different. Now, the genotype is an array of integers where each integer represents the rule of a grammar, written in Backus-Naur Form,
+%http://www.garshol.priv.no/download/text/bnf.html
+that will be chosen to produce the program (phenotype) when the genotype is decoded. So now the process of crossover and mutation is done with the array, increasing performance in time and memory and thanks to BNFs languages are very easy to design and change without reimplementing or modifying the algorithm code.%O'Neill, M. and Ryan, C. (2003). Grammatical Evolution. 1st ed. Boston, MA: Springer US.
+
+With this new representation of the genotype some new crossover and mutation operators work better than the classical ones like LHS replacement crossover, which tries to do the crossover less destructive,
+%Harper, R. and Blair, A. (n.d.). A Structure Preserving Crossover In Grammatical Evolution. 2005 IEEE Congress on Evolutionary Computation.
+and Neutral Mutation for improving population's diversity. %DOI: 10.1007/978-3-319-11313-5_39
+
+As Genetic Programming (GP), Grammatical Evolution (GE) has been previously used to evolve a Pac-Man controller. Galván-López, Swafford, et al.
+%http://ncra.ucd.ie/papers/evolvingMsPacmanControllerEvoGames2010.pdf
+developed a similar approach to Koza's GP approach, they used high level operators for Pac-Man movement (ANG - Avoid Nearest Ghost) and information retrieval (avgDistBetGhosts). This operators are terminal symbols of a BNF developed by them, which has if-else statements to achieve determined outputs based on some conditions processed by the if statement. These conditions are of the form (<var><comparison><var>) where <var> could be a number or an information retrieval operator and <comparison> an inequality symbol. With this approach they achieved similar results to GP controllers with the advantage that the BNF could be changed easily changing adding restrictions or features easily.
+
+Other interesting study for evolving Pac-Man controllers with GE was made by Liberatore, Mora, et al.
+%https://link.springer.com/chapter/10.1007/978-3-662-45523-4_26
+They used GE with Flocking Strategies to develop a Swarm-type intelligent for the Pac-Man Ghosts controllers. This approach was able to model complex behaviours for the Ghosts, making them more challenging to beat.
+
+{\color{red}JORGE: Multiobjetivo no va aquí
+\subsection{Multi-Objective Optimization}
+Single-objective optimization is mainly used with Grammatical Evolution because it's implementation is straight forward, the algorithm remains the same, there is no need of using special operators and the fitness functions is a direct translation of the problem to solve. This approach is usually effective but for complex problems it's difficult to optimize it with only one fitness function (e.g. one objective).
+
+Multi-objective optimization tries to assort this problem using a Non-dominated Sorting Genetic Algorithm II (NSGAII). NSGAII uses Pareto Front %ISSN 1619-7127 or ISSN 978-3-540-72963-1 Multiobjective Problem Solving from Nature: From Concepts to Applications
+for selecting the individual for crossover and mutation, ranking and choosing them in a tournament like way, choosing the one that has the overall best fitness in all the objectives. This individuals are known as Pareto's first optimal front or Rank 1 where other individuals, depending on their objectives fitness, will be in Rank 2, 3, etc. Pareto Front is an elitist reproduction strategy as it always try to choose the best elements of the population (Rank 1), making the best elements to survive. %https://eprints.soton.ac.uk/194307/1/Nasu_11.pdf
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{\pacman AI}
 \label{sec:pacmanai}
 %
@@ -102,7 +161,7 @@ Dejar para el final
 \item The game
 \\
 
-In the version of the game we use {\color{red}(referencia a su git)} there is a set of four pregenerated toroidal 2D labyrinths, in which the ghosts and \paco move. The ghosts always start in the "Lair", a rectangle in the middle of the map in which \paco cannot enter. \paco starts in the bottom of the map.
+In the version of the game we use {\color{red}(referencia a su git)} there is a set of four pre-generated toroidal 2D labyrinths, in which the ghosts and \paco move. The ghosts always start in the "Lair", a rectangle in the middle of the map in which \paco cannot enter. \paco starts in the bottom of the map.
 
 Each labyrinth is composed of corridors and junctions filled with a lot of pills and four powerpills. Both give points to \paco as he walks over them, and powerpills make him able to eat the ghosts for a short period of time, while also slowing them. Eating ghosts will give \paco points, earning some extra ones if he eats various ghosts in a row during the same powerpill buff duration.
 
@@ -123,7 +182,7 @@ Every turn the game provides the controllers with its current state, so that the
 
 We've greatly increased the information to obtain by combining those given functions, like getting a movement towards the closest junction, the closest edible ghost, or the closest powerpill.
 
-{\color{red}optar por "nosotros no hemos tenido en cuenta esta estructura para crear una interfaz que permita investigar diferentes técnicas de evolución gramátical combinadas" o pasar todo a formato concurso. Jorge:Veo mas viable lo primero. Josemi: +1. ANTONIO: como que no habéis tenido en cuenta esta estructura?}
+The original code also comes with various examples of controllers like random movements for \paco and the ghosts, aggressive behavioured ghosts, or a basic one for \paco that takes into account if the surrounding ghosts are edible or not.
 \\
 \\
 
@@ -236,6 +295,11 @@ getJunction & checks if \paco is currently at a junction \\ \hline
 {\color{red}ANTONIO: poned las gramáticas en BNF y explicadlas por encima.}
 
 Because the usage of grammars, we decided to design two grammars, both including said condition-action rules, like if(cond){action} and if(cond){action}else{action} ({\color{red} bloque de codigo})
+
+%si lo quieres coger de un archivo usa \lstinputlisting[language=Python]{source_filename.py}
+\begin{lstlisting}[frame=single, caption=tengo caption si quieres]
+soy codigo!
+\end{lstlisting} % con o sin frame
 
 However, one of the grammar only includes low to medium level actions and functions, and the other including high-level actions and functions, being the second a result of the inclusion of expert knowledge({\color{red} mencionar sistemas expertos?!}).
 
@@ -354,50 +418,6 @@ With a combination like $F = [f_2, f_3]$ a working multi-objective function can 
 
 \subsubsection{Learned strategies}
 {\color{red}No hay estrategias conocidas exclusivamente debidas a multiobjetivo, que sepa.}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\section{Related Work}
-\label{sec:relatedWork}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-{\color{red}ANTONIO: no hay que explicar las cosas como si fuera un libro de texto, hay que referenciar los trabajos científicos más relevantes (relacionados con lo que hemos hecho) y decir cual es la aportación de cada uno y en que se diferencia lo que hemos hecho nosotros.}
-
-{\color{red}CARLOS: Los apartados de este punto 5 no veo que tengan sentido contarlos al final. Yo los pondría entre los apartados 1 y 2, explicando en orden las diferentes técnicas: programación genética, gramáticas evolutivas, decision trees, behavior trees. ; luego pondría referencias a los trabajos que se han hecho en cada área: Ejemplo ver apartado II: http://geneura.ugr.es/cig2012/papers/paper8.pdf
-
-...y la parte de multiobjetivo debería ir entonces al apartado 4}
-
-
-\subsection{Decision Trees and Behaviour Trees}
-
-Decision Trees are a special type of graphs commonly used in Artificial Intelligence to represent complex outputs depending on different conditions. These conditions are evaluated by the inner nodes of the tree, usually called conditional nodes, which depending on the output of the condition they hold they set which child node to process. Terminal nodes are the outputs that will be obtained from the decision tree. 
-%$http://www.aihorizon.com/essays/generalai/decision_trees.htm$ 
-Decisions trees are fast to process once build and can model complex decision schemes and strategies. The main drawback is the incapacity of outputting more than one action, each execution of a Decision Tree outputs a single deterministic action based on the current state of the environment variables.
-
-Behaviours trees can be seen as a different way of representing Finite States Machines (FSM). They were developed to avoid the exponential growth of FSMs representing the AI of NPCs in video games. Their structure is similar to the one of a Decision Tree but with more types of inner nodes, like loop nodes, which enables the encode of more complex decision schemes and strategies outputting several possible actions in a single execution of the tree.
-%$http://gaia.fdi.ucm.es/sites/cosecivi14/es/papers/27.pdf$
-\subsection{Genetic Programming}
-Genetic Programming is one of the many different branches of algorithms that exist inside Evolutionary Algorithms.
-%Libro de Carlos
-Genetic Programming tries to produce the best program, in a determined programming language, using an Evolutionary Algorithm approach. The programs are encoded using trees (genome)  in which each node represents a token of the chosen programming language, hence each individual of the population is a program which will be selected, crossover and mutated using different selection, crossover and mutation operators and his genome will be transformed into the final program (phenotype) and will be evaluated. This process is repeated several times and the final solution will be the individual with the program with the best score of the whole population. A problem with Genetic Programming is that the use of trees to encode the genome is very heavy in terms of memory specially when bloating occurs.  %$https://link.springer.com/book/10.2991/978-94-6239-255-7#page=190$
-%$http://ieeexplore.ieee.org/abstract/document/7849864/$
-%$https://link.springer.com/chapter/10.1007/978-3-319-49001-4_4$
-%$https://link.springer.com/chapter/10.1007/3-540-36599-0_19$
-\subsection{Grammatical Evolution}
-Grammatical Evolution is similar to Genetic Programming in that both evolve programs to find the best one but the encoding of the programs (genotype) in Grammatical Evolution is different. Now, the genotype is an array of integers where each integer represents the rule of a grammar, written in Backus-Naur Form,
-%http://www.garshol.priv.no/download/text/bnf.html
-that will be chosen to produce the program (phenotype) when the genotype is decoded. So now the process of crossover and mutation is done with the array, increasing performance in time and memory and thanks to BNFs languages are very easy to design and change without reimplementing or modifying the algorithm code.%O'Neill, M. and Ryan, C. (2003). Grammatical Evolution. 1st ed. Boston, MA: Springer US.
-
-With this new representation of the genotype some new crossover and mutation operators work better than the classical ones like LHS replacement crossover, which tries to do the crossover less destructive,
-%Harper, R. and Blair, A. (n.d.). A Structure Preserving Crossover In Grammatical Evolution. 2005 IEEE Congress on Evolutionary Computation.
-and Neutral Mutation. %DOI: 10.1007/978-3-319-11313-5_39
-
-\subsection{Multi-Objective Optimization}
-Single-objective optimization is mainly used with Grammatical Evolution because it's implementation is straight forward, the algorithm remains the same, there is no need of using special operators and the fitness functions is a direct translation of the problem to solve. This approach is usually effective but for complex problems it's difficult to optimize it with only one fitness function (e.g. one objective).
-
-Multi-objective optimization tries to assort this problem using a Non-dominated Sorting Genetic Algorithm II (NSGAII). NSGAII uses Pareto Front %ISSN 1619-7127 or ISSN 978-3-540-72963-1 Multiobjective Problem Solving from Nature: From Concepts to Applications
-for selecting the individual for crossover and mutation, ranking and choosing them in a tournament like way, choosing the one that has the overall best fitness in all the objectives. This individuals are known as Pareto's first optimal front or Rank 1 where other individuals, depending on their objectives fitness, will be in Rank 2, 3, etc. Pareto Front is an elitist reproduction strategy as it always try to choose the best elements of the population (Rank 1), making the best elements to survive. %https://eprints.soton.ac.uk/194307/1/Nasu_11.pdf
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
