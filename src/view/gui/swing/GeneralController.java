@@ -87,6 +87,7 @@ public class GeneralController {
 		objectiveFactory.register(new LevelsCompletedFitness());
 		objectiveFactory.register(new NaiveFitness());
 		objectiveFactory.register(new PointsNoGhostMultFitness());
+		objectiveFactory.register(new GhostsEatenFitness());
 	}
 
 	public void execute() {
