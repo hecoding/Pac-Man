@@ -57,6 +57,24 @@ public class CustomExecutor {
 			gsi.add(this.runGame(pacManController, ghostController));
 		}
 		
+		/*for (int i = 0; i < gsi.size(); i++) {
+			System.out.print(gsi.get(i).getScore() + ",");
+		}
+		
+		System.out.println();
+		
+		for (int i = 0; i < gsi.size(); i++) {
+			System.out.print(gsi.get(i).getLastLevelReached() + ",");
+		}
+		
+		System.out.println();
+		
+		for (int i = 0; i < gsi.size(); i++) {
+			System.out.print(gsi.get(i).getTimeLasted() + ",");
+		}		
+
+		System.out.println();*/
+		
 		return GameInfo.averageGamesInfo(gsi);
 	}
 	
