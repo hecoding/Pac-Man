@@ -1,0 +1,2 @@
+Selection_func,Mutation_func,Mutation_prob,Crossover_func,Crossover_prob,Elite_percent,Pop_size,NoIterations,Iterations_per_solution,Fitness_functions,Fitness_scores,Phenotype,Exec_time,Aborted,Last_commit_hash
+BinaryTournamentNSGAII,IntegerFlipMutation,0.1,LHSCrossover,0.6,0.05,100,50,10,[Naive_fitness],[54829.0],if(_getDistanceToClosestNonEdibleGhost_LE_5_){_huir_}_else{_farmear_},574.625875825,0,dc4d47527ab78fe5551f5a89dc4e15739c73572e
