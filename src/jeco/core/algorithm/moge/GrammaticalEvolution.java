@@ -150,10 +150,17 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
           }
           Solutions<Variable<Integer>> offSpring = crossoverOperator.execute(parent1, parent2);
           for (Solution<Variable<Integer>> solution : offSpring) {
-              mutationOperator.execute(solution);
               childPop.add(solution);
           }
       } // for
+      
+      
+      //For de mutación
+      for (Solution<Variable<Integer>> solution : childPop) {
+          mutationOperator.execute(solution);
+      }
+      
+      //Eval
       problem.evaluate(childPop);
 
       if(jecoPopulationMerge) {
