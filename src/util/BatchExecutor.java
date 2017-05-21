@@ -5,6 +5,8 @@ import pacman.controllers.Controller;
 import pacman.controllers.GrammaticalAdapterController;
 import pacman.controllers.examples.Legacy;
 import pacman.controllers.examples.RandomGhosts;
+import pacman.controllers.examples.RandomNonRevPacMan;
+import pacman.controllers.examples.RandomPacMan;
 import pacman.game.Constants;
 import pacman.game.util.GameInfo;
 
@@ -28,6 +30,7 @@ public class BatchExecutor {
         CustomExecutor executor = new CustomExecutor();
         GameInfo info;
         GrammaticalAdapterController pacmanController = new GrammaticalAdapterController(stringPhenotype);
+        //RandomPacMan pacmanController = new RandomPacMan();
 
         Controller<EnumMap<Constants.GHOST,Constants.MOVE>> ghostController = new RandomGhosts();
         //Controller<EnumMap<Constants.GHOST,Constants.MOVE>> ghostController = new Legacy();

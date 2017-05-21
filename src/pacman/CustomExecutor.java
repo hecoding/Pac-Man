@@ -49,11 +49,11 @@ public class CustomExecutor {
 	 *
 	 * @param args the command line arguments
 	 */
-	public GameInfo runExecution(GrammaticalAdapterController pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, int trials) {
+	public GameInfo runExecution(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, int trials) {
 		ArrayList<GameInfo> gsi = new ArrayList<GameInfo>();
 		
 		for( int i = 0 ; i < trials; ++i){
-			pacManController.reset();
+			((GrammaticalAdapterController) pacManController).reset();
 			gsi.add(this.runGame(pacManController, ghostController));
 		}
 		
