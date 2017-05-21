@@ -42,10 +42,10 @@ public class GeneralController {
 	static Logger logger;
 	
 	// Configure parameters
-	int populationSize = 100;// = 400;
-	int generations = 100;// = 500;
-	double crossProb = 0.2;
-	double mutationProb = 0.4;
+	int populationSize = 200;
+	int generations = 50;
+	double crossProb = 0.4;
+	double mutationProb = 0.1;
   	String grammarFolder ="./grammar/";
   	String grammar = grammarFolder + "base.bnf";
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
