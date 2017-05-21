@@ -1125,14 +1125,14 @@ public final class Game
 	 * Distance to the nearest non-edible ghost.
 	 * 
 	 * @param fromIndex current pacman location
-	 * @return Ghost or null if the ghosts are still in the lair
+	 * @return The distance from the closest non edible ghost to pacman, having in mind the ghosts can't reverse
 	 */
 	public int getDistanceToClosestNonEdibleGhost(int fromIndex) {
 		int minDistance = Integer.MAX_VALUE;
 
 		for (Ghost ghost : this.ghosts.values()) {
 			if (!ghost.isEdible() && !ghost.isInLair()) {
-				int distance = this.getShortestPathDistance(fromIndex, ghost.currentNodeIndex);
+				int distance = this.getShortestPathDistance(ghost.currentNodeIndex, fromIndex, ghost.lastMoveMade);
 
 				if (distance < minDistance) {
 					minDistance = distance;
