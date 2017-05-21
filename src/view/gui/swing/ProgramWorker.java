@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
+import jeco.core.algorithm.Algorithm;
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
 import jeco.core.operator.evaluator.fitness.FitnessEvaluatorInterface;
@@ -24,6 +25,7 @@ import util.externallogger.ExtLogger;
 public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObserver {
 	private static JProgressBar progressBar;
 	static Logger logger;
+	Algorithm algorithm;
 	static PacmanGrammaticalEvolution problem;
 	static MasterWorkerThreads<Variable<Integer>> algorithmWorker;
 	public static Solutions<Variable<Integer>> solutions;
@@ -33,7 +35,6 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	private long lastIterStart;
 	private LinkedList<Long> etaQueue;
 	private int etaLenght;
-	private int generations;
 	long queueTime;
 	
 	public ProgramWorker(GrammaticalEvolution algorithm, PacmanGrammaticalEvolution problem, MasterWorkerThreads<Variable<Integer>> algorithmWorker, GeneralController ctrl) {
@@ -47,6 +48,7 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		progressBar.setStringPainted(true);
 		progressBar.setString("Initializing...");
 		logger = GrammaticalEvolution.logger;
+		this.algorithm = algorithm;
 		ProgramWorker.problem = problem;
 		ProgramWorker.algorithmWorker = algorithmWorker;
 	}
@@ -62,27 +64,8 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 	@Override
 	protected void process(List<Integer> chunks) {
 		int currentStep = chunks.get(0);
-		
-		if(currentStep == 1 || currentStep == 0){
-			lastIterStart = System.nanoTime();
-			generations = ctrl.getGenerations();
-		}
-		
-		progressBar.setValue(currentStep);
-		
-		long lastIterTime = System.nanoTime() - lastIterStart;
-		
-		if(etaQueue.size() < etaLenght){ //+2 margin
-			etaQueue.addFirst(lastIterTime);
-			queueTime += lastIterTime;
-		}
-		else{
-			queueTime -= etaQueue.pollLast();
-			etaQueue.addFirst(lastIterTime);
-			queueTime += lastIterTime;
-		}
-		
-		long remainingTime = (long) ((generations - currentStep) * (queueTime / etaLenght));
+
+		long remainingTime = calculateETA(currentStep);
 		
 		if(currentStep < etaLenght + 2) //+2 margin
 			progressBar.setString("Calculating ETA...");
@@ -99,14 +82,17 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 
 	@Override
 	public void onEnd() {
-		
+
 	}
 
 	@Override
 	public void onIncrement(int n) {
 		int percentage = Math.round((n * 100) / ctrl.getGenerations());
-		
-		publish(percentage); // this calls process()
+
+		if(algorithm.isStopped())
+			progressBar.setValue(0);
+		else
+			publish(percentage); // this calls process()
 	}
 
 	public static void exec() {
@@ -182,6 +168,28 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 			progressBar = new JProgressBar();
 		
 		return progressBar;
+	}
+
+	public long calculateETA(int currentStep) {
+		if(currentStep == 1 || currentStep == 0){
+			lastIterStart = System.nanoTime();
+		}
+
+		progressBar.setValue(currentStep);
+
+		long lastIterTime = System.nanoTime() - lastIterStart;
+
+		if(etaQueue.size() < etaLenght){ //+2 margin
+			etaQueue.addFirst(lastIterTime);
+			queueTime += lastIterTime;
+		}
+		else{
+			queueTime -= etaQueue.pollLast();
+			etaQueue.addFirst(lastIterTime);
+			queueTime += lastIterTime;
+		}
+
+		return (long) ((ctrl.getGenerations() - currentStep) * (queueTime / etaLenght));
 	}
 	
 	public static String formatNanoSeconds(long timeInNanoSeconds) {

@@ -24,6 +24,10 @@ public abstract class Algorithm<V extends Variable<?>> extends AlgObservable {
       stop = true;
   }
 
+  public boolean isStopped() {
+    return this.stop;
+  }
+
   public Algorithm(Problem<V> problem) {
     this.problem = problem;
   }
