@@ -40,6 +40,7 @@
 \newcommand{\pacman}{Ms. Pac-Man vs. Ghosts }
 \newcommand{\paco}{Pac-Man }
 \newcommand\tab[1][1cm]{\hspace*{#1}}
+\newcommand\menostab[1][-0.5cm]{\hspace*{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -60,17 +61,16 @@
 \begin{document}
 
 \maketitle
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Abstract
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-Bla bla bla ... 
-Dejar para el final
+{\color{red}
+Dejar para el final}
 
-\keywords{keyword1, keyword2, ...}
+{\color{red}\keywords{keyword1, keyword2, ...}}
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,9 +80,7 @@ Dejar para el final
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Dejar para el final
-
-{\color{red}CARLOS: Antes del apartado 2 ¿no sería bueno meter un apartado Previous Work con referencias a todo lo que se ha hecho en Pacman con Gramáticas evolutivas y programación genética?. Veo que está en el apartado 5 Related Work}
+{\color{red}Dejar para el final}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -91,56 +89,27 @@ Dejar para el final
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-{\color{red}ANTONIO: no hay que explicar las cosas como si fuera un libro de texto, hay que referenciar los trabajos científicos más relevantes (relacionados con lo que hemos hecho) y decir cual es la aportación de cada uno y en que se diferencia lo que hemos hecho nosotros.}
-
-{\color{red}CARLOS: Los apartados de este punto 5 no veo que tengan sentido contarlos al final. Yo los pondría entre los apartados 1 y 2, explicando en orden las diferentes técnicas: programación genética, gramáticas evolutivas, decision trees, behavior trees. ; luego pondría referencias a los trabajos que se han hecho en cada área: Ejemplo ver apartado II: http://geneura.ugr.es/cig2012/papers/paper8.pdf
-
-...y la parte de multiobjetivo debería ir entonces al apartado 4}
-
 \subsection{Genetic Programming}
-Genetic Programming is one of the many different branches of algorithms that exist inside Evolutionary Algorithms.
-%Libro de Carlos
-Genetic Programming tries to produce the best program, in a determined programming language, using an Evolutionary Algorithm approach. The programs are encoded using trees (genome)  in which each node represents a token of the chosen programming language, hence each individual of the population is a program which will be selected, crossover and mutated using different selection, crossover and mutation operators and his genome will be transformed into the final program (phenotype) and will be evaluated. This process is repeated several times and the final solution will be the individual with the program with the best score of the whole population.
-%Lbro de Carlos
-Genetic Programming main drawback is that the use of trees to encode the genome is very heavy in terms of memory, specially when bloating occurs.  
-%$https://link.springer.com/chapter/10.1007/3-540-36599-0_19$
+Genetic Programming is one of the many different branches of algorithms that exist inside Evolutionary Algorithms. \cite{araujo_cervigon}
+Genetic Programming tries to produce the best program, in a determined programming language, using an Evolutionary Algorithm approach. The programs are encoded using trees (genome)  in which each node represents a token of the chosen programming language, hence each individual of the population is a program which will be selected, crossover and mutated using different selection, crossover and mutation operators and his genome will be transformed into the final program (phenotype) and will be evaluated. This process is repeated several times and the final solution will be the individual with the program with the best score of the whole population.\cite{araujo_cervigon}
+Genetic Programming main drawback is that the use of trees to encode the genome is very heavy in terms of memory, specially when bloating occurs.\cite{Poli2003}
 
-Genetic Programming has been used previously to evolve Artificial Intelligence controllers, concretely, Koza 
-%J. R. Koza, Genetic Programming: On the Programming of Computers
-%by Means of Natural Selection v. 1 (Complex Adaptive Systems). MIT
-%Press, 2 1992.
-used a Genetic Programming approach for developing a controller for the Pac-Man character of a custom version of the game. He used a set of high level operators for maze information retrieval (DISF - Distance to Fruit) and Pac-Man direct control (AFRUIT - Advance to Fruit). %Poner en italic
-More work about Artificial Intelligence in Pac-Man using Genetic Programming has been made, Alhejali and Lucas 
-%A. Alhejali and S. Lucas, “Evolving diverse Ms. Pac-Man playing agents
-%using genetic programming,” in Computational Intelligence (UKCI),
-%2010 UK Workshop on, sept 2010, pp. 1–6
-also used high level operators with some of them even more abstract (isInDanger(takes two arguments), IsToEnergizerSafe(takes two arguments) or toSafety) while Brandstetter and Ahmadi 
-% http://geneura.ugr.es/cig2012/papers/paper8.pdf
-used low level action operators for Pac-Man movement (UP, DOWN...), obtaining better results in points compared with the previous controllers.
+Genetic Programming has been used previously to evolve Artificial Intelligence controllers, concretely, Koza\cite{koza1992genetic} used a Genetic Programming approach for developing a controller for the Pac-Man character of a custom version of the game. He used a set of high level operators for maze information retrieval (\textit{DISF - Distance to Fruit}) and Pac-Man direct control (\textit{AFRUIT - Advance to Fruit}).
+More work about Artificial Intelligence in Pac-Man using Genetic Programming has been made, Alhejali and Lucas\cite{alhejali_lucas_2010}
+also used high level operators with some of them even more abstract (\textit{isInDanger(takes two arguments), IsToEnergizerSafe(takes two arguments) or toSafety}) while Brandstetter and Ahmadi\cite{brandstetter_ahmadi_2012}
+used low level action operators for Pac-Man movement (\textit{UP, DOWN...}), obtaining better results in points compared with the previous controllers.
 \subsection{Grammatical Evolution}
-Grammatical Evolution is similar to Genetic Programming in that both evolve programs to find the best one but the encoding of the programs (genotype) in Grammatical Evolution is different. Now, the genotype is an array of integers where each integer represents the rule of a grammar, written in Backus-Naur Form,
-%http://www.garshol.priv.no/download/text/bnf.html
-that will be chosen to produce the program (phenotype) when the genotype is decoded. So now the process of crossover and mutation is done with the array, increasing performance in time and memory and thanks to BNFs languages are very easy to design and change without reimplementing or modifying the algorithm code.%O'Neill, M. and Ryan, C. (2003). Grammatical Evolution. 1st ed. Boston, MA: Springer US.
+Grammatical Evolution is similar to Genetic Programming in that both evolve programs to find the best one but the encoding of the programs (genotype) in Grammatical Evolution is different. Now, the genotype is an array of integers where each integer represents the rule of a grammar, written in Backus-Naur Form, {\color{red} Jorge: Tengo dudas en si incluir esta referencia o no hace falta}\cite{garshol}
+that will be chosen to produce the program (phenotype) when the genotype is decoded. So now the process of crossover and mutation is done with the array, increasing performance in time and memory and thanks to BNFs languages are very easy to design and change without reimplementing or modifying the algorithm code.\cite{o'neill_ryan_2012}
 
-With this new representation of the genotype some new crossover and mutation operators work better than the classical ones like LHS replacement crossover, which tries to do the crossover less destructive,
-%Harper, R. and Blair, A. (n.d.). A Structure Preserving Crossover In Grammatical Evolution. 2005 IEEE Congress on Evolutionary Computation.
-and Neutral Mutation for improving population's diversity. %DOI: 10.1007/978-3-319-11313-5_39
+With this new representation of the genotype some new crossover and mutation operators work better than the classical ones like LHS replacement crossover, which tries to do the crossover less destructive\cite{harper_blair_2005}
+and Neutral Mutation for improving population's diversity.\cite{oesch_maringer_2014}
 
-As Genetic Programming (GP), Grammatical Evolution (GE) has been previously used to evolve a Pac-Man controller. Galván-López, Swafford, et al.
-%http://ncra.ucd.ie/papers/evolvingMsPacmanControllerEvoGames2010.pdf
+As Genetic Programming (GP), Grammatical Evolution (GE) has been previously used to evolve a Pac-Man controller. Galván-López, Swafford, et al.\cite{galvan2010evolving}
 developed a similar approach to Koza's GP approach, they used high level operators for Pac-Man movement (ANG - Avoid Nearest Ghost) and information retrieval (avgDistBetGhosts). This operators are terminal symbols of a BNF developed by them, which has if-else statements to achieve determined outputs based on some conditions processed by the if statement. These conditions are of the form (<var><comparison><var>) where <var> could be a number or an information retrieval operator and <comparison> an inequality symbol. With this approach they achieved similar results to GP controllers with the advantage that the BNF could be changed easily changing adding restrictions or features easily.
 
-Other interesting study for evolving Pac-Man controllers with GE was made by Liberatore, Mora, et al.
-%https://link.springer.com/chapter/10.1007/978-3-662-45523-4_26
+Other interesting study for evolving Pac-Man controllers with GE was made by Liberatore, Mora, et al.\cite{Liberatore2014}
 They used GE with Flocking Strategies to develop a Swarm-type intelligent for the Pac-Man Ghosts controllers. This approach was able to model complex behaviours for the Ghosts, making them more challenging to beat.
-
-{\color{red}JORGE: Multiobjetivo no va aquí
-\subsection{Multi-Objective Optimization}
-Single-objective optimization is mainly used with Grammatical Evolution because it's implementation is straight forward, the algorithm remains the same, there is no need of using special operators and the fitness functions is a direct translation of the problem to solve. This approach is usually effective but for complex problems it's difficult to optimize it with only one fitness function (e.g. one objective).
-
-Multi-objective optimization tries to assort this problem using a Non-dominated Sorting Genetic Algorithm II (NSGAII). NSGAII uses Pareto Front %ISSN 1619-7127 or ISSN 978-3-540-72963-1 Multiobjective Problem Solving from Nature: From Concepts to Applications
-for selecting the individual for crossover and mutation, ranking and choosing them in a tournament like way, choosing the one that has the overall best fitness in all the objectives. This individuals are known as Pareto's first optimal front or Rank 1 where other individuals, depending on their objectives fitness, will be in Rank 2, 3, etc. Pareto Front is an elitist reproduction strategy as it always try to choose the best elements of the population (Rank 1), making the best elements to survive. %https://eprints.soton.ac.uk/194307/1/Nasu_11.pdf
-}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -156,12 +125,9 @@ for selecting the individual for crossover and mutation, ranking and choosing th
 \end{figure}
 
 
-\begin{itemize}
+\subsection{The game}
 
-\item The game
-\\
-
-In the version of the game we use {\color{red}(referencia a su git)} there is a set of four pre-generated toroidal 2D labyrinths, in which the ghosts and \paco move. The ghosts always start in the "Lair", a rectangle in the middle of the map in which \paco cannot enter. \paco starts in the bottom of the map.
+In the version of the game we use {\color{red}(referencia a su git JORGE: No creo que haga falta poner aquí el git. eso se pone arriba o al final)} there is a set of four pre-generated toroidal 2D labyrinths, in which the ghosts and \paco move. The ghosts always start in the "Lair", a rectangle in the middle of the map in which \paco cannot enter. \paco starts in the bottom of the map.
 
 Each labyrinth is composed of corridors and junctions filled with a lot of pills and four powerpills. Both give points to \paco as he walks over them, and powerpills make him able to eat the ghosts for a short period of time, while also slowing them. Eating ghosts will give \paco points, earning some extra ones if he eats various ghosts in a row during the same powerpill buff duration.
 
@@ -170,11 +136,8 @@ Each labyrinth is composed of corridors and junctions filled with a lot of pills
 \paco will strive to eat all the pills and powerpills in the map to advance levels, while trying to get as much points as possible eating any ghosts he can, since each 10.000 points achieved he gets an extra life.
 
 The game ends either when \paco loses his three lives or after 24.000 turns, considering a turn passes every time both \paco and the ghosts make a movement.
-\\
-\\
 
-\item Bot implementation architecture
-\\
+\subsection{Bot implementation architecture}
 
 Both the ghosts and \paco use controllers to determine which movement is the best to make every turn. These controllers are the ones that must be implemented to participate in the competitions, which can be done using any technique available.
 
@@ -183,11 +146,8 @@ Every turn the game provides the controllers with its current state, so that the
 We've greatly increased the information to obtain by combining those given functions, like getting a movement towards the closest junction, the closest edible ghost, or the closest powerpill.
 
 The original code also comes with various examples of controllers like random movements for \paco and the ghosts, aggressive behavioured ghosts, or a basic one for \paco that takes into account if the surrounding ghosts are edible or not.
-\\
-\\
 
-\item Previous competitions
-\\
+\subsection{Previous competitions}
 
 \paco has been used in many bot implementing competitions, of which the most important are:
 
@@ -201,11 +161,6 @@ This competition took place six times between 2007 and 2011. It used a different
 Currently active, this competition was held in CIG 2016{\color{red} link a http://www.pacmanvghosts.co.uk/files/ms-pac-man.pdf} and is to be held again in 2017. It uses our same base architecture, although in their implementation the visibility of the agents is limited by "Partial Observability", in which both \paco and the ghosts can only obtain information of the game that is in their line of sight, this is, the corridor they are in or, if they are in a junction, the corridors that cross that junction.
 \end{itemize}
 
- 
-
-
-\end{itemize}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -214,27 +169,15 @@ Currently active, this competition was held in CIG 2016{\color{red} link a http:
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{itemize}
-\item Idea general
-\item Parámetros que definen el estado de juego
-\item Acciones
-\item Gramática
-\item Frameworks utilizados
-\item Operadores de cruce y mutación
-\item Resultados (¿comparación con otros bots?, ¿estrategias aprendidas?)
-\end{itemize}
-
-{\color{red}ANTONIO: no hace falta crear subsecciones para todo}
-
 \subsection{General idea}
 
-{\color{red}ANTONIO: la idea general es usar Grammatical Evolution para construir programas que juegan automáticamente. En particular, vamos a generar programas que juegan de manera puramente reactiva, es decir, que toman decisiones basadas en el estado actual del juego pero no tienen en cuenta las decisiones tomadas previamente. De este modo, esperamos obtener programas sencillos pero que no son capaces de codificar explícitamente estrategias complejas consistentes en secuencias de acciones.}
+The general idea is taking a Grammatical Evolution approach in order to generate \paco controller codes, which play automatically the game. This generated codes (the solutions) belong to the language generated by a user defined context-free grammar, more precisely a Backus-Naur Form denoted grammar. 
 
-Since the beginning we decided to take a Grammatical Evolution approach. This means evolving several solutions or expressions, which belong to the language generated by a user defined context-free grammar, more precisely a Backus-Naur Form denoted grammar. 
+By using Grammatical evolution we were able to reduce and refine the search space the evolutionary algorithm will explore, deciding to generate only Reactive Artificial Intelligence based bots. This type of Artificial Intelligence first evaluates the world and then executes and actions, following in our case condition-action rules defined by the grammar. This way, we expect to produce simple programs, which will not be able to encode explicitly advanced strategies consisting of action sequences.
 
-By using Grammatical evolution we were able to reduce and refine the search space the evolutionary algorithm will explore, deciding to generate only Reactive Artificial Intelligence based bots. This type of Artificial Intelligence first evaluates the world and then executes and actions, following in our case condition-action rules defined by the grammar
+For example, one of the results of the Grammatical Evolution is the code \texttt{if(distClosNEGhost>10)\{toClosP\} else\{awayClosNEGhost\}}. This bot checks every turn if the distance to the closest non edible ghost is lower than 10. In that case, \paco will try to escape from the ghost. Otherwise, \paco will move towards the closest pill.
 
-{\color{red}ANTONIO: ejemplo de un programa interesante y explicarlo. Decir que, en el fondo, estamos construyendo árboles de decisión donde los nodos intermedios toman decisiones en función del estado de la partida, y las hojas son las acciones concretas a ejecutar por el bot.}
+This code is implemented using a decision tree, using branch nodes for game state evaluations and leaf nodes for specific actions.
 
 \subsection{Frameworks}
 
@@ -243,136 +186,66 @@ By using Grammatical evolution we were able to reduce and refine the search spac
 We use the \paco implementation described in section 2 as our starting point, integrated with JECO (\textit{Java Evolutionary COmputation library}) {\color{red} link a https://github.com/jlrisco/jeco}. JECO is a framework which supports different evolutionary computation techniques, including what we wanted to try in \paco: Simple and multi-objective grammatical evolution.
 
 
-\subsection{Actions and functions}
-
-{\color{red}ANTONIO: Esto enlaza muy bien con el ejemplo de programa. Explicar las acciones y las funciones usando itemize en lugar de tablas (el texto queda demasiado pequeño). Luego habáis de 2 gramáticas pero no queda claro que acciones aparecen en cada una.}
+\subsection{Grammar design}
 
 In order to allow our bot to interact with the game, we had to create two categories of methods:
 
 \subsubsection{Actions}
-Methods which result in a move for the bot to execute.
-\subsubsection{Functions}
-Methods which check a boolean condition or obtain a numeric value of the game state at a moment, allowing the bot to get information of the current state of the game.
+Methods which result in a move for the bot to execute. For example:\newline
 
-\begin{table}[]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|}
-\hline
-Action & Description \\ \hline
-getDirectionTowardsClosestPill & obtains a move towards the closest pill using A* search \\ \hline
-getDirectionAwayFromClosestNonEdibleGhost & obtains a move away from the closest non edible ghost using A* search \\ \hline
-getDirectionTowardsClosestEdibleGhost & obtains a move towards the closest edible ghost using A* search \\ \hline
-getDirectionTowardsClosestPowerPill & obtains a move towards the closest power pill using A* search  \\ \hline
-\end{tabular}%
-}
-\caption{Actions used}
-\label{my-label}
-\end{table}
+\menostab\textit{distClosPill} obtains the distance to the the closest pill using A* search.
 
-\begin{table}[]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|}
-\hline
-Funcion & Description \\ \hline
-getDistanceToClosestNonEdibleGhost & obtains distance to closest non edible ghost using A* search \\ \hline
-getDistanceToClosestNonEdibleGhost(directional) & obtains distance to closest non edible ghost using A* search and following a direction \\ \hline
-getDistanceToClosestEdibleGhost & obtains distance to closest edible ghost using A* search \\ \hline
-getDistanceToClosestEdibleGhost(directional) & obtains distance to closest edible ghost using A* search and following a direction \\ \hline
-getNumberOfActivePowerPills & obtains the number of active power pills \\ \hline
-getDistToClosestPill & obtains the distance to the closest power pill \\ \hline
-getDistToClosestPill(directional) & obtains the distance to the closest power pill following a direction \\ \hline
-getJunction & checks if \paco is currently at a junction \\ \hline
-\end{tabular}%
-}
-\caption{Functions used}
-\label{my-label}
-\end{table}
+\menostab\textit{distClosNEGhost} obtains a the distance to the closest ghost using A* search.
 
-\subsection{Grammars}
+\subsubsection{State providers}
+Methods which check a boolean condition or obtain a numeric value of the game state at a moment, allowing the bot to get information of the current state of the game. For example:\newline
 
-{\color{red}ANTONIO: poned las gramáticas en BNF y explicadlas por encima.}
+\menostab\textit{toClosP} obtains a move towards the closest pill using A* search.
 
-Because the usage of grammars, we decided to design two grammars, both including said condition-action rules, like if(cond){action} and if(cond){action}else{action} ({\color{red} bloque de codigo})
+\menostab\textit{awayClosNEGhost} obtains a move away from the closest non edible ghost using A* search.\newline
+
+We decided to design two grammars, one including medium-level actions and state providers, and the other including high-level actions and state providers, being the second a result of the inclusion of expert knowledge.
+
+Both contain said condition-action rules, like "\texttt{if(cond)\{action\}}" or "\texttt{if(cond)\{action\} else\{action\}}" in order to make possible the reactive artificial intelligence bots.
+
+Finally, both grammars include discrete numbers (much more efficient than ranges), and numeric operators (\texttt{==, !=, >, >=, <=, <}) for the numeric data treatment, as well as boolean operators (\texttt{!, \&\&, \textbar\textbar})  for the boolean data treatment. 
 
 %si lo quieres coger de un archivo usa \lstinputlisting[language=Python]{source_filename.py}
-\begin{lstlisting}[frame=single, caption=tengo caption si quieres]
-soy codigo!
+\begin{lstlisting}[frame=single, caption=medium-level grammar, breaklines=true, basicstyle=\tiny]
+<gram> ::= <sel-stat>
+<sel-stat> ::= if(_<cond>_){_<stat>_}_else{_<stat>_} | if(_<cond>_){_<stat>_}
+<stat> ::= <action> | <sel-stat>
+<action> ::= toClosP | toClosPP | awayClosNEGhost | ...
+<cond> ::= <bool-st> | <bool-st>_<bool-op>_<bool-st> | <num-st>_<num-op>_<num> | ...
+<bool-st> ::= <bool-api> | !_<bool-api>
+<bool-api> ::= isJunction
+<num-st> ::= distClosNEGhost{U,D,L,R} | distClosPill{U,D,L,R} | ...
+<bool-op> ::= AND | OR
+<num-op> ::= EQ | NE | LT | GT | LE | GE
+<num> ::= 5 | 10 | 15 | ... | 90
 \end{lstlisting} % con o sin frame
 
-However, one of the grammar only includes low to medium level actions and functions, and the other including high-level actions and functions, being the second a result of the inclusion of expert knowledge({\color{red} mencionar sistemas expertos?!}).
-
-Finally, both grammars include discrete numbers, much more efficient than ranges, and numeric operators (==, !=, >, >=, <=, <) ({\color{red} bloque de codigo}) for the numeric data treatment, as well as boolean operators (!, and, or) ({\color{red} bloque de codigo}) for the boolean data treatment.
+%si lo quieres coger de un archivo usa \lstinputlisting[language=Python]{source_filename.py}
+\begin{lstlisting}[frame=single, caption=high-level grammar, breaklines=true, basicstyle=\tiny]
+<gram> ::= <sel-stat>
+<sel-stat> ::= if(_<cond>_){_<stat>_}_else{_<stat>_} | if(_<cond>_){_<stat>_}
+<stat> ::= <action> | <sel-stat>
+<action> ::= escape | attack | seekFood
+<cond> ::= <num-st>_<num-op>_<num> | <num-st>_<num-op>_<num-st>
+<num-st> ::= distClosNEGhost{U,D,L,R} | distClosEGhost{U,D,L,R}
+<num-op> ::= EQ | NE | LT | GT | LE | GE
+<number> ::= 0 | 5 | 10 | ... | 40
+\end{lstlisting} % con o sin frame
 
 \subsection{Operators}
 The usage of the Grammatical Evolution algorithm requires using crossover and mutation operators. We have implemented and tested several operators, including: ({\color{red} lista})
 After said tests comparing selection, elite, crossover and mutation operators as well as their hyper-parameters, we obtained the best results using: Tournament selection with elite, LHS crossover and or combinatorial or swap mutation ({\color{red} completar})
 
-{\color{red}ANTONIO: cual es la función de fitness? la que contáis en el apartado siguiente? pues traedla aquí}
-
-\subsection{Results}
-
-{\color{red}ANTONIO: antes de contar las estrategias mostrad los resultados: gráfica de fitness vs. generaciones, tabla comparativa con otros bots (aleatorio, legacy, ...) poniendo los metaparámetros usados (prob mutación, elite, etc), hablar de la longitud de los programas generados. Todo esto para cada gramática. }
-
-After analysing the results after each execution we discovered several facts. 
-
-First of all, most executions using the medium-level grammar were able to find a bug on the ghost starter controllers, exploiting it and being able to complete endless levels.
-
-After that discovery we decided to use a significantly harder ghost bots ("Legacy 2: The Reckoning" ghost controller). However, the new bots generated using the medium-level grammar tend to generate bots which manage to get stuck next to power pills (stopping themselves), wait for the ghosts to be close and proceeding to eat first the power pill and then the ghosts, now edible. This hunter behaviour allows \paco bots to achieve notable scores, but happens to be a local minimum.
-
-Finally, the bots generated by the high-level grammar share almost almost always the same code, and achieve even higher scores, eating pills conservatively by avoiding ghosts.
-
-% he escrito un poco y resulta que tú tienes lo mismo, te lo dejo aquí por si te sirve
-%\paragraph{Camper}
-%\paco abuses ghost eating multiplier by waiting around a joint until enough ghosts appear. Then eats a power pill and begins hunting close edible ghosts, reaching a score of $11000$ points very quickly. This is the result of optimize vanilla \pacman score \ref{vanilla_pacman_score}.
-
-({\color{red} bloque de codigo})
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\section{Multi-objective optimization}
-\label{sec:sec3}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{itemize}
-\item En qué consiste el multi-objetivo
-\item por qué es interesante considerar varios objetivos en el juego
-\item Experimentos y resultados  ¿estrategias aprendidas?)
-\end{itemize}
-
-\subsection{Definition}
-
-{\color{red}ANTONIO: referencia al artículo donde se define este tipo de optimización. No entiendo esa fórmula (que es F, G y H), poned sólo lo que sea necestio para explicar en qué consiste.}
-
-Multi-objective optimization arises when a single objective with several constraints may not adequately represent the problem being faced. It can be formulated as
-\begin{equation}
-\begin{aligned}
-& \underset{x}{\text{min}}
-& & F(x) = [f_1(x), f_2(x), \cdots, f_k(x)] \\
-& \text{s.t.} & &  G(x) = [g_1(x), g_2(x), \cdots, g_m(x)] \leq 0 \\
-& & &  H(x) = [h_1(x), h_2(x), \cdots, h_m(x)] = 0 \\
-\end{aligned}
-\end{equation}
-
-If some objective function is to be maximized, it is equivalent to minimize its negative.
-
-Note that because $F(x)$ is a vector, if two or more of the components of $F(x)$ are conflicting, there is no unique solution to this problem. Instead, the concept of non-domination, also non-inferiority called Pareto optimality \cite{Censor:78}, must be used to characterize the objectives. A non-dominated solution is one in which it is not possible to move feasibly from it to increase an objective without decreasing at least one of the others.
-
-{\color{red}CARLOS: creo que habría que explicar bien lo de los óptimos de Pareto y las soluciones no dominadas}
-
-
-% https://en.wikipedia.org/wiki/Multi-objective_optimization
-% https://ocw.mit.edu/courses/engineering-systems-division/esd-77-multidisciplinary-system-design-optimization-spring-2010/lecture-notes/MITESD_77S10_lec14.pdf
-
-\subsection{Why to apply it}
-
-{\color{red}ANTONIO: esto no va en el apartado 3?}
+\hfill
 
 Our initial (\textit{fitness}) function to optimize was
 \begin{equation} % label: naivefitness
-f = 10000 - score
+f = 100000 - score
 % caption: Naive fitness
 \end{equation}
 (note that we are minimizing).
@@ -385,14 +258,115 @@ Score points, as originally defined in the source code for \pacman competition, 
 \item Eat ghost: $200$ points ($200x$ when eating in a row).
 \end{itemize}
 
-This, when using a single objective function that maximizes score, inevitably leads to bots that keep moving around a power pill until one or more ghosts approach. Then \paco eats the power pill and proceed to eat as many ghosts as possible, making good profit out of it.
+\subsection{Results}
 
-{\color{red}ANTONIO: a partir de aquí sí}
+\subsubsection{Medium-Level evolved against Random Ghost program} Using Population size 100, Generations 80, 30 games played per individual, Binary Tournament NSGAII selection, LSH crossover (60\%), Integer Flip mutation (10\%), Neutral mutation and elitism (5\%)
+
+%si lo quieres coger de un archivo usa \lstinputlisting[language=Python]{source_filename.py}
+\begin{lstlisting}[frame=single, caption=caption, breaklines=true]
+if( getDistanceToClosestNonEdibleGhost > 10 ){ if( getDistanceToClosestNonEdibleGhost < 20 ){ getDirectionTowardsClosestPowerPill } else{ getDirectionTowardsClosestPill } } else{ getDirectionAwayFromClosestNonEdibleGhost }}
+\end{lstlisting} % con o sin frame
+
+\subsubsection{Medium-Level evolved against Legacy Ghost program} Using Population size 180, Generations 100, 30 games played per individual, Binary Tournament NSGAII selection, LSH crossover (60\%), Integer Flip mutation (10\%), Neutral mutation and elitism (5\%)
+
+%si lo quieres coger de un archivo usa \lstinputlisting[language=Python]{source_filename.py}
+\begin{lstlisting}[frame=single, caption=caption, breaklines=true]
+if(distClosNEGhost>= 20){toClosP}else{if(distClosNEGhostUp!=15){toClosPP}else{toClosP}}
+\end{lstlisting} % con o sin frame
+
+\subsubsection{High-Level evolved against Random or Legacy Ghosts program} Using Population size 100, Generations 50, 10 games played per individual, Binary Tournament NSGAII selection, LSH crossover (60\%), Integer Flip mutation (10\%), Neutral mutation and elitism (5\%)
+
+%si lo quieres coger de un archivo usa \lstinputlisting[language=Python]{source_filename.py}
+\begin{lstlisting}[frame=single, caption=caption, breaklines=true]
+if(distClosNEGhost>5){seekFook} else{escape}
+\end{lstlisting} % con o sin frame
+
+After analysing the results after each execution we discovered several facts. 
+
+First of all, most executions using the medium-level grammar were able to find a bug on the ghost starter controllers, exploiting it and being able to complete endless levels.
+
+After that discovery we decided to use a significantly harder ghost bots ("Legacy 2: The Reckoning" ghost controller). However, the new bots generated using the medium-level grammar tend to generate bots which manage to get stuck next to power pills (stopping themselves), wait for the ghosts to be close and proceeding to eat first the power pill and then the ghosts, now edible. This hunter behaviour allows \paco bots to achieve notable scores, but happens to be a local minimum.
+
+Finally, the bots generated by the high-level grammar share almost almost always the same code, and achieve slightly lower scores, eating pills conservatively by avoiding ghosts, not being able to exploit the hunter behavior.
+
+When using a single objective function that maximizes score, inevitably leads to bots that keep moving around a power pill until one or more ghosts approach. Then \paco eats the power pill and proceed to eat as many ghosts as possible, making good profit out of it.
+%\paragraph{Camper}
+%\paco abuses ghost eating multiplier by waiting around a joint until enough ghosts appear. Then eats a power pill and begins hunting close edible ghosts, reaching a score of $11000$ points very quickly. This is the result of optimize vanilla \pacman score \ref{vanilla_pacman_score}.
+
+
+\begin{table}[]
+\centering
+\caption{\paco vs. Random Ghosts}
+\label{my-label}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\textbf{bot}           & \multicolumn{1}{l|}{\textbf{score  (avg)}} & \multicolumn{1}{l|}{\textbf{std}} & \multicolumn{1}{l|}{\textbf{level (avg)}} & \multicolumn{1}{l|}{\textbf{std}} & \multicolumn{1}{l|}{\textbf{time (avg)}} & \multicolumn{1}{l|}{\textbf{std}} \\ \hline
+\textbf{RandomNonRev}     & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{Random}           & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{NearestPill}      & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{NearestPillVS}    & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{Medium-level bot} & 48558 & 10780 & 15   & 3.4 & 21579 & 4470 \\ \hline
+\textbf{High-level bot}   & 32704 & 13237 & 10.4 & 4.3 & 17457 & 6784 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[]
+\centering
+\caption{\paco vs. Legacy Ghosts}
+\label{my-label}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\textbf{bot}           & \multicolumn{1}{l|}{\textbf{score  (avg)}} & \multicolumn{1}{l|}{\textbf{std}} & \multicolumn{1}{l|}{\textbf{level (avg)}} & \multicolumn{1}{l|}{\textbf{std}} & \multicolumn{1}{l|}{\textbf{time (avg)}} & \multicolumn{1}{l|}{\textbf{std}} \\ \hline
+\textbf{RandomNonRev}     & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{Random}           & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{NearestPill}      & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{NearestPillVS}    & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{Medium-level bot} & 6358 & 2883 & 0.9 & 0.7 & 1916 &  730 \\ \hline
+\textbf{High-level bot}   & 5972 & 2832 & 1   & 0.6 & 2026 & 1020 \\ \hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Multi-objective optimization}
+\label{sec:sec3}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Definition}
+
+Multi-objective optimization arises when a single objective may not adequately represent the problem being faced, so modelling it with several objectives is preferred. Multi-objective optimization is therefore
+\begin{equation}
+\begin{aligned}
+f_i(X) | i = 1,...,n
+\end{aligned}
+\end{equation}
+where $n$ is the number of objectives and $f_i$ is the $ith$ fitness function.
+
+The difficulty of this kind of algorithm lies on determine which individual optimizes all objectives better. Normally, we call a solution the Pareto optimal if none of the objective functions can be improved in value without degrading some of the other objective values, and can be formulated like this. {\color{red}[Libro de Carlos]}
+\begin{equation}
+\begin{aligned}
+f_i(y) f_i(x), (i=1,\cdots,n) f_i(y) < f_j(x)
+\end{aligned}
+\end{equation}
+
+Exist a wide variety of methods when implementing a multi-objective algorithm. The easiest consists in creating a fitness function which is a linear combination of all other functions to optimize.
+\begin{equation}
+\begin{aligned}
+f(x) = \theta_1f_1(x) +\theta_2f_2(x) +\cdots+\theta_nf_n(x)
+\end{aligned}
+\end{equation}
+where $\theta_i$ are coefficients used to balance the weight of each function. The main problem concerns the difficulty to find the adequate weights.
+
+A very popular approach is the one called \textit{NSGA-II} ${\color{red}[https://www.iitk.ac.in/kangal/Deb_NSGA-II.pdf]}$, which delivers very good results. It is however too computationally expensive, especially for large populations.
+
+\subsection{Why to apply it}
+When using a single objective function that maximizes score, inevitably leads to bots that keep moving around a power pill until one or more ghosts approach. Then \paco eats the power pill and proceed to eat as many ghosts as possible, making good profit out of it.
 
 This strategy only works when there are still power pills available. With no power pills left, \paco keeps rambling until a ghost eats it and the game is over. So it is clear that we need to counterbalance ghost score to pass to next level.
 
 Instead of overcomplicating the objective function trying to fulfil several goals, we simply define several objective functions in charge of different desirable aspects of the bots.
-{\color{red} necesitamos un argumento más convincente, con pruebas hechas incluso}
+{\color{red} DIRÍA QUE NECESITAMOS UN ARGUMENTO MÁS CONVINCENTE, CON PRUEBAS INCLUSO}
 
 \begin{equation}
 f_2 = 100 - \text{last level reached}
@@ -411,13 +385,13 @@ f_3 = 100000 - & (\text{pills eaten} \times \text{pill score} \\
 
 With a combination like $F = [f_2, f_3]$ a working multi-objective function can be created.
 
-\subsection{Exp}
-{\color{red} No hay resultados porque no hay suficientes pruebas multi-objetivo, ni ideas para pruebas. Por tanto tampoco datos para graficar. Los únicos experimentos y gráficos que hay pueden verse aquí \url{https://github.com/hecoding/Pac-Man/tree/measurements}}
+\subsection{Experiments and results}
+{\color{red} Pruebas en curso}
 
 {\color{red}ANTONIO: comparar el multiobjetivo con los resultados del apartado anterior. Al menos se pasará más niveles, aunque consiga peor puntuación...}
 
-\subsubsection{Learned strategies}
-{\color{red}No hay estrategias conocidas exclusivamente debidas a multiobjetivo, que sepa.}
+\subsubsection{(Learned strategies)}
+{\color{red} en curso.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -432,7 +406,7 @@ Dejar para el final
 Añadir al final la URL al repositorio de GitHub
 \url{https://github.com/hecoding/Pac-Man}
 
-\bibliographystyle{splncs}
-\bibliography{references}
+\bibliographystyle{plain}
+\bibliography{references.bib}
 
 \end{document}
