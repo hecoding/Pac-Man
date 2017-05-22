@@ -53,11 +53,10 @@ public class CustomExecutor {
 		ArrayList<GameInfo> gsi = new ArrayList<GameInfo>();
 		
 		for( int i = 0 ; i < trials; ++i){
-			((GrammaticalAdapterController) pacManController).reset();
 			gsi.add(this.runGame(pacManController, ghostController));
 		}
 		
-		/*for (int i = 0; i < gsi.size(); i++) {
+		for (int i = 0; i < gsi.size(); i++) {
 			System.out.print(gsi.get(i).getScore() + ",");
 		}
 		
@@ -73,7 +72,7 @@ public class CustomExecutor {
 			System.out.print(gsi.get(i).getTimeLasted() + ",");
 		}		
 
-		System.out.println();*/
+		System.out.println();
 		
 		return GameInfo.averageGamesInfo(gsi);
 	}
@@ -96,10 +95,6 @@ public class CustomExecutor {
 		game.setGi(gi);
 		
 		while(!game.gameOver()){
-			
-			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
-				((GrammaticalAdapterController) pacManController).reset();
-			
 			game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
 			lastLevel = game.getCurrentLevel();
 		}
@@ -128,10 +123,7 @@ public class CustomExecutor {
 		int lastLevel = 0;
 		
 		while(!stop.get() && !game.gameOver())
-		{
-			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
-				((GrammaticalAdapterController) pacManController).reset();
-				
+		{				
 	        game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
 	        lastLevel = game.getCurrentLevel();
 	        

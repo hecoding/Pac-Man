@@ -19,10 +19,6 @@ public class GrammaticalAdapterController extends Controller<MOVE>
 		this.fenotipoStr = fenotipo;
 		tree = TreeParser.parseTree(fenotipoStr);
 	}
-	
-	public void reset(){
-		
-	}
 
 	public MOVE getMove(Game game, long timeDue) {
 		return tree.executeAndGetMove(game);

@@ -119,13 +119,9 @@ public class Executor
 		{
 			game=new Game(rnd.nextLong());
 			int lastLevel = 0;
-			((GrammaticalAdapterController) pacManController).reset();
 			
 			while(!game.gameOver())
-			{
-				if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
-					((GrammaticalAdapterController) pacManController).reset();
-				
+			{				
 		        game.advanceGame(pacManController.getMove(game.copy(),System.currentTimeMillis()+DELAY),
 		        		ghostController.getMove(game.copy(),System.currentTimeMillis()+DELAY));
 		        lastLevel = game.getCurrentLevel();
@@ -166,10 +162,7 @@ public class Executor
 		int lastLevel = 0;
 		
 		while(!game.gameOver())
-		{
-			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
-				((GrammaticalAdapterController) pacManController).reset();
-				
+		{				
 	        game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
 	        lastLevel = game.getCurrentLevel();
 	        
@@ -217,9 +210,6 @@ public class Executor
 			{
 				e.printStackTrace();
 			}
-
-			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
-				((GrammaticalAdapterController) pacManController).reset();
 			
 	        game.advanceGame(pacManController.getMove(),ghostController.getMove());	   
 	        lastLevel = game.getCurrentLevel();
@@ -280,9 +270,6 @@ public class Executor
 				if(fixedTime)
 					Thread.sleep(((DELAY/INTERVAL_WAIT)-waited)*INTERVAL_WAIT);
 				
-				if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
-					((GrammaticalAdapterController) pacManController).reset();
-				
 				game.advanceGame(pacManController.getMove(),ghostController.getMove());	
 				lastLevel = game.getCurrentLevel();
 			}
@@ -340,9 +327,6 @@ public class Executor
 			{
 				e.printStackTrace();
 			}
-
-			if (game.wasPacManEaten() || game.getCurrentLevel() != lastLevel)
-				((GrammaticalAdapterController) pacManController).reset();
 
 			game.advanceGame(pacManController.getMove(),ghostController.getMove());	  
 			lastLevel = game.getCurrentLevel();
