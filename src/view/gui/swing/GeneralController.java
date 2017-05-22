@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import javax.swing.JProgressBar;
@@ -91,38 +92,53 @@ public class GeneralController {
 	}
 
 	public void execute() {
-		// Create multiobjective wrapper
-		this.fitnessWrapper.clear();
-		for (String name : this.selectedFitnessObjectives) {
-			this.fitnessWrapper.addObjectiveFunction(objectiveFactory.create(name));
+		for(int i = 10; i <= 100; i += 10)
+		{
+			algorithm = null;
+			problem = null;
+			// Create multiobjective wrapper
+			this.fitnessWrapper.clear();
+			for (String name : this.selectedFitnessObjectives) {
+				this.fitnessWrapper.addObjectiveFunction(objectiveFactory.create(name));
+			}
+			
+			// Create ghosts controller
+			ghostController = this.getNewGhostController();
+			
+			
+			// Now first create the problem
+			problem = new PacmanGrammaticalEvolution(
+					ghostController, grammar, fitnessWrapper, iterPerIndividual,
+					i, this.maxCntWrappings, this.codonUpperBound
+					);
+			// Second create the algorithm (here we do a dirty trick to preserve observers)
+			if(algorithm != null)
+				algorithmObservers = algorithm.getObservers();
+			algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, (int) Math.floor(elitismPerc * populationSize), neutralMutation);
+			algorithm.setObservers(algorithmObservers);
+			
+			// Set operators
+			algorithm.setSelectionOperator(selectionOperatorFactory.create(this.selectedSelectionOperator, problem));
+			algorithm.setCrossoverOperator(crossoverOperatorFactory.create(this.selectedCrossoverOperator, problem, crossProb));
+			algorithm.setMutationOperator(mutationOperatorFactory.create(this.selectedMutationOperator, problem, mutationProb));
+	
+			// Set multithreading
+			int avalaibleThreads = Runtime.getRuntime().availableProcessors();
+			algorithmWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
+			programWorker = new ProgramWorker(algorithm, problem, algorithmWorker, this);
+			
+			programWorker.execute();
+			
+			try {
+				programWorker.get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
-		// Create ghosts controller
-		ghostController = this.getNewGhostController();
-		
-		
-		// Now first create the problem
-		problem = new PacmanGrammaticalEvolution(
-				ghostController, grammar, fitnessWrapper, iterPerIndividual,
-				this.chromosomeLength, this.maxCntWrappings, this.codonUpperBound
-				);
-		// Second create the algorithm (here we do a dirty trick to preserve observers)
-		if(algorithm != null)
-			algorithmObservers = algorithm.getObservers();
-		algorithm = new GrammaticalEvolution(problem, populationSize, generations, mutationProb, crossProb, (int) Math.floor(elitismPerc * populationSize), neutralMutation);
-		algorithm.setObservers(algorithmObservers);
-		
-		// Set operators
-		algorithm.setSelectionOperator(selectionOperatorFactory.create(this.selectedSelectionOperator, problem));
-		algorithm.setCrossoverOperator(crossoverOperatorFactory.create(this.selectedCrossoverOperator, problem, crossProb));
-		algorithm.setMutationOperator(mutationOperatorFactory.create(this.selectedMutationOperator, problem, mutationProb));
-
-		// Set multithreading
-		int avalaibleThreads = Runtime.getRuntime().availableProcessors();
-		algorithmWorker = new MasterWorkerThreads<Variable<Integer>>(algorithm, problem, avalaibleThreads);
-		programWorker = new ProgramWorker(algorithm, problem, algorithmWorker, this);
-		
-		programWorker.execute();
 	}
 	
 	public void addObserver(AlgObserver o) {
