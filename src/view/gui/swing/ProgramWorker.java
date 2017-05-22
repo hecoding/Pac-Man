@@ -146,7 +146,7 @@ public class ProgramWorker extends SwingWorker<Void, Integer> implements AlgObse
 		  	//extlogger.generateTXT(milog, nombreTXT); (TODO Pendiente poner bonito para TXT)
 	    }
 		
-		//System.out.println(ctrl.getAbsoluteBestObjectives());
+		System.out.println(ctrl.getAbsoluteBestObjectives());
 		
 		/*
 		// Run visuals for the best program
