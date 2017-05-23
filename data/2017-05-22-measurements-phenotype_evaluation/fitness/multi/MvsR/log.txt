@@ -1,0 +1,1 @@
+BinaryTournamentNSGAII,IntegerFlipMutation,0.1,LHSCrossover,0.6,0.05,180,200,30,[Number_of_levels_completed,Naive_fitness],[98.06666666666666, 91834.0],if(_getDistanceToClosestNonEdibleGhost_LT_5_){_getDirectionAwayFromClosestNonEdibleGhost_}_else{_getDirectionTowardsClosestPill_},1817.977635409,0,9045ace71f06de74f7ea2aab9875af084873e7fc 
