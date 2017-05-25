@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.logging.Logger;
 
 import jeco.core.operator.assigner.CrowdingDistance;
+import jeco.core.operator.comparator.ComparatorNSGAII;
 import jeco.core.operator.comparator.SolutionDominance;
 import jeco.core.problem.Solution;
 import jeco.core.problem.Solutions;
@@ -22,7 +23,8 @@ public class BinaryTournamentNSGAII<T extends Variable<?>> extends SelectionOper
      * NSGA-II implementation version)
      */
     public BinaryTournamentNSGAII() {
-        comparator = new SolutionDominance<T>();
+        //comparator = new SolutionDominance<T>();
+    	comparator = new ComparatorNSGAII<T>();
     } // BinaryTournament2
 
     /**

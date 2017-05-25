@@ -99,6 +99,11 @@ public class GrammaticalEvolution extends Algorithm<Variable<Integer>> {
       int nextPercentageReport = 10;
       this.notifyStart();
       
+      if(problem.getNumberOfObjectives() > 1)
+      {
+    	  population = reduce(population, maxPopulationSize);
+      }
+      
       while (!this.stop && currentGeneration < maxGenerations) {
           step();
           int percentage = Math.round((currentGeneration * 100) / maxGenerations);
