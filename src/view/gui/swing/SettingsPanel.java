@@ -152,23 +152,100 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 	}
 	
 	private void initSettings() {
-		settings = new JPanel();
+		/*settings = new JPanel();
 		settings.setLayout(new BoxLayout(settings, BoxLayout.X_AXIS));
 		
 		settings.add(createSettingsLeftPanel());
 		settings.add(createSettingsRightPanel());
 		
-		/*settings = new JPanel();				//Doesnt work either
+		*/settings = new JPanel();
 		settings.setLayout(new BorderLayout());
 		
 		settings.add(createSettingsLeftPanel(), BorderLayout.WEST);
-		settings.add(createSettingsRightPanel(), BorderLayout.EAST);*/				
+		settings.add(createSettingsRightPanel(), BorderLayout.EAST);
 		
 	}
 	
 	private JPanel createSettingsLeftPanel() {
-		settings = new JPanel();
-		settings.setLayout(new BoxLayout(settings, BoxLayout.Y_AXIS));
+		JPanel settings_left = new JPanel();
+		settings_left.setLayout(new BoxLayout(settings_left, BoxLayout.Y_AXIS));
+
+		//---------------------------------------------
+
+		JPanel population = new JPanel();
+		JLabel populationLabel = new JLabel("Population Size");
+		population.add(populationLabel);
+		populationText = new JTextField(4);
+		defaultborder = populationText.getBorder();
+		populationText.setInputVerifier(new PositiveIntegerVerifier());
+		population.add(populationText);
+		population.setMaximumSize(population.getPreferredSize());
+		population.setMinimumSize(population.getPreferredSize());
+		population.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings_left.add(population);
+
+		//---------------------------------------------
+
+		JPanel generations = new JPanel();
+		JLabel generationsLabel = new JLabel("Generations");
+		generations.add(generationsLabel);
+		generationText = new JTextField(4);
+		generationText.setInputVerifier(new PositiveIntegerVerifier());
+		generations.add(generationText);
+		generations.setMaximumSize(generations.getPreferredSize());
+		generations.setMinimumSize(generations.getPreferredSize());
+		generations.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings_left.add(generations);
+
+		JPanel iterPerInd = new JPanel();
+		JLabel iterPerIndLabel = new JLabel("Iter per ind");
+		iterPerInd.add(iterPerIndLabel);
+		iterPerIndText = new JTextField(4);
+		iterPerIndText.setInputVerifier(new PositiveIntegerVerifier());
+		iterPerInd.add(iterPerIndText);
+		iterPerInd.setMaximumSize(iterPerInd.getPreferredSize());
+		iterPerInd.setMinimumSize(iterPerInd.getPreferredSize());
+		iterPerInd.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings_left.add(iterPerInd);
+
+		JPanel chromosomeLength = new JPanel();
+		JLabel chromosomeLengthLabel = new JLabel("Chromosome length");
+		chromosomeLength.add(chromosomeLengthLabel);
+		chromosomeLengthText = new JTextField(4);
+		chromosomeLengthText.setInputVerifier(new PositiveIntegerVerifier());
+		chromosomeLength.add(chromosomeLengthText);
+		chromosomeLength.setMaximumSize(chromosomeLength.getPreferredSize());
+		chromosomeLength.setMinimumSize(chromosomeLength.getPreferredSize());
+		chromosomeLength.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings_left.add(chromosomeLength);
+
+		JPanel codonUpperBound = new JPanel();
+		JLabel codonUpperBoundLabel = new JLabel("Codon upper bound");
+		codonUpperBound.add(codonUpperBoundLabel);
+		codonUpperBoundText = new JTextField(4);
+		codonUpperBoundText.setInputVerifier(new PositiveIntegerVerifier());
+		codonUpperBound.add(codonUpperBoundText);
+		codonUpperBound.setMaximumSize(codonUpperBound.getPreferredSize());
+		codonUpperBound.setMinimumSize(codonUpperBound.getPreferredSize());
+		codonUpperBound.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings_left.add(codonUpperBound);
+
+		JPanel maxCntWrappings = new JPanel();
+		JLabel maxCntWrappingsLabel = new JLabel("Max cnt wrappings");
+		maxCntWrappings.add(maxCntWrappingsLabel);
+		maxCntWrappingsText = new JTextField(4);
+		maxCntWrappingsText.setInputVerifier(new PositiveIntegerAndZeroVerifier());
+		maxCntWrappings.add(maxCntWrappingsText);
+		maxCntWrappings.setMaximumSize(maxCntWrappings.getPreferredSize());
+		maxCntWrappings.setMinimumSize(maxCntWrappings.getPreferredSize());
+		maxCntWrappings.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		settings_left.add(maxCntWrappings);
+
+		//---------------------------------------------
+		JSeparator g = new JSeparator();
+		g.setMaximumSize(new Dimension(420, 1));
+		settings_left.add(g);
+		//---------------------------------------------
 		
 		//---------------------------------------------
 		
@@ -204,12 +281,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		objectivesPanel.add(btnSelectObjetives);
 		
 		objectivesPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(objectivesPanel);
+		settings_left.add(objectivesPanel);
 		
 		//---------------------------------------------
 		JSeparator d = new JSeparator();
 		d.setMaximumSize(new Dimension(420, 1));
-		settings.add(d);
+		settings_left.add(d);
 		//---------------------------------------------
 				
 		grammar = new JPanel();
@@ -227,12 +304,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		grammar.setMaximumSize(grammar.getPreferredSize());
 		grammar.setMinimumSize(grammar.getPreferredSize());
 		grammar.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(grammar);
+		settings_left.add(grammar);
 		
 		//---------------------------------------------
 		JSeparator f = new JSeparator();
 		f.setMaximumSize(new Dimension(420, 1));
-		settings.add(f);
+		settings_left.add(f);
 		//---------------------------------------------
 
 		JPanel ghostControllerPanel = new JPanel();
@@ -250,91 +327,14 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		ghostControllerPanel.setMaximumSize(ghostControllerPanel.getPreferredSize());
 		ghostControllerPanel.setMinimumSize(ghostControllerPanel.getPreferredSize());
 		ghostControllerPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(ghostControllerPanel);
+		settings_left.add(ghostControllerPanel);
 		
-		return settings;
+		return settings_left;
 	}
 	
 	private JPanel createSettingsRightPanel() {
-		settings = new JPanel();
-		settings.setLayout(new BoxLayout(settings, BoxLayout.Y_AXIS));
-		
-		//---------------------------------------------
-		
-		JPanel population = new JPanel();
-		JLabel populationLabel = new JLabel("Population Size");
-		population.add(populationLabel);
-		populationText = new JTextField(4);
-		defaultborder = populationText.getBorder();
-		populationText.setInputVerifier(new PositiveIntegerVerifier());
-		population.add(populationText);
-		population.setMaximumSize(population.getPreferredSize());
-		population.setMinimumSize(population.getPreferredSize());
-		population.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(population);
-		
-		//---------------------------------------------
-		
-		JPanel generations = new JPanel();
-		JLabel generationsLabel = new JLabel("Generations");
-		generations.add(generationsLabel);
-		generationText = new JTextField(4);
-		generationText.setInputVerifier(new PositiveIntegerVerifier());
-		generations.add(generationText);
-		generations.setMaximumSize(generations.getPreferredSize());
-		generations.setMinimumSize(generations.getPreferredSize());
-		generations.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(generations);
-		
-		JPanel iterPerInd = new JPanel();
-		JLabel iterPerIndLabel = new JLabel("Iter per ind");
-		iterPerInd.add(iterPerIndLabel);
-		iterPerIndText = new JTextField(4);
-		iterPerIndText.setInputVerifier(new PositiveIntegerVerifier());
-		iterPerInd.add(iterPerIndText);
-		iterPerInd.setMaximumSize(iterPerInd.getPreferredSize());
-		iterPerInd.setMinimumSize(iterPerInd.getPreferredSize());
-		iterPerInd.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(iterPerInd);
-		
-		JPanel chromosomeLength = new JPanel();
-		JLabel chromosomeLengthLabel = new JLabel("Chromosome length");
-		chromosomeLength.add(chromosomeLengthLabel);
-		chromosomeLengthText = new JTextField(4);
-		chromosomeLengthText.setInputVerifier(new PositiveIntegerVerifier());
-		chromosomeLength.add(chromosomeLengthText);
-		chromosomeLength.setMaximumSize(chromosomeLength.getPreferredSize());
-		chromosomeLength.setMinimumSize(chromosomeLength.getPreferredSize());
-		chromosomeLength.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(chromosomeLength);
-		
-		JPanel codonUpperBound = new JPanel();
-		JLabel codonUpperBoundLabel = new JLabel("Codon upper bound");
-		codonUpperBound.add(codonUpperBoundLabel);
-		codonUpperBoundText = new JTextField(4);
-		codonUpperBoundText.setInputVerifier(new PositiveIntegerVerifier());
-		codonUpperBound.add(codonUpperBoundText);
-		codonUpperBound.setMaximumSize(codonUpperBound.getPreferredSize());
-		codonUpperBound.setMinimumSize(codonUpperBound.getPreferredSize());
-		codonUpperBound.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(codonUpperBound);
-		
-		JPanel maxCntWrappings = new JPanel();
-		JLabel maxCntWrappingsLabel = new JLabel("Max cnt wrappings");
-		maxCntWrappings.add(maxCntWrappingsLabel);
-		maxCntWrappingsText = new JTextField(4);
-		maxCntWrappingsText.setInputVerifier(new PositiveIntegerAndZeroVerifier());
-		maxCntWrappings.add(maxCntWrappingsText);
-		maxCntWrappings.setMaximumSize(maxCntWrappings.getPreferredSize());
-		maxCntWrappings.setMinimumSize(maxCntWrappings.getPreferredSize());
-		maxCntWrappings.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(maxCntWrappings);
-		
-		//---------------------------------------------
-		JSeparator g = new JSeparator();
-		g.setMaximumSize(new Dimension(420, 1));
-		settings.add(g);
-		//---------------------------------------------
+		JPanel settings_right = new JPanel();
+		settings_right.setLayout(new BoxLayout(settings_right, BoxLayout.Y_AXIS));
 
 		JPanel selectionPanel = new JPanel();
 		selectionPanel.setLayout(new BoxLayout(selectionPanel, BoxLayout.Y_AXIS));
@@ -357,12 +357,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			selectionPanel.add(selectionOperatorPanel);
 
 		selectionPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(selectionPanel);
+		settings_right.add(selectionPanel);
 
 		//---------------------------------------------
 		JSeparator b = new JSeparator();
 		b.setMaximumSize(new Dimension(420, 1));
-		settings.add(b);
+		settings_right.add(b);
 		//---------------------------------------------
 		
 		JPanel crossoverPanel = new JPanel();
@@ -417,13 +417,13 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			crossoverPanel.add(crossoverOperatorPanel);
 		
 		crossoverPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(crossoverPanel);
+		settings_right.add(crossoverPanel);
 		
 
 		//---------------------------------------------
 		JSeparator c = new JSeparator();
 		c.setMaximumSize(new Dimension(420, 1));
-		settings.add(c);
+		settings_right.add(c);
 		//---------------------------------------------
 		
 		JPanel mutationPanel = new JPanel();
@@ -478,7 +478,7 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 			mutationPanel.add(mutationOperatorPanel);
 		
 		mutationPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(mutationPanel);
+		settings_right.add(mutationPanel);
 
 		//---------------------------------------------
 
@@ -491,12 +491,12 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		neutralMutation.setMinimumSize(neutralMutation.getPreferredSize());
 		neutralMutation.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		neutralMutation.setToolTipText("Whereby a codon changes value but still encodes for the same derivation.");
-		settings.add(neutralMutation);
+		settings_right.add(neutralMutation);
 		
 		//---------------------------------------------
 		JSeparator e = new JSeparator();
 		e.setMaximumSize(new Dimension(420, 1));
-		settings.add(e);
+		settings_right.add(e);
 		//---------------------------------------------
 		
 		
@@ -535,9 +535,9 @@ public class SettingsPanel extends JPanel implements AlgObserver {
 		elitism.add(elitismSlider);
 		
 		elitism.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		settings.add(elitism);
+		settings_right.add(elitism);
 		
-		return settings;
+		return settings_right;
 	}
 	
 	private void fillFields() {
