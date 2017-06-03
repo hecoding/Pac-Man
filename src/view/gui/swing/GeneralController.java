@@ -1,17 +1,9 @@
 package view.gui.swing;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.logging.Logger;
-
-import javax.swing.JProgressBar;
-
 import jeco.core.algorithm.moge.GrammaticalEvolution;
 import jeco.core.algorithm.moge.PacmanGrammaticalEvolution;
 import jeco.core.operator.crossover.CrossoverOperator;
-import jeco.core.operator.crossover.SinglePointCrossover;
+import jeco.core.operator.crossover.LHSCrossover;
 import jeco.core.operator.evaluator.fitness.*;
 import jeco.core.operator.mutation.IntegerFlipMutation;
 import jeco.core.operator.mutation.MutationOperator;
@@ -21,17 +13,20 @@ import jeco.core.optimization.threads.MasterWorkerThreads;
 import jeco.core.problem.Variable;
 import jeco.core.util.observer.AlgObserver;
 import pacman.controllers.Controller;
-import pacman.controllers.examples.AggressiveGhosts;
-import pacman.controllers.examples.Legacy;
-import pacman.controllers.examples.Legacy2TheReckoning;
-import pacman.controllers.examples.RandomGhosts;
-import pacman.controllers.examples.StarterGhosts;
+import pacman.controllers.examples.*;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import parser.TreeParser;
 import parser.nodes.NicerTree;
 import util.FileList;
 import view.gui.swing.factory.*;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.logging.Logger;
 
 public class GeneralController {
 	static ProgramWorker programWorker;
@@ -42,20 +37,20 @@ public class GeneralController {
 	static Logger logger;
 	
 	// Configure parameters
-	int populationSize = 200;
-	int generations = 50;
-	double crossProb = 0.4;
+	int populationSize = 100;
+	int generations = 100;
+	double crossProb = 0.6;
 	double mutationProb = 0.1;
   	String grammarFolder ="./grammar/";
-  	String grammar = grammarFolder + "base.bnf";
+  	String grammar = grammarFolder + "medium_level.bnf";
   	MOFitnessWrapper fitnessWrapper = new MOFitnessWrapper(new NaiveFitness());
   	Controller<EnumMap<GHOST,MOVE>> ghostController = new Legacy();
 	SelectionOperator selectionOperator = new BinaryTournamentNSGAII<Variable<Integer>>();
-  	CrossoverOperator crossoverOperator = new SinglePointCrossover<Variable<Integer>>(problem, SinglePointCrossover.DEFAULT_FIXED_CROSSOVER_POINT, crossProb, SinglePointCrossover.ALLOW_REPETITION);
+  	CrossoverOperator crossoverOperator = new LHSCrossover(problem, crossProb);
 	MutationOperator mutationOperator = new IntegerFlipMutation<Variable<Integer>>(problem, mutationProb);
-  	boolean neutralMutation = false;
+  	boolean neutralMutation = true;
 
-	int iterPerIndividual = 10; // games ran per evaluation
+	int iterPerIndividual = 30; // games ran per evaluation
 	double elitismPerc = 0.05;
   	
   	int chromosomeLength = PacmanGrammaticalEvolution.CHROMOSOME_LENGTH_DEFAULT;
