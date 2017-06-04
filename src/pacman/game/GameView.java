@@ -195,8 +195,12 @@ public final class GameView extends JComponent
     {
     	bufferGraphics.setColor(Color.BLACK);
     	bufferGraphics.fillRect(0,0,GV_WIDTH*MAG,GV_HEIGHT*MAG+20);
-        
-    	bufferGraphics.drawImage(images.getMaze(game.getMazeIndex()),2,6,null);
+    	//bufferGraphics.drawImage(images.getMaze(game.getMazeIndex()),2,6,null);
+    	
+    	double imgScale = MAG/2.0;
+    	int width = (int) (images.getMaze(game.getMazeIndex()).getWidth() * imgScale);
+    	int height = (int) (images.getMaze(game.getMazeIndex()).getHeight() * imgScale);
+    	bufferGraphics.drawImage(images.getMaze(game.getMazeIndex()),(int)(2*imgScale),(int)(6*imgScale), width, height, null);
     }
 
     /**
@@ -208,9 +212,11 @@ public final class GameView extends JComponent
         
         bufferGraphics.setColor(Color.white);
         
+        double halfMag = 0.5*MAG;
+        
         for(int i=0;i<pillIndices.length;i++)
         	if(game.isPillStillAvailable(i))
-        		bufferGraphics.fillOval(game.getNodeXCood(pillIndices[i])*MAG+4,game.getNodeYCood(pillIndices[i])*MAG+8,3,3);
+        		bufferGraphics.fillOval((int) (game.getNodeXCood(pillIndices[i])*MAG+4*halfMag),(int) (game.getNodeYCood(pillIndices[i])*MAG+8*halfMag),(int)(3*halfMag),(int)(3*halfMag));
     }
     
     /**
@@ -222,9 +228,12 @@ public final class GameView extends JComponent
           
           bufferGraphics.setColor(Color.white);
           
+          double halfMag = 0.5*MAG;
+          
           for(int i=0;i<powerPillIndices.length;i++)
           	if(game.isPowerPillStillAvailable(i))
-          		bufferGraphics.fillOval(game.getNodeXCood(powerPillIndices[i])*MAG+1,game.getNodeYCood(powerPillIndices[i])*MAG+5,8,8);
+    			bufferGraphics.fillOval((int) (game.getNodeXCood(powerPillIndices[i])*MAG+1*halfMag),(int) (game.getNodeYCood(powerPillIndices[i])*MAG+5*halfMag),(int)(8*halfMag),(int)(8*halfMag));
+
     }
     
     /**
@@ -236,10 +245,14 @@ public final class GameView extends JComponent
     	
     	MOVE tmpLastPacManMove=game.getPacmanLastMoveMade();
     	
+        double halfMag = 0.5*MAG;
+    	int width = (int) (images.getPacMan(lastPacManMove,time).getWidth() * halfMag);
+    	int height = (int) (images.getPacMan(lastPacManMove,time).getHeight() * halfMag);
+    	
     	if(tmpLastPacManMove!=MOVE.NEUTRAL)
     		lastPacManMove=tmpLastPacManMove;
 
-    	bufferGraphics.drawImage(images.getPacMan(lastPacManMove,time),game.getNodeXCood(pacLoc)*MAG-1,game.getNodeYCood(pacLoc)*MAG+3,null);
+    	bufferGraphics.drawImage(images.getPacMan(lastPacManMove,time), (int)(game.getNodeXCood(pacLoc)*MAG-1*halfMag), (int) (game.getNodeYCood(pacLoc)*MAG+3*halfMag), width, height, null);
     }
 
     /**
@@ -247,6 +260,8 @@ public final class GameView extends JComponent
      */
     private void drawGhosts() 
     {
+        double halfMag = 0.5*MAG;
+    	
     	for(GHOST ghostType : GHOST.values())
     	{
 	    	int currentNodeIndex=game.getGhostCurrentNodeIndex(ghostType);
@@ -256,19 +271,31 @@ public final class GameView extends JComponent
 	    	if(game.getGhostEdibleTime(ghostType)>0)
 	    	{
 	    		//what is the second clause for????
-	    		if(game.getGhostEdibleTime(ghostType)<EDIBLE_ALERT && ((time%6)/3)==0)
-	    			bufferGraphics.drawImage(images.getEdibleGhost(true,time),nodeXCood*MAG-1,nodeYCood*MAG+3,null);
-	            else
-	            	bufferGraphics.drawImage(images.getEdibleGhost(false,time),nodeXCood*MAG-1,nodeYCood*MAG+3,null);
+	    		if(game.getGhostEdibleTime(ghostType)<EDIBLE_ALERT && ((time%6)/3)==0) {
+	    	    	int width = (int) (images.getEdibleGhost(true,time).getWidth() * halfMag);
+	    	    	int height = (int) (images.getEdibleGhost(true,time).getHeight() * halfMag);
+	    			bufferGraphics.drawImage(images.getEdibleGhost(true,time),(int)(nodeXCood*MAG-1*halfMag),(int)(nodeYCood*MAG+3*halfMag),height,width,null);
+	    		}
+	            else {
+	    	    	int width = (int) (images.getEdibleGhost(false,time).getWidth() * halfMag);
+	    	    	int height = (int) (images.getEdibleGhost(false,time).getHeight() * halfMag);
+	            	bufferGraphics.drawImage(images.getEdibleGhost(false,time),(int)(nodeXCood*MAG-1*halfMag),(int) (nodeYCood*MAG+3*halfMag),height,width,null);
+	            }
 	    	}
 	    	else 
 	    	{
 	    		int index=ghostType.ordinal();
 	    		
-	    		if(game.getGhostLairTime(ghostType)>0) 		
-	    			bufferGraphics.drawImage(images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time),nodeXCood*MAG-1+(index*5),nodeYCood*MAG+3,null);
-	    		else    
-	    			bufferGraphics.drawImage(images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time),nodeXCood*MAG-1,nodeYCood*MAG+3,null);
+	    		if(game.getGhostLairTime(ghostType)>0) {
+	    	    	int width = (int) (images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time).getWidth() * halfMag);
+	    	    	int height = (int) (images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time).getHeight() * halfMag);
+	    			bufferGraphics.drawImage(images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time),(int) (nodeXCood*MAG-1*halfMag+(index*5)*halfMag),(int) (nodeYCood*MAG+3*halfMag),height,width,null);
+	    		}
+	    		else {
+	    	    	int width = (int) (images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time).getWidth() * halfMag);
+	    	    	int height = (int) (images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time).getHeight() * halfMag);
+	    			bufferGraphics.drawImage(images.getGhost(ghostType,game.getGhostLastMoveMade(ghostType),time),(int) (nodeXCood*MAG-1*halfMag),(int) (nodeYCood*MAG+3*halfMag),height,width,null);
+	    		}
 	    	}
     	}
     }
@@ -278,8 +305,13 @@ public final class GameView extends JComponent
      */
     private void drawLives()
     {
+        double halfMag = 0.5*MAG;
+        int width = (int) (images.getPacManForExtraLives().getWidth() * halfMag);
+    	int height = (int) (images.getPacManForExtraLives().getHeight() * halfMag);
+		
+        
     	for(int i=0;i<game.getPacmanNumberOfLivesRemaining()-1;i++) //-1 as lives remaining includes the current life
-    		bufferGraphics.drawImage(images.getPacManForExtraLives(),210-(30*i)/2,260,null);
+    		bufferGraphics.drawImage(images.getPacManForExtraLives(),(int) (210*halfMag-(30*i*halfMag)/2),(int) (267*halfMag - (height*halfMag)/2.0),width,height,null);
     }
     
     /**
@@ -287,13 +319,16 @@ public final class GameView extends JComponent
      */
     private void drawGameInfo()
     {
+        double halfMag = 0.5*MAG;
+        
     	bufferGraphics.setColor(Color.WHITE);
-    	bufferGraphics.drawString("S: ",4,271);
-    	bufferGraphics.drawString(""+game.getScore(),16,271);        
-    	bufferGraphics.drawString("L: ",78,271);
-    	bufferGraphics.drawString(""+(game.getCurrentLevel()+1),90,271);        
-    	bufferGraphics.drawString("T: ",116,271);
-    	bufferGraphics.drawString(""+game.getCurrentLevelTime(),129,271);
+    	//bufferGraphics.setFont(font);
+    	bufferGraphics.drawString("S: ",(int) (4*halfMag),(int) (271*halfMag));
+    	bufferGraphics.drawString(""+game.getScore(),(int) (16*halfMag),(int) (271*halfMag));        
+    	bufferGraphics.drawString("L: ",(int) (78*halfMag),(int) (271*halfMag));
+    	bufferGraphics.drawString(""+(game.getCurrentLevel()+1),(int) (90*halfMag),(int) (271*halfMag));        
+    	bufferGraphics.drawString("T: ",(int) (116*halfMag),(int) (271*halfMag));
+    	bufferGraphics.drawString(""+game.getCurrentLevelTime(),(int) (129*halfMag),(int) (271*halfMag));
     }
     
     /**
@@ -301,8 +336,10 @@ public final class GameView extends JComponent
      */
     private void drawGameOver()
     {
+        double halfMag = 0.5*MAG;
+        
     	bufferGraphics.setColor(Color.WHITE);
-    	bufferGraphics.drawString("Game Over",80,150);
+    	bufferGraphics.drawString("Game Over",(int) (80*halfMag),(int) (150*halfMag));
     }
     
     /* (non-Javadoc)
