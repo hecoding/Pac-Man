@@ -58,7 +58,7 @@ public class GUIView extends JFrame {
 		this.add(mainPanel);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(new Dimension(1268,827));
+		this.setSize(new Dimension(1219,821));
 		this.setMinimumSize(new Dimension(750, 550));
 		this.setLocationRelativeTo(null); // center on the screen (doesn't show nice with multiple monitors)
 		this.setVisible(true);
