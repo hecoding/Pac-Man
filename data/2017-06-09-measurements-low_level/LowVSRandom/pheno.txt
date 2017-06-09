@@ -1,0 +1,83 @@
+if (getDistanceToClosestNonEdibleGhostUpNE25) {
+	if (getDistanceToClosestNonEdibleGhostLeftLE90) {
+		moveRight
+	} else {
+		if (getDistanceToClosestJunctionLeftLE10) {
+			if (getClosestEdibleGhostDistanceToClosestJunctionRightLT20) {
+				if (getDistToClosestPowerPillUpLT30) {
+					moveLeft
+				} else {
+					if (getDistanceToClosestNonEdibleGhostDownGT25) {
+						moveRight
+					} else {
+						moveRight
+					}
+				}
+			} else {
+				if (getGeometricMeanDistanceToNonEdibleGhostsLT10) {
+					moveLeft
+				} else {
+					if (getClosestJunctionExitsNumberLeftGT20) {
+						if (getNumberOfActivePowerPillsGT90) {
+							if (getClosestJunctionExitsNumberUpNE10) {
+								moveLeft
+							}
+						}
+					} else {
+						moveUp
+					}
+				}
+			}
+		} else {
+			if (getDistToClosestPowerPillDownNE15) {
+				moveUp
+			} else {
+				if (getDistanceToClosestNonEdibleGhostUpGT60) {
+					if (getClosestEdibleGhostDistanceToClosestJunctionRightLT60) {
+						if (getDistToClosestPowerPillLeftGT5) {
+							if (getNumberOfActivePowerPillsLE25) {
+								if (getDistanceToClosestEdibleGhostGT25) {
+									moveLeft
+								} else {
+									if (getDistanceToClosestEdibleGhostGE5) {
+										if (getClosestEdibleGhostDistanceToClosestJunctionRightGT10) {
+											if (getDistToClosestPowerPillUpGE50) {
+												moveRight
+											} else {
+												if (getDistanceToClosestJunctionUpEQ75) {
+													moveUp
+												} else {
+													if (getClosestJunctionExitsNumberLeftEQ20) {
+														moveDown
+													}
+												}
+											}
+										} else {
+											moveDown
+										}
+									} else {
+										moveDown
+									}
+								}
+							} else {
+								moveUp
+							}
+						} else {
+							moveUp
+						}
+					}
+				}
+			}
+		}
+	}
+} else {
+	if (getClosestEdibleGhostDistanceToClosestJunctionUpGT60) {
+		if (getDistToClosestPowerPillLeftGE40) {
+			moveDown
+		} else {
+			moveUp
+		}
+	} else {
+		moveLeft
+	}
+}

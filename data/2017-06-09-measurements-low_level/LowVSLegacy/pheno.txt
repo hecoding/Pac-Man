@@ -1,0 +1,11 @@
+if (getDistanceToClosestNonEdibleGhostRight LE 5) {
+	moveDown
+}
+else {
+	if (getDistanceToClosestEdibleGhostLeft LE 40) {
+		moveUp
+	}
+	else {
+		moveRight
+	}
+}
