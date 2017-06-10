@@ -1,1 +1,15 @@
 \chapter{Resumen}
+Desde el nacimiento de los videojuegos la inteligencia artificial ha ido de la mano de estos, ya sea aplicando técnicas para el comportamiento de personajes, estrategias de los enemigos, trazado de rutas, etc.
+
+Queremos experimentar en nuestro trabajo con la Evolución Gramatical (una variante de la Programación Genética) para evolucionar bots cuyo comportamiento se genera desde la derivación de reglas gramaticales, y ver qué resultados da a la hora de aprender a jugar. Para ello hemos experimentado evolucionando un bot para el juego Ms. Pac-Man vs Ghosts, un famoso arcade que posee varios subobjetivos como sobrevivir el mayor tiempo posible, comer la mayor cantidad de píldoras, comer tantos fantasmas como se pueda o pasarse tantos niveles como se pueda antes de que nos coja un fantasma.
+ 
+Concretamente hemos experimentado y mostramos resultados para controladores basados primero en gramáticas que proporcionaban secuencias de movimientos, generando conceptualmente un autómata, mejorándolos luego introduciendo símbolos condicionales. 
+Tras eso abandonamos los autómatas y las secuencias de acciones repetidas en bucle por árboles de decisión, los cuales generamos con varias gramáticas diferentes, con acciones de bajo, medio y alto nivel respectivamente. Para todas ellas analizamos sus resultados y sacamos conclusiones. 
+ 
+Experimentamos también con diversas mejoras a la evolución gramatical, como son:
+\begin{itemize}
+\item Optimización multi-objetivo: Por lo útil de poder modificar el comportamiento del bot con simplemente cambiar las funciones de evaluación del algoritmo, para alcanzar subobjetivos que consideramos más importantes en una una determinada situación, y combinarlos entre sí.
+\item Operadores de cruce y mutación especializados, como cruce LHS y mutación neutral, que mejoren el rendimiento del algoritmo en tiempo y resultados.
+\end{itemize}
+ 
+En definitiva en este trabajo mostraremos que el enfoque basado en Evolución Gramatical tiene muchas posibilidades de mejora y consigue buenos resultados a la hora de desarrollar bots que aprendan a jugar a videojuegos. Para Pac-Man obtienen puntuaciones muy altas y completan varios niveles, superando incluso a los bots hechos a mano u otros bots evolutivos conocidos.
