@@ -1,1 +1,13 @@
 \chapter{Abstract}
+Ever since the birth of video-games we’ve seen artificial intelligence techniques applied to them: Character behaviour, enemy strategies, pathfinding, etc. We want to explore the possibilities of Grammatical Evolution (a Genetic Programming variant) to evolve game strategies generated from the derivation of defined grammar rules. For this purpose, we experimented with the evolution of a bot for Ms. Pac-Man, a well-known game which can have many sub-goals, like surviving the most time possible, eating the most pills, killing as many ghosts as it can, or go through a lot of levels before dying to the ghosts.
+ 
+We have experimented and will show results for controllers based firstly in grammars that generated a sequence of movements, later including conditions in this sequence.
+After that we switched from the repetition of sequences to decision trees, which we have generated using different grammars with low, mid and high level actions. For each of them we show results and obtain conclusions.
+ 
+We will also test some upgrades to grammatical evolution, like:
+\begin{itemize}
+\item Multi-objective optimization: Given the complexity of the algorithms used and the usefulness of being able to modify the artificial intelligence behaviour swiftly, by simply changing the evaluator functions depending on what goals we want to achieve.
+\item Specialized cross and mutation operators, like LHS cross-over and neutral mutation.
+\end{itemize}
+ 
+In the end we will show that a grammatical evolution approach has a lot of room to improve its efficiency, gets very good results when faced with obtaining controllers for video games, getting high scores for Pac-Man, as well as passing many levels, overcoming hand-made bots and others that have used evolutionary techniques previously.
