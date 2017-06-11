@@ -1,7 +1,44 @@
 \chapter{Introducción}
 
-\section{Motiavación}
+\section{Motivación}
+Desde el nacimiento del mundo de los videojuegos siempre ha sido necesario utilizar en ellos técnicas de inteligencia artificial: Para encontrar caminos óptimos entre dos puntos, evitar obstáculos, adaptar comportamientos de personajes u objetos, etc. Además, una de las dificultades de la inteligencia artificial, el requerimiento de un sistema de percepción fiable, se resuelve con gran facilidad en los videojuegos simplemente leyendo información del estado del juego.
+
+A su vez los videojuegos son la plataforma perfecta para desarrollar, probar y mejorar diversas técnicas de aprendizaje, dado que son entornos controlados, en los que se pueden realizar multitud de experimentos con gran rapidez, a la vez que permiten definir diferentes problemas con facilidad, tanto en estructura como en dificultad. 
+ 
+Hemos elegido Pac-Man por disponer de una versión con una interfaz fácil de creación de controladores, poder comparar nuestros resultados con otros existentes (ya que se realizan competiciones), y la relativa sencillez del código y el juego en sí mismo frente a la complejidad que conlleva implementar un controlador que juegue bien utilizando técnicas de inteligencia artificial.
+ 
+Los controladores, o ``\textit{bots}'', simulan un jugador humano tratando de lograr los objetivos del juego. Para ello determinan que movimientos o acciones han de hacerse en cada momento de la partida, mediante técnicas de algoritmia muy diversas.
+ 
+Nuestro objetivo es experimentar en este sentido, intentando generar bots que se comporten de manera  intuitivamente razonable,  y que sean capaces de obtener puntuaciones y resultados inalcanzables para jugadores \textit{amateur}. Para ello, tras decidir centrarnos en el campo de la programación evolutiva, hemos optado por generar dichos bots mediante el uso de gramáticas evolutivas.
+
+Esta decisión se debe a dos razones de peso. La primera, las facilidades que ofrecen a la hora de resolver problemas que requieran la generación de bloques de código, al ser el lenguaje en el que esté codificado fácilmente definible por una gramática. La segunda, la relativa escasez de material aún al respecto, sobretodo tratando de aplicar mejoras como multi-objetivo o mutación neutral.
 
 \section{Objetivos}
+El objetivo general de nuestro trabajo se centra en desarrollar una plataforma donde poder evaluar la viabilidad y el éxito del uso de gramáticas evolutivas para tomar decisiones en tiempo real, explorando diversas mejoras posibles conocidas en evolución gramatical. 
+
+En concreto evaluaremos su efectividad creando un bot capaz de jugar al popular arcade Ms. Pac-Man y analizando los resultados en forma del comportamiento del bot, puntos obtenidos u otras variables.
+ 
+Un compendio de objetivos concretos, como punto de partida y que han surgido a lo largo del trabajo son los siguientes:
+\begin{itemize}
+\item Integración del juego Ms. Pac-Man con un framework que permita el uso de gramáticas evolutivas (JECO), para así permitir a nuestro bot tomar decisiones utilizando evolución gramatical.
+
+\item Creación de un traductor de árboles de derivación expresados como cadenas de caracteres, generadas mediante evolución gramatical, a árboles típicos de nodos terminales y no terminales interpretados como árboles de decisión, capaces de representar movimientos o llamadas a funciones proporcionadas por la implementación de Pac-Man, que permitan consultas al estado del juego en las gramáticas que desarrollemos.
+
+\item Prueba y evaluación de diferentes gramáticas, con espacios de soluciones de complejidad variable, así como con más o menos conocimiento experto agregado a la toma de decisiones.
+
+\item Experimentación con diversas técnicas que potencialmente pueden mejorar el rendimiento de las gramáticas evolutivas, como fitness multi-objetivo, operadores de cruce (LHS) y mutación especializadas (Neutral mutation).
+\end{itemize}
 
 \section{Estructura de la memoria}
+La estructura organizativa consta de los siguientes capítulos.
+
+Resumen y palabras clave, tanto en español como en inglés.
+Índices.
+Capítulo 1, introducción, donde contamos la motivación de nuestro trabajo, sus objetivos y su estructura.
+Capítulo 2, programación evolutiva, donde hablamos de las tecnologías que usaremos y el estado del arte de las mismas.
+Capítulo 3, Ms. Pac-Man, donde describimos el juego, la arquitectura de controladores sobre la que vamos a trabajar, y comentamos las competiciones en las que se ha usado con anterioridad.
+Capítulo 4, bots basados en secuencias de acciones, en los que se detallan nuestros primeros experimentos con evolución gramatical (así como las gramáticas utilizadas) para producir programas muy sencillos pero poco efectivos representados como cadenas de acciones prefijadas, así como las limitaciones de este sistema.
+Capítulo 5, bots basados en árboles de decisión, donde describimos el paso a representar nuestros programas como árboles en los que se integran evaluaciones condicionales. Contamos las gramáticas desarrolladas y los resultados obtenidos. Así mismo, también incluiremos aquí las mejoras implementadas a la evolución gramatical para obtener mejores resultados.
+Capítulo 6, herramienta gráfica de experimentación, describe la interfaz gráfica que hemos desarrollado para poder realizar nuestras pruebas sobre el juego de manera rápida y fácil.
+Capítulo 7, conclusiones, donde analizamos los resultados obtenidos de nuestro trabajo y qué trabajo futuro puede hacerse sobre lo ya realizado.
+Por último el capítulo 8 consistirá en las contribuciones particulares de cada elemento del grupo.
