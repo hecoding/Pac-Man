@@ -1,7 +1,42 @@
 \chapter{Introduction}
 
 \section{Motivation}
+Since the birth of video-games it has always been necessary to use Artificial Intelligence techniques on them: For pathfinding, obstacle avoiding, NPC behaviour and such. Also, one of the problems of Artificial Intelligence, the requirement of trustworthy samples, is very easy to solve in video-games, with mere calls to game state providers.
+
+Video-games are the perfect platform to develop and test various learning techniques since they provide controlled environments, in which is very easy to run massive amounts of experiments in a very short period of time. It’s also very easy to specify problems in games, both in structure and difficulty.
+ 
+We have chosen Pac-Man because we found a very simple and easy interface to make controllers, we would be able to compare ourselves to previous ones (since there are competitions) and the relative simplicity of the code and the game itself compared to the complex task of developing a bot that plays nicely using Artificial Intelligence techniques.
+ 
+The controllers, or “bots”, emulate a human player trying to achieve the game’s goals. For this task, the bot determines which movement or action has to be done every time Pac-Man can move, which can be done with many different algorithmic approaches.
+ 
+Our primary objective is to experiment in this area, trying to generate bots that obtain high scores and results that would normally be unreachable for human players. We have opted for Grammar Evolution as our bot architecture.
+
+There are two reasons for this: Firstly, it’s very easy to define behaviour for a game like Pac-Man in a grammar. Second, there hasn’t been much work related to grammatical evolution, especially trying some upgrades to the architecture like multi-objective oriented evaluation and operators like neutral mutation. 
 
 \section{Objectives}
+The main goal of our project will be developing a framework where we can test how good the use of grammatical evolution can be when faced with making real-time decisions, exploring some upgrades to the architecture.
+
+We will test its effectiveness developing a bot that can play Pac-Man, and will analyze the results in various terms, namely score, levels reached or other variables.
+ 
+A list of agreed detailed objectives to develop during the project are the following:
+\begin{itemize}
+\item Integration of the Ms. Pac-Man game with a framework that allowed for grammatical evolution techniques (JECO), so that our bot could use grammars.
+
+\item The development of a parser from derivation trees encoded as strings, originated with grammatical evolution, to a decision tree of terminal and not terminals that could encode game function calls and actions.
+
+\item Testing and evaluation of various grammars with different search space complexity, and various degrees of expert knowledge aggregated.
+
+\item Experimenting with various upgrades for grammatical evolution, like multi-objective fitness and specialized operators like LHS crossover or neutral mutation. 
+\end{itemize}
 
 \section{Document structure}
+Abstract and keywords, both in Spanish and English.
+Indexes.
+Chapter 1, introduction, where we talk about the motivation for our project, its objectives, and its structure.
+Chapter 2, evolutive programming, where we explain the technologies we will be using and the current state of the art for them.
+Chapter 3, Ms. Pac-Man, where we describe the game, the bot implementation architecture we will be working with, and the competitions it has been used in before.
+Chapter 4, bots based in action strings, in which we detail our firsts experiments with grammatical evolution (and the grammars used) to produce very simple but not very effective programs, encoded as a chain of actions, as well as the limitations of this method.
+Chapter 5, bots based in decision trees, where we describe the transition of encoding our programs as trees in which we can integrate conditional evaluations. We talk about the developed grammars and the results achieved. Also, we include here the upgrades we implement on our try to achieve better results.
+Chapter 6, graphical tool for experimentation, describes the graphical user interface we’ve developed to be able to run experiments in a fast and simple manner.
+Chapter 7, conclusions, where we analyze the results obtained with our project and what future work can be done.
+Lastly chapter 8 consists in the particular contributions of each of the members of this project.
