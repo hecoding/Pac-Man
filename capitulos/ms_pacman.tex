@@ -1,20 +1,22 @@
 \chapter{Ms. Pac-Man}
-
+\begin{figure}[H]
+\centering
+\includegraphics[width=6.5cm]{pacman}
+\end{figure}
 
 Ms. Pac-Man es un juego antológico desde su aparición en los arcades en el año 1981. Desde entonces han sido muchas las variantes de este clásico y sus diversos usos (recreacional, investigación, competición).
  
 La versión del juego que vamos a utilizar está implementada por Philipp Rohlfshagen, basada en implementaciones previas de Simon Lucas y David Robles, los tres de la universidad de Essex, Reino Unido.
  
-Dicha versión se llama ``\textbf{\textit{Ms. Pac-Man Vs. Ghosts}}''
-Referencias a página del torneo y código
-http://www.pacmanvghosts.co.uk
-https://github.com/davidrobles/pacman-vs-ghosts
+Dicha versión se llama ``\textbf{\textit{Ms. Pac-Man Vs. Ghosts}}''\cite{pacmanvsghostsTournamentPage}\cite{pacmanvsghostsGit}.
 
 \section{Descripción del juego}
 Las variantes del juego difieren mucho en cuanto a objetivos de juego y recompensas por los mismos, así como reglas a seguir. La descripción de la versión \textit{Ms. Pac-Man Vs. Ghosts} es la siguiente:
 
 El jugador o Pac-Man debe recorrer laberintos comiendo ``\textit{pills}'' y enfrentándose a cuatro fantasmas que intentarán perseguir a Pac-Man. Se dispone de 4 laberintos, todos con un ``\textit{lair}'' donde nacen y resucitan (cada nivel más rápidamente) los cuatro fantasmas tras ser comidos, y un punto con las mismas características para Pac-Man, el cual puede moverse por los laberintos cambiando su dirección en cualquier momento, siempre que la entrada dada por el jugador sea un movimiento válido (en otro caso continúa hacia delante en la dirección del último movimiento realizado exitosamente).
  
+\blankline
+
 Los laberintos son una serie de pasillos y cruces de caminos, repletos de \textit{pillsi}, y con cuatro ``\textit{power pills}'' cada uno. Las pills proporcionan puntos, y las power pills (con forma de pill agrandada) además permiten a Pac-Man comerse a los fantasmas durante un breve periodo de tiempo.
 
 Todos los laberintos tienen una estructura toroidal (o \textit{wraparound}, esto es, al salir de los límites por un lado se aparece por el contrario, dando continuidad y dinamismo a la partida). Al comer Pac-Man una \textit{power pill}, puede comerse a los fantasmas durante un breve periodo de tiempo (siendo este periodo más corto en cada nivel), enviandolos al lair y ganando puntos. Además, durante la duración del efecto de las power pills, la velocidad de los fantasmas queda reducida a la mitad de la de Pac-Man. Las \textit{pills} y las \textit{power pills} también dan puntos, y se pasa al siguiente nivel cuando no queda ninguna de ambas.
@@ -38,15 +40,15 @@ El código del juego viene preparado para facilitar a los concursantes diseñar 
  
 La versión original trae como ejemplo una serie de controladores para los fantasmas, que vamos a usar para medir la ``calidad'' o ``cómo de buenos'' son los programas que generemos con gramáticas evolutivas. Son los siguientes:
 \begin{itemize}
-\item Random Ghosts. Los fantasmas toman direcciones aleatorias cada vez que llegan a una intersección y al salir del \textit{lair}.
+\item \textbf{Random Ghosts}. Los fantasmas toman direcciones aleatorias cada vez que llegan a una intersección y al salir del \textit{lair}.
 
-\item Starter Ghosts. Versión de los fantasmas que consiste en: Alejarse de Pac-Man si está cerca de una \textit{power pill} o si el fantasma en concreto es comestible (por haberse comido Pac-Man una \textit{power pill} mientras él estaba vivo), o si no, con un 90\% de posibilidades dirigirse hacia Pac-Man y con un 10\% hacer un movimiento aleatorio entre los que sean posibles para el fantasma en ese momento.
+\item \textbf{Starter Ghosts}. Versión de los fantasmas que consiste en: Alejarse de Pac-Man si está cerca de una \textit{power pill} o si el fantasma en concreto es comestible (por haberse comido Pac-Man una \textit{power pill} mientras él estaba vivo), o si no, con un 90\% de posibilidades dirigirse hacia Pac-Man y con un 10\% hacer un movimiento aleatorio entre los que sean posibles para el fantasma en ese momento.
 
-\item Aggressive Ghosts. Cada vez que un fantasma llega a una intersección tiene una probabilidad determinada de o bien dirigirse hacia Pac-Man, o bien hacer un movimiento aleatorio.
+\item \textbf{Aggressive Ghosts}. Cada vez que un fantasma llega a una intersección tiene una probabilidad determinada de o bien dirigirse hacia Pac-Man, o bien hacer un movimiento aleatorio.
 
-\item Legacy. \textit{Legacy} diferencia entre los 4 fantasmas. Cada vez que llegan a una intersección, tres de ellos siempre se dirigen hacia Pac-Man por el camino más corto, cada uno con un cálculo de distancia diferente: Manhattan, Euclídea y utilizando unas distancias precalculadas para cada dos posiciones de cada laberinto. El cuarto fantasma hace siempre un movimiento aleatorio.
+\item \textbf{Legacy}. \textit{Legacy} diferencia entre los 4 fantasmas. Cada vez que llegan a una intersección, tres de ellos siempre se dirigen hacia Pac-Man por el camino más corto, cada uno con un cálculo de distancia diferente: Manhattan, Euclídea y utilizando unas distancias precalculadas para cada dos posiciones de cada laberinto. El cuarto fantasma hace siempre un movimiento aleatorio.
 
-\item Legacy 2: The Reckoning. La versión más compleja y efectiva de fantasmas junto a \textit{Legacy}. Tienen en cuenta situaciones como estar muy agrupados entre sí para poder dispersarse, o alejarse de Pac-Man si son comestibles (\textit{edibles}) o Pac-Man está cerca de una \textit{power pill}. Las distancias para determinar los movimientos son definibles mediante constantes en la clase del código.
+\item \textbf{Legacy 2: The Reckoning}. La versión más compleja y efectiva de fantasmas junto a \textit{Legacy}. Tienen en cuenta situaciones como estar muy agrupados entre sí para poder dispersarse, o alejarse de Pac-Man si son comestibles (\textit{edibles}) o Pac-Man está cerca de una \textit{power pill}. Las distancias para determinar los movimientos son definibles mediante constantes en la clase del código.
 \end{itemize}
  
 También trae dos controladores para Pac-Man, uno que hace movimientos aleatorios (similar a \textit{Random Ghosts}) y otra con un intento primitivo de estrategia que tiene en cuenta si los fantasmas cercanos son comestibles o no y plantea la posibilidad de atacarlos.
@@ -54,4 +56,4 @@ También trae dos controladores para Pac-Man, uno que hace movimientos aleatorio
 \section{Competiciones}
 El framework descrito se ha utilizado y se utiliza actualmente para organizar competiciones en las que los participantes implementan un bot para Pac-Man o para los fantasmas, y tratan de obtener la mayor puntuación posible dadas una serie de reglas.
  
-Actualmente activa, la ``\textit{Ms. Pac-Man Vs. Ghost Team Competition}'' fue celebrada en el CIG2016 ($Computational Intelligence \& Games 2016, referencia a http://cig16.image.ece.ntua.gr/$) y va a ser celebrada de nuevo en 2017. En esta competición se utiliza la regla de ``observación parcial'', en la que tanto Pac-Man como los fantasmas sólo pueden obtener información de lo que está en su rango de visión, es decir, el pasillo del mapa en el que estén o, si están en una intersección, los pasillos que se originen de ella.
+Actualmente activa, la ``\textit{Ms. Pac-Man Vs. Ghost Team Competition}'' fue celebrada en el CIG2016\cite{CIG2016Page} (\textit{Computational Intelligence \& Games 2016}) y va a ser celebrada de nuevo en 2017. En esta competición se utiliza la regla de ``observación parcial'', en la que tanto Pac-Man como los fantasmas sólo pueden obtener información de lo que está en su rango de visión, es decir, el pasillo del mapa en el que estén o, si están en una intersección, los pasillos que se originen de ella.
