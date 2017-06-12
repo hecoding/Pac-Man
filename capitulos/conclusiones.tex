@@ -40,7 +40,6 @@ Uno de los factores que nos permiten obtener mejores resultados que el bot \cite
 Otro de los factores es el uso de numerosos parámetros para evaluar sus funciones condicionales. Por ejemplo, su bot utiliza una ventana alrededor de Pac-Man, dentro de la cual evalúa condiciones como encontrar fantasmas dentro de esta. Para emplear dicha ventana, emplea dos parámetros ancho y alto. Por otro lado, nuestras funciones condicionales obtienen directamente la distancia de la ruta a determinados elementos, pudiendo operar esta distancia con distintos operadores numéricos sobre valores también numericos.
 \begin{table}[]
 \centering
-\caption{Pac-Man vs Ghost controllers' comparison.}
 \label{table:single_obj}
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -59,12 +58,12 @@ UCD Dublin bot \cite{galvan2010evolving} &  & 12350 & 3945 & - & - & - & - & - &
 \textbf{Medium-level} &  & \textbf{15960} & \textbf{6358} & \textbf{2883} & \textbf{3} & \textbf{0.9} & \textbf{0.7} & \textbf{4973} & \textbf{1916} & \textbf{730} \\ \cline{1-1} \cline{3-11} 
 \textbf{High-level} &  & \textbf{20040} & \textbf{5972} & \textbf{2832} & \textbf{4} & \textbf{1} & \textbf{0.6} & \textbf{8364} & \textbf{2026} & \textbf{1020} \\ \hline
 \end{tabular}
+\caption{Pac-Man vs Ghost controllers' comparison.}
 \end{table}
 
 Por último, si bien el empleo de la optimización multiobjetivo supone una mejora significativa en ejecuciones del algoritmo evolutivo relativamente cortas (al evitar estancamiento en los numerosos mínimos locales), no produce una diferencia suficientemente significativa en los bots generados mediante ejecuciones suficientemente largas. Esto es apreciable en la Tabla~\ref{table:multi-objective} (donde las sigles MO se refieren a los bots que emplean la Optimización Multiobjetivo), y sucede así en el caso concreto de Ms. Pac-Man vs Ghost debido a la relación directa entre los distintos fitness que hemos perseguido en multiobjetivo (fantasmas comidos, niveles completados y puntos alcanzados sin el multiplicador de puntos al comer fantasmas) con la puntuación (fitness perseguido previo a la optimización multiobjetivo), siendo esta una composición de los fitness anteriores.
 \begin{table}[tb]
 \centering
-\caption{Pac-Man vs Ghost controllers' comparison including Multi-Objective}
 \label{table:multi-objective}
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -79,6 +78,7 @@ Medium-level \ref{table:single_obj} & \multirow{4}{*}{Random} & {64600} & {48558
 {High-level \ref{table:single_obj}} &  & {20040} & {5972} & {2832} & {4} & {1} & {0.6} & {8364} & {2026} & {1020} \\ \cline{1-1} \cline{3-11} 
 \textbf{High-level (MO)} &  & \textbf{20040} & \textbf{5972} & \textbf{2832} & \textbf{4} & \textbf{1} & \textbf{0.6} & \textbf{8364} & \textbf{2026} & \textbf{1020} \\ \hline
 \end{tabular}
+\caption{Pac-Man vs Ghost controllers' comparison including Multi-Objective.}
 \end{table}
 
 \section{Trabajo futuro}

@@ -135,7 +135,7 @@ Con la gramática de bajo nivel pretendemos que el bot tenga un comportamiento b
 Los resultados de estos operadores de obtención del estado del juego se comparan dentro de las condiciones de las declaraciones \texttt{if} contra un número. Este número en vez de permitir generarlo de forma arbitraria por la gramática lo que hemos decidido es introducir nosotros un conjunto discreto de números que pueden ser escogidos para las comparaciones, reduciendo de este modo el espacio de búsqueda y la generaciones de números absurdos (extremadamente grandes).
 
 \subsubsection{Notación BNF}
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática de bajo nivel]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Gramática de bajo nivel.}, captionpos=b]
 <grammar> ::= <selection-statement>
  
 <selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
@@ -208,6 +208,7 @@ Los resultados de estos operadores de obtención del estado del juego se compara
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/low_level}
+\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas Random y Legacy usando la gramática de bajo nivel. Función fitness: 1000000 - puntos obtenidos.}
 \end{figure}
 
 Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
@@ -219,7 +220,7 @@ Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
 \item El comportamiento del mejor individuo es siempre el mismo. Pac-Man va directamente a la esquina inferior izquierda del nivel y se queda quieto en cierto punto en el cual los fantasmas no le detectan, consiguiendo pasarse niveles porque el juego cada 4000 \textit{ticks} cambia de nivel inexorablemente y da una cierta cantidad de puntos al jugador. Este error del juego solo lo detecta hasta el nivel 3, nivel en el que es siempre eliminado por los fantasmas. A este comportamiento le hemos denominado bot ``Camper''.
 \end{itemize}
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Ejemplo de bot típico producido usando la gramática de bajo nivel entrenado contra Random Ghosts]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Ejemplo de bot típico producido usando la gramática de bajo nivel entrenado contra Random Ghosts.}, captionpos=b]
 if (getDistanceToClosestNonEdibleGhostUpNE25) {
   if (getDistanceToClosestNonEdibleGhostLeftLE90) {
     moveRight
@@ -305,7 +306,7 @@ if (getDistanceToClosestNonEdibleGhostUpNE25) {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Mejor individuo producido usando la gramática de bajo nivel evolucionado jugando contra Legacy Ghosts]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Mejor individuo producido usando la gramática de bajo nivel evolucionado jugando contra Legacy Ghosts.}, captionpos=b]
     if (getDistanceToClosestNonEdibleGhostRight LE 5) {
         moveDown
     }
@@ -334,7 +335,7 @@ Con esta gramática de medio nivel intentamos obtener mejores resultados en punt
 Dado que estos operadores de acción disponen internamente de acceso al estado del juego hemos optado por prescindir de los operadores de obtención de información menos utilizados o que no son útiles en la gramática de medio nivel (como la distancia a la \textit{pill} más cercana al bot en dirección arriba). De este modo solo dispone de los operadores más útiles (y los que prácticamente siempre usa) y permite guiar la búsqueda más eficientemente.
 
 \subsubsection{Notación BNF}
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática de medio nivel]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Gramática de medio nivel.}, captionpos=b]
 <grammar> ::= <selection-statement>
 
 <selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
@@ -372,6 +373,7 @@ Dado que estos operadores de acción disponen internamente de acceso al estado d
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/medium_level}
+\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas Random y Legacy usando la gramática de medio nivel. Función fitness: 1000000 - puntos obtenidos.}
 \end{figure}
 
 Las conclusiones obtenidas son:
@@ -387,7 +389,7 @@ Las conclusiones obtenidas son:
 
 Como se puede apreciar, la gramática de bajo nivel siempre lleva a un comportamiento de bot ``Camper'' y la gramática de medio nivel a un comportamiento de bot ``Cazador''. Estos comportamientos vienen dados principalmente por los puntos que se obtienen al jugar, por lo que investigamos el uso de una gramática de alto nivel y comparamos los resultados obtenidos con la gramática de medio nivel. Así mismo estudiamos distintas funciones \textit{fitness} y comprobamos si con estas nuevas funciones conseguimos mejores comportamientos.
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Mejor individuo producido usando la gramática de medio nivel para evolucionar contra Random Ghosts.]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Mejor individuo producido usando la gramática de medio nivel para evolucionar contra Random Ghosts.}, captionpos=b]
     if (getDistanceToClosestNonEdibleGhost > 10) {
         if (getDistanceToClosestNonEdibleGhost < 20) {
             getDirectionTowardsClosestPowerPill 
@@ -401,7 +403,7 @@ Como se puede apreciar, la gramática de bajo nivel siempre lleva a un comportam
     }
 \end{lstlisting}
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Mejor individuo producido usando la gramática de medio nivel para evolucionar contra Legacy Ghosts.]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Mejor individuo producido usando la gramática de medio nivel para evolucionar contra Legacy Ghosts.}, captionpos=b]
     if (getDistanceToClosestNonEdibleGhost >= 5) {
         getDirectionTowardsClosestPill
     } else {
@@ -424,7 +426,7 @@ Genera un movimiento hacia el fantasma más comible cercano siempre que este pue
 Genera un movimiento hacia la \textit{pill} más cercana (o si no quedan \textit{pills}, la \textit{power pill} más cercana) siempre y cuando sea alcanzable por Pac-Man antes que por un fantasma. Si no llega a tiempo, mueve en la última dirección en la que lo hizo el turno anterior.
 
 \subsubsection{Notación BNF}
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática de alto nivel.]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Gramática de alto nivel.}, captionpos=b]
 <grammar> ::= <selection-statement>
 
 <selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
@@ -457,6 +459,7 @@ Debido al conocimiento experto que poseen las funciones, la gramática utilizada
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/high_level}
+\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas Random y Legacy usando la gramática de alto nivel. Función fitness: 1000000 - puntos obtenidos.}
 \end{figure}
 
 Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
@@ -464,7 +467,7 @@ Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
 \item La velocidad de ejecución del algoritmo es aún más rápida que con la gramática de medio nivel, de forma que la ejecución se realiza en apenas unos segundos.
 
 \item El código generado habitualmente se parece mucho al obtenido mediante la gramática de medio nivel: Un \textit{if-else} con una inecuación numérica que generalmente tiene en cuenta el fantasma más cercano. La más notable diferencia es que las acciones de medio nivel como \texttt{getDirectionAwayFromClosestNonEdibleGhost}, se ven sustituidas por su correspondiente directa de alto nivel, como \texttt{escapeHL}.
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Código del mejor individuo obtenido en una población evolucionada con la gramática de medio nivel.]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Código del mejor individuo obtenido en una población evolucionada con la gramática de medio nivel.}, captionpos=b]
     if (getDistanceToClosestNonEdibleGhost >= 5) {
         getDirectionTowardsClosestPill
     } else {
@@ -472,7 +475,7 @@ Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
     }
 \end{lstlisting}
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Código del mejor individuo obtenido en una población evolucionada con la gramática de alto nivel.]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Código del mejor individuo obtenido en una población evolucionada con la gramática de alto nivel.}, captionpos=b]
     if (getDistanceToClosestNonEdibleGhost <= 5) {
         escapeHL
     } else {
@@ -485,7 +488,7 @@ Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
 
 Todo esto nos indica que para tareas en las que es importante obtener buenos resultados de forma rápida, conviene favorecer gramáticas de alto nivel, mientras que si buscamos los mejores resultados posibles a cambio de un tiempo de evolución largo, conviene usar gramáticas de medio nivel.
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Ejemplo de bot producido al evolucionar usando la gramática de alto nivel (mismo resultado entrenando tanto contra Random Ghosts como Legacy Ghosts).]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Ejemplo de bot producido al evolucionar usando la gramática de alto nivel (mismo resultado entrenando tanto contra Random Ghosts como Legacy Ghosts).}, captionpos=b]
     if (getDistanceToClosestNonEdibleGhost <= 5) {
         escapeHL
     } else {
