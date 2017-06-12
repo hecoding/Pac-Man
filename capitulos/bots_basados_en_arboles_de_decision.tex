@@ -34,7 +34,7 @@ Posteriormente optamos por un cambio en la representación del fenotipo. Concret
 La razón de estos árboles era poder codificar comportamientos mucho más complejos en sus diferentes ``ramas'', pudiendo además explotar la riqueza de las gramáticas, simplificar la lógica de ejecución, y desarrollar una base mucho más estable sobre la que apoyar futuras iteraciones.
 
 \subsection{Parsing de fenotipo a árbol}
-A la hora de realizar el cambio estructural de fenotipo, optamos por realizar un parsing del fenotipo desde una cadena de caracteres (producida por JECO mediante evolución gramatical) a un árbol que organiza los ya mencionados condicionales, consecuentes y movimientos de la forma más intuitiva posible. Dicho parsing se ve ayudado por caracteres de separación (``\texttt{\_}'' por convenio) entre elementos, gracias a los cuales se simplifica la tarea de construir el árbol elemento a elemento. La estructuración de dichos elementos dentro del árbol se realiza de la siguiente forma:
+A la hora de realizar el cambio estructural de fenotipo, optamos por realizar un parsing del fenotipo desde una cadena de caracteres (producida por JECO mediante evolución gramatical) a un árbol que organiza los ya mencionados condicionales, consecuentes y movimientos de la forma más intuitiva posible. La estructuración de dichos elementos dentro del árbol se realiza de la siguiente forma:
 
 \subsubsection{Nodos terminales}
 Los nodos terminales realizan una acción o una consulta. Si es una acción puede tratarse de:
@@ -138,15 +138,15 @@ Los resultados de estos operadores de obtención del estado del juego se compara
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática de bajo nivel]
 <grammar> ::= <selection-statement>
  
-<selection-statement> ::= if(_<condition>_){_<statement>_}_else{_<statement>_}
-                                        | if(_<condition>_){_<statement>_}
+<selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
+                        | if( <condition> ){ <statement> }
  
 <statement> ::= <terminal-func>
-                        | <selection-statement>
+              | <selection-statement>
  
 <terminal-func> ::= <simpleMoves>
  
-<condition> ::= <number-func>_<number-operator>_<number>
+<condition> ::= <number-func> <number-operator> <number>
  
 <number-func> ::= getDistanceToClosestNonEdibleGhost
                 | getDistanceToClosestNonEdibleGhostUp
@@ -190,16 +190,16 @@ Los resultados de estos operadores de obtención del estado del juego se compara
  
  
 <number-operator> ::= EQ
-                                    | NE
-                                    | LT
-                                    | GT
-                                    | LE
-                                    | GE
+                    | NE
+                    | LT
+                    | GT
+                    | LE
+                    | GE
  
 <simpleMoves> ::= moveUp
-                             | moveDown
-                             | moveLeft
-                             | moveRight
+                | moveDown
+                | moveLeft
+                | moveRight
  
 <number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
@@ -337,33 +337,33 @@ Dado que estos operadores de acción disponen internamente de acceso al estado d
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática de medio nivel]
 <grammar> ::= <selection-statement>
 
-<selection-statement> ::= if(_<condition>_){_<statement>_}_else{_<statement>_}
-                                        | if(_<condition>_){_<statement>_}
+<selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
+                                        | if( <condition> ){ <statement> }
 
 <statement> ::= <terminal-func>
-                        | <selection-statement>
+              | <selection-statement>
 
 <terminal-func> ::= getDirectionTowardsClosestPill
-                             | getDirectionAwayFromClosestNonEdibleGhost
-                             | getDirectionTowardsClosestEdibleGhost
-                             | getDirectionTowardsClosestPowerPill
+                  | getDirectionAwayFromClosestNonEdibleGhost
+                  | getDirectionTowardsClosestEdibleGhost
+                  | getDirectionTowardsClosestPowerPill
                   
-<condition> ::= <number-func>_<number-operator>_<number>
+<condition> ::= <number-func> <number-operator> <number>
 
 <number-func> ::= getDistanceToClosestNonEdibleGhost
-                             | getDistanceToClosestEdibleGhost
-                             | getNumberOfActivePowerPills
-                             | getDistToClosestPill
-                             | getDistToClosestPowerPill
-                             | getGeometricMeanDistanceToNonEdibleGhosts
-                             | getGeometricMeanDistanceToEdibleGhosts
+                | getDistanceToClosestEdibleGhost
+                | getNumberOfActivePowerPills
+                | getDistToClosestPill
+                | getDistToClosestPowerPill
+                | getGeometricMeanDistanceToNonEdibleGhosts
+                | getGeometricMeanDistanceToEdibleGhosts
 
 <number-operator> ::= EQ
-                                    | NE
-                                    | LT
-                                    | GT
-                                    | LE
-                                    | GE
+                    | NE
+                    | LT
+                    | GT
+                    | LE
+                    | GE
 
 <number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
@@ -427,27 +427,27 @@ Genera un movimiento hacia la \textit{pill} más cercana (o si no quedan \textit
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática de alto nivel.]
 <grammar> ::= <selection-statement>
 
-<selection-statement> ::= if(_<condition>_){_<statement>_}_else{_<statement>_}
-                                        | if(_<condition>_){_<statement>_}
+<selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
+                        | if( <condition> ){ <statement> }
 
 <statement> ::= <terminal-func>
-                        | <selection-statement>
+              | <selection-statement>
 
 <terminal-func> ::= escapeHL
-                             | attackHL
-                             | seekFoodHL
+                  | attackHL
+                  | seekFoodHL
 
-<condition> ::= <number-func>_<number-operator>_<number>
+<condition> ::= <number-func> <number-operator> <number>
 
 <number-func> ::= getDistanceToClosestNonEdibleGhost
-                             | getDistanceToClosestEdibleGhost
+                | getDistanceToClosestEdibleGhost
 
 <number-operator> ::= EQ
-                                    | NE
-                                    | LT
-                                    | GT
-                                    | LE
-                                    | GE
+                    | NE
+                    | LT
+                    | GT
+                    | LE
+                    | GE
 
 <number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
