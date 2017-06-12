@@ -33,7 +33,7 @@ Un solo thread.
 
 \item Uso de una gramática que solo permitiese generar programas en forma de cadena de movimientos simples (\textbf{\texttt{U D L R}}) como una sucesión de caracteres.
 
-\item Un logger minimalista para registrar los fenotipos que producían una mejora del fitness durante la ejecución.
+\item Un generador de trazas minimalista para registrar los fenotipos que producían una mejora del fitness durante la ejecución.
 \end{itemize}
 
 Partiendo de un sistema de evolución gramatical que devolvía árboles de derivación en forma de cadenas de caracteres, la idea inicial fue encapsular tanto acciones como observadores del estado del juego dentro de dichas cadenas, que contendrían de manera prefijada las acciones a realizar o evaluar por el controlador de Pac-Man, repitiéndose en un bucle la evaluación de los caracteres de la cadena desde el principio de la misma al llegar al final. Dicha cadena-programa puede verse como un autómata en las que las transiciones son la evaluación de un carácter y paso al siguiente.
@@ -41,7 +41,7 @@ Partiendo de un sistema de evolución gramatical que devolvía árboles de deriv
 \section{Un primer bot}
 La primera versión de autómata conseguido encadenaba los distintos movimientos posibles (\texttt{Arriba, Abajo, Derecha, Izquierda}, \textbf{\texttt{U D L R}} respectivamente) pertenecientes a un alfabeto inicial que más tarde fuimos ampliando y mejorando durante la implementación.
  
-El controlador de Pac-Man generaba una transición en el autómata secuencialmente al tiempo que este le proporcionaba el movimiento asociado al estado al que transitaba, volviendo el autómata al estado inicial cuando finalizaba la cadena de caracteres definidos por la gramática.
+El controlador de Pac-Man generaba una transición en el autómata secuencialmente al tiempo que este le proporcionaba el movimiento asociado al estado al que transitaba, volviendo el autómata al estado inicial cuando finalizaba la cadena de caracteres definidos por la gramática. El fundamental problema de este sistema es que el bot no tiene en cuenta el estado de juego, viéndose obligado a realizar acciones de la secuencia que tal vez sean contraproducentes.
  
 Por ejemplo, para una de nuestras más sencillas gramáticas de partida:
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily]
@@ -55,10 +55,7 @@ Por ejemplo, para una de nuestras más sencillas gramáticas de partida:
               L
 \end{lstlisting}
 
-Una derivación gramatical válida podría ser:
-``\textbf{\texttt{U R D L}}''
-
-Que podría verse como un autómata con la siguiente forma\cite{jflapPage}:
+Una derivación gramatical válida podría ser: ``\textbf{\texttt{U R D L}}'', que podría verse como un autómata con la siguiente forma\cite{jflapPage}:
 \begin{figure}[H]
 \centering
 \includegraphics[width=8cm]{jflapo}
@@ -146,7 +143,7 @@ Los fenotipos consistentes en comer pills y huir cuando haya un fantasma cerca, 
 \end{figure}
 
 \section{Limitaciones}
-Tal como esperábamos, el empleo de este ingenuo autómata tiene varias limitaciones;
+Tal como esperábamos, el empleo de este ingenuo autómata tiene varias limitaciones.
  
 El funcionamiento de nuestros condicionales permitía una sola condición, es decir, no nos permitían evaluar varias premisas (usando operadores lógicos binarios y/o unarios) salvo mediante el encadenamiento de condicionales (\texttt{if}). 
 Tampoco teníamos la posibilidad de emplear una segunda acción que solo se ejecutase en caso de no cumplirse el condicional, a modo ``\texttt{else}''. Además, solo se realizaba una acción en el consecuente, en lugar de poder realizar una serie de acciones. 

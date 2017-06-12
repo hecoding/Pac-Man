@@ -10,22 +10,22 @@ La versión del juego que vamos a utilizar, ``\textbf{\textit{Ms. Pac-Man Vs. Gh
 
 
 \section{Descripción del juego}
-Las variantes del juego difieren mucho en cuanto a objetivos de juego y recompensas por los mismos, así como reglas a seguir. La descripción de la versión \textit{Ms. Pac-Man Vs. Ghosts} es la siguiente:
+Las variantes del juego difieren mucho en cuanto a objetivos de juego y recompensas por los mismos, así como reglas a seguir. A continuación describimos la versión del juego que usamos en este trabajo.
 
-El jugador o Pac-Man debe recorrer laberintos comiendo ``\textit{pills}'' y enfrentándose a cuatro fantasmas que intentarán perseguir a Pac-Man. Se dispone de 4 laberintos, todos con un ``\textit{lair}'' donde nacen y resucitan (cada nivel más rápidamente) los cuatro fantasmas tras ser comidos, y un punto con las mismas características para Pac-Man, el cual puede moverse por los laberintos cambiando su dirección en cualquier momento, siempre que la entrada dada por el jugador sea un movimiento válido (en otro caso continúa hacia delante en la dirección del último movimiento realizado exitosamente).
+El jugador o Pac-Man debe recorrer laberintos comiendo ``\textit{pills}'' y enfrentándose a cuatro fantasmas que intentarán perseguir a Pac-Man. Se dispone de 4 laberintos, todos con un ``\textit{lair}'' donde nacen y resucitan (cada nivel más rápidamente) los cuatro fantasmas tras ser comidos, y un punto en el que nace y resucita Pac-Man, el cual puede moverse por los laberintos cambiando su dirección en cualquier momento, siempre que la entrada dada por el jugador sea un movimiento válido (en otro caso continúa hacia delante en la dirección del último movimiento realizado exitosamente).
  
 \blankline
 
-Los laberintos son una serie de pasillos y cruces de caminos, repletos de \textit{pillsi}, y con cuatro ``\textit{power pills}'' cada uno. Las pills proporcionan puntos, y las power pills (con forma de pill agrandada) además permiten a Pac-Man comerse a los fantasmas durante un breve periodo de tiempo.
+Los laberintos son una serie de pasillos y cruces de caminos, repletos de \textit{pills}, y con cuatro ``\textit{power pills}'' cada uno. Las pills proporcionan puntos, y las power pills (con forma de pill agrandada) además permiten a Pac-Man comerse a los fantasmas durante un breve periodo de tiempo.
 
-Todos los laberintos tienen una estructura toroidal (o \textit{wraparound}, esto es, al salir de los límites por un lado se aparece por el contrario, dando continuidad y dinamismo a la partida). Al comer Pac-Man una \textit{power pill}, puede comerse a los fantasmas durante un breve periodo de tiempo (siendo este periodo más corto en cada nivel), enviandolos al lair y ganando puntos. Además, durante la duración del efecto de las power pills, la velocidad de los fantasmas queda reducida a la mitad de la de Pac-Man. Las \textit{pills} y las \textit{power pills} también dan puntos, y se pasa al siguiente nivel cuando no queda ninguna de ambas.
+Todos los laberintos tienen una estructura toroidal (o \textit{wraparound}, esto es, al salir de los límites por un lado se aparece por el contrario, dando continuidad y dinamismo a la partida). Al comer Pac-Man una \textit{power pill}, puede comerse a los fantasmas durante un breve periodo de tiempo (siendo este periodo más corto en cada nivel), enviándolos al \textit{lair} y ganando puntos. Además, durante la duración del efecto de las \textit{power pills}, la velocidad de los fantasmas queda reducida a la mitad de la de Pac-Man. Las \textit{pills} y las \textit{power pills} también dan puntos, y se pasa al siguiente nivel cuando no queda ninguna de ambas.
  
 No existen las frutas de la versión original del juego que aportan puntos adicionales.
 Pac-Man tiene tres vidas (La inicial y dos más en reserva), pudiéndose obtener vidas adicionales cada 10.000 puntos.
 
 Además, si tras 4000 iteraciones de la partida aún quedan \textit{pills} o \textit{power pills}, se pasa al siguiente nivel (considerando una iteración un intervalo de tiempo en el que tanto los fantasmas como Pac-Man hacen su movimiento y se actualiza el estado del tablero de juego). Este límite de tiempo se diseñó para evitar, en competiciones previas, que si un participante diseñaba una inteligencia artificial para controlar a los fantasmas, estos no pudieran bloquear una región del laberinto indefinidamente.
  
-Los fantasmas tratan de impedir a Pac-Man completar cada laberinto y, al moverse (cuando no son comestibles) a la misma velocidad que este, emplean estrategias basadas en su superioridad numérica. Además, los fantasmas no pueden darse la vuelta (retroceder), con una excepción: turno a turno se evalúa con resultado aleatorio la posibilidad de obligar a todos los fantasmas a darse la vuelta, por defecto 0.015\%.
+Los fantasmas tratan de impedir a Pac-Man completar cada laberinto y, al moverse (cuando no son comestibles) a la misma velocidad que este, emplean estrategias basadas en su superioridad numérica. Además, los fantasmas no pueden darse la vuelta (retroceder), con una excepción: turno a turno los fantasmas tienen una pequeña probabilidad de darse la vuelta forzosamente, por defecto 0.015\%.
  
 La puntuación se obtiene con los siguientes cálculos (originales del código de competición):
 \begin{itemize}
@@ -35,7 +35,7 @@ La puntuación se obtiene con los siguientes cálculos (originales del código d
 \end{itemize}
 
 \section{Arquitectura para crear bots}
-El código del juego viene preparado para facilitar a los concursantes diseñar sus bots, que han de implementar su código en la clase ``\textit{pacman/entries/pacman/MyPacMan.java}'', con la posibilidad de añadir clases auxiliares en ``\textit{pacman/entries/pacman/}''. Dicha clase incluye el método a implementar, que ha de devolver el siguiente movimiento de Pac-Man en cada turno, pudiendo hacer consultas a las funciones de la clase ``\textit{Game.java}'', que contiene el estado del juego para realizar el más conveniente en cada caso.
+El código del juego viene preparado para facilitar a los concursantes diseñar sus bots, que han de implementar su código en la clase ``\textit{MyPacMan}'', con clases auxiliares en ``\textit{pacman/entries/pacman/}''. Dicha clase incluye el método a implementar, que ha de devolver el siguiente movimiento de Pac-Man en cada turno, pudiendo hacer consultas a las funciones de la clase ``\textit{Game}'', que contiene el estado del juego para realizar el más conveniente en cada caso.
  
 La versión original trae como ejemplo una serie de controladores para los fantasmas, que vamos a usar para medir la ``calidad'' o ``cómo de buenos'' son los programas que generemos con gramáticas evolutivas. Son los siguientes:
 \begin{itemize}
