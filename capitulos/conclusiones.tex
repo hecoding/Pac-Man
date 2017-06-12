@@ -81,6 +81,12 @@ Medium-level \ref{table:single_obj} & \multirow{4}{*}{Random} & {64600} & {48558
 \caption{Pac-Man vs Ghost controllers' comparison including Multi-Objective.}
 \end{table}
 
+
+\section{Difusión}
+Considerando el impacto que puede tener el proyecto que hemos realizado, hemos decidido publicarlo \cite{thesisGit} como código abierto y bajo licencia GPL \cite{licenseThesisGit} en la plataforma GitHub. Esto lo hicimos con la esperanza de poder ser de ayuda a cualquier proyecto relacionado con el campo de la evolución gramatical o la inteligencia artificial aplicada a videojuegos
+
+Finalmente, una vez habíamos obtenido y analizado los resultados del proyecto, decidimos llevarlo un paso mas allá y publicar un artículo científico sobre él. Este, titulado ``A Pac-Man bot based on Grammatical evolution'', se centra en la implementación final (arboles de decisión) y el uso de gramáticas de medio y alto nivel, mencionando brevemente la mejora de optimización multiobjetivo. En estos momentos el artículo ha sido enviado al CoSECiVi 2017 (Congreso de la Sociedad Española para las Ciencias del Videojuego) y se encuentra pendiente de revisión por pares.
+
 \section{Trabajo futuro}
 Aunque estamos satisfechos con el alcance de nuestro trabajo y sus resultados, nos habría gustado experimentar y comprobar otras técnicas no incluidas por falta de tiempo. Son las que se describen a continuación.
 
@@ -96,7 +102,3 @@ Otra técnica prometedora sería la aplicación de redes neuronales debido a su 
 Como \textit{input}s tendríamos las mismas funciones de las que hacen uso las gramáticas para conocer el estado del juego y como \textit{output} nos daría un movimiento que ejecutaría Pac-Man.
 
 El problema radicaría en la arquitectura de la red, por lo que para dar con la óptima y siguiendo con el espíritu evolucionista, usaríamos el algoritmo NEAT \cite{stanley2002evolving} (\textit{NeuroEvolution of Augmenting Topologies}). Este algoritmo se vale de técnicas de Programación Evolutiva para evolucionar y proteger las topologías de las redes neuronales que genera hasta que están lo suficientemente entrenadas para resolver con éxito un problema concreto. La ventaja adicional es que se podría integrar dentro del framework JECO con mínimo esfuerzo, más allá de la implementación del mismo.
-
-\section{Difusión}
-\cite{thesisGit}
-\cite{licenseThesisGit}
