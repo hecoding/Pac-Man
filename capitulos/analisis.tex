@@ -90,7 +90,7 @@ Esta función se estanca siempre en un óptimo local produciendo el bot ``cazado
 
 \item \textit{Pills \{1000 - media de pills consumidas\}}: \textit{Fitness} que tiene como objetivo comer el máximo número de \textit{pills} posibles, sin importar la puntuación obtenida ni el nivel, aunque este último está directamente relacionado con comer \textit{pills}. Al mejor individuo que suele producir le hemos denominado bot ``Glotón''.
 
-Este bot se centra únicamente en comer \textit{pills} normales pero, si se siente amenazado por un fantasma cercano, se dirige hacia una \textit{power pill}, la consume y sigue comiendo \textit{pills} normales (pero no caza a los fantasmas). Cuando no dispone de más \textit{power pills} a las que dirigirse y un fantasma se acerca, este sigue comiendo \textit{pills} normales y es consumido por los fantasmas. Este bot suele perder en el nivel dos o en el nivel uno cuando quedan pocas \textit{pills} por comer. El código producido es el antónimo del producido por el \textit{fitness} de \textit{Puntuación}.
+Este bot se centra únicamente en comer \textit{pills} normales pero, si se siente amenazado por un fantasma cercano, se dirige hacia una \textit{power pill}, la consume y sigue comiendo \textit{pills} normales (pero no caza a los fantasmas). Cuando no dispone de más \textit{power pills} a las que dirigirse y un fantasma se acerca, este sigue comiendo \textit{pills} normales y es comido por los fantasmas. Este bot suele perder en el nivel dos o en el nivel uno cuando quedan pocas \textit{pills} por comer. El código producido es el antónimo del producido por el \textit{fitness} de \textit{Puntuación}.
 
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Mejor individuo obtenido mediante esta función fitness.]
     if( getDistanceToClosestNonEdibleGhost >= 25 ){ 
@@ -120,7 +120,7 @@ La primera función agregativa mediante este método fue la unión de las anteri
 \begin{equation}
 f(X) = \textrm{nº de pills} + \textrm{nivel máximo alcanzado}
 \end{equation}
-no es posible por la diferencia de escala de los objetivos (el número de \textit{pill} comidas va a ser siempre más grande que el nivel máximo alcanzado por lo que ese objetivo no tiene impacto visible en el \textit{fitness} del individuo) por lo que el uso de unos pesos wi serán necesarios para que ambas funciones tengan la misma importancia en la combinación lineal.
+no es posible por la diferencia de escala de los objetivos (el número de \textit{pill} comidas va a ser siempre más grande que el nivel máximo alcanzado por lo que ese objetivo no tiene impacto visible en el \textit{fitness} del individuo) por lo que el uso de unos pesos $w_i$ serán necesarios para que ambas funciones tengan la misma importancia en la combinación lineal.
 
 Dada la función
 \begin{equation}

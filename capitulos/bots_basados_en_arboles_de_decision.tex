@@ -189,12 +189,12 @@ Los resultados de estos operadores de obtención del estado del juego se compara
                 | getGeometricMeanDistanceToEdibleGhosts
  
  
-<number-operator> ::= EQ
-                    | NE
-                    | LT
-                    | GT
-                    | LE
-                    | GE
+<number-operator> ::= ==
+                    | !=
+                    | <
+                    | >
+                    | <=
+                    | >=
  
 <simpleMoves> ::= moveUp
                 | moveDown
@@ -358,12 +358,12 @@ Dado que estos operadores de acción disponen internamente de acceso al estado d
                 | getGeometricMeanDistanceToNonEdibleGhosts
                 | getGeometricMeanDistanceToEdibleGhosts
 
-<number-operator> ::= EQ
-                    | NE
-                    | LT
-                    | GT
-                    | LE
-                    | GE
+<number-operator> ::= ==
+                    | !=
+                    | <
+                    | >
+                    | <=
+                    | >=
 
 <number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
@@ -442,12 +442,12 @@ Genera un movimiento hacia la \textit{pill} más cercana (o si no quedan \textit
 <number-func> ::= getDistanceToClosestNonEdibleGhost
                 | getDistanceToClosestEdibleGhost
 
-<number-operator> ::= EQ
-                    | NE
-                    | LT
-                    | GT
-                    | LE
-                    | GE
+<number-operator> ::= ==
+                    | !=
+                    | <
+                    | >
+                    | <=
+                    | >=
 
 <number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
