@@ -36,7 +36,7 @@ Segundo, tal como se aprecia se en la Figura~\ref{graph:all_fitness}, los bots c
  
 Tercero, tal como se aprecia en la Tabla~\ref{table:single_obj}, los bots generados usando tanto la gramática de medio nivel como la de alto nivel superan los controladores de Pac-Man base así como otros bots generados por gramáticas evolutivas, como por ejemplo el generado por la universidad UCD de Dublín. Esto ocurre tanto enfrentándose al controlador \textit{Random Ghosts} como al de \textit{Legacy Ghosts}.
  
-Uno de los factores que nos permiten obtener mejores resultados que el bot\cite{galvan2010evolving} de UCD Dublin (especialmente interesante al estar también basado en gramáticas evolutivas) consiste en que su bot emplea funciones demasiado específicas, las cuales acaban limitando el comportamiento del bot, siendo una de ellas por ejemplo esperar a que los fantasmas se acerquen siempre que se encuentre al lado de una \textit{power pill}. 
+Uno de los factores que nos permiten obtener mejores resultados que el bot \cite{galvan2010evolving} de UCD Dublin (especialmente interesante al estar también basado en gramáticas evolutivas) consiste en que su bot emplea funciones demasiado específicas, las cuales acaban limitando el comportamiento del bot, siendo una de ellas por ejemplo esperar a que los fantasmas se acerquen siempre que se encuentre al lado de una \textit{power pill}. 
 Otro de los factores es el uso de numerosos parámetros para evaluar sus funciones condicionales. Por ejemplo, su bot utiliza una ventana alrededor de Pac-Man, dentro de la cual evalúa condiciones como encontrar fantasmas dentro de esta. Para emplear dicha ventana, emplea dos parámetros ancho y alto. Por otro lado, nuestras funciones condicionales obtienen directamente la distancia de la ruta a determinados elementos, pudiendo operar esta distancia con distintos operadores numéricos sobre valores también numericos.
 \begin{table}[]
 \centering
@@ -48,13 +48,13 @@ Otro de los factores es el uso de numerosos parámetros para evaluar sus funcion
 \multicolumn{1}{|c|}{} &  & \multicolumn{1}{c|}{\textbf{max}} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \multicolumn{1}{c|}{\textbf{max}} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \multicolumn{1}{c|}{\textbf{max}} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
 Random &  \multirow{5}{*}{Random} & 1380 & 501 & 213 & 1 & 0.036 & 0.186 & 5635 & 1943 & 887.5 \\ \cline{1-1} \cline{3-11} 
 NearestPill &  & 18910 & 4471 & 2654 & 5 & 1 & 0.9 & 7216 & 1795 & 1018 \\ \cline{1-1} \cline{3-11} 
-UCD Dublin bot\cite{galvan2010evolving} &  & 11640 & 4288 & - & - & - & - & - & - & - \\ \cline{1-1} \cline{3-11} 
+UCD Dublin bot \cite{galvan2010evolving} &  & 11640 & 4288 & - & - & - & - & - & - & - \\ \cline{1-1} \cline{3-11} 
 \textbf{Low-level} &  & \textbf{900} & \textbf{151} & \textbf{117} & \textbf{1} & \textbf{0.071} & \textbf{0.257} & \textbf{5094} & \textbf{2151} & \textbf{972.1} \\ \cline{1-1} \cline{3-11} 
 \textbf{Medium-level} &  & \textbf{64600} & \textbf{48558} & \textbf{10780} & \textbf{18} & \textbf{15} & \textbf{3.4} & \textbf{24000} & \textbf{21579} & \textbf{4470} \\ \cline{1-1} \cline{3-11} 
 \textbf{High-level} &  & \textbf{55480} & \textbf{32704} & \textbf{13237} & \textbf{18} & \textbf{10.4} & \textbf{4.3} & \textbf{24000} & \textbf{17457} & \textbf{6784} \\ \hline
 Random & \multirow{5}{*}{Legacy} & 1840 & 197 & 107 & 0 & 0 & 0 & 877 & 465 & 61.3 \\ \cline{1-1} \cline{3-11} 
 NearestPill &  & 7190 & 3531 & 638 & 1 & 0.4 & 0.5 & 1881 & 1152 & 143.7 \\ \cline{1-1} \cline{3-11} 
-UCD Dublin bot\cite{galvan2010evolving} &  & 12350 & 3945 & - & - & - & - & - & - & - \\ \cline{1-1} \cline{3-11} 
+UCD Dublin bot \cite{galvan2010evolving} &  & 12350 & 3945 & - & - & - & - & - & - & - \\ \cline{1-1} \cline{3-11} 
 \textbf{Low-level} &  & \textbf{120} & \textbf{120} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{600} & \textbf{425} & \textbf{34.5} \\ \cline{1-1} \cline{3-11} 
 \textbf{Medium-level} &  & \textbf{15960} & \textbf{6358} & \textbf{2883} & \textbf{3} & \textbf{0.9} & \textbf{0.7} & \textbf{4973} & \textbf{1916} & \textbf{730} \\ \cline{1-1} \cline{3-11} 
 \textbf{High-level} &  & \textbf{20040} & \textbf{5972} & \textbf{2832} & \textbf{4} & \textbf{1} & \textbf{0.6} & \textbf{8364} & \textbf{2026} & \textbf{1020} \\ \hline
@@ -95,4 +95,4 @@ Otra técnica prometedora sería la aplicación de redes neuronales debido a su 
 
 Como \textit{input}s tendríamos las mismas funciones de las que hacen uso las gramáticas para conocer el estado del juego y como \textit{output} nos daría un movimiento que ejecutaría Pac-Man.
 
-El problema radicaría en la arquitectura de la red, por lo que para dar con la óptima y siguiendo con el espíritu evolucionista, usaríamos el algoritmo NEAT\cite{stanley2002evolving} (\textit{NeuroEvolution of Augmenting Topologies}). Este algoritmo se vale de técnicas de Programación Evolutiva para evolucionar y proteger las topologías de las redes neuronales que genera hasta que están lo suficientemente entrenadas para resolver con éxito un problema concreto. La ventaja adicional es que se podría integrar dentro del framework JECO con mínimo esfuerzo, más allá de la implementación del mismo.
+El problema radicaría en la arquitectura de la red, por lo que para dar con la óptima y siguiendo con el espíritu evolucionista, usaríamos el algoritmo NEAT \cite{stanley2002evolving} (\textit{NeuroEvolution of Augmenting Topologies}). Este algoritmo se vale de técnicas de Programación Evolutiva para evolucionar y proteger las topologías de las redes neuronales que genera hasta que están lo suficientemente entrenadas para resolver con éxito un problema concreto. La ventaja adicional es que se podría integrar dentro del framework JECO con mínimo esfuerzo, más allá de la implementación del mismo.
