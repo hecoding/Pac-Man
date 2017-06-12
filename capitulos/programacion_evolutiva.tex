@@ -44,7 +44,7 @@ Se pueden encontrar una gran variedad de Algoritmos Evolutivos, siendo algunos m
 \end{itemize}
 
 \section{Programación genética}
-El objetivo de los algoritmos de Programación Genética es evolucionar programas informáticos escritos en un lenguaje determinado con el fin de encontrar el mejor programa que realice o resuelva un objetivo. En la Programación genética el genotipo de los individuos es un árbol formado por nodos. Dependiendo de su contenido los nodos son nodos terminales (expresiones que no pueden ser expandidas, como números o variables) o nodos internos (normalmente representan funciones y contienen nodos hijos, por ejemplo un nodo interno que represente la suma entre dos números el cual tendrá dos nodos hijo donde la información obtenida de cada uno será un número). El fenotipo es el programa final que será ejecutado para evaluar al individuo y la forma de ser generado a partir del genotipo varía dependiendo del lenguaje en el que estén escritos los programas siendo algunos más complejos que otros, en algunos casos el fenotipo es igual al recorrido en inorden del árbol (genotipo) o en otros casos se necesitará realizar operaciones más complejas para generar el fenotipo\cite{cervigon09}.
+El objetivo de los algoritmos de Programación Genética es evolucionar programas informáticos escritos en un lenguaje determinado con el fin de encontrar el mejor programa que realice o resuelva un objetivo. En la Programación genética el genotipo de los individuos es un árbol formado por nodos. Dependiendo de su contenido los nodos son nodos terminales (expresiones que no pueden ser expandidas, como números o variables) o nodos internos (normalmente representan funciones y contienen nodos hijos, por ejemplo un nodo interno que represente la suma entre dos números el cual tendrá dos nodos hijo donde la información obtenida de cada uno será un número). El fenotipo es el programa final que será ejecutado para evaluar al individuo y la forma de ser generado a partir del genotipo varía dependiendo del lenguaje en el que estén escritos los programas siendo algunos más complejos que otros. En algunos casos el fenotipo es igual al recorrido en inorden del árbol (genotipo) o en otros se necesitará realizar operaciones más complejas para generar el fenotipo\cite{cervigon09}.
 \begin{figure}[H]
 \centering
 \includegraphics[height=5cm]{genotipo-fenotipo-ejemplo}
@@ -84,7 +84,7 @@ Existen distintos operadores de mutación para árboles, los más comunes son lo
 \item Mutación de función: Se selecciona un nodo interno de forma aleatoria y se cambia por otro nodo interno generado aleatoriamente pero que preserve las características del nodo anterior (mismo número de nodos hijo, función que devuelva un valor del mismo tipo, etc.).
 \end{itemize}
 
-La Programación Genética no está exenta de problemas y uno muy común es el \textit{Bloating}. Al realizar la operación de cruce, el árbol de los nuevos individuos generados pueden tener un tamaño excesivamente grande y que puede ir a más dado que este puede ser cruzado en generaciones posteriores (llegando a tener individuos con árboles extremadamente largos esparcidos por la población). Además, esto genera la aparición de intrones, grupo de nodos en el genotipo que generan trozos de código que no aportan nada a la funcionalidad del código generado y que intensifican la formación de \textit{Bloating}.
+La Programación Genética no está exenta de problemas y uno muy común es el \textit{Bloating}. Al realizar la operación de cruce, el árbol de los nuevos individuos generados pueden tener un tamaño excesivamente grande y que puede ir a más dado que este puede ser cruzado en generaciones posteriores (llegando a tener individuos con árboles extremadamente largos esparcidos por la población). Además, esto genera la aparición de intrones, grupos de nodos en el genotipo que generan trozos de código que no aportan nada a la funcionalidad del código generado y que intensifican la formación de \textit{Bloating}.
 
 \begin{figure}[H]
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily]
@@ -109,7 +109,7 @@ donde $k_{empeoramiento}$ es una constante previamente elegida. De este modo, lo
 
 \item \textit{Tarpeian}: trata de eliminar individuos que excedan la extensión media de la población en base a una probabilidad. Si un individuo con longitud de genotipo superior a la media ha sido elegido para su eliminación se le asigna el valor del peor \textit{fitness} posible de tal forma que en la siguiente generación este individuo tenga muy pocas probabilidades de ser seleccionado y se elimine.
 
-\item \textit{Covariant Parsimony Pressure}\cite{poli2008covariant} funciona igual que el metodo \textit{Naive} pero empleando un valor de $k_{empeoramiento}$ calculado en cada generación mediante una fórmula que tiene en cuenta características de los genotipos de la población, como su longitud media.
+\item \textit{Covariant Parsimony Pressure:}\cite{poli2008covariant} Funciona igual que el metodo \textit{Naive} pero empleando un valor de $k_{empeoramiento}$ calculado en cada generación mediante una fórmula que tiene en cuenta características de los genotipos de la población, como su longitud media.
 \end{itemize}
 
 La Programación Genética ya ha sido utilizada para la evolución de un controlador del famoso juego Pac-Man. Koza\cite{koza1992genetic} utilizó la Programación Genética para evolucionar el código del controlador del personaje principal de Pac-Man de una versión personalizada del juego. Para ello empleó dos tipos de operadores, operadores de alto nivel para la obtención de información del juego (\textit{Distance-to-Pill},
@@ -127,7 +127,7 @@ Una Gramática Independiente del Contexto (en adelante GIC o gramática) es una 
 \includegraphics[height=4cm]{bnf}
 \end{figure}
 
-Para obtener una derivación (una secuencia de caracteres perteneciente al lenguaje que representa la BNF) se parte del Símbolo Inicial. A partir de aquí se repite recursivamente el siguiente proceso: se procesan, en orden de aparición, todos los símbolos no terminales contenidos en la expresión elegida. Para cada símbolo no terminal sin procesar se realiza el mismo proceso, se elige una expresión perteneciente al mismo y se vuelve a realizar este proceso de forma recursiva hasta elegir una expresión que contenga un terminal, momento en el que el símbolo se da por procesado y se pasa a procesar el siguiente símbolo no terminal sin haber sido completamente procesado. El proceso termina cuando todos los símbolos no terminales han sido procesados.
+Para obtener una derivación (una secuencia de caracteres perteneciente al lenguaje que representa la BNF) se parte del Símbolo Inicial. A partir de aquí se repite recursivamente el siguiente proceso: se procesan, en orden de aparición, todos los símbolos no terminales contenidos en la regla elegida. Para cada símbolo no terminal sin procesar se realiza el mismo proceso, se elige una producción perteneciente al mismo y se vuelve a realizar este proceso de forma recursiva hasta elegir una producción que contenga un terminal, momento en el que el símbolo se da por procesado y se pasa a procesar el siguiente símbolo no terminal sin haber sido completamente procesado. El proceso termina cuando todos los símbolos no terminales han sido procesados.
 
 \begin{figure}[H]
 \centering
@@ -138,13 +138,13 @@ Para obtener una derivación (una secuencia de caracteres perteneciente al lengu
 Para procesar y utilizar una BNF se usa un lector de BNFs que recorre y extrae información de la misma, como los símbolos y terminales que la componen.
 
 \section{Evolución gramatical}
-Evolución Gramatical (\textit{Grammatical Evolution} en inglés) es un tipo de Algoritmo Evolutivo basado en la Programación Genética que permite generar automáticamente expresiones o programas  con el objetivo de encontrar el óptimo que realice una acción o resuelva un problema. A diferencia de la Programación Genética, donde se utiliza un árbol para codificar el genotipo, en la Evolución Gramatical se usa un array de enteros como genotipo y una Gramática Independiente del Contexto en notación \textit{Backus-Naur Form} (BNF) para la generación del fenotipo. Estos números enteros que componen el array del genotipo se denominan \textit{codones} y dictan qué expresión perteneciente a una regla de la gramática se escoge a la hora de generar el fenotipo. Un ejemplo de genotipo formado por 5 codones tendría la forma: 37, 12, 5, 42, 1. El rango de valores que pueden tomar los codones se determina de antemano.
+Evolución Gramatical (\textit{Grammatical Evolution} en inglés) es un tipo de Algoritmo Evolutivo basado en la Programación Genética que permite generar automáticamente expresiones o programas  con el objetivo de encontrar el óptimo que realice una acción o resuelva un problema. A diferencia de la Programación Genética, donde se utiliza un árbol para codificar el genotipo, en la Evolución Gramatical se usa un array de enteros como genotipo y una Gramática Independiente del Contexto en notación \textit{Backus-Naur Form} (BNF) para la generación del fenotipo. Estos números enteros que componen el array del genotipo se denominan \textit{codones} y dictan qué producción perteneciente a una regla de la gramática se escoge a la hora de generar el fenotipo. Un ejemplo de genotipo formado por 5 codones tendría la forma: 37, 12, 5, 42, 1. El rango de valores que pueden tomar los codones se determina de antemano.
 
-Para determinar la expresión a procesar del símbolo no terminal siendo expandido se utiliza la siguiente fórmula:
+Para determinar la producción a procesar del símbolo no terminal siendo expandido se utiliza la siguiente fórmula:
 \begin{equation}
 \textrm{Expresión a escoger} = \textrm{codón} \bmod \textrm{(nº de expresiones para el símbolo a derivar)}
 \end{equation}
-donde $\bmod$ es la función de módulo entero. Esta fórmula devuelve un número que es la posición de la expresión a seleccionar del símbolo no terminal que está siendo expandido\cite{o2012grammatical}.
+donde $\bmod$ es la función de módulo entero. Esta fórmula devuelve un número que es la posición de la producción a seleccionar del símbolo no terminal que está siendo expandido\cite{o2012grammatical}.
 
 \begin{figure}[H]
 \centering
@@ -198,11 +198,11 @@ donde $f_i$ es la función $i$-ésima de \textit{fitness}.
 
 Por ejemplo, un Algoritmo Evolutivo que determine dónde invertir en Bolsa podría tener dos objetivos, maximizar las ganancias de la inversión y minimizar el riesgo de pérdidas.
 
-La dificultad de un algoritmo multiobjetivo es determinar el óptimo global, es decir, el individuo que optimiza de la mejor forma todos los objetivos. La solución al ejemplo anterior no es trivial ni única, pues el algoritmo puede dictar una inversión que optimice el beneficio obtenido pero con un alto riesgo de pérdidas así, como una inversión segura pero que genera muy pocos beneficios.
+La dificultad de un algoritmo multiobjetivo es determinar el óptimo global, es decir, el individuo que optimiza de la mejor forma todos los objetivos. La solución al ejemplo anterior no es trivial ni única, pues el algoritmo puede dictar una inversión que optimice el beneficio obtenido pero con un alto riesgo de pérdidas así como una inversión segura pero que genera muy pocos beneficios.
 
 \blankline
 
-Se suele emplear la definición de óptimo en un contexto multiobjetivo dada por Vilfredo Pareto, denominado óptimo de Pareto. Se dice que una solución Ydomina (es mejor) a otra X si es igual o mejor en todos los objetivos y es estrictamente mejor en al menos un objetivo\cite{cervigon09}.
+Se suele emplear la definición de óptimo en un contexto multiobjetivo dada por Vilfredo Pareto, denominado óptimo de Pareto. Se dice que una solución Y domina (es mejor) a otra X si es igual o mejor en todos los objetivos y es estrictamente mejor en al menos un objetivo\cite{cervigon09}.
 \begin{figure}[H]
 \begin{equation}
 f_i(y) \leq f_i(x), (\forall i = 1, \dots, \textrm{nº de objetivos}\}) \wedge \exists f_i(y) < f_j(x)
