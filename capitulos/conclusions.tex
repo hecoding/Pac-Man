@@ -33,9 +33,22 @@ Third, as Table~\ref{table:single_obj} shows, our grammars can produce bots that
 Lastly, even if the use of multi-objective optimization makes short executions obtain slightly better results (it helps to avoid local minimums), it doesn’t obtain a significative difference in long enough executions, as Table~\ref{table:multi-objective} shows (where MO means that the bot uses Multiobjetive Optimization). This happens in Ms. Pac-Man vs Ghosts due to the direct relation between the different fitnesses which can be applied (ghosts eaten, levels cleared..) and the overall game score, which is based on all those.
 
 \section{Future Work}
+Although we were satisfied with the extend of our work and it's rsults, we would've liked to experiment and try some other techniques, but we couldn't because we lacked the time. Those techniques are the following:
 
 \subsection{Behaviour Trees}
+One of the possibly aplicable techniques are behaviour trees.
+
+The use of behaviour trees woul'dve supposed to add typical loop structures to our grammars (while, for, do-while ...). This would mean that to obtain a terminal node which returns a movement in our decision tree, the controller doesn't always begins from the root of the tree, but it can continue to parse the tree from a point defined by previous movement requests.
+
+This technique would allow to produce more specific strategies that requiere continuity. Without behaviour trees this can still be achieved, but the complexity of conditional evaluations and the size of the tree that would allow it are not realistic in terms of computational power.
+
 
 \subsection{NEAT}
+
+Another promising technique would be the application of neural networks.
+
+As inputs we would've the same functions that our grammars use to know about the game state, and as output we'd have the movement to execute.
+
+The problem we'd have to face is the network architecture, and for this we'd like to preserve the evolutionary spirit and use the NEAT (NeuroEvolution of Augmenting Topologies) algorithm. This algorithm uses evolutive programming techniques to evolve and protect good neural network topologies until they are sufficiently trained to solve a concrete problem. We think we could add this feature to the JECO framework pretty easily.
 
 \section{Distribution}
