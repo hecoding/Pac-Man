@@ -378,7 +378,7 @@ Dado que estos operadores de acción disponen internamente de acceso al estado d
 
 Las conclusiones obtenidas son:
 \begin{itemize}
-\item La velocidad de ejecución del algoritmo evolutivo ha sido significativamente más rápida que la de bajo nivel.
+\item La velocidad de ejecución del algoritmo evolutivo ha sido significativamente más rápida que la de bajo nivel, de forma que la ejecución se realiza en apenas unos minutos.
 
 \item Los resultados obtenidos en puntos son bastante superiores a los obtenidos con la gramática de bajo nivel.
 
@@ -464,7 +464,7 @@ Debido al conocimiento experto que poseen las funciones, la gramática utilizada
 
 Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
 \begin{itemize}
-\item La velocidad de ejecución del algoritmo es aún más rápida que con la gramática de medio nivel.
+\item La velocidad de ejecución del algoritmo es aún más rápida que con la gramática de medio nivel, de forma que la ejecución se realiza en apenas unos segundos.
 
 \item El código generado habitualmente se parece mucho al obtenido mediante la gramática de medio nivel: Un \textit{if-else} con una inecuación numérica que generalmente tiene en cuenta el fantasma más cercano. La más notable diferencia es que las acciones de medio nivel como \texttt{getDirectionAwayFromClosestNonEdibleGhost}, se ven sustituidas por su correspondiente directa de alto nivel, como \texttt{escapeHL}.
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Código del mejor individuo obtenido en una población evolucionada con la gramática de medio nivel.}, captionpos=b]
