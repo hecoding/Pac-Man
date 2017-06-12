@@ -106,7 +106,7 @@ La gramática diseñada para hacer uso de este lenguaje, tenía la siguiente for
 \subsection{Fenotipos producidos}
 En bots producidos por esta implementación a veces se aprecia un atisbo de primera inteligencia muy primitiva, así como los habituales intrones o fragmentos de programa inútiles.
  
-Los siguientes ejemplos fueron obtenidos tras experimentos con tamaño de población 100, 50 generaciones, una evaluación por individuo, selección por Torneo Binario, cruce monopunto con 60\% de probabilidad de cruce e \textit{Integer flip mutation} con 10\% de probabilidad de mutación. Los fantasmas siguen siendo \textit{Starter ghosts} en esta etapa, dados los malos resultados obtenidos contra fantasmas \textit{Legacy}.
+Los siguientes fenotipos fueron obtenidos tras experimentos con tamaño de población 100, 50 generaciones, una evaluación por individuo, selección por Torneo Binario, cruce monopunto con 60\% de probabilidad de cruce e \textit{Integer flip mutation} con 10\% de probabilidad de mutación. Los fantasmas siguen siendo \textit{Starter ghosts} en esta etapa, dados los malos resultados obtenidos contra fantasmas \textit{Legacy}.
 \begin{table}[H]
 \centering
 \begin{tabular}{cc}
@@ -159,6 +159,7 @@ En este estado de huida se codificaba un comportamiento, en alto nivel y ajeno a
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{prueba-automata}
+\caption{Ejemplo de autómata que usa el estado Huida.}
 \end{figure}
 
 A través de esta prueba comprobamos que la escalabilidad del autómata no era realista, ya que suponía la codificación de eventos cada vez más complejos de gestionar debido a la aparición de conflictos con los ya introducidos a la hora de controlar las transiciones.
