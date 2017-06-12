@@ -124,14 +124,14 @@ Una Gramática Independiente del Contexto (en adelante GIC o gramática) es una 
 
 \begin{figure}[H]
 \centering
-\includegraphics[height=4cm]{bnf}
+\includegraphics[width=0.45\textwidth]{bnf}
 \end{figure}
 
 Para obtener una derivación (una secuencia de caracteres perteneciente al lenguaje que representa la BNF) se parte del Símbolo Inicial. A partir de aquí se repite recursivamente el siguiente proceso: se procesan, en orden de aparición, todos los símbolos no terminales contenidos en la regla elegida. Para cada símbolo no terminal sin procesar se realiza el mismo proceso, se elige una producción perteneciente al mismo y se vuelve a realizar este proceso de forma recursiva hasta elegir una producción que contenga un terminal, momento en el que el símbolo se da por procesado y se pasa a procesar el siguiente símbolo no terminal sin haber sido completamente procesado. El proceso termina cuando todos los símbolos no terminales han sido procesados.
 
 \begin{figure}[H]
 \centering
-\includegraphics[height=2.2cm]{bnf-ejemplo}
+\includegraphics[width=0.5\textwidth]{bnf-ejemplo}
 \caption{BNF que representa sumas de dígitos.}
 \end{figure}
 
