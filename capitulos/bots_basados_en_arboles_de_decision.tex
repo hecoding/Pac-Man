@@ -73,7 +73,7 @@ A la hora de desarrollar gramáticas las dividimos en tres categorías dependien
 \begin{itemize}
 \item Bajo nivel: Son gramáticas cuyos nodos terminales, aquellos que dicen al bot de Pac-Man qué movimiento hacer en cada \textit{tick} del juego, se constituyen únicamente de las funciones \texttt{Up, Down, Left, Right} que son una codificación directa de las teclas de movimiento que dispondría un humano al jugar el juego.
 
-\item Medio nivel: Aparte de las funciones básicas de movimiento (\texttt{Up, Down, ...}), disponen de funciones de un nivel medio,  entendiéndose nivel medio como funciones que dictan una acción directa, como puede ser comerse la \textit{pill} más cercana, huir del fantasma más cercano, ir a por la \textit{power pill} más cercana, etc.
+\item Medio nivel: En lugar de las funciones básicas de movimiento (\texttt{Up, Down, ...}), disponen de funciones de un nivel medio,  entendiéndose nivel medio como funciones que dictan una acción directa, como puede ser comerse la \textit{pill} más cercana, huir del fantasma más cercano, ir a por la \textit{power pill} más cercana, etc.
 
 \item Alto nivel: Se diferencian de las de medio nivel en que sus funciones terminales son muy abstractas y no se puede determinar directamente qué dirección o comportamiento tomará el bot, estas funciones son del estilo de \textit{comer, huir, atacar, ...} funciones que se entienden cuál es su objetivo pero que pueden realizarse de distintas maneras.
 \end{itemize}
