@@ -250,8 +250,8 @@ Optamos por deshacernos de esta implementación e implementamos un elitismo clá
 \end{figure}
 
 \section{Batch Executor}
-Debido al empleo de controladores de fantasmas no deterministas, necesitamos la ejecución de varias partidas con el mismo controlador de Pac-Man para obtener resultados estadísticamente correctos del rendimiento del controlador que ha sido evolucionado. Puesto que aumentar el número de partidas a las que que cada individuo se somete al ser evaluado durante la ejecución del algoritmo evolutivo supone un impacto significativo en el tiempo de ejecución del algoritmo, optamos por ejecutar un número conservativo de partidas al evolucionar la población (unas 30).
+Debido que empleamos controladores de fantasmas no deterministas, necesitamos ejecutar varias partidas con un mismo controlador de Pac-Man para obtener resultados estadísticamente correctos de su rendimiento. Puesto que aumentar el número de partidas que juega un mismo individuo en la evaluación del algoritmo evolutivo supone un impacto significativo en el tiempo de ejecución de este, optamos por ejecutar un número conservador de partidas (unas 30, como queda reflejado en el parámetro iterspeind de la tabla con los mejores parametros \ref{table:best-params}).
  
-Una vez ejecutado el algoritmo evolutivo, hacemos que el  mejor individuo juegue mil partidas contra el controlador de fantasma deseado.
+Una vez terminada la ejecución del algoritmo evolutivo, extraemos el código del mejor individuo producido. Después empleamos este código para jugar mil partidas contra el controlador de fantasma deseado.
  
-Gracias a este sistema podemos obtener datos precisos, debido a la gran probabilidad de aleatoriedad que está implementada en los controladores de los fantasmas, manteniendo tiempos de entrenamiento razonables. Cabe destacar el hecho de que a partir de 1000 partidas no se produce ninguna mejora en la precisión de los datos obtenidos.
+Gracias a este procedimiento podemos obtener datos precisos manteniendo tiempos de entrenamiento razonables. Requerimos esta reevaluación mas precisa del bot debido a la gran aleatoriedad del comportamiento de controladores de los fantasmas. Cabe destacar el hecho de que a partir de 1000 partidas no se produce ninguna mejora en la precisión de los datos obtenidos.
