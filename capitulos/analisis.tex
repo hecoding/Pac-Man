@@ -3,17 +3,17 @@ Llegados a este punto nos planteamos realizar varios estudios relativos al rendi
 
 \section{Estudio de la presión selectiva}
 Una de los factores que consideramos de importancia dentro de nuestro algoritmo evolutivo es la conservación de diversidad dentro de nuestra población y tratar de evitar el estancamiento en óptimos locales, la convergencia prematura y la evolución en avalancha producidas por la falta de ésta diversidad. Para ello hemos decidido evaluar cuál es la presión selectiva durante la ejecución, siendo esta la frecuencia con que es seleccionado el mejor individuo frente al resto. Esto se calcula en problemas de maximización mediante la siguiente fórmula
-\begin{equation}
+\begin{equation*}
 \textrm{Presión selectiva} = \frac{\textrm{fitness mejor}}{\textrm{fitness promedio}}
-\end{equation}
+\end{equation*}
 En nuestro caso, al ser el nuestro un problema de minimización ($100000 - score$) empleamos:
-\begin{equation}
+\begin{equation*}
 \textrm{Presión selectiva} = \frac{\textrm{fitness promedio}}{\textrm{fitness mejor}}
-\end{equation}
+\end{equation*}
 
 Habitualmente se recomienda emplear una presión selectiva en torno a $1.5$ \cite{whitley1989genitor}, mientras que nosotros a partir de mediciones hemos comprobado que empleamos una de aproximadamente $1.7$. No obstante, cada vez que se produce una mejora del mejor fitness  se produce un aumento proporcional en la presión selectiva, volviéndose a equilibrar al adaptarse el fitness promedio a esta mejora. No obstante, dicho aumento de la presión selectiva es despreciable.
  
-Concluimos que tenemos una presión selectiva adecuada y por tanto no requerimos la implementación de ningún sistema de escalado del fitness de los individuos para mantener una conservación de diversidad.
+Concluimos que tenemos una presión selectiva adecuada y por tanto no requerimos la implementación de ningún sistema de escalado del \textit{fitness} de los individuos para mantener una conservación de diversidad.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/presion-selectiva-detalle}
@@ -117,27 +117,27 @@ Existen varios métodos de implementación de estrategias multiobjetivo y por la
 
 \subsection{Funciones Agregativas}
 La primera función agregativa mediante este método fue la unión de las anteriores funciones fitness de comer el máximo número de pills y alcanzar el mayor nivel. La unión directa de las funciones como una combinación lineal del estilo
-\begin{equation}
-f(X) = \textrm{nº de pills} + \textrm{nivel máximo alcanzado}
-\end{equation}
+\begin{equation*}
+f = \textrm{nº de pills} + \textrm{nivel máximo alcanzado}
+\end{equation*}
 no es posible por la diferencia de escala de los objetivos (el número de \textit{pill} comidas va a ser siempre más grande que el nivel máximo alcanzado por lo que ese objetivo no tiene impacto visible en el \textit{fitness} del individuo) por lo que el uso de unos pesos $w_i$ serán necesarios para que ambas funciones tengan la misma importancia en la combinación lineal.
 
 Dada la función
-\begin{equation}
+\begin{equation*}
 f = w_0 * \textrm{nº de pills} + w_1 * \textrm{nivel máximo alcanzado}
-\end{equation}
+\end{equation*}
 tuvimos que experimentar varias versiones con distintos valores de los pesos wihasta conseguir un balance adecuado. La versión final de la función fue
-\begin{equation}
+\begin{equation*}
 f = \textrm{nº de pills} + 10 * \textrm{nivel máximo alcanzado}
-\end{equation}
+\end{equation*}
 donde $w_0 = 0$ y $w_1 = 10$.
 
 Los resultados no fueron los esperados y normalmente se obtenía un comportamiento de bot ``Glotón'' en los mejores casos pero se vio un incremento en la longitud media de los programas (fenotipo) evolucionados.
 
 El mismo proceso se realizó con la unión de las funciones \textit{fitness} de conseguir puntos y avanzar de niveles
-\begin{equation}
+\begin{equation*}
 f = 0.1 * \textrm{nº de puntos obtenidos} + \textrm{nivel máximo alcanzado}
-\end{equation}
+\end{equation*}
 donde $w_0 = 0.1$ y $w_1 = 1$ pero se obtuvo un bot ``Camper'' pero con un código menos eficiente y llegando hasta el cuarto nivel de media.
 
 \begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Código del bot Camper obtenido mediante funciones agregativas.}, captionpos=b]
@@ -181,29 +181,29 @@ Hemos desarrollado una serie de funciones fitness por cada objetivo que deseemos
 
 \paragraph{Naive fitness}
 Puntuación directa obtenida en juego, en la que se tienen en cuenta \textit{pills}, \textit{power pills} y fantasmas comidos. Cuantos más puntos mejor \textit{fitness} obtenido (minimización).
-\begin{equation}
+\begin{equation*}
 f = 1000000 - \textrm{puntuación media}
-\end{equation}
+\end{equation*}
 
 \paragraph{Ghosts eaten}
 Número de fantasmas comidos. Cuantos más fantasmas consumidos mejor fitness tendrá el individuo.
-\begin{equation}
+\begin{equation*}
 f = 1000 - \textrm{fantasmas comidos}
-\end{equation}
+\end{equation*}
 
 \paragraph{Levels completed}
 Número de niveles completados. A mayor nivel alcanzado mejo fitness del individuo.
-\begin{equation}
+\begin{equation*}
 f = 100 - \textrm{último nivel alcanzado}
-\end{equation}
+\end{equation*}
 
 \paragraph{Points without ghost multiplier}
 La puntuación total obtenida pero sin emplear el multiplicador de puntos que utiliza Pac-Man al comer varios fantasmas seguidos.
-\begin{equation}
+\begin{equation*}
 f = 100000 - (\textrm{número de pills consumidas} * \textrm{puntos por pill consumida})
 + (\textrm{número de power pills consumidas} * \textrm{puntos por power pill consumida})
 + (\textrm{número de fantasmas consumidos * puntos por fantasma consumida})
-\end{equation}
+\end{equation*}
 
 \subsection{Resultados}
 Desafortunadamente, la inclusión de multiobjetivo no parece marcar una diferencia notable. Si por ejemplo usamos los \textit{fitness} \textit{Naive} y \textit{Levels completed} no se obtienen mejores bots que los mismos \textit{fitness} por separado. Esto se debe a que los objetivos que se pueden crear para el juego dependen directa o indirectamente de la puntuación, por lo que no se crea diversidad de comportamiento en nuestros programas. Lo que nos lleva a pensar que funcionaría mucho mejor cuando los objetivos no están directamente relacionados.

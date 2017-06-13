@@ -14,13 +14,13 @@ Para la selección, recombinación y transformación de los individuos en el pro
 
 \begin{itemize}
 \item \textbf{Mecanismos de Selección}: se encargan  de seleccionar un porcentaje de individuos de entre la población que eventualmente participarán de los procesos de cruce y mutación en esa generación. Hay distintos mecanismos de selección de individuos de los cuales dos de los más comunes son el de Selección por Ruleta y Selección por Torneo. La Selección por Ruleta consiste en dar una probabilidad de selección a cada individuo de la forma
-\begin{equation}
+\begin{equation*}
 p_i = \frac{f(i)}{\sum\limits_{j=1}^n f(i)}
-\end{equation}
+\end{equation*}
 donde $f(i)$ es el valor \textit{fitness} del individuo $i$. Para cada individuo $i$ se define una puntuación acumulada de la forma
-\begin{equation}
+\begin{equation*}
 q_i = \sum\limits_{j=1}^i p_j
-\end{equation}
+\end{equation*}
 A continuación se genera un número aleatorio $\alpha \in [0,1]$ y se selecciona el individuo $i$ que cumpla $q_{i-1} < \alpha < q_i$, este proceso se repite hasta seleccionar el porcentaje de individuos deseados. 
 
 La Selección por Torneo consiste en elegir un conjunto de individuos al azar de la población, normalmente 2 ó 3 individuos, y seleccionar el individuo con mejor valor \textit{fitness}, este proceso se repite hasta seleccionar todos los individuos deseados.
@@ -102,9 +102,9 @@ La programación genética no está exenta de problemas y uno muy común es el \
 Hay varios métodos para intentar solventar el problema del \textit{Bloating}:
 \begin{itemize}
 \item \textit{Naive}: se empeora el fitness precalculado de todos los individuos en la siguiente cantidad
-\begin{equation}
+\begin{equation*}
 \textrm{Valor de empeoramiento del fitness} = k_{empeoramiento} * \textrm{tamano del árbol}
-\end{equation}
+\end{equation*}
 donde $k_{empeoramiento}$ es una constante previamente elegida. De este modo, los individuos con valores de \textit{fitness} similares pero con un genotipo más largo son penalizados frente a los individuos con genotipos más cortos.
 
 \item \textit{Tarpeian}: trata de eliminar individuos que excedan la extensión media de la población en base a una probabilidad. Si un individuo con longitud de genotipo superior a la media ha sido elegido para su eliminación se le asigna el valor del peor \textit{fitness} posible de tal forma que en la siguiente generación este individuo tenga muy pocas probabilidades de ser seleccionado y se elimine.
@@ -191,9 +191,9 @@ Liberatore \cite{Liberatore2014} propuso otra implementación interesante pero e
 Todas las distintas ramas de algoritmos evolutivos que hemos presentado anteriormente comparten la característica de que están enfocados a optimizar  un único objetivo en la  función de \textit{fitness}. Sin embargo, a veces aparecen problemas en los que se buscan soluciones que optimicen más de una variable y se les denomina problemas multiobjetivo.
 
 Si por cada objetivo a optimizar se crea una función fitness para determinar cómo de bueno es el individuo respecto a ese objetivo entonces se busca:
-\begin{equation}
+\begin{equation*}
 Optimizar \{f_i(X) \mid \forall i = 1, \dots, \textrm{nº de objetivos}\}
-\end{equation}
+\end{equation*}
 donde $f_i$ es la función $i$-ésima de \textit{fitness}.
 
 Por ejemplo, un algoritmo evolutivo que determine dónde invertir en Bolsa podría tener dos objetivos, maximizar las ganancias de la inversión y minimizar el riesgo de pérdidas.
@@ -204,9 +204,9 @@ La dificultad de un algoritmo multiobjetivo es determinar el óptimo global, es 
 
 Se suele emplear la definición de óptimo en un contexto multiobjetivo dada por Vilfredo Pareto, denominado óptimo de Pareto. Se dice que una solución Y domina (es mejor) a otra X si es igual o mejor en todos los objetivos y es estrictamente mejor en al menos un objetivo \cite{cervigon09}.
 \begin{figure}[H]
-\begin{equation}
+\begin{equation*}
 f_i(y) \leq f_i(x), (\forall i = 1, \dots, \textrm{nº de objetivos}\}) \wedge \exists f_i(y) < f_j(x)
-\end{equation}
+\end{equation*}
 \caption{Óptimo de Pareto para un problema de minimización.}
 \end{figure}
 
@@ -218,10 +218,10 @@ Normalmente (como en el ejemplo anterior de inversión en bolsa) existen varios 
 \caption{Frente de Pareto de un conjunto de soluciones para un problema de minimización. C es una solución dominada por A y B, ambas pertenecientes al frente de Pareto \cite{pictPareto}.}
 \end{figure}
 
-A la hora de implementar un algoritmo multiobjetivo podemos elegir entre diferentes  métodos. El más sencillo, y que no altera los esquemas clásicos de los algoritmos evolutivos, es el denominado multiobjetivo mediante Funciones Agregativas que consiste en la creación de una función fitness f como una combinación lineal de funciones en donde cada una representa un objetivo a optimizar.
-\begin{equation}
+A la hora de implementar un algoritmo multiobjetivo podemos elegir entre diferentes  métodos. El más sencillo, y que no altera los esquemas clásicos de los algoritmos evolutivos, es el denominado multiobjetivo mediante Funciones Agregativas que consiste en la creación de una función fitness $f$ como una combinación lineal de funciones en donde cada una representa un objetivo a optimizar.
+\begin{equation*}
 f(x) = \theta_1f_1(x) + \theta_2f_2(x) + \dots + \theta_nf_n(x)
-\end{equation}
+\end{equation*}
 donde $\theta_i$ son coeficientes utilizados para dar más o menos peso a cada función. El principal problema de este enfoque a problemas multiobjetivo es la dificultad para encontrar los pesos adecuados.
 
 Un método muy utilizado es el desarrollado por Deb, \textit{et al.} denominado NSGA-II (\textit{Non-dominated Sorting Genetic Algorithm}) el cual ofrece buenos resultados pero es bastante exigente computacionalmente, sobretodo para poblaciones grandes \cite{deb2002fast}. El método consiste en la identificación de los distintos frentes de Pareto de la población en la generación actual. Para ello se identifican los individuos pertenecientes al frente de Pareto de la población y se les asigna rango uno, nuevamente se vuelve a identificar el frente de Pareto de la población sin tener en cuenta los individuos que pertenecen al frente de Pareto ya identificado y se les asigna rango dos y se realiza este proceso hasta que todos los individuo de la población tienen asignado un frente de Pareto al que pertenecen. Para los individuos de cada frente de Pareto se calcula una serie de valores denominados \textit{distancias de saturación} respecto a los distintos objetivos. Usando estas distancias de saturación la selección se realiza mediante el método de Torneo, se escogen dos elementos aleatorios de la población y se selecciona el que pertenezca al menor frente de Pareto (rango más bajo). Si ambos individuos pertenecen al mismo frente de Pareto entonces se escoge el que tenga mayor distancia de saturación.
