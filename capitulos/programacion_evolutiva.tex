@@ -7,7 +7,7 @@ Los algoritmos evolutivos (\textit{Evolutionary Algorithms}) son un conjunto de 
 Los individuos son representados mediante lo que se conoce como representación genotipo-fenotipo. El genotipo representa al individuo internamente, es el genotipo el que es recombinado y transformado para generar nuevos individuos. El fenotipo es la solución al problema y se obtiene al traducir la información dada por el genotipo. Por ejemplo, en un algoritmo evolutivo para obtener los valores RGB de un color buscado, el genotipo de los individuos sería una cadena de enteros con los valores R, G y B y el fenotipo el color que producen. La función de \textit{fitness} sería cómo de parecido es el color del individuo con el buscado.
 \begin{figure}[H]
 \centering
-\includegraphics[height=4.5cm]{genotipo-fenotipo}
+\includegraphics[width=0.6\textwidth]{genotipo-fenotipo}
 \end{figure}
 
 Para la selección, recombinación y transformación de los individuos en el proceso de evolución se utiliza un mecanismo de selección y una serie de operadores genéticos \cite{cervigon09}:
@@ -28,7 +28,7 @@ La Selección por Torneo consiste en elegir un conjunto de individuos al azar de
 \item \textbf{Operadores de Cruce}: Se encargan de cruzar los genotipos de los individuos seleccionados. El cruce se realiza entre dos individuos previamente seleccionados denominados padres que se cruzan y generan dos individuos nuevos denominados hijos. Al igual que los mecanismos de selección, existen muchos operadores  para cruzar los genotipos, pero estos operadores son dependientes de la codificación del genotipo. Si el genotipo es una cadena de enteros (codificación más común) el método de cruce más genérico es el Cruce Monopunto. Consiste en seleccionar aleatoriamente una posición idéntica en ambos genotipos de los padres (punto de corte) y generar dos hijos que conserven el mismo genotipo que su padre hasta la posición escogida y, a continuación, intercambiar la otra parte con la del otro padre.
 \begin{figure}[H]
 \centering
-\includegraphics[height=4.5cm]{operador-cruce}
+\includegraphics[width=0.7\textwidth]{operador-cruce}
 \end{figure}
 
 \item \textbf{Operadores de Mutación}: Estos operadores realizan cambios aleatorios en los valores del genotipo. Hay una gran variedad de operadores de mutación distintos y su posible uso, al igual que con los operadores de cruce, depende de la codificación del genotipo. En una representación del genotipo en forma de cadena de enteros el operador de mutación más utilizado es el Operador de Mutación Aleatorio bit a bit (\textit{Integer Flip Mutation}) el cual recorre toda la cadena del genotipo y cambia un bit (o número) del genotipo por otro aleatorio dependiendo de una probabilidad.
@@ -47,7 +47,7 @@ Se pueden encontrar una gran variedad de algoritmos evolutivos, siendo algunos m
 El objetivo de los algoritmos de programación genética es evolucionar programas informáticos escritos en un lenguaje determinado con el fin de encontrar el mejor programa que realice o resuelva un objetivo. En la programación genética el genotipo de los individuos es un árbol formado por nodos. Dependiendo de su contenido los nodos son nodos terminales (expresiones que no pueden ser expandidas, como números o variables) o nodos internos (normalmente representan funciones y contienen nodos hijos, por ejemplo un nodo interno que represente la suma entre dos números el cual tendrá dos nodos hijo donde la información obtenida de cada uno será un número). El fenotipo es el programa final que será ejecutado para evaluar al individuo y la forma de ser generado a partir del genotipo varía dependiendo del lenguaje en el que estén escritos los programas siendo algunos más complejos que otros. En algunos casos el fenotipo es igual al recorrido en inorden del árbol (genotipo) o en otros se necesitará realizar operaciones más complejas para generar el fenotipo \cite{cervigon09}.
 \begin{figure}[H]
 \centering
-\includegraphics[height=5cm]{genotipo-fenotipo-ejemplo}
+\includegraphics[width=0.9\textwidth]{genotipo-fenotipo-ejemplo}
 \caption{Genotipo y fenotipo de distintos individuos \cite{colmenarApuntes}.}
 \end{figure}
 
@@ -69,7 +69,7 @@ El operador de cruce más usado en programación genética, denominado cruce de 
 
 \begin{figure}[H]
 \centering
-\includegraphics[height=5cm]{cruce-subarboles}
+\includegraphics[width=0.9\textwidth]{cruce-subarboles}
 \caption{Operador de cruce de subárboles \cite{tsang2000eddie}.}
 \end{figure}
 
