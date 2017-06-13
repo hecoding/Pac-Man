@@ -175,7 +175,7 @@ if( getDistanceToClosestJunctionLeft >= 60 ){
 Nuevamente no obtenemos los resultados esperados y el proceso de creación de combinaciones lineales es experimental, poco preciso y tedioso, así que nos decidimos a realizar una implementación avanzada de la estrategia multiobjetivo mediante el uso del algoritmo NSGA-II el cual usa la definición de óptimo de Pareto y frente de Pareto en su algoritmo para determinar los mejores individuos en los objetivos a optimizar.
 
 \subsection{NSGA-II}
-JECO disponía de una implementación del algoritmo NSGA-II que nos sirvió como base para desarrollar la implementación de la estrategia multiobjetivo mediante NSGA-II (Apartado~\ref{sec:multi}).
+JECO disponía de una implementación del algoritmo NSGA-II que nos sirvió como base para desarrollar la implementación de la estrategia multiobjetivo mediante NSGA-II. Los cambios realizados en JECO a nivel de código se explicarán en el apartado~\ref{sec:multi}).
  
 Hemos desarrollado una serie de funciones fitness por cada objetivo que deseemos optimizar. Hemos intentado representar los objetivos típicos que un jugador humano amateur intenta conseguir.
 
