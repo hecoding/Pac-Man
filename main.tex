@@ -1,5 +1,4 @@
-\documentclass[a4paper,12pt,twoside]{report}
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=3cm]{geometry}
+\documentclass[a4paper,11pt,twoside]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{hyperref}
@@ -25,11 +24,15 @@
 \usepackage[nottoc,notlot,notlof]{tocbibind} % bibliography in index
 \usepackage{amsmath}       % remove number from equation
 
+\usepackage{fancyhdr}
+\pagestyle{plain}
 
 \newcommand{\blankline}{\vspace{\baselineskip}}
 
 \begin{document}
 \renewcommand{\listtablename}{Índice de tablas} % rename list of tables
+
+\frontmatter
 
 \title{\LARGE {\bf Título}\\
  \vspace*{6mm}
@@ -48,6 +51,17 @@
 \tableofcontents
 \listoffigures
 \listoftables
+
+\mainmatter
+\pagestyle{fancy}
+
+\fancyhf{}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+\fancyhead[LE,RO]{\thepage}
+\renewcommand\headrulewidth{1.2pt}
+\renewcommand{\chaptermark}[1]{\markboth{\textsc{Capítulo \thechapter.}\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 
 \input{capitulos/introduccion}
 \input{capitulos/introduction}
