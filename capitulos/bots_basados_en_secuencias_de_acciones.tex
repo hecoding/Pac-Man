@@ -45,7 +45,7 @@ La primera versión de autómata conseguido encadenaba los distintos movimientos
 El controlador de Pac-Man generaba una transición en el autómata secuencialmente al tiempo que este le proporcionaba el movimiento asociado al estado al que transitaba, volviendo el autómata al estado inicial cuando finalizaba la cadena de caracteres definidos por la gramática. El fundamental problema de este sistema es que el bot no tiene en cuenta el estado de juego, viéndose obligado a realizar acciones de la secuencia que tal vez sean contraproducentes.
  
 Por ejemplo, para una de nuestras más sencillas gramáticas de partida:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática básica para encadenar movimientos.]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática básica para encadenar movimientos., captionpos=b]
     <mov> ::= <mov> U  | 
               <mov> D  | 
               <mov> R  | 
@@ -75,10 +75,11 @@ A continuación se muestra el resultado de uno de los primeros experimentos real
 \textbf{Fenotipo} & \textbf{Puntos (avg)} \\ \hline
 \texttt{LLDLDRLD}          & 2480                  \\ \hline
 \end{tabular}
+\caption{Fenotipo y puntos del primer bot de secuencias de acciones.}
 \end{table}
 
 \section{Incorporando condicionales y acciones de alto nivel}
-Para dotar al autómata de capacidad de decisión que tuviera en cuenta el estado del juego en el que se encontraba el bot, incluimos \textbf{símbolos condicionales}, que siempre iban precedidos del símbolo ``\texttt{?}''. A su vez el símbolo ``\texttt{?}'' siempre iba precedido de un carácter que representaba la condición a evaluar.
+Para dotar al autómata de capacidad de decisión que tuviera en cuenta el estado del juego en el que se encontraba el bot, incluimos \textbf{símbolos condicionales}, que siempre iban precedidos del símbolo ``\texttt{?}''. A su vez este símbolo siempre iba precedido de un carácter que representaba la condición a evaluar.
 Si una condición evaluada resultaba cierta, se realizaba la \textbf{acción} que definía el carácter ubicado a continuación del de la condición. Si no, se omitía. 
 
 \blankline
@@ -92,14 +93,15 @@ La versión final disponía de evaluaciones y acciones de alto nivel especificad
 P             & condicional              & Condicional de fantasma no comestible cerca \\
 B             & condicional              & Condicional de fantasma comible cerca       \\
 H             & acción                   & Huir                                        \\
-E             & acción                   & Comer pill                                  \\
-W             & acción                   & Comer powerpill                             \\
-F             & acción                   & Comer fantasma                              \\ \hline
+E             & acción                   & Comer \textit{pill}                         \\
+W             & acción                   & Comer \textit{powerpill}                    \\
+F             & acción                   & Comer \textit{fantasma}                     \\ \hline
 \end{tabular}
+\caption{Acciones y condiciones de alto nivel desarrolladas.}
 \end{table}
 
 La gramática diseñada para hacer uso de este lenguaje, tenía la siguiente forma:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática con acciones de alto nivel.]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática con acciones de alto nivel., captionpos=b]
     <expr>   ::= ? <cond> <expr> | <action> <expr> | <action>
     <cond>   ::= P | B
     <action> ::= H | E | W | F
@@ -117,10 +119,11 @@ Los siguientes fenotipos fueron obtenidos tras experimentos con tamaño de pobla
 \texttt{E?P?PH}          & 6580                  \\
 \texttt{?B?PE?BHEHE}          & 7000                  \\ \hline
 \end{tabular}
+\caption{Fenotipo y puntos de los siguientes bots con condicionales y acciones de alto nivel.}
 \end{table}
 
 Como ejemplo, la traducción a pseudocódigo del primer programa sería lo siguiente:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Pseudocódigo correspondiente al programa \texttt{E?P?PH}]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Pseudocódigo correspondiente al programa \texttt{E?P?PH}, captionpos=b]
     MIENTRAS (true)
         Ir hacia la pill más cercana
         SI (fantasma no comible cerca) ENTONCES

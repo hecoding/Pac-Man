@@ -13,7 +13,7 @@ Los Árboles de Decisión suelen emplearse ampliamente en áreas donde sean nece
 En esta fase optamos por seguir un nuevo enfoque mediante Inteligencia Artificial Reactiva. Esto significa evaluar en cada turno un árbol de decisión (partiendo siempre desde la raíz), comprobando una serie de condiciones del estado de la partida, y a partir de ellas determinar una única acción a realizar. La decisión de seguir este enfoque persigue que nuestros bots resultantes tengan un comportamiento con continuidad dentro de una misma situación pero a la vez sean capaz de adaptarse a cambios repentinos en el estado del juego. 
  
 Por ejemplo,a partir del código:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Ejemplo de código]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Ejemplo de código, captionpos=b]
     if ( getDistanceToClosestNonEdibleGhost >= 4 ){
         getDirectionToClosestEdibleGhost
     } else {
@@ -83,20 +83,21 @@ A la hora de desarrollar gramáticas las dividimos en tres categorías dependien
 Todos los resultados de esta sección han sido obtenidos empleando los mismos operadores, parámetros y probabilidad con la que se emplean los operadores del algoritmo evolutivo para permitir una comparación objetiva del rendimiento empleando diferentes gramáticas. Estos parámetros son:
 \begin{table}[H]
 \centering
-\begin{tabular}{lll}
+\begin{tabular}{lc|c|}
 \cline{3-3}
-                                                         &                & \textbf{Porcentaje} \\ \cline{3-3} 
-\multicolumn{1}{|l|}{\textbf{Población}}                          & 100            & -          \\
-\multicolumn{1}{|l|}{\textbf{Generaciones}}                       & 100            & -          \\
-\multicolumn{1}{|l|}{\textbf{Evaluaciones por individuo}} & 30             & -          \\
-\multicolumn{1}{|l|}{\textbf{Longitud cromosoma}}                 & 100            & -          \\
-\multicolumn{1}{|l|}{\textbf{Límite superior codón\footnotemark[2]}}              & 256            & -          \\
-\multicolumn{1}{|l|}{\textbf{Método de selección}}                & Torneo Binario\footnotemark[3]& -          \\
-\multicolumn{1}{|l|}{\textbf{Método de cruce}}                    & LHS            & 60         \\
-\multicolumn{1}{|l|}{\textbf{Método de mutación}}                 & Integer Flip   & 10         \\
-\multicolumn{1}{|l|}{\textbf{Mutación Neutral}}                   & Sí             & -          \\
-\multicolumn{1}{|l|}{\textbf{Elitismo}}                           & Sí             & 5         
+\textbf{}                                                                & \multicolumn{1}{l|}{\textbf{}}     & \multicolumn{1}{l|}{\textbf{Porcentaje}} \\ \hline
+\multicolumn{1}{|l|}{\textbf{Población}}                                 & 100                                & -                                        \\ \hline
+\multicolumn{1}{|l|}{\textbf{Generaciones}}                              & 100                                & -                                        \\ \hline
+\multicolumn{1}{|l|}{\textbf{Evaluaciones por individuo}}                & 30                                 & -                                        \\ \hline
+\multicolumn{1}{|l|}{\textbf{Longitud cromosoma}}                        & 100                                & -                                        \\ \hline
+\multicolumn{1}{|l|}{\textbf{Límite superior codón\footnotemark[2]}} & 256                                & -                                        \\ \hline
+\multicolumn{1}{|l|}{\textbf{Método de selección}}                       & Torneo Binario\footnotemark[3] & -                                        \\ \hline
+\multicolumn{1}{|l|}{\textbf{Método de cruce}}                           & LHS                                & 60                                       \\ \hline
+\multicolumn{1}{|l|}{\textbf{Método de mutación}}                        & Integer Flip                       & 10                                       \\ \hline
+\multicolumn{1}{|l|}{\textbf{Mutación Neutral}}                          & Sí                                 & -                                        \\ \hline
+\multicolumn{1}{|l|}{\textbf{Elitismo}}                                  & Sí                                 & 5                                        \\ \hline
 \end{tabular}
+\caption{Parámetros utilizados.}
 \end{table}
 \footnotetext[2]{valor máximo que puede tomar}
 \footnotetext[3]{o NSGA II si se está empleando multiobjetivo}

@@ -11,19 +11,20 @@ A continuación, realizamos una serie de estudios (de la presión selectiva, del
  
 Finalmente, tras un profundo análisis de todas las diferentes pruebas que hemos realizado durante el transcurso de Trabajo de Fin de Grado, podemos concluir con una serie de hechos. 
  
-Primero de todo, obtenemos los mejores resultados, tanto para cualquier gramática como para cualquier controlador de fantasmas adversario, utilizando los siguientes parámetros del algoritmo evolutivo:
+Primero de todo, obtenemos los mejores resultados, tanto para cualquier gramática como para cualquier controlador de fantasmas adversario, utilizando los parámetros del algoritmo evolutivo de la Tabla~\ref{table:best-params-es}
 \begin{table}[H]
 \centering
-\label{table:best-params}
-\begin{tabular}{lcc}
+\begin{tabular}{lc|c|}
 \cline{3-3}
-                                                   &                                                               & \textbf{Porcentaje} \\ \cline{3-3} 
-\multicolumn{1}{|l|}{\textbf{Método de selección}} & Torneo Binario \footnotemark & -                   \\
-\multicolumn{1}{|l|}{\textbf{Método de cruce}}     & LHS                                                           & 60                  \\
-\multicolumn{1}{|l|}{\textbf{Método de mutación}}  & Integer Flip                                                  & 10                  \\
-\multicolumn{1}{|l|}{\textbf{Mutación Neutral}}    & Sí                                                            & -                   \\
-\multicolumn{1}{|l|}{\textbf{Elitismo}}            & Sí                                                            & 5                  
+                                                   &                              & \textbf{Porcentaje} \\ \hline
+\multicolumn{1}{|l|}{\textbf{Método de selección}} & Torneo Binario \footnotemark & -                   \\ \hline
+\multicolumn{1}{|l|}{\textbf{Método de cruce}}     & LHS                                                           & 60                  \\ \hline
+\multicolumn{1}{|l|}{\textbf{Método de mutación}}  & Integer Flip                                                  & 10                  \\ \hline
+\multicolumn{1}{|l|}{\textbf{Mutación Neutral}}    & Sí                                                            & -                   \\ \hline
+\multicolumn{1}{|l|}{\textbf{Elitismo}}            & Sí                                                            & 5                   \\ \hline
 \end{tabular}
+\label{table:best-params-es}
+\caption{Parámetros usados.}
 \end{table}
 \footnotetext{o NSGA II si se está empleando multiobjetivo}
 \begin{figure}[]

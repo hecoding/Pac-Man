@@ -11,18 +11,20 @@ Next, we did a series of studies (of selective pressure, codon usage, and fitnes
  
 Finally, after analysing all the tests we did, we could conclude various things.
  
-First of all, we obtain the best results, for any grammar and against any ghost controller, using the following parameters for the evolutive algorithm:
+First of all, we obtain the best results, for any grammar and against any ghost controller, using the parameters from Table~\ref{table:best-params-en} for the evolutionary algorithm:
 \begin{table}[H]
 \centering
-\begin{tabular}{lcc}
+\begin{tabular}{lc|c|}
 \cline{3-3}
-                                                   &                                                               & \textbf{Percentage} \\ \cline{3-3} 
-\multicolumn{1}{|l|}{\textbf{Selection operator}} & Binary tournament \footnotemark & -                   \\
-\multicolumn{1}{|l|}{\textbf{Crossover operator}}     & LHS                                                           & 60                  \\
-\multicolumn{1}{|l|}{\textbf{Mutation operator}}  & Integer Flip                                                  & 10                  \\
-\multicolumn{1}{|l|}{\textbf{Neutral Mutation}}    & Yes                                                            & -                   \\
-\multicolumn{1}{|l|}{\textbf{Elitism}}            & Yes                                                            & 5                  
+                                                   &                                                               & \textbf{Percentage} \\ \hline
+\multicolumn{1}{|l|}{\textbf{Selection operator}} & Binary tournament \footnotemark & -                   \\ \hline
+\multicolumn{1}{|l|}{\textbf{Crossover operator}}     & LHS                                                           & 60                  \\ \hline
+\multicolumn{1}{|l|}{\textbf{Mutation operator}}  & Integer Flip                                                  & 10                  \\ \hline
+\multicolumn{1}{|l|}{\textbf{Neutral Mutation}}    & Yes                                                            & -                   \\ \hline
+\multicolumn{1}{|l|}{\textbf{Elitism}}            & Yes                                                            & 5                   \\ \hline
 \end{tabular}
+\label{table:best-params-en}
+\caption{Parameters used.}
 \end{table}
 \footnotetext{or NSGA II if multi-objective is being used}
 
@@ -52,6 +54,6 @@ This technique would allow to produce more specific strategies that requiere con
 
 Another promising technique would be the application of neural networks.
 
-As inputs we would've the same functions that our grammars use to know about the game state, and as output we'd have the movement to execute.
+As inputs we could use the same functions as our grammars do to get knowledge about the game state and as output the movement to execute.
 
-The problem we'd have to face is the network architecture, and for this we'd like to preserve the evolutionary spirit and use the NEAT (NeuroEvolution of Augmenting Topologies) algorithm. This algorithm uses evolutive programming techniques to evolve and protect good neural network topologies until they are sufficiently trained to solve a concrete problem. We think we could add this feature to the JECO framework pretty easily.
+The problem we would have to face is the network architecture, and for this we would like to preserve the evolutionary spirit and use the NEAT (NeuroEvolution of Augmenting Topologies) algorithm. This algorithm uses evolutionary programming techniques to evolve and protect good neural network topologies until they are sufficiently trained to solve a concrete problem. We think we can add this feature to the JECO framework with relative ease.
