@@ -204,9 +204,11 @@ f = 100 - \textrm{último nivel alcanzado}
 \paragraph{Points without ghost multiplier}
 La puntuación total obtenida pero sin emplear el multiplicador de puntos que utiliza Pac-Man al comer varios fantasmas seguidos.
 \begin{equation*}
-f = 100000 - (\textrm{número de pills consumidas} * \textrm{puntos por pill consumida})
-+ (\textrm{número de power pills consumidas} * \textrm{puntos por power pill consumida})
+\begin{split}
+f = 100000 - (\textrm{número de pills consumidas} * \textrm{puntos por pill consumida}) \\
++ (\textrm{número de power pills consumidas} * \textrm{puntos por power pill consumida}) \\
 + (\textrm{número de fantasmas consumidos * puntos por fantasma consumida})
+\end{split}
 \end{equation*}
 
 \subsection{Resultados}
