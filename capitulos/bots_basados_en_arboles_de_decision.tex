@@ -223,28 +223,28 @@ Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
 \end{itemize}
 
 \begin{lstlisting}[caption={Ejemplo de bot típico producido usando la gramática de bajo nivel entrenado contra Random Ghosts.}]
-if (getDistanceToClosestNonEdibleGhostUpNE25) {
-  if (getDistanceToClosestNonEdibleGhostLeftLE90) {
+if (getDistanceToClosestNonEdibleGhostUp != 25) {
+  if (getDistanceToClosestNonEdibleGhostLeft <= 90) {
     moveRight
   } else {
-    if (getDistanceToClosestJunctionLeftLE10) {
-      if (getClosestEdibleGhostDistanceToClosestJunctionRightLT20) {
-        if (getDistToClosestPowerPillUpLT30) {
+    if (getDistanceToClosestJunctionLeft <= 10) {
+      if (getClosestEdibleGhostDistanceToClosestJunctionRight < 20) {
+        if (getDistToClosestPowerPillUp < 30) {
           moveLeft
         } else {
-          if (getDistanceToClosestNonEdibleGhostDownGT25) {
+          if (getDistanceToClosestNonEdibleGhostDown > 25) {
             moveRight
           } else {
             moveRight
           }
         }
       } else {
-        if (getGeometricMeanDistanceToNonEdibleGhostsLT10) {
+        if (getGeometricMeanDistanceToNonEdibleGhosts < 10) {
           moveLeft
         } else {
-          if (getClosestJunctionExitsNumberLeftGT20) {
-            if (getNumberOfActivePowerPillsGT90) {
-              if (getClosestJunctionExitsNumberUpNE10) {
+          if (getClosestJunctionExitsNumberLeft > 20) {
+            if (getNumberOfActivePowerPills > 90) {
+              if (getClosestJunctionExitsNumberUp != 10) {
                 moveLeft
               }
             }
@@ -254,25 +254,25 @@ if (getDistanceToClosestNonEdibleGhostUpNE25) {
         }
       }
     } else {
-      if (getDistToClosestPowerPillDownNE15) {
+      if (getDistToClosestPowerPillDown != 15) {
         moveUp
       } else {
-        if (getDistanceToClosestNonEdibleGhostUpGT60) {
-          if (getClosestEdibleGhostDistanceToClosestJunctionRightLT60) {
-            if (getDistToClosestPowerPillLeftGT5) {
-              if (getNumberOfActivePowerPillsLE25) {
-                if (getDistanceToClosestEdibleGhostGT25) {
+        if (getDistanceToClosestNonEdibleGhostUp > 60) {
+          if (getClosestEdibleGhostDistanceToClosestJunctionRight < 60) {
+            if (getDistToClosestPowerPillLeft > 5) {
+              if (getNumberOfActivePowerPills <= 25) {
+                if (getDistanceToClosestEdibleGhost > 25) {
                   moveLeft
                 } else {
-                  if (getDistanceToClosestEdibleGhostGE5) {
-                    if (getClosestEdibleGhostDistanceToClosestJunctionRightGT10) {
-                      if (getDistToClosestPowerPillUpGE50) {
+                  if (getDistanceToClosestEdibleGhost >= 5) {
+                    if (getClosestEdibleGhostDistanceToClosestJunctionRight > 10) {
+                      if (getDistToClosestPowerPillUp >= 50) {
                         moveRight
                       } else {
-                        if (getDistanceToClosestJunctionUpEQ75) {
+                        if (getDistanceToClosestJunctionUp == 75) {
                           moveUp
                         } else {
-                          if (getClosestJunctionExitsNumberLeftEQ20) {
+                          if (getClosestJunctionExitsNumberLeft == 20) {
                             moveDown
                           }
                         }
@@ -296,8 +296,8 @@ if (getDistanceToClosestNonEdibleGhostUpNE25) {
     }
   }
 } else {
-  if (getClosestEdibleGhostDistanceToClosestJunctionUpGT60) {
-    if (getDistToClosestPowerPillLeftGE40) {
+  if (getClosestEdibleGhostDistanceToClosestJunctionUp > 60) {
+    if (getDistToClosestPowerPillLeft >= 40) {
       moveDown
     } else {
       moveUp
@@ -309,11 +309,11 @@ if (getDistanceToClosestNonEdibleGhostUpNE25) {
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Mejor individuo producido usando la gramática de bajo nivel evolucionado jugando contra Legacy Ghosts.}]
-    if (getDistanceToClosestNonEdibleGhostRight LE 5) {
+    if (getDistanceToClosestNonEdibleGhostRight <= 5) {
         moveDown
     }
     else {
-        if (getDistanceToClosestEdibleGhostLeft LE 40) {
+        if (getDistanceToClosestEdibleGhostLeft <= 40) {
             moveUp
         }
         else {
