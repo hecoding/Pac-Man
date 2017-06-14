@@ -42,38 +42,38 @@ Durante la implementación del cruce LHS hicimos un estudio del número de codon
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/codones-100}
-\caption{Distribución del número real de codones utilizados. Longitud máxima 100 codones.}
+\caption{Histograma del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 100 codones. Generaciones ejecutadas: 100.}
 \end{figure}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-\textbf{Media} & \textbf{Wrappings} & \textbf{Moda} & \textbf{Mediana} & \textbf{Desviación  est.} \\ \hline
-23.9           & 331                & 10            & 10               & 21.7                      \\ \hline
+\textbf{Media (codones)} & \textbf{Moda (codones)} & \textbf{Mediana (codones)} & \textbf{Desviación  est.} \\ \hline
+23.9           & 10            & 10               & 21.7                      \\ \hline
 \end{tabular}
-\caption{Estadísticas con longitud del cromosoma = 100.}
+\caption{Estadísticas del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 100 codones.}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/codones-50}
-\caption{Distribución del número real de codones utilizados. Longitud máxima 50 codones.}
+\caption{Histograma del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 50 codones. Generaciones ejecutadas: 100.}
 \end{figure}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-\textbf{Media} & \textbf{Wrappings} & \textbf{Moda} & \textbf{Mediana} & \textbf{Desviación  est.} \\ \hline
-20           & 375                & 24            & 18               & 9                      \\ \hline
+\textbf{Media (codones)} & \textbf{Moda (codones)} & \textbf{Mediana (codones)} & \textbf{Desviación  est.} \\ \hline
+20           & 24            & 18               & 9                      \\ \hline
 \end{tabular}
-\caption{Estadísticas con longitud del cromosoma = 50.}
+\caption{Estadísticas del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 50 codones.}
 \end{table}
 
-Como se puede ver, cuando se usan longitudes de 100 codones los fenotipos se generan en su mayoría usando solo diez codones, lo que implica programas muy cortos y que la mayoría de las mutaciones y cruces sobre ellos no tienen efecto dado que se producen en el 90\% de los codones del genotipo que no se usan.
+Como se puede ver, cuando se usan longitudes de 100 codones los fenotipos se generan en su gran mayoría usando solo diez codones, lo que implica fenotipos muy cortos y, por lo tanto, la mayoría de las mutaciones y cruces sobre ellos no tienen efecto dado que se producen en el 90\% de los codones del genotipo que no se usan para generar el fenotipo.
 
-En cambio, con una longitud de 50 codones los individuos suelen generar individuos más largos, usando 25, 16 y 10 codones normalmente. Lo que sugiere que longitudes más pequeñas de cromosomas implican programas más largos a los que una mutación o un cruce los afecta en mayor medida y que pueden llegar a generar mejores resultados.
+En cambio, con una longitud de 50 codones los individuos suelen usar más codones para generar el fenotipo, usando 25, 16 y 10 codones normalmente. Lo que sugiere que longitudes más pequeñas de cromosomas implican fenotipos más largos a los que una mutación o un cruce los afecta en mayor medida y que pueden llegar a generar mejores resultados.
 
 Para comprobar esto realizamos un banco de pruebas donde comprobar si es verdad que longitudes de cromosomas más cortas producen mejores resultados. Evolucionamos varias poblaciones idénticas pero variando en cada una la longitud de sus cromosomas, usando valores de 10 a 100 incrementados de diez en diez.
 
