@@ -86,7 +86,7 @@ Como ya hemos visto, las gramáticas de bajo y medio nivel producen comportamien
 
 Esta función se estanca siempre en un óptimo local produciendo el bot ``cazador'' el cual solo busca comerse el mayor número de fantasmas dado que esta acción produce una gran cantidad de puntos, pero una vez acabadas las \textit{power pill} realiza movimientos neutrales o come la \textit{pill} más cercana sin importarle la posición de los fantasmas, por lo que es eliminado por los fantasmas y no es habitual que complete el nivel uno.
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Mejor individuo obtenido mediante esta función fitness.}, captionpos=b]
+\begin{lstlisting}[caption={Mejor individuo obtenido mediante esta función fitness.}]
     if( getDistanceToClosestEdibleGhost <= 20 ){ 
         getDirectionTowardsClosestPowerPill
     }
@@ -96,7 +96,7 @@ Esta función se estanca siempre en un óptimo local produciendo el bot ``cazado
 
 Este bot se centra únicamente en comer \textit{pills} normales pero, si se siente amenazado por un fantasma cercano, se dirige hacia una \textit{power pill}, la consume y sigue comiendo \textit{pills} normales (pero no caza a los fantasmas). Cuando no dispone de más \textit{power pills} a las que dirigirse y un fantasma se acerca, este sigue comiendo \textit{pills} normales y es comido por los fantasmas. Este bot suele perder en el nivel dos o en el nivel uno cuando quedan pocas \textit{pills} por comer. El código producido es el antónimo del producido por el \textit{fitness} de \textit{Puntuación}.
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Mejor individuo obtenido mediante esta función fitness.}, captionpos=b]
+\begin{lstlisting}[caption={Mejor individuo obtenido mediante esta función fitness.}]
     if( getDistanceToClosestNonEdibleGhost >= 25 ){ 
         getDirectionTowardsClosestPill
     }
@@ -144,7 +144,7 @@ f = 0.1 * \textrm{nº de puntos obtenidos} + \textrm{nivel máximo alcanzado}
 \end{equation*}
 donde $w_0 = 0.1$ y $w_1 = 1$ pero se obtuvo un bot ``Camper'' pero con un código menos eficiente y llegando hasta el cuarto nivel de media.
 
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption={Código del bot Camper obtenido mediante funciones agregativas.}, captionpos=b]
+\begin{lstlisting}[caption={Código del bot Camper obtenido mediante funciones agregativas.}]
 if( getDistanceToClosestJunctionLeft >= 60 ){ 
     getDirectionTowardsClosestPill
  }

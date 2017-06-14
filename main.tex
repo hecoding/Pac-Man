@@ -17,6 +17,11 @@
 \usepackage{float}         % I want the image here, not there
 \usepackage{listings}
 \lstset{
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  basicstyle=\fontsize{10}{11}\ttfamily,
+  captionpos=b,
   literate={á}{{\'a}}1
            {é}{{\'e}}1
            {í}{{\'i}}1
