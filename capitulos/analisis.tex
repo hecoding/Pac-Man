@@ -11,7 +11,7 @@ En nuestro caso, al ser el nuestro un problema de minimización ($100000 - score
 \textrm{Presión selectiva} = \frac{\textrm{fitness promedio}}{\textrm{fitness mejor}}
 \end{equation*}
 
-Habitualmente se recomienda emplear una presión selectiva en torno a $1.5$ \cite{whitley1989genitor}, mientras que nosotros a partir de mediciones hemos comprobado que empleamos una de aproximadamente $1.7$. No obstante, cada vez que se produce una mejora del mejor fitness  se produce un aumento proporcional en la presión selectiva, volviéndose a equilibrar al adaptarse el fitness promedio a esta mejora. No obstante, dicho aumento de la presión selectiva es despreciable.
+Habitualmente se recomienda emplear una presión selectiva en torno a $1.5$ \cite{whitley1989genitor}, mientras que nosotros a partir de mediciones hemos comprobado que empleamos una de aproximadamente $1.35$. Además, cada vez que se produce una mejora del mejor \textit{fitness}  se produce un aumento proporcional en la presión selectiva, volviéndose a equilibrar al adaptarse el \textit{fitness} promedio a esta mejora. No obstante, dicho aumento de la presión selectiva es despreciable.
  
 Concluimos que tenemos una presión selectiva adecuada y por tanto no requerimos la implementación de ningún sistema de escalado del \textit{fitness} de los individuos para mantener una conservación de diversidad.
 \begin{figure}[H]
