@@ -140,7 +140,8 @@ Los resultados de estos operadores de obtención del estado del juego se compara
 \begin{lstlisting}[caption={Gramática de bajo nivel.}]
 <grammar> ::= <selection-statement>
  
-<selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
+<selection-statement> ::= if( <condition> ){ <statement> }
+                          else{ <statement> }
                         | if( <condition> ){ <statement> }
  
 <statement> ::= <terminal-func>
@@ -167,7 +168,8 @@ Los resultados de estos operadores de obtención del estado del juego se compara
                 | moveLeft
                 | moveRight
  
-<number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
+<number> ::=  5 | 10 | 15 | 20 | 25 | 30
+           | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
 
 \subsubsection{Resultados}
@@ -304,8 +306,9 @@ Dado que estos operadores de acción disponen internamente de acceso al estado d
 \begin{lstlisting}[caption={Gramática de medio nivel.}]
 <grammar> ::= <selection-statement>
 
-<selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
-                                        | if( <condition> ){ <statement> }
+<selection-statement> ::= if( <condition> ){ <statement> }
+                          else{ <statement> }
+                        | if( <condition> ){ <statement> }
 
 <statement> ::= <terminal-func>
               | <selection-statement>
@@ -332,7 +335,8 @@ Dado que estos operadores de acción disponen internamente de acceso al estado d
                     | <=
                     | >=
 
-<number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
+<number> ::=  5 | 10 | 15 | 20 | 25 | 30
+           | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
 
 \subsubsection{Resultados}
@@ -395,7 +399,8 @@ Genera un movimiento hacia la \textit{pill} más cercana (o si no quedan \textit
 \begin{lstlisting}[caption={Gramática de alto nivel.}]
 <grammar> ::= <selection-statement>
 
-<selection-statement> ::= if( <condition> ){ <statement> } else{ <statement> }
+<selection-statement> ::= if( <condition> ){ <statement> }
+                          else{ <statement> }
                         | if( <condition> ){ <statement> }
 
 <statement> ::= <terminal-func>
@@ -417,7 +422,8 @@ Genera un movimiento hacia la \textit{pill} más cercana (o si no quedan \textit
                     | <=
                     | >=
 
-<number> ::= 5 | 10 | 15 | 20 | 25 | 30 | 40 | 50 | 60 | 75 | 80 | 90
+<number> ::=  5 | 10 | 15 | 20 | 25 | 30
+           | 40 | 50 | 60 | 75 | 80 | 90
 \end{lstlisting}
 
 \subsubsection{Resultados}
