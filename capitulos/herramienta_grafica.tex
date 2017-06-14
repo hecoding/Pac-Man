@@ -1,9 +1,13 @@
 \chapter{Herramienta gráfica de experimentación} \label{cap:herramienta-grafica}
-
-\section{Necesidad de este tipo de herramientas}
 Necesitamos una interfaz gráfica (GUI) para la ejecución continua de algoritmos. Con ligeras variaciones, pero siempre presentando los resultados de forma inmediata y eficaz.
 
 El patrón que mejor se nos ajusta es \textit{Feature, Search and Browse} \cite{tidwell2010designing}, porque podemos tener tanto los parámetros como el resultado de su ejecución a la vista, al mismo tiempo.
+
+\section{Necesidad de este tipo de herramientas}
+Una característica de los algoritmos genéticos es que son muy sensibles a la configuración inicial, cambiando ligeramente un parámetro puede llevar a generar demasiado ruido y que el algoritmo se quede muy lejos de converger. De hecho, los rangos efectivos de cada operador varían ampliamente entre ellos, incluso siendo de la misma fase del algoritmo (p. ej. dos métodos de mutación).
+
+Por ese motivo es necesario realizar un gran número de experimentos comprobando qué parámetros funcionan mejor. Para agilizar este proceso hemos desarrollado una herramienta que permite visualizar el comportamiento del algoritmo durante la fase de aprendizaje y de ese modo abortar ejecuciones que no funcionan, sin tener que esperar a que acaben. Pudiendo también analizar su resultado posteriormente, habiendo acabado el algoritmo completamente o no.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{gui/portada}
