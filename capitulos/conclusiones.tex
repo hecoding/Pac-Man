@@ -27,6 +27,7 @@ Primero de todo, obtenemos los mejores resultados, tanto para cualquier gramáti
 \caption{Parámetros usados.}
 \end{table}
 \footnotetext{o NSGA II si se está empleando multiobjetivo}
+
 \begin{figure}[]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/all_fitnesses}
@@ -40,7 +41,7 @@ Tercero, tal como se aprecia en la Tabla~\ref{table:single_obj}, los bots genera
  
 Uno de los factores que nos permiten obtener mejores resultados que el bot \cite{galvan2010evolving} de UCD Dublin (especialmente interesante al estar también basado en gramáticas evolutivas) consiste en que su bot emplea funciones demasiado específicas, las cuales acaban limitando el comportamiento del bot, siendo una de ellas por ejemplo esperar a que los fantasmas se acerquen siempre que se encuentre al lado de una \textit{power pill}. 
 Otro de los factores es el uso de numerosos parámetros para evaluar sus funciones condicionales. Por ejemplo, su bot utiliza una ventana alrededor de Pac-Man, dentro de la cual evalúa condiciones como encontrar fantasmas dentro de esta. Para emplear dicha ventana, emplea dos parámetros ancho y alto. Por otro lado, nuestras funciones condicionales obtienen directamente la distancia de la ruta a determinados elementos, pudiendo operar esta distancia con distintos operadores numéricos sobre valores también numericos.
-\begin{table}[]
+\begin{sidewaystable}[]
 \centering
 \label{table:single_obj}
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
@@ -61,10 +62,11 @@ UCD Dublin bot \cite{galvan2010evolving} &  & 12350 & 3945 & - & - & - & - & - &
 \textbf{High-level} &  & \textbf{20040} & \textbf{5972} & \textbf{2832} & \textbf{4} & \textbf{1} & \textbf{0.6} & \textbf{8364} & \textbf{2026} & \textbf{1020} \\ \hline
 \end{tabular}
 \caption{Pac-Man vs Ghost controllers' comparison.}
-\end{table}
+\end{sidewaystable}
 
 Por último, si bien el empleo de la optimización multiobjetivo supone una mejora significativa en ejecuciones del algoritmo evolutivo relativamente cortas (al evitar estancamiento en los numerosos mínimos locales), no produce una diferencia suficientemente significativa en los bots generados mediante ejecuciones suficientemente largas. Esto es apreciable en la Tabla~\ref{table:multi-objective} (donde las sigles MO se refieren a los bots que emplean la Optimización Multiobjetivo), y sucede así en el caso concreto de Ms. Pac-Man vs Ghost debido a la relación directa entre los distintos fitness que hemos perseguido en multiobjetivo (fantasmas comidos, niveles completados y puntos alcanzados sin el multiplicador de puntos al comer fantasmas) con la puntuación (fitness perseguido previo a la optimización multiobjetivo), siendo esta una composición de los fitness anteriores.
-\begin{table}[tb]
+
+\begin{sidewaystable}[]
 \centering
 \label{table:multi-objective}
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
@@ -81,8 +83,7 @@ Medium-level \ref{table:single_obj} & \multirow{4}{*}{Random} & {64600} & {48558
 \textbf{High-level (MO)} &  & \textbf{20040} & \textbf{5972} & \textbf{2832} & \textbf{4} & \textbf{1} & \textbf{0.6} & \textbf{8364} & \textbf{2026} & \textbf{1020} \\ \hline
 \end{tabular}
 \caption{Pac-Man vs Ghost controllers' comparison including Multi-Objective.}
-\end{table}
-
+\end{sidewaystable}
 
 \section{Difusión} \label{cap:paper}
 Considerando el impacto que puede tener el proyecto que hemos realizado, hemos decidido publicarlo \cite{thesisGit} como código abierto y bajo licencia GPL \cite{licenseThesisGit} en la plataforma GitHub. Esto lo hicimos con la esperanza de poder ser de ayuda a cualquier proyecto relacionado con el campo de la evolución gramatical o la inteligencia artificial aplicada a videojuegos.
