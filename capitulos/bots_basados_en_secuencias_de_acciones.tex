@@ -5,6 +5,7 @@ En primer lugar y una vez decididos nuestros dos frameworks de partida, fue nece
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{integracion-jeco-pacman}
+\caption{Diagrama de la integración de Pac-Man y JECO.}
 \end{figure}
 \begin{itemize}
 \item Flecha azul: JECO evoluciona individuos (en la primera generación son aleatorios) y transmite su fenotipo al framework de Pac-Man, para ser evaluados.
@@ -44,7 +45,7 @@ La primera versión de autómata conseguido encadenaba los distintos movimientos
 El controlador de Pac-Man generaba una transición en el autómata secuencialmente al tiempo que este le proporcionaba el movimiento asociado al estado al que transitaba, volviendo el autómata al estado inicial cuando finalizaba la cadena de caracteres definidos por la gramática. El fundamental problema de este sistema es que el bot no tiene en cuenta el estado de juego, viéndose obligado a realizar acciones de la secuencia que tal vez sean contraproducentes.
  
 Por ejemplo, para una de nuestras más sencillas gramáticas de partida:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática básica para encadenar movimientos.]
     <mov> ::= <mov> U  | 
               <mov> D  | 
               <mov> R  | 
@@ -59,6 +60,7 @@ Una derivación gramatical válida podría ser: ``\textbf{\texttt{U R D L}}'', q
 \begin{figure}[H]
 \centering
 \includegraphics[width=8cm]{jflapo}
+\caption{Autómata correspondiente al código \texttt{U R D L}}
 \end{figure}
 
 El controlador consume un símbolo tras otro transitando al siguiente estado del autómata al mismo tiempo, traduciéndose en este caso en un comportamiento que lleva a Pac-Man a intentar dar vueltas en sentido horario.
@@ -97,7 +99,7 @@ F             & acción                   & Comer fantasma                      
 \end{table}
 
 La gramática diseñada para hacer uso de este lenguaje, tenía la siguiente forma:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Gramática con acciones de alto nivel.]
     <expr>   ::= ? <cond> <expr> | <action> <expr> | <action>
     <cond>   ::= P | B
     <action> ::= H | E | W | F
@@ -118,7 +120,7 @@ Los siguientes fenotipos fueron obtenidos tras experimentos con tamaño de pobla
 \end{table}
 
 Como ejemplo, la traducción a pseudocódigo del primer programa sería lo siguiente:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Pseudocódigo correspondiente al programa \texttt{E?P?PH}]
     MIENTRAS (true)
         Ir hacia la pill más cercana
         SI (fantasma no comible cerca) ENTONCES

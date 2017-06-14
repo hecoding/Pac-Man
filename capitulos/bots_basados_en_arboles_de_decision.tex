@@ -13,7 +13,7 @@ Los Árboles de Decisión suelen emplearse ampliamente en áreas donde sean nece
 En esta fase optamos por seguir un nuevo enfoque mediante Inteligencia Artificial Reactiva. Esto significa evaluar en cada turno un árbol de decisión (partiendo siempre desde la raíz), comprobando una serie de condiciones del estado de la partida, y a partir de ellas determinar una única acción a realizar. La decisión de seguir este enfoque persigue que nuestros bots resultantes tengan un comportamiento con continuidad dentro de una misma situación pero a la vez sean capaz de adaptarse a cambios repentinos en el estado del juego. 
  
 Por ejemplo,a partir del código:
-\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily]
+\begin{lstlisting}[frame=single, breaklines=no, basicstyle=\fontsize{10}{11}\ttfamily, caption=Ejemplo de código]
     if ( getDistanceToClosestNonEdibleGhost >= 4 ){
         getDirectionToClosestEdibleGhost
     } else {
@@ -25,6 +25,7 @@ construiríamos el siguiente árbol:
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{codigo-a-arbol}
+\caption{Árbol contruido a partir de ejemplo de código.}
 \end{figure}
 La ejecución de este árbol consistiría en turno a turno evaluar desde el nodo raíz: primero, comprobar si la distancia al fantasma no comible más cercano es menor o igual que 4. En caso de que sea así, evalúa la rama izquierda recursivamente, y al ser esta un nodo hoja ejecuta la acción determinada por este, en este caso acercarse al fantasma comible más cercano. En caso de la que condición no se cumpla, se ejecutará de forma análoga la rama derecha, tratándose de un nodo hoja con la acción que genera un movimiento de huida del fantasma más cercano. 
 

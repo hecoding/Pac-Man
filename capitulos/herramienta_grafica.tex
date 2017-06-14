@@ -11,6 +11,7 @@ Por ese motivo es necesario realizar un gran número de experimentos comprobando
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{gui/portada}
+\caption{Vista general de la interfaz gráfica.}
 \end{figure}
 
 \section{Panel de ajustes del experimento}
@@ -20,12 +21,14 @@ En la parte inferior izquierda pueden verse dos botones. \textit{Train} comienza
 \begin{figure}[H]
 \centering
 \includegraphics[width=6cm]{gui/train-reset}
+\caption{Botones de inicio de ejecución y reseteo de parámetros.}
 \end{figure}
 
 Una vez que finaliza la ejecución del algoritmo puede verse que aparece un botón más.
 \begin{figure}[H]
 \centering
 \includegraphics[width=6cm]{gui/train-reset-showplay}
+\caption{Botones de inicio de ejecución y reseteo de parámetros. Incluye botón para iniciar la ejecución del mejor individuo.}
 \end{figure}
 
 \textit{Show \& play best} es un atajo que cambia a la pestaña donde se ejecuta Pac-Man de manera visual, copia el fenotipo del mejor individuo en la ventana de edición y comienza la ejecución del fenotipo en el juego automáticamente.
@@ -35,6 +38,7 @@ Comenzando por la parte de arriba, tenemos los parámetros concretos del algorit
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/parametros-algo}
+\caption{Configurador de parámetros del algoritmo evolutivo.}
 \end{figure}
 
 Con estos parámetros se pueden manejar:
@@ -56,32 +60,38 @@ Posteriormente tenemos el selector de objetivos del algoritmo evolutivo.
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/objetivos}
+\caption{Botón para abrir el selector de objetivos.}
 \end{figure}
 
 Donde ya hemos visto que se puede seleccionar la combinación de los mismos que se quiera.
 \begin{figure}[H]
 \centering
 \includegraphics[width=7cm]{gui/objetivos-selector}
+\caption{Selector de objetivos.}
 \end{figure}
 
 A continuación tenemos los parámetros generales de cualquier algoritmo evolutivo: métodos de selección, operadores de cruce y operadores de mutación que se pueden seleccionar desde listas desplegables. Para el cruce y la mutación también se puede elegir la probabilidad con la que se va a aplicar el operador, la cual se puede seleccionar desde el \textit{slider} o escribir directamente en el campo de texto para mayor precisión (valores de $0$ a $1$).
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/seleccion}
+\caption{Selector de operador de selección.}
 \end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/cruce}
+\caption{Configurador de cruce.}
 \end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/mutacion}
+\caption{Configurador de mutación.}
 \end{figure}
 
 Asimismo, podemos seleccionar el porcentaje de elitismo en el algoritmo genético ya sea por \textit{slider} o campo de texto.
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/elitismo}
+\caption{Configurador de elitismo.}
 \end{figure}
 
 \subsection{Parámetros de Pac-Man}
@@ -89,18 +99,21 @@ Después tenemos un selector de gramáticas que el algoritmo gramatical es capaz
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/grammar}
+\caption{Selector de gramáticas.}
 \end{figure}
 
 Por último tenemos el controlador que los fantasmas van a usar cada vez que se juegue una partida.
 \begin{figure}[H]
 \centering
 \includegraphics[width=5.5cm]{gui/ghost-controller}
+\caption{Selector de fantasmas.}
 \end{figure}
 
 \section{Panel de progreso}
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{gui/progreso}
+\caption{Panel de progreso. \textit{Fitness} de un algoritmo siendo visualizado en tiempo real mientras que se entrena.}
 \end{figure}
 
 Aquí vemos en tiempo real el \textit{fitness} de los individuos con cada generación, es decir, cuánto mejor se está volviendo la población. Está descendiendo porque hacemos minimización.
@@ -120,6 +133,7 @@ También se puede visualizar el \textit{fitness} en caso de que seleccionemos m�
 \begin{figure}[H]
 \centering
 \includegraphics[width=7cm]{gui/objetivos-selector2}
+\caption{Selector de objetivos.}
 \end{figure}
 
 En ese caso se mostrarían tantas gráficas como objetivos hayamos seleccionado, teniendo cada una sus propias estadísticas para analizar la evolución de cada objetivo por separado, además de poder vislumbrar relaciones en conjunto.
@@ -132,7 +146,8 @@ En ese caso se mostrarían tantas gráficas como objetivos hayamos seleccionado,
 Tenemos varias presentaciones al mismo nivel, por lo que se han dispuesto diferentes pestañas para cambiar entre ellas. Este diseño no es limitante, permitiendo incluso analizar resultados del entrenamiento anterior mientras se está realizando un nuevo entrenamiento.
 \begin{figure}[H]
 \centering
-\includegraphics[width=6cm]{gui/pestanas}
+\includegraphics[width=5.5cm]{gui/pestanas}
+\caption{Pestaña \textit{Progress}. Dos objetivos siendo optimizados a la vez.}
 \end{figure}
 
 \subsection{Tiempo estimado}
@@ -140,6 +155,7 @@ Este panel también cuenta con una barra de progreso que aparece durante la ejec
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{gui/barra-progreso}
+\caption{Barra de progreso con tiempo (segundos) al ejecutarse un entrenamiento.}
 \end{figure}
 
 \section{Panel del mejor individuo}
@@ -147,6 +163,7 @@ En cuanto el algoritmo termina de entrenar aquí podemos ver el fenotipo corresp
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{gui/derivation}
+\caption{Pestaña \textit{Derivation}. Código del mejor individuo evolucionado.}
 \end{figure}
 
 \section{Panel de juego}
@@ -158,4 +175,5 @@ Los controles contienen además un slider que permite ajustar la velocidad de la
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{gui/game}
+\caption{Pestaña \textit{Game}. A la izquierda Pac-Man jugando, a la derecha el código del controlador que se está ejecutando.}
 \end{figure}
