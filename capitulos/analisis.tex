@@ -226,26 +226,24 @@ Aunque se mantiene el mismo fenotipo del individuo, se gana una mayor diversidad
 Un ejemplo de mutación neutral podría ser el siguiente:
 
 \begin{lstlisting}[caption=Gramática e individuo de ejemplo para aplicar mutación neutral]
-<S> ::= <B>  | <C> | <D>
+<S> ::= <B> | <C> | <D>
 <B> ::= b | a
 <C> ::= c | a
-<D> ::= d | a
-
-Codones del individuo: 8 6 4 3 7 5 ... 
+<D> ::= d | a 
 \end{lstlisting}
 
-Primero usaríamos el codón  8 para expandir S. El número de producciones posibles para S es 3. Así pues, hariamos 8 \%3 = 2, optaríamos por expandir usando D.
-Lo interesante es que para 11, 14, 17, y en definitiva la suma de 3 al codón el número de veces que queramos, obtenemos el mismo resultado. Por lo tanto podemos hacer la siguiente suma al valor del codón:
+Codones del individuo: \texttt{8 6 4 3 7 5 \dots}
 
-\begin{lstlisting}[caption=Fórmula de modificación de codones en mutación neutral]
-codón + (n * número producciones posibles para el no terminal a expandir) 
-\end{lstlisting}
+Primero usaríamos el codón $8$ para expandir \texttt{S}. El número de producciones posibles para \texttt{S} es $3$. Así pues, haríamos $8 \mod 3 = 2$, optaríamos por expandir usando \texttt{D}.
+Lo interesante es que para $11$, $14$, $17$, y en definitiva la suma de $3$ al codón el número de veces que queramos, obtenemos el mismo resultado. Por lo tanto podemos hacer la siguiente suma al valor del codón:
 
-donde n es un valor entero arbitrario mayor que 1, manteniendo la selección de producciones intacta (y por lo tanto el fenotipo del individuo, el árbol), mientras que el genotipo (el propio codón) si varía.
+\begin{equation*}
+\textrm{codón} = \textrm{codón} + (n * \textrm{número producciones posibles para el no terminal a expandir})
+\end{equation*}
 
-El mismo proceso se realizaría ahora para ver si expandimos D con ‘d’ o ‘a’, y lo mismo vuelve a ser aplicable, permitiéndonos en definitiva mutar todos los codones utilizados del individuo con garantía de no modificar su fenotipo.
+donde $n$ es un valor entero arbitrario mayor que $1$. Así se mantiene la selección de producciones intacta (y por lo tanto el fenotipo del individuo, el árbol), mientras que el genotipo (el propio codón) sí varía.
 
-
+El mismo proceso se realizaría ahora para ver si expandimos D con \texttt{d} o \texttt{a}, y lo mismo vuelve a ser aplicable, permitiéndonos en definitiva mutar todos los codones utilizados del individuo con garantía de no modificar su fenotipo.
 
 \section{Multithread}
 Al empezar a desarrollar el segundo bot también pudimos aprovechar otra funcionalidad de JECO que consiste en paralelizar la etapa más pesada del algoritmo (evaluación) en los distintos procesadores del ordenador.
