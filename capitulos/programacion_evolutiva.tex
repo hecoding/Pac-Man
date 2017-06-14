@@ -122,7 +122,7 @@ Alhejali y Lucas \cite{alhejali2010evolving} realizan una implementación muy pa
 \section{Gramáticas independientes del contexto}
 Una Gramática Independiente del Contexto (en adelante GIC o gramática) es una cuaterna formada por un conjunto de símbolos no terminales, un conjunto de símbolos terminales, un conjunto de reglas de producción (también denominadas expresiones) y un símbolo inicial. Mediante estos símbolos y reglas la Gramática es capaz de generar un Lenguaje Independiente del Contexto\cite{hopcroft_motwani_ullman_2007}\cite{HolgerApuntes}.
 
-\textit{Backus-Naur Form} (BNF) es una notación formal para representar Gramáticas Independientes del Contexto la cual es fácilmente interpretable por el ser humano. Una BNF se compone de Símbolos terminales y no terminales (escritos entre \texttt{< >}). Estos Símbolos no terminales pueden ser expandidos por una serie de expresiones las cuales a su vez contienen un conjunto de Símbolos no terminales o un Terminal. La mayoría de lenguajes informáticos, por ejemplo, tienen una representación escrita en formato BNF \cite{garshol2003bnf}.
+\textit{Backus-Naur Form} (BNF) es una notación formal para representar Gramáticas Independientes del Contexto la cual es fácilmente interpretable por el ser humano. Una BNF se compone de Símbolos terminales y no terminales (escritos entre \texttt{< >}). Estos Símbolos no terminales pueden ser expandidos por una serie de producciones las cuales a su vez contienen un conjunto de Símbolos no terminales o un Terminal. La mayoría de lenguajes informáticos, por ejemplo, tienen una representación escrita en formato BNF \cite{garshol2003bnf}.
 
 \begin{figure}[H]
 \centering
@@ -130,7 +130,7 @@ Una Gramática Independiente del Contexto (en adelante GIC o gramática) es una 
 \caption{Ejemplo de BNF.}
 \end{figure}
 
-Para obtener una derivación (una secuencia de caracteres perteneciente al lenguaje que representa la BNF) se parte del Símbolo Inicial. A partir de aquí se repite recursivamente el siguiente proceso: se procesan, en orden de aparición, todos los símbolos no terminales contenidos en la regla elegida. Para cada símbolo no terminal sin procesar se realiza el mismo proceso, se elige una producción perteneciente al mismo y se vuelve a realizar este proceso de forma recursiva hasta elegir una producción que contenga un terminal, momento en el que el símbolo se da por procesado y se pasa a procesar el siguiente símbolo no terminal sin haber sido completamente procesado. El proceso termina cuando todos los símbolos no terminales han sido procesados.
+Para obtener una derivación (una secuencia de caracteres perteneciente al lenguaje que representa la BNF) se parte del Símbolo Inicial. A partir de aquí se repite recursivamente el siguiente proceso: se procesan todos los símbolos no terminales contenidos en la producción elegida. Para cada símbolo no terminal sin procesar se realiza el mismo proceso, se elige una producción perteneciente al mismo y se vuelve a realizar este proceso de forma recursiva hasta llegar a un símbolo terminal, momento en el que el símbolo no terminal se da por procesado y se pasa a procesar el siguiente símbolo no terminal sin haber sido completamente procesado. El proceso termina cuando todos los símbolos no terminales han sido procesados.
 
 \begin{figure}[H]
 \centering
@@ -141,11 +141,11 @@ Para obtener una derivación (una secuencia de caracteres perteneciente al lengu
 Para procesar y utilizar una BNF se usa un lector de BNFs que recorre y extrae información de la misma, como los símbolos y terminales que la componen.
 
 \section{Evolución gramatical}
-Evolución gramatical (\textit{Grammatical Evolution} en inglés) es un tipo de algoritmo evolutivo basado en la programación genética que permite generar automáticamente expresiones o programas  con el objetivo de encontrar el óptimo que realice una acción o resuelva un problema. A diferencia de la programación genética, donde se utiliza un árbol para codificar el genotipo, en la evolución gramatical se usa un array de enteros como genotipo y una Gramática Independiente del Contexto en notación \textit{Backus-Naur Form} (BNF) para la generación del fenotipo. Estos números enteros que componen el array del genotipo se denominan \textit{codones} y dictan qué producción perteneciente a una regla de la gramática se escoge a la hora de generar el fenotipo. Un ejemplo de genotipo formado por 5 codones tendría la forma: 37, 12, 5, 42, 1. El rango de valores que pueden tomar los codones se determina de antemano.
+Evolución gramatical (\textit{Grammatical Evolution} en inglés) es un tipo de algoritmo evolutivo basado en la programación genética que permite generar automáticamente producciones o programas  con el objetivo de encontrar el óptimo que realice una acción o resuelva un problema. A diferencia de la programación genética, donde se utiliza un árbol para codificar el genotipo, en la evolución gramatical se usa un array de enteros como genotipo y una Gramática Independiente del Contexto en notación \textit{Backus-Naur Form} (BNF) para la generación del fenotipo. Estos números enteros que componen el array del genotipo se denominan \textit{codones} y dictan qué producción perteneciente a una regla de la gramática se escoge a la hora de generar el fenotipo. Un ejemplo de genotipo formado por 5 codones tendría la forma: 37, 12, 5, 42, 1. El rango de valores que pueden tomar los codones se determina de antemano.
 
 Para determinar la producción a procesar del símbolo no terminal siendo expandido se utiliza la siguiente fórmula:
 \begin{equation}
-\textrm{Expresión a escoger} = \textrm{codón} \bmod \textrm{(nº de expresiones para el símbolo a derivar)}
+\textrm{Producción a escoger} = \textrm{codón} \bmod \textrm{(nº de producciones para el símbolo a derivar)}
 \end{equation}
 donde $\bmod$ es la función de módulo entero. Esta fórmula devuelve un número que es la posición de la producción a seleccionar del símbolo no terminal que está siendo expandido \cite{o2012grammatical}.
 
@@ -155,7 +155,7 @@ donde $\bmod$ es la función de módulo entero. Esta fórmula devuelve un númer
 \caption{Ejemplo del proceso que se realizaría para transformar el genotipo mostrado anteriormente al fenotipo que representa.}
 \end{figure}
 
-Esta fórmula se aplica en orden a los símbolos no terminales hasta que todos hayan sido procesados, es decir, se hayan alcanzado en todos un símbolo no terminal. A veces esto no se consigue con un único recorrido del genotipo, por lo que se realiza lo que se conoce como \textit{wrapping}, que consiste en  volver a empezar a leer el genotipo desde el principio y seguir expandiendo las reglas todavía sin expandir. El número de veces que se permite realizar \textit{wrapping} por individuo se determina de antemano y si, tras realizar \textit{wrapping} este número de veces no se ha conseguido derivar todos los símbolos, el individuo es descartado.
+Esta fórmula se aplica en orden a los símbolos no terminales hasta que todos hayan sido procesados, es decir, se hayan alcanzado en todos un símbolo terminal. A veces esto no se consigue con un único recorrido del genotipo, por lo que se realiza lo que se conoce como \textit{wrapping}, que consiste en  volver a empezar a leer el genotipo desde el principio y seguir expandiendo las reglas todavía sin expandir. El número de veces que se permite realizar \textit{wrapping} por individuo se determina de antemano y si, tras realizar \textit{wrapping} este número de veces no se ha conseguido derivar todos los símbolos, el individuo es descartado.
 
 \begin{figure}[H]
 \centering
