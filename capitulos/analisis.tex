@@ -1,5 +1,5 @@
 \chapter{Estudios, optimizaciones y mejoras} \label{cap:analisis}
-Llegados a este punto nos planteamos realizar varios estudios relativos al rendimiento del algoritmo evolutivo, basadas en inquietudes fundadas en numerosos artículos científicos, para verificar que no se estaba produciendo ninguna inconsistencia dentro del entrenamiento de dicho algoritmo evolutivo. Además, también realizamos una serie de optimizaciones sobre funciones ya existentes en JECO, con el fin de reducir lo máximo posible el tiempo de ejecución y retocar algunas opciones por defecto del framework evolutivo para mejorar los resultados.
+Llegados a este punto nos planteamos realizar varios estudios relativos al rendimiento del algoritmo evolutivo, basadas en inquietudes fundadas en numerosos artículos científicos, para verificar que no se estaba produciendo ninguna inconsistencia dentro del entrenamiento de dicho algoritmo evolutivo. Además, también realizamos una serie de optimizaciones sobre funciones ya existentes en JECO, con el fin de reducir lo máximo posible el tiempo de ejecución y retocar algunas opciones por defecto del \textit{framework} evolutivo para mejorar los resultados.
 
 \section{Estudio de la presión selectiva}
 Una de los factores que consideramos de importancia dentro de nuestro algoritmo evolutivo es la conservación de diversidad dentro de nuestra población y tratar de evitar el estancamiento en óptimos locales, la convergencia prematura y la evolución en avalancha producidas por la falta de ésta diversidad. Para ello hemos decidido evaluar cuál es la presión selectiva durante la ejecución, siendo esta la frecuencia con que es seleccionado el mejor individuo frente al resto. Esto se calcula en problemas de maximización mediante la siguiente fórmula
@@ -26,7 +26,7 @@ Concluimos que tenemos una presión selectiva adecuada y por tanto no requerimos
 \caption{Vista global de la presión selectiva.}
 \end{figure}
 
-Además, tras un estudio en profundidad de nuestros operadores de selección hemos comprobado que todos (Torneo Binario, Torneo Binario NSGA y Torneo n-ario) emplean alguna modificación del operador de torneo, siendo este independiente al valor de la presión selectiva. Esto es así porque estos operadores no tienen en cuenta comparaciones entre fitness relativos (por ejemplo seleccionar proporcionalmente más veces los individuos con mejor fitness) sino comparaciones directas (seleccionar el individuo con mejor fitness entre varios elegidos de forma completamente aleatoria).
+Además, tras un estudio en profundidad de nuestros operadores de selección hemos comprobado que todos (torneo binario, torneo binario NSGA II y torneo n-ario) emplean alguna modificación del operador de torneo, siendo este independiente al valor de la presión selectiva. Esto es así porque estos operadores no tienen en cuenta comparaciones entre \textit{fitness} relativos (por ejemplo seleccionar proporcionalmente más veces los individuos con mejor \textit{fitness}) sino comparaciones directas (seleccionar el individuo con mejor \textit{fitness} entre varios elegidos de forma completamente aleatoria).
 
 \section{Cruce LHS}
 Antes de proceder con el estudio de nuevas funciones de \textit{fitness} decidimos comprobar si la razón por la que se producían programas tan cortos en las gramáticas de medio y alto nivel era por culpa del operador de cruce utilizado.
@@ -94,7 +94,7 @@ Esta función se estanca siempre en un óptimo local produciendo el bot ``cazado
 
 \item \textit{Pills \{1000 - media de pills consumidas\}}: \textit{Fitness} que tiene como objetivo comer el máximo número de \textit{pills} posibles, sin importar la puntuación obtenida ni el nivel, aunque este último está directamente relacionado con comer \textit{pills}. Al mejor individuo que suele producir le hemos denominado bot ``Glotón''.
 
-Este bot se centra únicamente en comer \textit{pills} normales pero, si se siente amenazado por un fantasma cercano, se dirige hacia una \textit{power pill}, la consume y sigue comiendo \textit{pills} normales (pero no caza a los fantasmas). Cuando no dispone de más \textit{power pills} a las que dirigirse y un fantasma se acerca, este sigue comiendo \textit{pills} normales y es comido por los fantasmas. Este bot suele perder en el nivel dos o en el nivel uno cuando quedan pocas \textit{pills} por comer. El código producido es el antónimo del producido por el \textit{fitness} de \textit{Puntuación}.
+Este bot se centra únicamente en comer \textit{pills} normales pero, si se siente amenazado por un fantasma cercano, se dirige hacia una \textit{power pill}, la consume y sigue comiendo \textit{pills} normales (pero no caza a los fantasmas). Cuando no dispone de más \textit{power pills} a las que dirigirse y un fantasma se acerca, este sigue comiendo \textit{pills} normales y es comido por los fantasmas. Este \textit{bot} suele perder en el nivel dos o en el nivel uno cuando quedan pocas \textit{pills} por comer. El código producido es el antónimo del producido por el \textit{fitness} de \textit{Puntuación}.
 
 \begin{lstlisting}[caption={Mejor individuo obtenido mediante esta función fitness.}]
     if( getDistanceToClosestNonEdibleGhost >= 25 ){ 
@@ -105,9 +105,9 @@ Este bot se centra únicamente en comer \textit{pills} normales pero, si se sien
     }
 \end{lstlisting}
 
-\item \textit{Niveles \{10 - máximo nivel alcanzado\}}: El objetivo de este \textit{fitness} es pasarse el mayor número de niveles sin importar la puntuación, las \textit{pills} comidas, el tiempo utilizado, etc por lo que los mejores individuos son los que han llegado al nivel más avanzado. Este bot nos sorprendió dado que aprovecha el fallo del juego que provoca que no sea detectado por algunos controladores de fantasmas como \textit{Starter ghosts}, si se coloca en una cierta posición del laberinto.
+\item \textit{Niveles \{10 - máximo nivel alcanzado\}}: El objetivo de este \textit{fitness} es pasarse el mayor número de niveles sin importar la puntuación, las \textit{pills} comidas, el tiempo utilizado, etc por lo que los mejores individuos son los que han llegado al nivel más avanzado. Este bot nos sorprendió dado que aprovecha el fallo del juego que provoca que no sea detectado por algunos controladores de fantasmas como \textit{Starter Ghosts}, si se coloca en una cierta posición del laberinto.
 
-Este ``exploit'' lo conocíamos pero nunca se había producido en el nivel tres, sin embargo este bot consigue realizarlo en todos los niveles llegando a superar\footnote{La versión actual del juego soporta un número ilimitado de niveles pero dispones de un tiempo máximo de juego (24000 \textit{ticks}). El juego es detenido si se consume el tiempo total, independientemente del nivel en el que te encuentres. Dado que la versión actual del juego hace que se avance de nivel automáticamente al estar 4000 \textit{ticks} en el mismo nivel el número máximo de niveles al que se puede llegar usando el fallo del juego (estancándose en una parte del laberinto sin moverse hasta que se avanza de nivel por tiempo) es de $24000 / 4000 = 6$ niveles.} el juego. Se trata del bot ``Camper'' pero con un comportamiento mejorado. Nos dimos cuenta de que este comportamiento es alcanzable con las funciones \texttt{getDistanceToClosestJunction\{Up, Down, Right, Left\}}. Si eliminamos dichas funciones de la gramática de medio nivel entonces se produce un bot ``Camper'' que no supera el nivel cuatro.
+Este \textit{xploit} lo conocíamos pero nunca se había producido en el nivel tres, sin embargo este bot consigue realizarlo en todos los niveles llegando a superar\footnote{La versión actual del juego soporta un número ilimitado de niveles pero dispones de un tiempo máximo de juego (24000 \textit{ticks}). El juego es detenido si se consume el tiempo total, independientemente del nivel en el que te encuentres. Dado que la versión actual del juego hace que se avance de nivel automáticamente al estar 4000 \textit{ticks} en el mismo nivel el número máximo de niveles al que se puede llegar usando el fallo del juego (estancándose en una parte del laberinto sin moverse hasta que se avanza de nivel por tiempo) es de $24000 / 4000 = 6$ niveles.} el juego. Se trata del bot ``Camper'' pero con un comportamiento mejorado. Nos dimos cuenta de que este comportamiento es alcanzable con las funciones \texttt{getDistanceToClosestJunction\{Up, Down, Right, Left\}}. Si eliminamos dichas funciones de la gramática de medio nivel entonces se produce un bot ``Camper'' que no supera el nivel cuatro.
 \end{itemize}
 
 Observamos que el bot se especializa dependiendo del objetivo de la función \textit{fitness} como es de esperar. No obstante contra controladores de fantasmas especialmente bien diseñados como \textit{Legacy} la diversidad de comportamientos decrece, ya que en Pac-Man la mayoría de objetivos están relacionados (por ejemplo, para pasarse niveles Pac-Man ha de comerse todas las \textit{pills} si le es imposible ``atascar'' a los fantasmas y ganar el nivel por agotar el tiempo).
@@ -120,7 +120,7 @@ Para intentar solventar el problema de especialización que se está produciendo
 Existen varios métodos de implementación de estrategias multiobjetivo y por la primera que nos decantamos fue una estrategia mediante funciones agregativas. Decidimos usar esta estrategia en primer lugar porque no altera el algoritmo de gramáticas evolutivas que estamos usando actualmente. Consiste en la implementación de una función \textit{fitness} (como hasta ahora) pero que consta de una combinación lineal de funciones o parámetros que cada una determina la valía de un individuo en un determinado aspecto.
 
 \subsection{Funciones Agregativas}
-La primera función agregativa mediante este método fue la unión de las anteriores funciones fitness de comer el máximo número de pills y alcanzar el mayor nivel. La unión directa de las funciones como una combinación lineal del estilo
+La primera función agregativa mediante este método fue la unión de las anteriores funciones \textit{fitness} de comer el máximo número de \textit{pills} y alcanzar el mayor nivel. La unión directa de las funciones como una combinación lineal del estilo
 \begin{equation*}
 f = \textrm{nº de pills} + \textrm{nivel máximo alcanzado}
 \end{equation*}
@@ -130,7 +130,7 @@ Dada la función
 \begin{equation*}
 f = w_0 * \textrm{nº de pills} + w_1 * \textrm{nivel máximo alcanzado}
 \end{equation*}
-tuvimos que experimentar varias versiones con distintos valores de los pesos wihasta conseguir un balance adecuado. La versión final de la función fue
+tuvimos que experimentar varias versiones con distintos valores de los pesos hasta conseguir un balance adecuado. La versión final de la función fue
 \begin{equation*}
 f = \textrm{nº de pills} + 10 * \textrm{nivel máximo alcanzado}
 \end{equation*}
@@ -181,7 +181,7 @@ Nuevamente no obtenemos los resultados esperados y el proceso de creación de co
 \subsection{NSGA-II}
 JECO disponía de una implementación del algoritmo NSGA-II que nos sirvió como base para desarrollar la implementación de la estrategia multiobjetivo mediante NSGA-II. Los cambios realizados en JECO a nivel de código se explicarán en el apartado~\ref{sec:multi}).
  
-Hemos desarrollado una serie de funciones fitness por cada objetivo que deseemos optimizar. Hemos intentado representar los objetivos típicos que un jugador humano amateur intenta conseguir.
+Hemos desarrollado una serie de funciones \textit{fitness} por cada objetivo que deseemos optimizar. Hemos intentado representar los objetivos típicos que un jugador humano \textit{amateur} intenta conseguir.
 
 \paragraph{Naive fitness}
 Puntuación directa obtenida en juego, en la que se tienen en cuenta \textit{pills}, \textit{power pills} y fantasmas comidos. Cuantos más puntos mejor \textit{fitness} obtenido (minimización).
@@ -196,7 +196,7 @@ f = 1000 - \textrm{fantasmas comidos}
 \end{equation*}
 
 \paragraph{Levels completed}
-Número de niveles completados. A mayor nivel alcanzado mejo fitness del individuo.
+Número de niveles completados. A mayor nivel alcanzado mejo \textit{fitness} del individuo.
 \begin{equation*}
 f = 100 - \textrm{último nivel alcanzado}
 \end{equation*}
@@ -214,7 +214,7 @@ f = 100000 - (\textrm{número de pills consumidas} * \textrm{puntos por pill con
 \subsection{Resultados}
 Desafortunadamente, la inclusión de multiobjetivo no parece marcar una diferencia notable. Si por ejemplo usamos los \textit{fitness} \textit{Naive} y \textit{Levels completed} no se obtienen mejores bots que los mismos \textit{fitness} por separado. Esto se debe a que los objetivos que se pueden crear para el juego dependen directa o indirectamente de la puntuación, por lo que no se crea diversidad de comportamiento en nuestros programas. Lo que nos lleva a pensar que funcionaría mucho mejor cuando los objetivos no están directamente relacionados.
  
-Los resultados muestran que si forzamos el objetivo de alcanzar más niveles, los programas obtenidos alcanzan puntuaciones similares ya que Pac-Man avanza niveles comiendo todas las \textit{pills} del laberinto, y por tanto consiguiento puntuaciones más altas. Lo mismo pasa al contrario, si nos centramos en conseguir puntos, Pac-Man completará todos los niveles que le sea posible porque se centra en comerse todas las \textit{pills}.
+Los resultados muestran que si forzamos el objetivo de alcanzar más niveles, los programas obtenidos alcanzan puntuaciones similares ya que Pac-Man avanza niveles comiendo todas las \textit{pills} del laberinto, y por tanto consiguiendo puntuaciones más altas. Lo mismo pasa al contrario, si nos centramos en conseguir puntos, Pac-Man completará todos los niveles que le sea posible porque se centra en comerse todas las \textit{pills}.
  
 De cualquier forma siempre tenemos una ventaja clara usando multiobjetivo; en vez de definir un comportamiento monolítico podemos crear un diseño más modular, más fácilmente, añadiendo subobjetivos adicionales a los ya escogidos. Como por ejemplo comer \textit{pills} y mantenerse lo más alejado posible de los fantasmas, lo que le hace sobrevivir más tiempo.
 
@@ -246,7 +246,7 @@ donde $n$ es un valor entero arbitrario mayor que $1$. Así se mantiene la selec
 El mismo proceso se realizaría ahora para ver si expandimos \texttt{D} con \texttt{d} o \texttt{a}, y lo mismo vuelve a ser aplicable, permitiéndonos en definitiva mutar todos los codones utilizados del individuo con garantía de no modificar su fenotipo.
 
 \section{Multithread}
-Al empezar a desarrollar el segundo bot también pudimos aprovechar otra funcionalidad de JECO que consiste en paralelizar la etapa más pesada del algoritmo (evaluación) en los distintos procesadores del ordenador.
+Al empezar a desarrollar el segundo \textit{bot} también pudimos aprovechar otra funcionalidad de JECO que consiste en paralelizar la etapa más pesada del algoritmo (evaluación) en los distintos procesadores del ordenador.
 
 Así, las etapas donde se ejecutan los operadores de selección, cruce y mutación se hacen en el mismo hilo de procesamiento, ya que estas etapas son más llevaderas, con algún operador ejecutándose por ejemplo un 10\% de las veces en la iteración. Y seguidamente cuando llegamos a la etapa de evaluación, podemos dividir la tarea entre tanto núcleos como haya disponibles para ejecutar el juego 1, 10, 20 o incluso más veces para paliar la aleatoriedad de los fantasmas, y eso para cada individuo de la población.
 
@@ -254,19 +254,19 @@ Gracias a esta técnica nos hemos podido permitir poblaciones más grandes y may
 
 
 \section{Optimizaciones secundarias de JECO}
-El framework JECO nos es de mucha ayuda, pero ha habido ciertos momentos en los que se necesitaban ciertos ajustes o carecía de ciertas funcionalidades que nos hacían falta, por lo que las hemos tenido que implementar a mano. Las más importantes son:
+El \textit{framework} JECO nos es de mucha ayuda, pero ha habido ciertos momentos en los que se necesitaban ciertos ajustes o carecía de ciertas funcionalidades que nos hacían falta, por lo que las hemos tenido que implementar a mano. Las más importantes son:
 
 \subsection{Creación de las clases para cada función fitness}
 Se implementó un patrón de diseño \textit{Command} para estructurar la creación de funciones de \textit{fitness}. Así todas las funciones, aunque dispares, tienen un punto común que funciona de acuerdo a lo esperado.
 
 \subsection{Wrapper de funciones fitness para su uso en multiobjetivo} \label{sec:multi}
-Gracias al patrón \textit{Command} para las clases de las funciones de fitness se pudo implementar una factoría de clases fitness y un envoltorio (\textit{FitnessWrapper}). A esta clase se le pasan las funciones creadas fácilmente desde \textit{ObjectiveFactory} cuando se quieren cambiar objetivos, incluso en tiempo de ejecución. Después, \textit{FitnessWrapper} es llamado cada vez que se evalúa el algoritmo en las sucesivas generaciones, justo después de ejecutar Pac-Man para pasarle las estadísticas de la partida.
+Gracias al patrón \textit{Command} para las clases de las funciones de fitness se pudo implementar una factoría de clases \textit{fitness} y un envoltorio (\textit{FitnessWrapper}). A esta clase se le pasan las funciones creadas fácilmente desde \textit{ObjectiveFactory} cuando se quieren cambiar objetivos, incluso en tiempo de ejecución. Después, \textit{FitnessWrapper} es llamado cada vez que se evalúa el algoritmo en las sucesivas generaciones, justo después de ejecutar Pac-Man para pasarle las estadísticas de la partida.
 
 \subsection{Modificación de la mutación}
-La mutación por defecto en JECO se realiza únicamente sobre los individuos que son resultantes de un cruce. Mezclar cruce y mutación de esta manera no nos ha dado buenos resultados, y lo hemos sustituido por una aproximación más común en los Algoritmos Genéticos: Primero se aplica el operador de cruce a los elementos seleccionados de la población anterior, y después se aplica el operador de mutación a toda esa nueva población de elementos seleccionados e hijos generados por el operador de cruce. De esta manera garantizamos la independencia de operadores, ya que de lo contrario, tener una probabilidad de cruce muy baja implicaba que el operador de mutación se aplicase con una probabilidad distinta y solo a ciertos elementos.
+La mutación por defecto en JECO se realiza únicamente sobre los individuos que son resultantes de un cruce. Mezclar cruce y mutación de esta manera no nos ha dado buenos resultados, y lo hemos sustituido por una aproximación más común en los algoritmos genéticos: primero se aplica el operador de cruce a los elementos seleccionados de la población anterior, y después se aplica el operador de mutación a toda esa nueva población de elementos seleccionados e hijos generados por el operador de cruce. De esta manera garantizamos la independencia de operadores, ya que de lo contrario, tener una probabilidad de cruce muy baja implicaba que el operador de mutación se aplicase con una probabilidad distinta y solo a ciertos elementos.
 
 \subsection{Modificación de la élite}
-JECO utiliza un método particular a la hora de mantener la élite en la población. En cada generación y después de haber realizado la selección, cruce y mutación en los individuos pertinentes JECO unía la población antigua y la nueva población, constituida por los elementos seleccionados y los hijos creados a través de aplicar el operador de cruce, creando una unión de poblaciones ordenada de mejor a peor fitness. De este nuevo conjunto se extrae el número de individuos máximo que pueden haber en una población.
+JECO utiliza un método particular a la hora de mantener la élite en la población. En cada generación y después de haber realizado la selección, cruce y mutación en los individuos pertinentes JECO unía la población antigua y la nueva población, constituida por los elementos seleccionados y los hijos creados a través de aplicar el operador de cruce, creando una unión de poblaciones ordenada de mejor a peor \textit{fitness}. De este nuevo conjunto se extrae el número de individuos máximo que pueden haber en una población.
 
 Este método no aporta diversidad a la población dado que se usa toda la población de la anterior generación (sin alterar) y la nueva población para generar la población final que será utilizada en la siguiente generación, haciendo que muchos individuos de la anterior generación se conserven en la nueva generación (y normalmente a lo largo de muchas generaciones más) conduciendo la búsqueda rápidamente a un óptimo local del cual es difícil de salir por falta de diversidad.
 
@@ -278,7 +278,7 @@ Optamos por deshacernos de esta implementación e implementamos un elitismo clá
 \end{figure}
 
 \section{Batch Executor}
-Debido que empleamos controladores de fantasmas no deterministas, necesitamos ejecutar varias partidas con un mismo controlador de Pac-Man para obtener resultados estadísticamente correctos de su rendimiento. Puesto que aumentar el número de partidas que juega un mismo individuo en la evaluación del algoritmo evolutivo supone un impacto significativo en el tiempo de ejecución de este, optamos por ejecutar un número conservador de partidas (unas 30, como queda reflejado en el parámetro iterspeind de la tabla con los mejores parametros \ref{table:best-params}).
+Debido que empleamos controladores de fantasmas no deterministas, necesitamos ejecutar varias partidas con un mismo controlador de Pac-Man para obtener resultados estadísticamente correctos de su rendimiento. Puesto que aumentar el número de partidas que juega un mismo individuo en la evaluación del algoritmo evolutivo supone un impacto significativo en el tiempo de ejecución de este, optamos por ejecutar un número conservador de partidas (unas 30, como queda reflejado en el parámetro \textit{iterspeind} de la tabla con los mejores parámetros \ref{table:best-params}).
  
 Una vez terminada la ejecución del algoritmo evolutivo, extraemos el código del mejor individuo producido. Después empleamos este código para jugar mil partidas contra el controlador de fantasma deseado.
  
