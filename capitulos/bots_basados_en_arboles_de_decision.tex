@@ -176,9 +176,9 @@ Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
 \begin{itemize}
 \item Los programas generados (fenotipo) son bastante largos debido a que hay muchos anidamientos de \texttt{if-else} que generan distintas acciones para determinados casos particulares. Esto es un resultado esperado al usar la gramática de bajo nivel.
 
-\item Se obtienen malos resultados en cuanto a puntos obtenidos pero hay una gran convergencia de la población hacia el individuo óptimo actual, como se aprecia en la tabla~\ref{table:single_obj_low}.
+\item Se obtienen malos resultados en cuanto a puntos obtenidos pero hay una gran convergencia de la población hacia el individuo óptimo actual, como se aprecia en la Tabla~\ref{table:single_obj_low}.
 
-\begin{table}[]
+\begin{sidewaystable}[]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -189,7 +189,7 @@ Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
 \end{tabular}
 \caption{Pac-Man de bajo nivel contra varios controladores de fantasmas. 1000 ejecuciones.}
 \label{table:single_obj_low}
-\end{table}
+\end{sidewaystable}
 
 \item El comportamiento del mejor individuo es siempre el mismo. Pac-Man va directamente a la esquina inferior izquierda del nivel y se queda quieto en cierto punto en el cual los fantasmas no le detectan, consiguiendo pasarse niveles porque el juego cada 4000 \textit{ticks} cambia de nivel inexorablemente y da una cierta cantidad de puntos al jugador. Este error del juego solo lo detecta hasta el nivel 3, nivel en el que es siempre eliminado por los fantasmas. A este comportamiento le hemos denominado bot ``Camper''.
 \end{itemize}
@@ -356,20 +356,20 @@ Las conclusiones obtenidas son:
 \begin{itemize}
 \item La velocidad de ejecución del algoritmo evolutivo ha sido significativamente más rápida que la de bajo nivel, de forma que la ejecución se realiza en apenas unos minutos.
 
-\item Los resultados obtenidos en puntos son bastante superiores a los obtenidos con la gramática de bajo nivel, como se aprecia en la tabla~\ref{table:single_obj_medium}.
+\item Los resultados obtenidos en puntos son bastante superiores a los obtenidos con la gramática de bajo nivel, como se aprecia en la Tabla~\ref{table:single_obj_medium}.
 
-\begin{table}[]
+\begin{sidewaystable}[]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
 \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Fantasmas}} & \multicolumn{3}{c|}{\textbf{puntuación}} & \multicolumn{3}{c|}{\textbf{niveles}} & \multicolumn{3}{c|}{\textbf{\textit{ticks} del juego}} \\ \cline{3-11} 
 \multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
-\multirow{2}{*}{\textbf{Medio nivel}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
- & Legacy & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \hline
+\multirow{2}{*}{\textbf{Medio nivel}} & Random & \multicolumn{1}{r|}{\textbf{64600}} & \textbf{48558} & \textbf{10780} & \multicolumn{1}{r|}{\textbf{18}} & \textbf{15} & \textbf{3.4} & \multicolumn{1}{r|}{\textbf{24000}} & \textbf{21579} & \textbf{4470} \\ \cline{2-11} 
+ & Legacy & \multicolumn{1}{r|}{\textbf{15960}} & \textbf{6358} & \textbf{2883} & \multicolumn{1}{r|}{\textbf{3}} & \textbf{0.9} & \textbf{0.7} & \multicolumn{1}{r|}{\textbf{4973}} & \textbf{1916} & \textbf{730} \\ \hline
 \end{tabular}
 \caption{Pac-Man de medio nivel contra diversos fantasmas. 1000 ejecuciones.}
 \label{table:single_obj_medium}
-\end{table}
+\end{sidewaystable}
 
 \item El código generado por el mejor individuo (fenotipo) es muy corto, generalmente consiste de un solo \textit{if-else} que contiene cada uno una única función.
 
@@ -474,21 +474,21 @@ Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
     }
 \end{lstlisting}
 
-\item Obtiene buenos resultados muy rápidamente (como se aprecia en la tabla~\ref{table:single_obj_low}) comparada con la gramática de medio nivel (Figura~\ref{grafica:comparacion-todas}). Esto se debe probablemente al reducido espacio de búsqueda de soluciones al ser una gramática tan compacta. Sin embargo y como se analizó en nuestro artículo (Apartado~\ref{cap:paper}),  la evolución utilizando la gramática de alto nivel se estanca en un óptimo local y es superada por la de medio nivel que obtiene mejores resultados, como se puede apreciar en la Figura~\ref{grafica:comparacion-todas}. La de medio nivel consigue algunos puntos más en promedio con 100 generaciones.
+\item Obtiene buenos resultados muy rápidamente (como se aprecia en la Tabla~\ref{table:single_obj_low}) comparada con la gramática de medio nivel (Figura~\ref{grafica:comparacion-todas}). Esto se debe probablemente al reducido espacio de búsqueda de soluciones al ser una gramática tan compacta. Sin embargo y como se analizó en nuestro artículo (Apartado~\ref{cap:paper}),  la evolución utilizando la gramática de alto nivel se estanca en un óptimo local y es superada por la de medio nivel que obtiene mejores resultados, como se puede apreciar en la Figura~\ref{grafica:comparacion-todas}. La de medio nivel consigue algunos puntos más en promedio con 100 generaciones.
 \end{itemize}
 
-\begin{table}[]
+\begin{sidewaystable}[]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
 \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Fantasmas}} & \multicolumn{3}{c|}{\textbf{puntuación}} & \multicolumn{3}{c|}{\textbf{nivel}} & \multicolumn{3}{c|}{\textbf{\textit{ticks} del juego}} \\ \cline{3-11} 
 \multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
-\multirow{2}{*}{\textbf{Alto nivel}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
- & Legacy & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \hline
+\multirow{2}{*}{\textbf{Alto nivel}} & Random & \multicolumn{1}{r|}{\textbf{55480}} & \textbf{32704} & \textbf{13237} & \multicolumn{1}{r|}{\textbf{18}} & \textbf{10.4} & \textbf{4.3} & \multicolumn{1}{r|}{\textbf{24000}} & \textbf{17457} & \textbf{6784} \\ \cline{2-11} 
+ & Legacy & \multicolumn{1}{r|}{\textbf{20040}} & \textbf{5972} & \textbf{2832} & \multicolumn{1}{r|}{\textbf{4}} & \textbf{1} & \textbf{0.6} & \multicolumn{1}{r|}{\textbf{8364}} & \textbf{2026} & \textbf{1020} \\ \hline
 \end{tabular}
 \caption{Pac-Man de alto nivel contra diversos fantasmas. 1000 ejecuciones.}
 \label{table:single_obj_high}
-\end{table}
+\end{sidewaystable}
 
 Todo esto nos indica que para tareas en las que es importante obtener buenos resultados de forma rápida, conviene favorecer gramáticas de alto nivel, mientras que si buscamos los mejores resultados posibles a cambio de un tiempo de evolución largo, conviene usar gramáticas de medio nivel.
 
