@@ -176,7 +176,20 @@ Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
 \begin{itemize}
 \item Los programas generados (fenotipo) son bastante largos debido a que hay muchos anidamientos de \texttt{if-else} que generan distintas acciones para determinados casos particulares. Esto es un resultado esperado al usar la gramática de bajo nivel.
 
-\item Se obtienen malos resultados en cuanto a puntos obtenidos pero hay una gran convergencia de la población hacia el individuo óptimo actual.
+\item Se obtienen malos resultados en cuanto a puntos obtenidos pero hay una gran convergencia de la población hacia el individuo óptimo actual, como se aprecia en la tabla~\ref{table:single_obj_low}.
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Ghosts}} & \multicolumn{3}{c|}{\textbf{score}} & \multicolumn{3}{c|}{\textbf{level}} & \multicolumn{3}{c|}{\textbf{time (game ticks)}} \\ \cline{3-11} 
+\multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
+\multirow{2}{*}{\textbf{Low-level}} & Random & \multicolumn{1}{r|}{\textbf{900}} & \textbf{151} & \textbf{117} & \multicolumn{1}{r|}{\textbf{1}} & \textbf{0.071} & \textbf{0.257} & \multicolumn{1}{r|}{\textbf{5094}} & \textbf{2151} & \textbf{972.1} \\ \cline{2-11} 
+ & Legacy & \multicolumn{1}{r|}{\textbf{120}} & \textbf{120} & \textbf{0} & \multicolumn{1}{r|}{\textbf{0}} & \textbf{0} & \textbf{0} & \multicolumn{1}{r|}{\textbf{600}} & \textbf{425} & \textbf{34.5} \\ \hline
+\end{tabular}
+\caption{Low-level Pac-Man vs Ghost controllers' comparison. 1000 games.}
+\label{table:single_obj_low}
+\end{table}
 
 \item El comportamiento del mejor individuo es siempre el mismo. Pac-Man va directamente a la esquina inferior izquierda del nivel y se queda quieto en cierto punto en el cual los fantasmas no le detectan, consiguiendo pasarse niveles porque el juego cada 4000 \textit{ticks} cambia de nivel inexorablemente y da una cierta cantidad de puntos al jugador. Este error del juego solo lo detecta hasta el nivel 3, nivel en el que es siempre eliminado por los fantasmas. A este comportamiento le hemos denominado bot ``Camper''.
 \end{itemize}
@@ -343,7 +356,20 @@ Las conclusiones obtenidas son:
 \begin{itemize}
 \item La velocidad de ejecución del algoritmo evolutivo ha sido significativamente más rápida que la de bajo nivel, de forma que la ejecución se realiza en apenas unos minutos.
 
-\item Los resultados obtenidos en puntos son bastante superiores a los obtenidos con la gramática de bajo nivel.
+\item Los resultados obtenidos en puntos son bastante superiores a los obtenidos con la gramática de bajo nivel, como se aprecia en la tabla~\ref{table:single_obj_medium}.
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Ghosts}} & \multicolumn{3}{c|}{\textbf{score}} & \multicolumn{3}{c|}{\textbf{level}} & \multicolumn{3}{c|}{\textbf{time (game ticks)}} \\ \cline{3-11} 
+\multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
+\multirow{2}{*}{\textbf{Medium-level}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
+ & Legacy & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \hline
+\end{tabular}
+\caption{Medium-level Pac-Man vs Ghost controllers' comparison. 1000 games.}
+\label{table:single_obj_medium}
+\end{table}
 
 \item El código generado por el mejor individuo (fenotipo) es muy corto, generalmente consiste de un solo \textit{if-else} que contiene cada uno una única función.
 
@@ -448,8 +474,21 @@ Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
     }
 \end{lstlisting}
 
-\item Obtiene buenos resultados muy rápidamente comparada con la gramática de medio nivel (Figura~\ref{grafica:comparacion-todas}). Esto se debe probablemente al reducido espacio de búsqueda de soluciones al ser una gramática tan compacta. Sin embargo y como se analizó en nuestro artículo (Apartado~\ref{cap:paper}),  la evolución utilizando la gramática de alto nivel se estanca en un óptimo local y es superada por la de medio nivel que obtiene mejores resultados, como se puede apreciar en la Figura~\ref{grafica:comparacion-todas}. La de medio nivel consigue algunos puntos más en promedio con 100 generaciones.
+\item Obtiene buenos resultados muy rápidamente (como se aprecia en la tabla~\ref{table:single_obj_low}) comparada con la gramática de medio nivel (Figura~\ref{grafica:comparacion-todas}). Esto se debe probablemente al reducido espacio de búsqueda de soluciones al ser una gramática tan compacta. Sin embargo y como se analizó en nuestro artículo (Apartado~\ref{cap:paper}),  la evolución utilizando la gramática de alto nivel se estanca en un óptimo local y es superada por la de medio nivel que obtiene mejores resultados, como se puede apreciar en la Figura~\ref{grafica:comparacion-todas}. La de medio nivel consigue algunos puntos más en promedio con 100 generaciones.
 \end{itemize}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Ghosts}} & \multicolumn{3}{c|}{\textbf{score}} & \multicolumn{3}{c|}{\textbf{level}} & \multicolumn{3}{c|}{\textbf{time (game ticks)}} \\ \cline{3-11} 
+\multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
+\multirow{2}{*}{\textbf{High-level}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
+ & Legacy & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \hline
+\end{tabular}
+\caption{High-level Pac-Man vs Ghost controllers' comparison. 1000 games.}
+\label{table:single_obj_high}
+\end{table}
 
 Todo esto nos indica que para tareas en las que es importante obtener buenos resultados de forma rápida, conviene favorecer gramáticas de alto nivel, mientras que si buscamos los mejores resultados posibles a cambio de un tiempo de evolución largo, conviene usar gramáticas de medio nivel.
 
