@@ -1,5 +1,5 @@
 \chapter{Bots basados en secuencias de acciones} \label{cap:bots-secuencia-acciones}
-En primer lugar y una vez decididos nuestros dos frameworks de partida, fue necesaria la integración entre el código de Pac-Man y JECO para poder empezar a realizar experimentos.
+En primer lugar y una vez decididos nuestros dos \textit{frameworks} de partida, fue necesaria la integración entre el código de Pac-Man y JECO para poder empezar a realizar experimentos.
 
 \section{Integración de Ms. Pac-Man y JECO}
 \begin{figure}[H]
@@ -8,16 +8,16 @@ En primer lugar y una vez decididos nuestros dos frameworks de partida, fue nece
 \caption{Diagrama de la integración de Pac-Man y JECO.}
 \end{figure}
 \begin{itemize}
-\item Flecha azul: JECO evoluciona individuos (en la primera generación son aleatorios) y transmite su fenotipo al framework de Pac-Man, para ser evaluados.
+\item Flecha azul: JECO evoluciona individuos (en la primera generación son aleatorios) y transmite su fenotipo al \textit{framework} de Pac-Man, para ser evaluados.
 
-\item Flecha roja: El controlador de Pac-Man suministra movimientos a la clase ejecutora, al tiempo que la clase ejecutora transmite información necesaria al controlador para que este pueda determinar qué movimientos hacer.
+\item Flecha roja: el controlador de Pac-Man suministra movimientos a la clase ejecutora, al tiempo que la clase ejecutora transmite información necesaria al controlador para que este pueda determinar qué movimientos hacer.
 
-\item Flecha verde: El framework de Pac-Man transmite a una función de evaluación especializada para Pac-Man en JECO la información de la partida (en primer lugar empezamos transmitiendo únicamente la puntuación obtenida).
+\item Flecha verde: el \textit{framework} de Pac-Man transmite a una función de evaluación especializada para Pac-Man en JECO la información de la partida (en primer lugar empezamos transmitiendo únicamente la puntuación obtenida).
 
-\item Flecha amarilla: La función de evaluación para Pac-Man traduce la información resultante de la partida a un fitness, que es transmitido al proceso de evaluación gramatical. El individuo evaluado adquiere un fitness y en función del mismo se condiciona la siguiente generación (junto a los resultados del resto de individuos).
+\item Flecha amarilla: la función de evaluación para Pac-Man traduce la información resultante de la partida a un \textit{fitness}, que es transmitido al proceso de evaluación gramatical. El individuo evaluado adquiere un \textit{fitness} y en función del mismo se condiciona la siguiente generación (junto a los resultados del resto de individuos).
 \end{itemize}
 
-Debido a que JECO persigue encontrar individuos con el fitness más bajo posible (minimización), tenemos la necesidad de emplear fitness en los que se considere mejor el menor o adaptarlo a maximización. Optamos por lo primero, y empleamos como fitness inicial:
+Debido a que JECO persigue encontrar individuos con el \textit{fitness} más bajo posible (minimización), tenemos la necesidad de emplear \textit{fitness} en los que se considere mejor el menor o adaptarlo a maximización. Optamos por lo primero, y empleamos como \textit{fitness} inicial:
 \begin{equation*}
 f = 100000 - score
 \end{equation*}
@@ -30,17 +30,17 @@ Empezamos por plantearnos los objetivos más sencillos e indispensables:
 \item Gramáticas evolutivas mono-objetivo.
 Un solo thread.
 
-\item Una sola función de fitness que tuviera únicamente en cuenta los puntos conseguidos (Recibiendolos JECO tras cada evaluación del árbol de derivación obtenido en Pac-Man).
+\item Una sola función de \textit{fitness} que tuviera únicamente en cuenta los puntos conseguidos (recibiendolos JECO tras cada evaluación del árbol de derivación obtenido en Pac-Man).
 
 \item Uso de una gramática que solo permitiese generar programas en forma de cadena de movimientos simples (\textbf{\texttt{U D L R}}) como una sucesión de caracteres.
 
-\item Un generador de trazas minimalista para registrar los fenotipos que producían una mejora del fitness durante la ejecución.
+\item Un generador de trazas minimalista para registrar los fenotipos que producían una mejora del \textit{fitness} durante la ejecución.
 \end{itemize}
 
 Partiendo de un sistema de evolución gramatical que devolvía árboles de derivación en forma de cadenas de caracteres, la idea inicial fue encapsular tanto acciones como observadores del estado del juego dentro de dichas cadenas, que contendrían de manera prefijada las acciones a realizar o evaluar por el controlador de Pac-Man, repitiéndose en un bucle la evaluación de los caracteres de la cadena desde el principio de la misma al llegar al final. Dicha cadena-programa puede verse como un autómata en las que las transiciones son la evaluación de un carácter y paso al siguiente.
 
 \section{Un primer bot}
-La primera versión de autómata conseguido encadenaba los distintos movimientos posibles (\texttt{Arriba, Abajo, Derecha, Izquierda}, \textbf{\texttt{U D L R}} respectivamente) pertenecientes a un alfabeto inicial que más tarde fuimos ampliando y mejorando durante la implementación.
+La primera versión de autómata conseguido encadenaba los distintos movimientos posibles (\texttt{arriba, abajo, derecha, izquierda}, \textbf{\texttt{U D L R}} respectivamente) pertenecientes a un alfabeto inicial que más tarde fuimos ampliando y mejorando durante la implementación.
  
 El controlador de Pac-Man generaba una transición en el autómata secuencialmente al tiempo que este le proporcionaba el movimiento asociado al estado al que transitaba, volviendo el autómata al estado inicial cuando finalizaba la cadena de caracteres definidos por la gramática. El fundamental problema de este sistema es que el bot no tiene en cuenta el estado de juego, viéndose obligado a realizar acciones de la secuencia que tal vez sean contraproducentes.
  
@@ -67,7 +67,7 @@ El controlador consume un símbolo tras otro transitando al siguiente estado del
  
 Sorprendentemente únicamente con esto, al ser los laberintos siempre los mismos, conseguía hacer algunos puntos antes de ser aniquilado por los fantasmas, pese a la precariedad del método. Lo relevante en este punto era que teníamos una primera integración que funcionaba.
  
-A continuación se muestra el resultado de uno de los primeros experimentos realizados, con tamaño de población 100, 50 generaciones, una evaluación por individuo, selección por Torneo Binario, cruce monopunto con 60\% de probabilidad de cruce e \textit{Integer flip mutation} con 10\% de probabilidad de mutación. El controlador de fantasmas era \textit{Starter ghosts} (nuestro bot aún no tenía ninguna oportunidad contra \textit{Legacy}).
+A continuación se muestra el resultado de uno de los primeros experimentos realizados, con tamaño de población 100, 50 generaciones, una evaluación por individuo, selección por Torneo Binario, cruce monopunto con 60\% de probabilidad de cruce e \textit{Integer Flip Mutation} con 10\% de probabilidad de mutación. El controlador de fantasmas era \textit{Starter Ghosts} (nuestro bot aún no tenía ninguna oportunidad contra \textit{Legacy}).
 \begin{table}[H]
 \centering
 \begin{tabular}{cc}
@@ -110,7 +110,7 @@ La gramática diseñada para hacer uso de este lenguaje, tenía la siguiente for
 \subsection{Fenotipos producidos}
 En bots producidos por esta implementación a veces se aprecia un atisbo de primera inteligencia muy primitiva, así como los habituales intrones o fragmentos de programa inútiles.
  
-Los siguientes fenotipos fueron obtenidos tras experimentos con tamaño de población 100, 50 generaciones, una evaluación por individuo, selección por Torneo Binario, cruce monopunto con 60\% de probabilidad de cruce e \textit{Integer flip mutation} con 10\% de probabilidad de mutación. Los fantasmas siguen siendo \textit{Starter ghosts} en esta etapa, dados los malos resultados obtenidos contra fantasmas \textit{Legacy}.
+Los siguientes fenotipos fueron obtenidos tras experimentos con tamaño de población 100, 50 generaciones, una evaluación por individuo, selección por Torneo Binario, cruce monopunto con 60\% de probabilidad de cruce e \textit{Integer Flip Mutation} con 10\% de probabilidad de mutación. Los fantasmas siguen siendo \textit{Starter Ghosts} en esta etapa, dados los malos resultados obtenidos contra fantasmas \textit{Legacy}.
 \begin{table}[H]
 \centering
 \begin{tabular}{cc}
@@ -119,7 +119,7 @@ Los siguientes fenotipos fueron obtenidos tras experimentos con tamaño de pobla
 \texttt{E?P?PH}          & 6580                  \\
 \texttt{?B?PE?BHEHE}          & 7000                  \\ \hline
 \end{tabular}
-\caption{Fenotipo y puntos de los siguientes bots con condicionales y acciones de alto nivel.}
+\caption{Fenotipo y puntos de los siguientes \textit{bots} con condicionales y acciones de alto nivel.}
 \end{table}
 
 Como ejemplo, la traducción a pseudocódigo del primer programa sería lo siguiente:
@@ -134,17 +134,17 @@ Como ejemplo, la traducción a pseudocódigo del primer programa sería lo sigui
     FIN MIENTRAS
 \end{lstlisting}
 
-Que se traduce en ir siempre hacia la pill más cercana, salvo que haya un fantasma no comible cerca de Pac-Man, en cuyo caso se aleja de él. Se aprecia una doble evaluación consecutiva de lo mismo que no aporta nada: Un problema típico en programación genética. 
+Que se traduce en ir siempre hacia la \textit{pill} más cercana, salvo que haya un fantasma no comible cerca de Pac-Man, en cuyo caso se aleja de él. Se aprecia una doble evaluación consecutiva de lo mismo que no aporta nada: Un problema típico en programación genética. 
 
 \blankline
 
-Resulta destacable el descubrimiento por parte de los bots generados mediante este sistema de la variable ``\textit{Global reversal}'', que en cada movimiento asigna a los fantasmas una probabilidad aleatoria muy baja de darse todos la vuelta.
+Resulta destacable el descubrimiento por parte de los \textit{bots} generados mediante este sistema de la variable ``\textit{Global Reversal}'', que en cada movimiento asigna a los fantasmas una probabilidad aleatoria muy baja de darse todos la vuelta.
  
-Los fenotipos consistentes en comer pills y huir cuando haya un fantasma cerca, producen una estrategia en la que el bot de Pac-Man huye a la vez que agrupa la mayoría de fantasmas detrás de él. Cuando ocurre el susodicho \textit{Global reversal}, los fantasmas cambian su dirección a la opuesta, y dado que no pueden cambiarla de nuevo salvo que ocurra otro global reversal y las distancias son calculadas teniendo esta limitación en cuenta, todos pasan a estar ``lejos'' de Pac-Man y este puede comer pills con seguridad.
+Los fenotipos consistentes en comer \textit{pills} y huir cuando haya un fantasma cerca, producen una estrategia en la que el bot de Pac-Man huye a la vez que agrupa la mayoría de fantasmas detrás de él. Cuando ocurre el susodicho \textit{Global Reversal}, los fantasmas cambian su dirección a la opuesta, y dado que no pueden cambiarla de nuevo salvo que ocurra otro \textit{Global Reversal} y las distancias son calculadas teniendo esta limitación en cuenta, todos pasan a estar ``lejos'' de Pac-Man y este puede comer \textit{pills} con seguridad.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{global-reversal}
-\caption{\textit{Global reversal} de los fantasmas.}
+\caption{\textit{Global Reversal} de los fantasmas.}
 \end{figure}
 
 \section{Limitaciones}
@@ -164,7 +164,7 @@ En este estado de huida se codificaba un comportamiento, en alto nivel y ajeno a
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{prueba-automata}
-\caption{Ejemplo de autómata que usa el estado Huida.}
+\caption{Ejemplo de autómata que usa el estado "huida".}
 \end{figure}
 
 A través de esta prueba comprobamos que la escalabilidad del autómata no era realista, ya que suponía la codificación de eventos cada vez más complejos de gestionar debido a la aparición de conflictos con los ya introducidos a la hora de controlar las transiciones.
