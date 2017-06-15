@@ -27,40 +27,33 @@ construiríamos el siguiente árbol:
 \includegraphics[width=\textwidth]{codigo-a-arbol}
 \caption{Árbol contruido a partir de ejemplo de código.}
 \end{figure}
-La ejecución de este árbol consistiría en turno a turno evaluar desde el nodo raíz: primero, comprobar si la distancia al fantasma no comible más cercano es menor o igual que 4. En caso de que sea así, evalúa la rama izquierda recursivamente, y al ser esta un nodo hoja ejecuta la acción determinada por este, en este caso acercarse al fantasma comible más cercano. En caso de la que condición no se cumpla, se ejecutará de forma análoga la rama derecha, tratándose de un nodo hoja con la acción que genera un movimiento de huida del fantasma más cercano. 
-
-\subsection{Árboles de decisión}
-Posteriormente optamos por un cambio en la representación del fenotipo. Concretamente, a partir de cada fenotipo generado por el algoritmo evolutivo, generamos un árbol de decisión para simplificar significativamente la ejecución de una partida con dicho fenotipo, y así lograr la ya mencionada Inteligencia Artificial Reactiva. Dicho árbol contiene las diferentes funciones para consultar el estado de juego (los nodos no terminales) y para decidir movimientos (nodos terminales) como enumerados, obteniéndose cada movimiento evaluando recursivamente el árbol.
- 
-La razón de estos árboles era poder codificar comportamientos mucho más complejos en sus diferentes ``ramas'', pudiendo además explotar la riqueza de las gramáticas, simplificar la lógica de ejecución, y desarrollar una base mucho más estable sobre la que apoyar futuras iteraciones.
+La ejecución de este árbol consistiría en, turno a turno, evaluar desde el nodo raíz: primero, comprobar si la distancia al fantasma no comible más cercano es menor o igual que 4. En caso de que sea así, evalúa la rama izquierda recursivamente, y al ser esta un nodo hoja ejecuta la acción determinada por este, en este caso acercarse al fantasma comible más cercano. En caso de la que condición no se cumpla, se ejecutará de forma análoga la rama derecha, tratándose de un nodo hoja con la acción que genera un movimiento de huida del fantasma más cercano. 
 
 \subsection{Parsing de fenotipo a árbol}
-A la hora de realizar el cambio estructural de fenotipo, optamos por realizar un parsing del fenotipo desde una cadena de caracteres (producida por JECO mediante evolución gramatical) a un árbol que organiza los ya mencionados condicionales, consecuentes y movimientos de la forma más intuitiva posible. La estructuración de dichos elementos dentro del árbol se realiza de la siguiente forma:
+Para integrar árboles de decisión procedimos a hacer cambios en la representación del fenotipo. Concretamente, a partir de cada fenotipo generado por el algoritmo evolutivo (una cadena de texto), generamos un árbol de decisión. El árbol generado mediante dicho metodo de \textit{parse} organiza condicionales (con sus respectivos consecuentes) y acciones (que producen movimientos) de la forma más intuitiva posible. La estructuración de dichos elementos dentro del árbol se realiza de la siguiente forma:
 
-\subsubsection{Nodos terminales}
-Los nodos terminales realizan una acción o una consulta. Si es una acción puede tratarse de:
+Dicho árbol contiene las diferentes funciones para consultar el estado de juego (los nodos no terminales) y para decidir movimientos (nodos terminales) como enumerados, obteniéndose cada movimiento evaluando recursivamente el árbol.
+
+A la hora de realizar el cambio estructural de fenotipo, optamos por realizar un 
+
+\subsubsection{Acciones}
+Los nodos terminales realizan una acción, que puede ser:
 \begin{itemize}
 \item Movimientos simples (direccionales)
 \item Movimientos basados en información del juego. Por ejemplo, ``el movimiento que aleja más a Pac-Man del fantasma más cercano''
 \end{itemize}
 
-En el caso de las consultas al estado del juego, estas pueden devolver distancias en formato entero (distancia al fantasma comible más cercano, ...) o booleanos (¿Está Pac-Man en una intersección?, ...).
+\subsubsection{Condicionales}
+Los condicionales contienen una lista de parámetros booleanos (los cuales hemos denominado condiciones) y otra lista que indica qué operadores booleanos binarios operan dichos parámetros. En caso de que el condicional se trate de un \texttt{if}, contendrá un nodo hijo con un consecuente, y en caso de ser un \texttt{else}, dos.
 
-\subsubsection{Nodos condicionales}
-Los nodos condicionales contienen una lista de parámetros booleanos (los cuales hemos denominado condiciones) y otra lista que indica qué operadores booleanos binarios operan dichos parámetros. En caso de tratarse de un \texttt{if}, contendrá un nodo hijo con un consecuente, y en caso de ser un \texttt{else}, dos.
+Una condición puede ser de dos tipos. El primero, una consulta booleana del estado de juego. El segundo, el resultado de aplicar un operador numérico a una consulta numérica del estado de juego y un número generado por la gramática.
  
-Una condición puede ser de varios tipos, según el tipo de los parámetros que contenga:
-\begin{itemize}
-\item de función booleana
-\item de función numérica, operador numérico (binario) y función numérica
-\item de función numérica, operador numérico (binario) y número
-\item de número, operador numérico (binario) y función numérica
-\end{itemize}
+Un ejemplo de consulta numérica del estado del juego seria la distancia al fantasma comible más cercano, y uno de una consulta booleana seria comprobar si Pac-Man se encuentra en una intersección.
 
-Los parámetros de tipo función que contenga una condición una vez más se trataran de enumerados, con la diferencia de que en este caso el método que poseen indicará el valor (booleano o numérico) de la consulta del estado de alguna variable de la partida. Finalmente, una condición puede encontrarse negada.
+Finalmente, una condición puede encontrarse negada.
 
 \subsection{Adaptador de árbol a movimiento de Pac-Man}
-Para poder ejecutar partidas con estos árboles de decisión, necesitamos implementar un nuevo controlador de Pac-Man. Este controlador contiene el árbol de derivación, actuando como wrapper, de forma que con cada solicitud de movimiento realizada al controlador, este evalúa el árbol de forma recursiva, hasta encontrar un nodo terminal que devuelva un movimiento y que cumple todas sus condiciones previas.
+Para poder ejecutar partidas con estos árboles de decisión, necesitamos implementar un nuevo controlador de Pac-Man. Este controlador contiene el árbol de derivación, actuando como wrapper, de forma que con cada solicitud de movimiento realizada al controlador, este evalúa el árbol de forma recursiva, hasta encontrar una acción (un nodo terminal que devuelva un movimiento) y que cumple todos sus condicionales (nodos no terminales) previos.
 
 Nótese  que la evaluación de dichos condicionales supone la evaluación de numerosos parámetros booleanos y enteros evaluados entre sí. Estos parámetros son obtenidos directamente de consultas al estado de la partida.
 
