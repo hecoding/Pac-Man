@@ -1,16 +1,16 @@
 \chapter{Bots basados en árboles de decisión} \label{cap:bots-arboles}
 
 \section{Idea general}
-Un Árbol de Decisión es un tipo especial de árbol utilizado en el área de Inteligencia Artificial cuyos nodos internos representan condiciones a evaluar y sus nodos hoja representan las acciones a realizar, resultados, soluciones, etc. El recorrido de un Árbol de Decisión es sencillo, se empieza por el nodo raíz y se evalúa su condición, dependiendo del resultado de esta evaluación se elige el siguiente nodo (hijo del nodo evaluado) que será evaluado y así sucesivamente hasta que se encuentre un nodo hoja.
+Un árbol de decisión es un tipo especial de árbol utilizado en el área de inteligencia artificial cuyos nodos internos representan condiciones a evaluar y sus nodos hoja representan las acciones a realizar, resultados, soluciones, etc. El recorrido de un árbol de decisión es sencillo, se empieza por el nodo raíz y se evalúa su condición, dependiendo del resultado de esta evaluación se elige el siguiente nodo (hijo del nodo evaluado) que será evaluado y así sucesivamente hasta que se encuentre un nodo hoja.
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{arbol-decision}
 \caption{Árbol de decisión para determinar si un individuo es enemigo o aliado.}
 \end{figure}
 
-Los Árboles de Decisión suelen emplearse ampliamente en áreas donde sean necesarias decisiones deterministas automatizadas como finanzas, estadística, videojuegos, aprendizaje automático, etc. Son fáciles de entender y muy rápidos de procesar una vez construidos \cite{aihorizonDecisiontrees}.
+Los árboles de decisión suelen emplearse ampliamente en áreas donde sean necesarias decisiones deterministas automatizadas como finanzas, estadística, videojuegos, aprendizaje automático, etc. Son fáciles de entender y muy rápidos de procesar una vez construidos \cite{aihorizonDecisiontrees}.
 
-En esta fase optamos por seguir un nuevo enfoque mediante Inteligencia Artificial Reactiva. Esto significa evaluar en cada turno un árbol de decisión (partiendo siempre desde la raíz), comprobando una serie de condiciones del estado de la partida, y a partir de ellas determinar una única acción a realizar. La decisión de seguir este enfoque persigue que nuestros bots resultantes tengan un comportamiento con continuidad dentro de una misma situación pero a la vez sean capaz de adaptarse a cambios repentinos en el estado del juego. 
+En esta fase optamos por seguir un nuevo enfoque mediante inteligencia artificial reactiva. Esto significa evaluar en cada turno un árbol de decisión (partiendo siempre desde la raíz), comprobando una serie de condiciones del estado de la partida, y a partir de ellas determinar una única acción a realizar. La decisión de seguir este enfoque persigue que nuestros \textit{bots} resultantes tengan un comportamiento con continuidad dentro de una misma situación pero a la vez sean capaz de adaptarse a cambios repentinos en el estado del juego. 
  
 Por ejemplo,a partir del código:
 \begin{lstlisting}[caption=Ejemplo de código]
@@ -53,23 +53,23 @@ Un ejemplo de consulta numérica del estado del juego seria la distancia al fant
 Finalmente, una condición puede encontrarse negada.
 
 \subsection{Adaptador de árbol a movimiento de Pac-Man}
-Para poder ejecutar partidas con estos árboles de decisión, necesitamos implementar un nuevo controlador de Pac-Man. Este controlador contiene el árbol de derivación, actuando como wrapper, de forma que con cada solicitud de movimiento realizada al controlador, este evalúa el árbol de forma recursiva, hasta encontrar una acción (un nodo terminal que devuelva un movimiento) y que cumple todos sus condicionales (nodos no terminales) previos.
+Para poder ejecutar partidas con estos árboles de decisión, necesitamos implementar un nuevo controlador de Pac-Man. Este controlador contiene el árbol de derivación, actuando como \textit{wrapper}, de forma que con cada solicitud de movimiento realizada al controlador, este evalúa el árbol de forma recursiva, hasta encontrar una acción (un nodo terminal que devuelva un movimiento) y que cumple todos sus condicionales (nodos no terminales) previos.
 
-Nótese  que la evaluación de dichos condicionales supone la evaluación de numerosos parámetros booleanos y enteros evaluados entre sí. Estos parámetros son obtenidos directamente de consultas al estado de la partida.
+Nótese que la evaluación de dichos condicionales supone la evaluación de numerosos parámetros booleanos y enteros evaluados entre sí. Estos parámetros son obtenidos directamente de consultas al estado de la partida.
 
-Finalmente se obtiene un movimiento, bien generado por la acción de un nodo terminal a través de la llamada a una determinada función interna del juego Ms. Pac-Man vs Ghosts, bien realizando un movimiento simple direccional.
+Finalmente se obtiene un movimiento, bien generado por la acción de un nodo terminal a través de la llamada a una determinada función interna del juego \textit{Ms. Pac-Man vs Ghosts}, bien realizando un movimiento simple direccional.
 
 \section{Gramáticas desarrolladas}
 Todas nuestras gramáticas producen códigos basados en inteligencias artificiales reactivas, es decir, a cada turno de movimiento (denominado internamente como \textit{tick}) se evalúan una serie de condiciones del estado del tablero para producir un único movimiento de forma no ambigua. Las gramáticas diseñadas usan una estructura de anidamientos de declaraciones \texttt{if-else} que posteriormente un \textit{parser}\footnote{Un parser es una herramienta que mediante el uso de una gramática transforma texto escrito en el lenguaje representado por la gramática a una representación interpretable por otro sistema \cite{parserTechopedia}.
-} convertirá a un Árbol de Decisión. Este Árbol de Decisión tendrá una traducción directa de las funciones escritas en la Gramática a funciones interpretables por el bot (escritas en \textit{Java}) que serán ejecutadas en el proceso de evaluación.
+} convertirá a un árbol de decisión. Este árbol de decisión tendrá una traducción directa de las funciones escritas en la gramática a funciones interpretables por el bot (escritas en \textit{Java}) que serán ejecutadas en el proceso de evaluación.
  
 A la hora de desarrollar gramáticas las dividimos en tres categorías dependiendo del tipo de acciones que pueden producir:
 \begin{itemize}
-\item Bajo nivel: Son gramáticas cuyos nodos terminales, aquellos que dicen al bot de Pac-Man qué movimiento hacer en cada \textit{tick} del juego, se constituyen únicamente de las funciones \texttt{Up, Down, Left, Right} que son una codificación directa de las teclas de movimiento que dispondría un humano al jugar el juego.
+\item Bajo nivel: son gramáticas cuyos nodos terminales, aquellos que dicen al bot de Pac-Man qué movimiento hacer en cada \textit{tick} del juego, se constituyen únicamente de las funciones \texttt{Up, Down, Left, Right} que son una codificación directa de las teclas de movimiento que dispondría un humano al jugar el juego.
 
-\item Medio nivel: En lugar de las funciones básicas de movimiento (\texttt{Up, Down, ...}), disponen de funciones de un nivel medio,  entendiéndose nivel medio como funciones que dictan una acción directa, como puede ser comerse la \textit{pill} más cercana, huir del fantasma más cercano, ir a por la \textit{power pill} más cercana, etc.
+\item Medio nivel: en lugar de las funciones básicas de movimiento (\texttt{Up, Down, ...}), disponen de funciones de un nivel medio,  entendiéndose nivel medio como funciones que dictan una acción directa, como puede ser comerse la \textit{pill} más cercana, huir del fantasma más cercano, ir a por la \textit{power pill} más cercana, etc.
 
-\item Alto nivel: Se diferencian de las de medio nivel en que sus funciones terminales son muy abstractas y no se puede determinar directamente qué dirección o comportamiento tomará el bot, estas funciones son del estilo de \textit{comer, huir, atacar, ...} funciones que se entienden cuál es su objetivo pero que pueden realizarse de distintas maneras.
+\item Alto nivel: se diferencian de las de medio nivel en que sus funciones terminales son muy abstractas y no se puede determinar directamente qué dirección o comportamiento tomará el bot, estas funciones son del estilo de \textit{comer, huir, atacar, ...} funciones que se entienden cuál es su objetivo pero que pueden realizarse de distintas maneras.
 \end{itemize}
 
 \subsection{Parámetros del experimento realizado} \label{sec:params}
@@ -169,7 +169,7 @@ Los resultados de estos operadores de obtención del estado del juego se compara
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/low_level}
-\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas Random y Legacy usando la gramática de bajo nivel. Función fitness: 1000000 - puntos obtenidos.}
+\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas \textit{Random} y \textit{Legacy} usando la gramática de bajo nivel. Función \textit{fitness}: 1000000 - puntos obtenidos.}
 \end{figure}
 
 Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
@@ -182,12 +182,12 @@ Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
-\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Ghosts}} & \multicolumn{3}{c|}{\textbf{score}} & \multicolumn{3}{c|}{\textbf{level}} & \multicolumn{3}{c|}{\textbf{time (game ticks)}} \\ \cline{3-11} 
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Fantasmas}} & \multicolumn{3}{c|}{\textbf{puntuacion}} & \multicolumn{3}{c|}{\textbf{niveles}} & \multicolumn{3}{c|}{\textbf{\textit{ticks} del juego}} \\ \cline{3-11} 
 \multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
-\multirow{2}{*}{\textbf{Low-level}} & Random & \multicolumn{1}{r|}{\textbf{900}} & \textbf{151} & \textbf{117} & \multicolumn{1}{r|}{\textbf{1}} & \textbf{0.071} & \textbf{0.257} & \multicolumn{1}{r|}{\textbf{5094}} & \textbf{2151} & \textbf{972.1} \\ \cline{2-11} 
+\multirow{2}{*}{\textbf{Bajo nivel}} & Random & \multicolumn{1}{r|}{\textbf{900}} & \textbf{151} & \textbf{117} & \multicolumn{1}{r|}{\textbf{1}} & \textbf{0.071} & \textbf{0.257} & \multicolumn{1}{r|}{\textbf{5094}} & \textbf{2151} & \textbf{972.1} \\ \cline{2-11} 
  & Legacy & \multicolumn{1}{r|}{\textbf{120}} & \textbf{120} & \textbf{0} & \multicolumn{1}{r|}{\textbf{0}} & \textbf{0} & \textbf{0} & \multicolumn{1}{r|}{\textbf{600}} & \textbf{425} & \textbf{34.5} \\ \hline
 \end{tabular}
-\caption{Low-level Pac-Man vs Ghost controllers' comparison. 1000 games.}
+\caption{Pac-Man de bajo nivel contra varios controladores de fantasmas. 1000 ejecuciones.}
 \label{table:single_obj_low}
 \end{table}
 
@@ -349,7 +349,7 @@ Dado que estos operadores de acción disponen internamente de acceso al estado d
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/medium_level}
-\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas Random y Legacy usando la gramática de medio nivel. Función fitness: 1000000 - puntos obtenidos.}
+\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas \textit{Random} y \textit{Legacy} usando la gramática de medio nivel. Función \textit{fitness}: 1000000 - puntos obtenidos.}
 \end{figure}
 
 Las conclusiones obtenidas son:
@@ -362,18 +362,18 @@ Las conclusiones obtenidas son:
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
-\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Ghosts}} & \multicolumn{3}{c|}{\textbf{score}} & \multicolumn{3}{c|}{\textbf{level}} & \multicolumn{3}{c|}{\textbf{time (game ticks)}} \\ \cline{3-11} 
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Fantasmas}} & \multicolumn{3}{c|}{\textbf{puntuación}} & \multicolumn{3}{c|}{\textbf{niveles}} & \multicolumn{3}{c|}{\textbf{\textit{ticks} del juego}} \\ \cline{3-11} 
 \multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
-\multirow{2}{*}{\textbf{Medium-level}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
+\multirow{2}{*}{\textbf{Medio nivel}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
  & Legacy & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \hline
 \end{tabular}
-\caption{Medium-level Pac-Man vs Ghost controllers' comparison. 1000 games.}
+\caption{Pac-Man de medio nivel contra diversos fantasmas. 1000 ejecuciones.}
 \label{table:single_obj_medium}
 \end{table}
 
 \item El código generado por el mejor individuo (fenotipo) es muy corto, generalmente consiste de un solo \textit{if-else} que contiene cada uno una única función.
 
-\item Creemos que la longitud del código está directamente relacionada al comportamiento que poseen los mejores individuos y que es obtenido de forma recurrente. Al principio y si no hay fantasmas cercanos el bot solo realiza movimientos neutros (continuar en la misma dirección), quedándose atascado en una esquina del mismo modo que lo hace el bot ``Camper'' de la gramática de nivel bajo. Pero si un fantasma se acerca lo suficiente el bot pasa a un modo agresivo dirigiéndose a la \textit{power pill} más cercana, comiéndosela y cazando a tantos fantasmas como puede. Este comportamiento lo repite con todas las \textit{power pills} hasta que se queda sin ellas, pasando a un estado de movimiento neutral y siendo eliminado por los fantasmas sin pasar nunca del primer nivel del juego. Este comportamiento es debido a una característica del juego que provoca una explosión en la puntuación al comer fantasmas seguidos. Esto se debe a que durante el tiempo que dura el efecto de una \textit{power pill} cada fantasma comido da una serie de puntos, este valor es duplicado si se come otro fantasma y el nuevo valor es a su vez duplicado si otro fantasma es consumido. Esto permite obtener una gran cantidad de puntos provocando que el fitness de ese individuo destaque
+\item Creemos que la longitud del código está directamente relacionada al comportamiento que poseen los mejores individuos y que es obtenido de forma recurrente. Al principio y si no hay fantasmas cercanos el bot solo realiza movimientos neutros (continuar en la misma dirección), quedándose atascado en una esquina del mismo modo que lo hace el bot ``Camper'' de la gramática de nivel bajo. Pero si un fantasma se acerca lo suficiente el bot pasa a un modo agresivo dirigiéndose a la \textit{power pill} más cercana, comiéndosela y cazando a tantos fantasmas como puede. Este comportamiento lo repite con todas las \textit{power pills} hasta que se queda sin ellas, pasando a un estado de movimiento neutral y siendo eliminado por los fantasmas sin pasar nunca del primer nivel del juego. Este comportamiento es debido a una característica del juego que provoca una explosión en la puntuación al comer fantasmas seguidos. Esto se debe a que durante el tiempo que dura el efecto de una \textit{power pill} cada fantasma comido da una serie de puntos, este valor es duplicado si se come otro fantasma y el nuevo valor es a su vez duplicado si otro fantasma es consumido. Esto permite obtener una gran cantidad de puntos provocando que el \textit{fitness} de ese individuo destaque
 \end{itemize}
 
 Como se puede apreciar, la gramática de bajo nivel siempre lleva a un comportamiento de bot ``Camper'' y la gramática de medio nivel a un comportamiento de bot ``Cazador''. Estos comportamientos vienen dados principalmente por los puntos que se obtienen al jugar, por lo que investigamos el uso de una gramática de alto nivel y comparamos los resultados obtenidos con la gramática de medio nivel. Así mismo estudiamos distintas funciones \textit{fitness} y comprobamos si con estas nuevas funciones conseguimos mejores comportamientos.
@@ -446,11 +446,11 @@ Genera un movimiento hacia la \textit{pill} más cercana (o si no quedan \textit
 \end{lstlisting}
 
 \subsubsection{Resultados}
-Debido al conocimiento experto que poseen las funciones, la gramática utilizada solo contiene como operadores de acción las tres funciones de alto nivel comentadas, dos operadores de obtención de información del tablero  (\texttt{getDistanceToClosestNonEdibleGhost} y \texttt{getDistanceToClosestEdibleGhost}) debido a que recurrentemente han sido las más utilizadas, el comportamiento de los mejores bots obtenidos con las gramáticas anteriores se basan únicamente en ellas para la toma de decisiones.
+Debido al conocimiento experto que poseen las funciones, la gramática utilizada solo contiene como operadores de acción las tres funciones de alto nivel comentadas, dos operadores de obtención de información del tablero  (\texttt{getDistanceToClosestNonEdibleGhost} y \texttt{getDistanceToClosestEdibleGhost}) debido a que recurrentemente han sido las más utilizadas, el comportamiento de los mejores \textit{bots} obtenidos con las gramáticas anteriores se basan únicamente en ellas para la toma de decisiones.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/high_level}
-\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas Random y Legacy usando la gramática de alto nivel. Función \textit{fitness}: $1000000 - puntos obtenidos$.}
+\caption{Gráfica que muestra las primeras 100 generaciones de dos ejecuciones distintas contra los controladores de fantasmas \textit{Random} y \textit{Legacy} usando la gramática de alto nivel. Función \textit{fitness}: $1000000 - puntos obtenidos$.}
 \end{figure}
 
 Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
@@ -481,12 +481,12 @@ Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
-\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Ghosts}} & \multicolumn{3}{c|}{\textbf{score}} & \multicolumn{3}{c|}{\textbf{level}} & \multicolumn{3}{c|}{\textbf{time (game ticks)}} \\ \cline{3-11} 
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Pac-Man}}} & \multirow{2}{*}{\textbf{Fantasmas}} & \multicolumn{3}{c|}{\textbf{puntuación}} & \multicolumn{3}{c|}{\textbf{nivel}} & \multicolumn{3}{c|}{\textbf{\textit{ticks} del juego}} \\ \cline{3-11} 
 \multicolumn{1}{|c|}{} &  & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} & \textbf{max} & \multicolumn{1}{c|}{\textbf{avg}} & \multicolumn{1}{c|}{\textbf{std}} \\ \hline
-\multirow{2}{*}{\textbf{High-level}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
+\multirow{2}{*}{\textbf{Alto nivel}} & Random & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \cline{2-11} 
  & Legacy & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} & \multicolumn{1}{r|}{\textbf{?}} & \textbf{?} & \textbf{?} \\ \hline
 \end{tabular}
-\caption{High-level Pac-Man vs Ghost controllers' comparison. 1000 games.}
+\caption{Pac-Man de alto nivel contra diversos fantasmas. 1000 ejecuciones.}
 \label{table:single_obj_high}
 \end{table}
 
