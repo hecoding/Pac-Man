@@ -32,23 +32,27 @@ Second, as Figure~\ref{graph:all_fitness} shows, the bots obtain better results,
  
 Third, as Table~\ref{table:single_obj} shows, our grammars can produce bots that play better than the baseline controllers (a random controller and other one that always goes towards the closest pill). Besides, our bots play better than the UCD Dublin bot \cite{galvan2010evolving}, and that is interesting because all of them are created using Grammatical Evolution. This seems to happen due to the usage of excessively specific functions which limit its behaviour, i.e. forcing Pac-Man to wait next to a power pill. Their bot also uses large amount of parameters like dimensions of a frame (centered on Pac-Man) to evaluate certain conditions. Conversely, we make use of path distances and numeric operators, resulting in a less complex game status analysis.
 
-Lastly, even if the use of multi-objective optimization makes short executions obtain slightly better results (it helps to avoid local minimums), it doesn’t obtain a significative difference in long enough executions, as Table~\ref{table:multi-objective} shows (MO stands for Multiobjetive Optimization). This happens in Ms. Pac-Man vs Ghosts due to the direct relation between the different fitnesses which can be applied (ghosts eaten, levels cleared..) and the overall game score, which is based on all those.
+Lastly, even if the use of multi-objective optimization makes short executions obtain slightly better results (it helps to avoid local minimums), it doesn't obtain a significative difference in long enough executions, as Table~\ref{table:multi-objective} shows (MO stands for Multiobjetive Optimization). This happens in Ms. Pac-Man vs Ghosts due to the direct relation between the different fitnesses which can be applied (ghosts eaten, levels cleared..) and the overall game score, which is based on all those.
 
 \section{Distribution}
-Considering the impact the project might have, we decided to publish it as open source under GPL \cite{licenseThesisGit} license, on GitHub. We did so hoping to assist any project related to grammatical evolution or artificial intelligence applied to videogames. 
+Considering the impact the project might have, we decided to publish it as open source under GPL \cite{licenseThesisGit} license, on GitHub. We did so hoping to assist any project related to grammatical evolution or artificial intelligence applied to video games. 
 
-Finally, once we had obtained and analyzed the results of the project, we decided to take it a step further and publish a scientific article about it. It is titled ``A Pac-Man bot based on Grammatical evolution'', and it focuses on the final implementation (decision trees) and the usage of medium and high level grammars, also mentioning the multi-objective optimization. At this moment, the article has been sent to CoSECiVi 2017 (Congress of the Spanish Society for Video Game Sciences) and it is pending peer review.
+Finally, once we had obtained and analysed the results of the project, we decided to take it a step further and publish a scientific article about it. It is titled ``A Pac-Man bot based on Grammatical evolution'', and it focuses on the final implementation (decision trees) and the usage of medium and high level grammars, also mentioning the multi-objective optimization. At this moment, the article has been sent to CoSECiVi 2017 (Congress of the Spanish Society for Video Game Sciences) and it is pending peer review.
 
 \section{Future Work}
 Although we were satisfied with the extend of our work and it's rsults, we would've liked to experiment and try some other techniques, but we couldn't because we lacked the time. Those techniques are the following:
 
 \subsection{Behaviour Trees}
-One of the possibly aplicable techniques are behaviour trees.
+One of the possibly applicable techniques are behaviour trees.
 
-The use of behaviour trees woul'dve supposed to add typical loop structures to our grammars (while, for, do-while ...). This would mean that to obtain a terminal node which returns a movement in our decision tree, the controller doesn't always begins from the root of the tree, but it can continue to parse the tree from a point defined by previous movement requests.
+The use of behaviour trees would have supposed to add typical loop structures to our grammars (while, for, do-while ...). This would mean that to obtain a terminal node which returns a movement in our decision tree, the controller doesn't always begins from the root of the tree, but it can continue to parse the tree from a point defined by previous movement requests.
 
-This technique would allow to produce more specific strategies that requiere continuity. Without behaviour trees this can still be achieved, but the complexity of conditional evaluations and the size of the tree that would allow it are not realistic in terms of computational power.
+This technique would allow to produce more specific strategies that require continuity. Without behaviour trees this can still be achieved, but the complexity of conditional evaluations and the size of the tree that would allow it are not realistic in terms of computational power.
 
+\subsection{Behaviour blocks}
+We would like to use a tree-based technique already seen in other works about Behaviour Trees \cite{lim2010evolving} \cite{perez2011evolving}. This technique consists of evolving bots on specific tasks such as running away, eating pills, eating ghosts, etc. Once completed, we would evolve Behaviour Trees from this tasks (subtrees). In this way we build complex behaviours from simpler ones.
+
+This experiment would be additionally interesting due to its similarity of this tasks with multiobjective fitness.
 
 \subsection{NEAT}
 

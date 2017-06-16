@@ -99,6 +99,11 @@ El uso de árboles de comportamiento habría supuesto incluir en nuestras gramá
 
 Esta técnica en principio posibilita, o facilita la producción de estrategias más específicas, que requieran continuidad. Sin árboles de comportamiento también pueden conseguirse, pero el conjunto de condiciones a evaluar para llegar a dichas estrategias y soportar varias a la vez puede hacerse enorme, y llegar a dichas soluciones en un espacio de búsqueda tan grande/complejo es extremadamente poco factible en términos de potencia computacional.
 
+\subsection{Bloques de comportamiento}
+Nos gustaría usar una técnica basada en árboles que ya se ha visto en diferentes trabajos sobre árboles de comportamiento \cite{lim2010evolving} \cite{perez2011evolving}. Esta técnica consiste en entrenar bots en tareas específicas como huir, comer \textit{pills}, comer fantasmas, etc. Una vez hecho eso construir árboles de decisión a partir de estas tareas (subárboles), contruyendo así comportamientos complejos a partir de otros más simples.
+
+Además de que las comparaciones con multiobjetivo serían bastante interesantes debido a la similitud de estas tareas con los multiobjetivos.
+
 \subsection{NEAT}
 Otra técnica prometedora sería la aplicación de redes neuronales debido a su amplio espectro y gran capacidad de generalización.
 
