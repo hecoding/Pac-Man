@@ -3,9 +3,9 @@
 \section{Conclusions}
 All along this undergraduate thesis we have iterated through numerous versions with different approaches, all applied to the generation of our bot for Ms. Pac-Man with grammatical evolution.
  
-First of all, with the automaton approach, the bot executed sequences of actions (which was later improved with high level actions and very simple conditional evaluations), even if it’s results weren’t so good score-wise, achieved to develop a tactic that allowed it to progress many levels against the most silly ghosts.
+First of all, with the automaton approach, the bot executed sequences of actions (which was later improved with high level actions and very simple conditional evaluations), even if its results weren't so good score-wise, achieved to develop a tactic that allowed it to progress many levels against the most silly ghosts.
  
-After that we oriented our grammars to follow a reactive approach, changing our previous sequences of actions for decision trees. This change was a significative breakthrough, that allowed us to design grammars with different levels of abstraction.
+After that we oriented our grammars to follow a reactive approach, changing our previous sequences of actions for decision trees. This change was a significant breakthrough, that allowed us to design grammars with different levels of abstraction.
  
 Next, we did a series of studies (of selective pressure, codon usage, and fitness functions) which lead us numerous improvements in a try to obtain better results, both in algorithm efficacy (LHS cross-over, neutral mutation, multi-objective optimization, and multiple minor changes to the JECO framework), and the friendliness of our tool (multithreading). All this upgrades had enough repercussion in the bot performance as to include them in the parameters of execution for the best results we show.
  
@@ -28,11 +28,11 @@ First of all, we obtain the best results, for any grammar and against any ghost 
 \end{table}
 \footnotetext{or NSGA II if multi-objective is being used}
 
-Second, as Figure~\ref{graph:all_fitness} shows, the bots obtain better results, when using only a few generations (for example 50), as the more abstract the used grammar is. However, when using more generations (for example 100), the bots using the medium-level grammar obtain the best results, due to its higher potencial, as shown later at Table~\ref{table:single_obj}.
+Second, as Figure~\ref{graph:all_fitness} shows, the bots obtain better results, when using only a few generations (for example 50), as the more abstract the used grammar is. However, when using more generations (for example 100), the bots using the medium-level grammar obtain the best results, due to its higher potential, as shown later at Table~\ref{table:single_obj}.
  
-Third, as Table~\ref{table:single_obj} shows, our grammars can produce bots that play better than the baseline controllers (a random controller and other one that always goes towards the closest pill). Besides, our bots play better than the UCD Dublin bot \cite{galvan2010evolving}, and that is interesting because all of them are created using Grammatical Evolution. This seems to happen due to the usage of excessively specific functions which limit its behaviour, i.e. forcing Pac-Man to wait next to a power pill. Their bot also uses large amount of parameters like dimensions of a frame (centered on Pac-Man) to evaluate certain conditions. Conversely, we make use of path distances and numeric operators, resulting in a less complex game status analysis.
+Third, as Table~\ref{table:single_obj} shows, our grammars can produce bots that play better than the baseline controllers (a random controller and other one that always goes towards the closest pill). Besides, our bots play better than the UCD Dublin bot \cite{galvan2010evolving}, and that is interesting because all of them are created using Grammatical Evolution. This seems to happen due to the usage of excessively specific functions which limit its behaviour, i.e. forcing Pac-Man to wait next to a power pill. Their bot also uses large amount of parameters like dimensions of a frame (centred on Pac-Man) to evaluate certain conditions. Conversely, we make use of path distances and numeric operators, resulting in a less complex game status analysis.
 
-Lastly, even if the use of multi-objective optimization makes short executions obtain slightly better results (it helps to avoid local minimums), it doesn't obtain a significative difference in long enough executions, as Table~\ref{table:multi-objective} shows (MO stands for Multiobjetive Optimization). This happens in Ms. Pac-Man vs Ghosts due to the direct relation between the different fitnesses which can be applied (ghosts eaten, levels cleared..) and the overall game score, which is based on all those.
+Lastly, even if the use of multi-objective optimization makes short executions obtain slightly better results (it helps to avoid local minimums), it doesn't obtain a significant difference in long enough executions, as Table~\ref{table:multi-objective} shows (MO stands for Multiobjetive Optimization). This happens in Ms. Pac-Man vs Ghosts due to the direct relation between the different fitnesses which can be applied (ghosts eaten, levels cleared..) and the overall game score, which is based on all those.
 
 \section{Distribution}
 Considering the impact the project might have, we decided to publish it as open source under GPL \cite{licenseThesisGit} license, on GitHub. We did so hoping to assist any project related to grammatical evolution or artificial intelligence applied to video games. 
@@ -40,7 +40,7 @@ Considering the impact the project might have, we decided to publish it as open 
 Finally, once we had obtained and analysed the results of the project, we decided to take it a step further and publish a scientific article about it. It is titled ``A Pac-Man bot based on Grammatical evolution'', and it focuses on the final implementation (decision trees) and the usage of medium and high level grammars, also mentioning the multi-objective optimization. At this moment, the article has been sent to CoSECiVi 2017 (Congress of the Spanish Society for Video Game Sciences) and it is pending peer review.
 
 \section{Future Work}
-Although we were satisfied with the extend of our work and it's rsults, we would've liked to experiment and try some other techniques, but we couldn't because we lacked the time. Those techniques are the following:
+Although we were satisfied with the extend of our work and it's results, we would've liked to experiment and try some other techniques, but we couldn't because we lacked the time. Those techniques are the following:
 
 \subsection{Behaviour Trees}
 One of the possibly applicable techniques are behaviour trees.
