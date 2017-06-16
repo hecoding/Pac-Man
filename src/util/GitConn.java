@@ -26,7 +26,9 @@ public class GitConn {
 				established = false;
 				System.err.println("EXTLOGGER: No se ha podido establecer conexión con git. Logging sin commit hash.");
 			}
-			repository = git.getRepository();
+			
+			if(established)
+				repository = git.getRepository();
 	}
 	
 	public boolean isConnected(){
