@@ -4,11 +4,13 @@ En este capítulo se van a describir en detalle las distintas técnicas de progr
 \section{Algoritmos evolutivos}
 Los algoritmos evolutivos (\textit{Evolutionary Algorithms}) son un conjunto de algoritmos de optimización basados en el proceso de la selección natural. La característica común de estos algoritmos es el uso de una población de individuos, donde cada individuo representa una solución al problema. Los individuos se someten a un proceso de selección, recombinación y transformación a lo largo de un determinado número de generaciones, a través de las cuales nuevos individuos son generados y otros son eliminados, sobreviviendo los más aptos (soluciones que más se acercan al óptimo). Para determinar la calidad de un individuo en el problema se utiliza una función llamada función de fitness que devuelve un valor denominado \textit{fitness del individuo} que representa cómo de bueno es este individuo en relación al problema a resolver \cite{cervigon09}.
 
-Los individuos son representados mediante lo que se conoce como representación genotipo-fenotipo. El genotipo representa al individuo internamente, es el genotipo el que es recombinado y transformado para generar nuevos individuos. El fenotipo es la solución al problema y se obtiene al traducir la información dada por el genotipo. Por ejemplo, en un algoritmo evolutivo para obtener los valores RGB de un color buscado, el genotipo de los individuos sería una cadena de enteros con los valores R, G y B y el fenotipo el color que producen. La función de \textit{fitness} sería cómo de parecido es el color del individuo con el buscado.
-\begin{figure}[H]
+Los individuos son representados mediante lo que se conoce como representación genotipo-fenotipo. El genotipo representa al individuo internamente, es el genotipo el que es recombinado y transformado para generar nuevos individuos. El fenotipo es la solución al problema y se obtiene al traducir la información dada por el genotipo. Por ejemplo, en un algoritmo evolutivo para obtener los valores RGB de un color buscado, el genotipo de los individuos sería una cadena de enteros con los valores R, G y B y el fenotipo el color que producen, tal como se muestra en la Figura~\ref{fig:img:genotipo-fenotipo}. La función de \textit{fitness} sería cómo de parecido es el color del individuo con el buscado.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.6\textwidth]{genotipo-fenotipo}
 \caption{Correspondencia genotipo-fenotipo.}
+\label{fig:img:genotipo-fenotipo}
 \end{figure}
 
 Para la selección, recombinación y transformación de los individuos en el proceso de evolución se utiliza un mecanismo de selección y una serie de operadores genéticos \cite{cervigon09}:
@@ -26,11 +28,15 @@ A continuación se genera un número aleatorio $\alpha \in [0,1]$ y se seleccion
 
 La selección por torneo consiste en elegir un conjunto de individuos al azar de la población, normalmente 2 ó 3 individuos, y seleccionar el individuo con mejor valor \textit{fitness}, este proceso se repite hasta seleccionar todos los individuos deseados.
 
-\item \textbf{Operadores de cruce}: se encargan de cruzar los genotipos de los individuos seleccionados. El cruce se realiza entre dos individuos previamente seleccionados denominados padres que se cruzan y generan dos individuos nuevos denominados hijos. Al igual que los mecanismos de selección, existen muchos operadores  para cruzar los genotipos, pero estos operadores son dependientes de la codificación del genotipo. Si el genotipo es una cadena de enteros (codificación más común) el método de cruce más genérico es el cruce monopunto. Consiste en seleccionar aleatoriamente una posición idéntica en ambos genotipos de los padres (punto de corte) y generar dos hijos que conserven el mismo genotipo que su padre hasta la posición escogida y, a continuación, intercambiar la otra parte con la del otro padre.
-\begin{figure}[H]
+\item \textbf{Operadores de cruce}: se encargan de cruzar los genotipos de los individuos seleccionados. El cruce se realiza entre dos individuos previamente seleccionados denominados padres que se cruzan y generan dos individuos nuevos denominados hijos. Al igual que los mecanismos de selección, existen muchos operadores  para cruzar los genotipos, pero estos operadores son dependientes de la codificación del genotipo.
+
+Si el genotipo es una cadena de enteros (codificación más común) el método de cruce más genérico es el cruce monopunto. Consiste en seleccionar aleatoriamente una posición idéntica en ambos genotipos de los padres (punto de corte) y generar dos hijos que conserven el mismo genotipo que su padre hasta la posición escogida y, a continuación, intercambiar la otra parte con la del otro padre, tal como se muestra en la Figura~\ref{fig:img:cruce-monopunto}.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{operador-cruce}
 \caption{Ejemplo de cruce monopunto.}
+\label{fig:img:cruce-monopunto}
 \end{figure}
 
 \item \textbf{Operadores de mutación}: Estos operadores realizan cambios aleatorios en los valores del genotipo. Hay una gran variedad de operadores de mutación distintos y su posible uso, al igual que con los operadores de cruce, depende de la codificación del genotipo. En una representación del genotipo en forma de cadena de enteros el operador de mutación más utilizado es el operador de mutación aleatorio bit a bit (\textit{Integer Flip Mutation}) el cual recorre toda la cadena del genotipo y cambia un bit (o número) del genotipo por otro aleatorio dependiendo de una probabilidad.
@@ -46,11 +52,13 @@ Se pueden encontrar una gran variedad de algoritmos evolutivos, siendo algunos m
 \end{itemize}
 
 \section{Programación genética}
-El objetivo de los algoritmos de programación genética es evolucionar programas informáticos escritos en un lenguaje determinado con el fin de encontrar el mejor programa que realice o resuelva un objetivo. En la programación genética el genotipo de los individuos es un árbol formado por nodos. Dependiendo de su contenido los nodos son nodos terminales (expresiones que no pueden ser expandidas, como números o variables) o nodos internos (normalmente representan funciones y contienen nodos hijos, por ejemplo un nodo interno que represente la suma entre dos números el cual tendrá dos nodos hijo donde la información obtenida de cada uno será un número). El fenotipo es el programa final que será ejecutado para evaluar al individuo y la forma de ser generado a partir del genotipo varía dependiendo del lenguaje en el que estén escritos los programas siendo algunos más complejos que otros. En algunos casos el fenotipo es igual al recorrido en inorden del árbol (genotipo) o en otros se necesitará realizar operaciones más complejas para generar el fenotipo \cite{cervigon09}.
-\begin{figure}[H]
+El objetivo de los algoritmos de programación genética es evolucionar programas informáticos escritos en un lenguaje determinado con el fin de encontrar el mejor programa que realice o resuelva un objetivo. En la programación genética el genotipo de los individuos es un árbol formado por nodos. Dependiendo de su contenido los nodos son nodos terminales (expresiones que no pueden ser expandidas, como números o variables) o nodos internos (normalmente representan funciones y contienen nodos hijos, por ejemplo un nodo interno que represente la suma entre dos números el cual tendrá dos nodos hijo donde la información obtenida de cada uno será un número). El fenotipo es el programa final que será ejecutado para evaluar al individuo y la forma de ser generado a partir del genotipo varía dependiendo del lenguaje en el que estén escritos los programas siendo algunos más complejos que otros. En algunos casos el fenotipo es igual al recorrido en inorden del árbol (genotipo) o en otros se necesitará realizar operaciones más complejas para generar el fenotipo \cite{cervigon09}, como se ve en la Figura~\ref{fig:img:arboles-genotipo-fenotipo}.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{genotipo-fenotipo-ejemplo}
 \caption{Genotipo y fenotipo de distintos individuos \cite{colmenarApuntes}.}
+\label{fig:img:arboles-genotipo-fenotipo}
 \end{figure}
 
 Existen distintos métodos para generar los individuos aleatorios de la población inicial:
@@ -67,12 +75,13 @@ Como la codificación del genotipo ya no es una cadena de valores, los operadore
 
 \blankline
 
-El operador de cruce más usado en programación genética, denominado cruce de subárboles, consiste en elegir aleatoriamente en cada padre un punto de cruce (un nodo) y el subárbol que forma es intercambiado con el subárbol del otro padre.
+El operador de cruce más usado en programación genética, denominado cruce de subárboles, consiste en elegir aleatoriamente en cada padre un punto de cruce (un nodo) y el subárbol que forma es intercambiado con el subárbol del otro padre, como se ven en la Figura~\ref{fig:img:cruce-subarboles}.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{cruce-subarboles}
 \caption{Operador de cruce de subárboles \cite{tsang2000eddie}.}
+\label{fig:img:cruce-subarboles}
 \end{figure}
 
 Existen distintos operadores de mutación para árboles, los más comunes son los siguientes:
@@ -147,20 +156,22 @@ Para determinar la producción a procesar del símbolo no terminal siendo expand
 \begin{equation}
 \textrm{Producción a escoger} = \textrm{codón} \bmod \textrm{(nº de producciones para el símbolo a derivar)}
 \end{equation}
-donde $\bmod$ es la función de módulo entero. Esta fórmula devuelve un número que es la posición de la producción a seleccionar del símbolo no terminal que está siendo expandido \cite{o2012grammatical}.
+donde $\bmod$ es la función de módulo entero. Esta fórmula devuelve un número que es la posición de la producción a seleccionar del símbolo no terminal que está siendo expandido \cite{o2012grammatical}. Se puede ver un ejemplo en la Figura~\ref{fig:img:expandir-codon}.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{expandir-codon}
 \caption{Ejemplo del proceso que se realizaría para transformar el genotipo mostrado anteriormente al fenotipo que representa.}
+\label{fig:img:expandir-codon}
 \end{figure}
 
-Esta fórmula se aplica en orden a los símbolos no terminales hasta que todos hayan sido procesados, es decir, se hayan alcanzado en todos un símbolo terminal. A veces esto no se consigue con un único recorrido del genotipo, por lo que se realiza lo que se conoce como \textit{wrapping}, que consiste en  volver a empezar a leer el genotipo desde el principio y seguir expandiendo las reglas todavía sin expandir. El número de veces que se permite realizar \textit{wrapping} por individuo se determina de antemano y si, tras realizar \textit{wrapping} este número de veces no se ha conseguido derivar todos los símbolos, el individuo es descartado.
+Esta fórmula se aplica en orden a los símbolos no terminales hasta que todos hayan sido procesados, es decir, se hayan alcanzado en todos un símbolo terminal. A veces esto no se consigue con un único recorrido del genotipo, por lo que se realiza lo que se conoce como \textit{wrapping}, que consiste en  volver a empezar a leer el genotipo desde el principio y seguir expandiendo las reglas todavía sin expandir (ver Figura~\ref{fig:img:codon-a-arbol}). El número de veces que se permite realizar \textit{wrapping} por individuo se determina de antemano y si, tras realizar \textit{wrapping} este número de veces no se ha conseguido derivar todos los símbolos, el individuo es descartado.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{codon-a-arbol}
 \caption{Conversión de un genotipo (cromosoma) a su fenotipo a través del método descrito anteriormente y utilizando la gramática dada \cite{colmenarApuntes}.}
+\label{fig:img:codon-a-arbol}
 \end{figure}
 
 La estructura de partida de las también llamadas gramáticas evolutivas es muy similar a la de los algoritmos genéticos comunes.
@@ -213,12 +224,13 @@ f_i(y) \leq f_i(x), (\forall i = 1, \dots, \textrm{nº de objetivos}\}) \wedge \
 \caption{Óptimo de Pareto para un problema de minimización.}
 \end{figure}
 
-Normalmente (como en el ejemplo anterior de inversión en bolsa) existen varios óptimos de Pareto, es decir, un conjunto de soluciones que dominan al resto pero que entre ellas no se dominan. A este conjunto de soluciones se le denomina \textit{frente de Pareto}.
+Normalmente (como en el ejemplo anterior de inversión en bolsa) existen varios óptimos de Pareto, es decir, un conjunto de soluciones que dominan al resto pero que entre ellas no se dominan. A este conjunto de soluciones se le denomina \textit{frente de Pareto} (ver Figura~\ref{fig:img:pareto}).
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=9cm]{pareto}
 \caption{Frente de Pareto de un conjunto de soluciones para un problema de minimización. C es una solución dominada por A y B, ambas pertenecientes al frente de Pareto \cite{pictPareto}.}
+\label{fig:img:pareto}
 \end{figure}
 
 A la hora de implementar un algoritmo multiobjetivo podemos elegir entre diferentes  métodos. El más sencillo, y que no altera los esquemas clásicos de los algoritmos evolutivos, es el denominado multiobjetivo mediante funciones agregativas que consiste en la creación de una función fitness $f$ como una combinación lineal de funciones en donde cada una representa un objetivo a optimizar.

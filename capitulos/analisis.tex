@@ -13,17 +13,20 @@ En nuestro caso, al ser el nuestro un problema de minimización ($100000 - score
 
 Habitualmente se recomienda emplear una presión selectiva en torno a $1.5$ \cite{whitley1989genitor}, mientras que nosotros a partir de mediciones hemos comprobado que empleamos una de aproximadamente $1.35$. Además, cada vez que se produce una mejora del mejor \textit{fitness}  se produce un aumento proporcional en la presión selectiva, volviéndose a equilibrar al adaptarse el \textit{fitness} promedio a esta mejora. No obstante, dicho aumento de la presión selectiva es despreciable.
  
-Concluimos que tenemos una presión selectiva adecuada y por tanto no requerimos la implementación de ningún sistema de escalado del \textit{fitness} de los individuos para mantener una conservación de diversidad.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{grafica/presion-selectiva-detalle}
-\caption{Vista en detalle  de la presión selectiva.}
-\end{figure}
+Analizando las Figuras~\ref{fig:img:presion-selectiva-detalle}~y~\ref{fig:img:presion-selectiva-general} concluimos que tenemos una presión selectiva adecuada y por tanto no requerimos la implementación de ningún sistema de escalado del \textit{fitness} de los individuos para mantener una conservación de diversidad.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/presion-selectiva-general}
 \caption{Vista global de la presión selectiva.}
+\label{fig:img:presion-selectiva-general}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{grafica/presion-selectiva-detalle}
+\caption{Vista en detalle  de la presión selectiva.}
+\label{fig:img:presion-selectiva-detalle}
 \end{figure}
 
 Además, tras un estudio en profundidad de nuestros operadores de selección hemos comprobado que todos (torneo binario, torneo binario NSGA II y torneo n-ario) emplean alguna modificación del operador de torneo, siendo este independiente al valor de la presión selectiva. Esto es así porque estos operadores no tienen en cuenta comparaciones entre \textit{fitness} relativos (por ejemplo seleccionar proporcionalmente más veces los individuos con mejor \textit{fitness}) sino comparaciones directas (seleccionar el individuo con mejor \textit{fitness} entre varios elegidos de forma completamente aleatoria).
@@ -38,14 +41,18 @@ Para resolver este problema se implementa el cruce LHS que intenta solventar est
 Este nuevo cruce produce ligeramente mejores resultados y menos ruido en la población pero tampoco se aprecia una gran mejoría en general. Aún así se convierte en el principal cruce que utilizamos en adelante.
 
 \section{Estudio de uso de codones}
-Durante la implementación del cruce LHS hicimos un estudio del número de codones utilizado en cada individuo para generar el fenotipo. El estudio lo hacemos con individuos de 100 y 50 codones permitiendo hacer \textit{wrapping}\footnote{El Wrapping se produce cuando se han procesado todos los codones del genotipo y aún no se ha llegado a procesar todos los símbolos no terminales dejando el fenotipo incompleto por lo que se sigue expandiendo los símbolos sin procesar usando nuevamente los codones del principio del genotipo.} 3 veces.  Los resultados obtenidos son los siguientes:
-\begin{figure}[H]
+Durante la implementación del cruce LHS hicimos un estudio del número de codones utilizado en cada individuo para generar el fenotipo. El estudio lo hacemos con individuos de 100 y 50 codones permitiendo hacer \textit{wrapping}\footnote{El Wrapping se produce cuando se han procesado todos los codones del genotipo y aún no se ha llegado a procesar todos los símbolos no terminales dejando el fenotipo incompleto por lo que se sigue expandiendo los símbolos sin procesar usando nuevamente los codones del principio del genotipo.} 3 veces.
+
+Como se puede ver en la Figura~\ref{fig:img:codones-100} y en la Tabla~\ref{table:codones-100}, cuando se usan longitudes de 100 codones los fenotipos se generan en su gran mayoría usando solo diez codones, lo que implica fenotipos muy cortos y, por lo tanto, la mayoría de las mutaciones y cruces sobre ellos no tienen efecto dado que se producen en el 90\% de los codones del genotipo que no se usan para generar el fenotipo.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/codones-100}
 \caption{Histograma del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 100 codones. Generaciones ejecutadas: 100.}
+\label{fig:img:codones-100}
 \end{figure}
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -53,15 +60,19 @@ Durante la implementación del cruce LHS hicimos un estudio del número de codon
 23.9           & 10            & 10               & 21.7                      \\ \hline
 \end{tabular}
 \caption{Estadísticas del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 100 codones.}
+\label{table:codones-100}
 \end{table}
 
-\begin{figure}[H]
+En cambio, como mostramos en la Figura~\ref{fig:img:codones-50} y la Tabla~\ref{table:codones-50}, con una longitud de 50 codones los individuos suelen usar más codones para generar el fenotipo, usando 25, 16 y 10 codones normalmente. Lo que sugiere que longitudes más pequeñas de cromosomas implican fenotipos más largos a los que una mutación o un cruce los afecta en mayor medida y que pueden llegar a generar mejores resultados.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/codones-50}
 \caption{Histograma del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 50 codones. Generaciones ejecutadas: 100.}
+\label{fig:img:codones-50}
 \end{figure}
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -69,11 +80,8 @@ Durante la implementación del cruce LHS hicimos un estudio del número de codon
 20           & 24            & 18               & 9                      \\ \hline
 \end{tabular}
 \caption{Estadísticas del número de codones utilizados para generar el fenotipo de los individuos de una población de 100 individuos. Longitud máxima del genotipo: 50 codones.}
+\label{table:codones-50}
 \end{table}
-
-Como se puede ver, cuando se usan longitudes de 100 codones los fenotipos se generan en su gran mayoría usando solo diez codones, lo que implica fenotipos muy cortos y, por lo tanto, la mayoría de las mutaciones y cruces sobre ellos no tienen efecto dado que se producen en el 90\% de los codones del genotipo que no se usan para generar el fenotipo.
-
-En cambio, con una longitud de 50 codones los individuos suelen usar más codones para generar el fenotipo, usando 25, 16 y 10 codones normalmente. Lo que sugiere que longitudes más pequeñas de cromosomas implican fenotipos más largos a los que una mutación o un cruce los afecta en mayor medida y que pueden llegar a generar mejores resultados.
 
 Para comprobar esto realizamos un banco de pruebas donde comprobar si es verdad que longitudes de cromosomas más cortas producen mejores resultados. Evolucionamos varias poblaciones idénticas pero variando en cada una la longitud de sus cromosomas, usando valores de 10 a 100 incrementados de diez en diez.
 
@@ -270,15 +278,17 @@ JECO utiliza un método particular a la hora de mantener la élite en la poblaci
 
 Este método no aporta diversidad a la población dado que se usa toda la población de la anterior generación (sin alterar) y la nueva población para generar la población final que será utilizada en la siguiente generación, haciendo que muchos individuos de la anterior generación se conserven en la nueva generación (y normalmente a lo largo de muchas generaciones más) conduciendo la búsqueda rápidamente a un óptimo local del cual es difícil de salir por falta de diversidad.
 
-Optamos por deshacernos de esta implementación e implementamos un elitismo clásico, donde un subconjunto de los mejores individuos de la población antigua (determinado por un parámetro denominado porcentaje de elitismo) se incluyesen en la nueva generación sustituyendo un porcentaje idéntico de peores individuos en la nueva población, aportando mayor diversidad y permitiendo que la búsqueda no se estanque tan rápido en un óptimo local e incluso pudiendo salir de él.
-\begin{figure}[H]
+Optamos por deshacernos de esta implementación y desarrollamos un elitismo clásico (ver Figura~\ref{fig:img:gui-elitismo-nuevo}), donde un subconjunto de los mejores individuos de la población antigua (determinado por un parámetro denominado porcentaje de elitismo) se incluyen en la nueva generación, sustituyendo un porcentaje idéntico de peores individuos en la nueva población. Así aportando mayor diversidad y permitiendo que la búsqueda no se estanque tan rápido en un óptimo local, incluso pudiendo salir de él.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{comparacion-elite}
 \caption{A la izquierda gráfica de la evolución de la población con el nuevo método de elitismo. A la derecha gráfica usando el método de elitismo de JECO usado anteriormente. La línea gris muestra la media del fitness de la población.}
+\label{fig:img:gui-elitismo-nuevo}
 \end{figure}
 
 \section{Batch Executor}
-Debido que empleamos controladores de fantasmas no deterministas, necesitamos ejecutar varias partidas con un mismo controlador de Pac-Man para obtener resultados estadísticamente correctos de su rendimiento. Puesto que aumentar el número de partidas que juega un mismo individuo en la evaluación del algoritmo evolutivo supone un impacto significativo en el tiempo de ejecución de este, optamos por ejecutar un número conservador de partidas (unas 30, como queda reflejado en el parámetro \textit{iterspeind} de la tabla con los mejores parámetros \ref{table:best-params-grams}).
+Debido que empleamos controladores de fantasmas no deterministas, necesitamos ejecutar varias partidas con un mismo controlador de Pac-Man para obtener resultados estadísticamente correctos de su rendimiento. Puesto que aumentar el número de partidas que juega un mismo individuo en la evaluación del algoritmo evolutivo supone un impacto significativo en el tiempo de ejecución de este, optamos por ejecutar un número conservador de partidas (unas 30, como queda reflejado en el parámetro \textit{Evaluaciones por individuo} de la Tabla~\ref{table:best-params-grams}).
  
 Una vez terminada la ejecución del algoritmo evolutivo, extraemos el código del mejor individuo producido. Después empleamos este código para jugar mil partidas contra el controlador de fantasma deseado.
  

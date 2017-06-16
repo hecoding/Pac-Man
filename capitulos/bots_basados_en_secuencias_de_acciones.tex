@@ -56,11 +56,13 @@ Por ejemplo, para una de nuestras más sencillas gramáticas de partida:
               L
 \end{lstlisting}
 
-Una derivación gramatical válida podría ser: ``\textbf{\texttt{U R D L}}'', que podría verse como un autómata con la siguiente forma \cite{jflapPage}:
-\begin{figure}[H]
+Una derivación gramatical válida podría ser: ``\textbf{\texttt{U R D L}}'', que podría verse como un autómata con la forma de la Figura~\ref{fig:img:automata-jflap} \cite{jflapPage}:
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=8cm]{jflapo}
 \caption{Autómata correspondiente al código \texttt{U R D L}}
+\label{fig:img:automata-jflap}
 \end{figure}
 
 El controlador consume un símbolo tras otro transitando al siguiente estado del autómata al mismo tiempo, traduciéndose en este caso en un comportamiento que lleva a Pac-Man a intentar dar vueltas en sentido horario.
@@ -159,12 +161,14 @@ Además, este funcionamiento en forma de bucle que repite la misma secuencia de 
  
 Previamente decidimos comprobar si era posible adaptar el autómata con el que contábamos en ese momento de forma que se solventase los problemas descritos.
  
-Para dicha prueba, introdujimos un nuevo estado de huida (similar a un estado trampa, pero con una vía de salida), en el que se entraba en caso de encontrarse algún fantasma (comible) por debajo de un radio de peligro. 
+Para dicha prueba, introdujimos un nuevo estado de huida (similar a un estado trampa, pero con una vía de salida), en el que se entraba en caso de encontrarse algún fantasma (comestible) por debajo de un radio de peligro (ver Figura~\ref{fig:img:prueba-automata}). 
 En este estado de huida se codificaba un comportamiento, en alto nivel y ajeno al funcionamiento normal del autómata, en el que permanecía hasta que Pac-Man estuviera fuera de la distancia de peligro. Tras estar fuera de peligro, el bot salía del estado de huida y seguía ejecutando la cadena de instrucciones dada por el autómata en el punto en el que se encontraba antes de entrar al estado de huida.
-\begin{figure}[H]
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{prueba-automata}
 \caption{Ejemplo de autómata que usa el estado "huida".}
+\label{fig:img:prueba-automata}
 \end{figure}
 
 A través de esta prueba comprobamos que la escalabilidad del autómata no era realista, ya que suponía la codificación de eventos cada vez más complejos de gestionar debido a la aparición de conflictos con los ya introducidos a la hora de controlar las transiciones.

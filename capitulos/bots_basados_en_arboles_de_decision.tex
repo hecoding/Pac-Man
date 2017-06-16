@@ -179,7 +179,7 @@ Se obtuvieron las siguientes conclusiones a través de distintas ejecuciones:
 
 \item Se obtienen malos resultados en cuanto a puntos obtenidos pero hay una gran convergencia de la población hacia el individuo óptimo actual, como se aprecia en la Tabla~\ref{table:single_obj_low}.
 
-\begin{sidewaystable}[]
+\begin{sidewaystable}[h]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -359,7 +359,7 @@ Las conclusiones obtenidas son:
 
 \item Los resultados obtenidos en puntos son bastante superiores a los obtenidos con la gramática de bajo nivel, como se aprecia en la Tabla~\ref{table:single_obj_medium}.
 
-\begin{sidewaystable}[]
+\begin{sidewaystable}[h]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -478,7 +478,7 @@ Las conclusiones obtenidas al evolucionar el bot usando esta gramática fueron:
 \item Obtiene buenos resultados muy rápidamente (como se aprecia en la Tabla~\ref{table:single_obj_low}) comparada con la gramática de medio nivel (Figura~\ref{grafica:comparacion-todas}). Esto se debe probablemente al reducido espacio de búsqueda de soluciones al ser una gramática tan compacta. Sin embargo y como se analizó en nuestro artículo (Apartado~\ref{cap:paper}),  la evolución utilizando la gramática de alto nivel se estanca en un óptimo local y es superada por la de medio nivel que obtiene mejores resultados, como se puede apreciar en la Figura~\ref{grafica:comparacion-todas}. La de medio nivel consigue algunos puntos más en promedio con 100 generaciones.
 \end{itemize}
 
-\begin{sidewaystable}[]
+\begin{sidewaystable}[h]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -502,22 +502,22 @@ Todo esto nos indica que para tareas en las que es importante obtener buenos res
 \end{lstlisting}
 
 \subsection{Comparativa gráfica de niveles}
-\begin{figure}[H]
+Al comparar las cincuenta primeras generaciones de una misma población evolucionada con las gramáticas de bajo, medio y alto nivel (Figura~\ref{grafica:comparacion-todas}) observamos como la de bajo nivel se queda muy por encima de las gramáticas de medio y alto nivel (se está minimizando por lo que es peor). Entre los \textit{fitness} obtenidos con las gramáticas de medio y alto nivel se ve como la de medio nivel obtiene significativamente mejor resultado que la de alto nivel contra el controlador \textit{Random}. Sin embargo, contra el controlador \textit{Legacy} no hay una gran diferencia, la gramática de alto nivel se mantiene ligeramente por debajo de la gramática de medio nivel pero se aprecia como la de medio nivel se va aproximando al \textit{fitness} obtenido por la de alto nivel conforme pasan las generaciones.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/all_fitnesses}
 \caption{Gráfica comparativa del \textit{fitness} del mejor individuo en las 50 primeras generaciones de la evolución de una misma población usando las gramáticas de bajo, medio y alto nivel contra dos controladores de fantasmas distintos (menos es mejor).}
 \label{grafica:comparacion-todas}
 \end{figure}
 
-Al comparar las cincuenta primeras generaciones de una misma población evolucionada con las gramáticas de bajo, medio y alto nivel observamos como la de bajo nivel se queda muy por encima de las gramáticas de medio y alto nivel (se está minimizando por lo que es peor). Entre los \textit{fitness} obtenidos con las gramáticas de medio y alto nivel se ve como la de medio nivel obtiene significativamente mejor resultado que la de alto nivel contra el controlador \textit{Random}. Sin embargo, contra el controlador \textit{Legacy} no hay una gran diferencia, la gramática de alto nivel se mantiene ligeramente por debajo de la gramática de medio nivel pero se aprecia como la de medio nivel se va aproximando al \textit{fitness} obtenido por la de alto nivel conforme pasan las generaciones.
+No obstante si observamos la Figura~\ref{grafica:comparacion-medium-vs-high}, se muestra las cien primeras generaciones vemos como efectivamente la gramática de medio nivel consigue sobrepasar a la gramática de alto nivel y obtener mejores resultados. En la mayoría de las ejecuciones hemos observado que la gramática de alto nivel consigue minimizar el \textit{fitness} rápidamente en las primeras generaciones pero se estanca relativamente pronto y no mejora en las subsecuentes generaciones. Sin embargo, la gramática de medio nivel muestra una minimización del \textit{fitness} más lenta pero continua, sin estancarse rápidamente, \textbf{consiguiendo mejores resultados en evoluciones largas}.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/medium_vs_high}
 \caption{Gráfica comparativa del \textit{fitness} del mejor individuo en las 100 primeras generaciones de la evolución de una misma población usando las gramáticas de medio y alto nivel contra dos controladores de fantasmas distintos (menos es mejor).}
 \label{grafica:comparacion-medium-vs-high}
 \end{figure}
-
-No obstante, si observamos la gráfica que muestra las cien primeras generaciones vemos como efectivamente la gramática de medio nivel consigue sobrepasar a la gramática de alto nivel y obtener mejores resultados. En la mayoría de las ejecuciones hemos observado que la gramática de alto nivel consigue minimizar el \textit{fitness} rápidamente en las primeras generaciones pero se estanca relativamente pronto y no mejora en las subsecuentes generaciones. Sin embargo, la gramática de medio nivel muestra una minimización del \textit{fitness} más lenta pero continua, sin estancarse rápidamente, \textbf{consiguiendo mejores resultados en evoluciones largas}.
 
 Esto sugiere que para evoluciones en las que se busque obtener un rápido resultado o que no se disponga de una capacidad computacional suficiente para ejecutar el algoritmo durante varias generaciones en un tiempo asequible, se use la gramática de alto nivel. Si por el contrario se dispone de los recursos para poder ejecutar el algoritmo durante una mayor cantidad de generaciones, es recomendable, utilizar la gramática de medio nivel ya que obtendrá mejores resultados.

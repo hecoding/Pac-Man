@@ -12,8 +12,9 @@ A continuación, realizamos una serie de estudios (de la presión selectiva, del
 Finalmente, tras un profundo análisis de todas las diferentes pruebas que hemos realizado durante el transcurso de Trabajo de Fin de Grado, podemos concluir con una serie de hechos. 
  
 \begin{itemize}
-\item Primero de todo, obtenemos los mejores resultados, tanto para cualquier gramática como para cualquier controlador de fantasmas adversario, utilizando los parámetros del algoritmo evolutivo de la Tabla~\ref{table:best-params-es}
-\begin{table}[H]
+\item Primero de todo, obtenemos los mejores resultados, tanto para cualquier gramática como para cualquier controlador de fantasmas adversario, utilizando los parámetros del algoritmo evolutivo de la Tabla~\ref{table:best-params-es}.
+
+\begin{table}[h]
 \centering
 \begin{tabular}{lc|c|}
 \cline{3-3}
@@ -29,21 +30,19 @@ Finalmente, tras un profundo análisis de todas las diferentes pruebas que hemos
 \end{table}
 \footnotetext{o NSGA II si se está empleando multiobjetivo}
 
-\begin{figure}[]
+\item Segundo, tal como se aprecia se en la Figura~\ref{graph:all_fitness}, los \textit{bots} consiguen mejores resultados en evoluciones con pocas generaciones, 50 en el caso de la gráfica, cuanto mayor es la abstracción de la gramática aplicada. No obstante, los \textit{bots} generados usando la gramática de medio nivel consiguen superar a los de alto nivel con muchas generaciones (por ejemplo 100), al tener mayor potencial, como se explica más adelante en la Tabla~\ref{table:single_obj}.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{grafica/all_fitnesses}
 \caption{\textit{Fitness} con un solo objetivo.}
 \label{graph:all_fitness}
 \end{figure}
 
-\item Segundo, tal como se aprecia se en la Figura~\ref{graph:all_fitness}, los \textit{bots} consiguen mejores resultados en evoluciones con pocas generaciones, 50 en el caso de la gráfica, cuanto mayor es la abstracción de la gramática aplicada. No obstante, los \textit{bots} generados usando la gramática de medio nivel consiguen superar a los de alto nivel con muchas generaciones (por ejemplo 100), al tener mayor potencial, como se explica más adelante en la Tabla~\ref{table:single_obj}.
-
 \item Tercero, tal como se aprecia en la Tabla~\ref{table:single_obj}, los \textit{bots} generados usando tanto la gramática de medio nivel como la de alto nivel superan los controladores de Pac-Man base así como otros \textit{bots} generados por gramáticas evolutivas, como por ejemplo el generado por la universidad UCD de Dublín \cite{galvan2010evolving}. Esto ocurre tanto enfrentándose al controlador \textit{Random Ghosts} como al de \textit{Legacy Ghosts}.
 \end{itemize}
 
-Uno de los factores que nos permiten obtener mejores resultados que el bot de UCD Dublin \cite{galvan2010evolving} (especialmente interesante al estar también basado en gramáticas evolutivas) consiste en que su bot emplea funciones demasiado específicas, las cuales acaban limitando el comportamiento del bot, siendo una de ellas por ejemplo esperar a que los fantasmas se acerquen siempre que se encuentre al lado de una \textit{power pill}. 
-Otro de los factores es el uso de numerosos parámetros para evaluar sus funciones condicionales. Por ejemplo, su bot utiliza una ventana alrededor de Pac-Man, dentro de la cual evalúa condiciones como encontrar fantasmas dentro de esta. Para emplear dicha ventana, emplea dos parámetros ancho y alto. Por otro lado, nuestras funciones condicionales obtienen directamente la distancia de la ruta a determinados elementos, pudiendo operar esta distancia con distintos operadores numéricos sobre valores también numéricos.
-\begin{sidewaystable}[]
+\begin{sidewaystable}[h]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -66,9 +65,12 @@ UCD Dublin bot \cite{galvan2010evolving} &  & 12350 & 3945 & - & - & - & - & - &
 \label{table:single_obj}
 \end{sidewaystable}
 
+Uno de los factores que nos permiten obtener mejores resultados que el bot de UCD Dublin \cite{galvan2010evolving} (especialmente interesante al estar también basado en gramáticas evolutivas) consiste en que su bot emplea funciones demasiado específicas, las cuales acaban limitando el comportamiento del bot, siendo una de ellas por ejemplo esperar a que los fantasmas se acerquen siempre que se encuentre al lado de una \textit{power pill}. 
+Otro de los factores es el uso de numerosos parámetros para evaluar sus funciones condicionales. Por ejemplo, su bot utiliza una ventana alrededor de Pac-Man, dentro de la cual evalúa condiciones como encontrar fantasmas dentro de esta. Para emplear dicha ventana, emplea dos parámetros ancho y alto. Por otro lado, nuestras funciones condicionales obtienen directamente la distancia de la ruta a determinados elementos, pudiendo operar esta distancia con distintos operadores numéricos sobre valores también numéricos.
+
 Por último, si bien el empleo de la optimización multiobjetivo supone una mejora significativa en ejecuciones del algoritmo evolutivo relativamente cortas (al evitar estancamiento en los numerosos mínimos locales), no produce una diferencia suficientemente significativa en los bots generados mediante ejecuciones suficientemente largas. Esto es apreciable en la Tabla~\ref{table:multi-objective} (donde las sigles MO se refieren a los bots que emplean la Optimización Multiobjetivo), y sucede así en el caso concreto de \textit{Ms. Pac-Man vs Ghost} debido a la relación directa entre los distintos \textit{fitness} que hemos perseguido en multiobjetivo (fantasmas comidos, niveles completados y puntos alcanzados sin el multiplicador de puntos al comer fantasmas) con la puntuación (\textit{fitness} perseguido previo a la optimización multiobjetivo), siendo esta una composición de los \textit{fitness} anteriores.
 
-\begin{sidewaystable}[]
+\begin{sidewaystable}[h]
 \centering
 \begin{tabular}{|l|c|r|r|r|r|r|r|r|r|r|}
 \hline
