@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Evolutionary Pac-Man bots using Grammatical Evolution</title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+		<!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+		<script async defer src="https://buttons.github.io/buttons.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-more.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="customStyle.css">
+		<script src="./customScript.js"></script>
+		<script src="./chart.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header">
+				<h1>Ms. Pac-Man bot creation based on grammatical evolution</h1>
+				<h1><small>Undergraduate thesis</small></h1>
+				<!--<a class="github-button" href="https://github.com/hecoding/Pac-Man" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star hecoding/Pac-Man on GitHub">Star</a>
+				<a class="github-button" href="https://github.com/hecoding/Pac-Man" data-size="large" data-show-count="true" aria-label="Star hecoding/Pac-Man on GitHub">Star</a>-->
+			</div>
+
+			<div class="card">
+				<div class="card-block">
+					<h4 class="card-title"><a href="https://github.com/hecoding/Pac-Man" title="View on GitHub">View On GitHub</a></h4>
+					<p class="card-text">Check the source code.</p>
+					<a class="github-button" href="https://github.com/hecoding/Pac-Man" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star hecoding/Pac-Man on GitHub">Star</a>
+
+				</div>
+			</div>
+
+			<h2>Introduction</h2>
+			<p>Ever since the birth of video-games we’ve seen Artificial Intelligence techniques applied to them: Character behaviour, enemy strategies, pathfinding, etc. We want to explore Grammatical Evolution (a Genetic Programming variant) to evolve game strategies generated from the derivation of defined grammar rules. For this purpose, we experimented with the evolution of a bot for Ms. Pac-Man, a well-known game which can have many sub-goals, like surviving the most time possible, eating the most pills, killing as many ghosts as it can, or go through a lot of levels before dying to the ghosts.</p>
+			<p>Particularly, we experimented with controllers based on two different grammars, with high and medium level actions respectively. Due to the complexity of video-games and how useful it could be for an artificial intelligence to modify its behaviour in real time, we want to check the results of multi-objective optimization in grammatical evolution. And how we can achieve the subgoals we consider more important in a situation by simply changing the evaluation functions we use in the grammatical evolution algorithm.</p>
+			<p>In this work we will show that this approach based on Grammatical Evolution gets excellent results and we will see that bots produced can obtain high scores and complete several levels, even better results than the coded bots included, or other known evolutionary bots.</p>
+
+			<h2>Authors</h2>
+			<ul>
+				<li>Hector Laria Mantecón
+				<li>Jorge Sanchez Cremades
+				<li>José Miguel Tajuelo Garrigós
+				<li>Jorge Vieira Luna
+			</ul>
+	
+			<h2>Examples</h2>
+			<div class="row justify-content-center">
+				<div class="col-4">
+					<div class="thumbnail">
+						<img src="./images/MvsL.gif" alt="MvsL">
+						<div class="caption">
+							<h3>Medium vs Legacy</h3>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="thumbnail">
+						<img src="./images/HvsL.gif" alt="HvsL">
+						<div class="caption">
+							<h3>High vs Legacy</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h2>Grammars</h2>
+			<p>
+				<button class="btn btn-primary btn-2states" type="button" data-toggle="collapse" data-target="#low-level-grammar" aria-expanded="false" aria-controls="low-level-grammar">
+					Low-level
+				</button>
+				<button class="btn btn-primary btn-2states" type="button" data-toggle="collapse" data-target="#medium-level-grammar" aria-expanded="false" aria-controls="medium-level-grammar">
+					Medium-level
+				</button>
+				<button class="btn btn-primary btn-2states" type="button" data-toggle="collapse" data-target="#high-level-grammar" aria-expanded="false" aria-controls="high-level-grammar">
+					High-level
+				</button>
+			</p>
+			<div class="collapse" id="low-level-grammar">
+				<h4>Low-level grammar</h4>
+				<div class="card card-block">
+					<pre id="low-level-grammar-text"></pre>
+				</div>
+			</div>
+			<div class="collapse" id="medium-level-grammar">
+				<h4>Medium-level grammar</h4>
+				<div class="card card-block">
+					<pre id="medium-level-grammar-text"></pre>
+				</div>
+			</div>
+			<div class="collapse" id="high-level-grammar">
+				<h4>High-level grammar</h4>
+				<div class="card card-block">
+					<pre id="high-level-grammar-text"></pre>
+				</div>
+			</div>
+
+			<h2>Results</h2>
+			<div id="chartContainer"></div>
+			<br>
+			<table class="table table-bordered table-inverse table-sm">
+				<thead>
+					<tr>
+						<th rowspan="2">Pac-Man</th>
+						<th rowspan="2">Ghosts</th>
+						<th colspan="3">Score</th>
+						<th colspan="3">Level</th>
+						<th colspan="3">Time</th>
+					</tr>
+					<tr>
+						<th>max</th>
+						<th>avg</th>
+						<th>std</th>
+						<th>max</th>
+						<th>avg</th>
+						<th>std</th>
+						<th>max</th>
+						<th>avg</th>
+						<th>std</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Low-level</th>
+						<td rowspan="3">Random</td>
+						<td>900</td>
+						<td>151</td>
+						<td>117</td>
+						<td>1</td>
+						<td>0.071</td>
+						<td>0.257</td>
+						<td>5094</td>
+						<td>2151</td>
+						<td>972.1</td>
+					</tr>
+					<tr>
+						<th scope="row">Medium-level</th>
+						<td>64600</td>
+						<td>48558</td>
+						<td>10780</td>
+						<td>18</td>
+						<td>15</td>
+						<td>3.4</td>
+						<td>24000</td>
+						<td>21579</td>
+						<td>4470</td>
+					</tr>
+					<tr>
+						<th scope="row">High-level</th>
+						<td>55480</td>
+						<td>32704</td>
+						<td>13237</td>
+						<td>18</td>
+						<td>10.4</td>
+						<td>4.3</td>
+						<td>24000</td>
+						<td>17457</td>
+						<td>6784</td>
+					</tr>
+					<tr>
+						<th scope="row">Low-level</th>
+						<td rowspan="3">Legacy</td>
+						<td>120</td>
+						<td>120</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>600</td>
+						<td>425</td>
+						<td>34.5</td>
+					</tr>
+					<tr>
+						<th scope="row">Medium-level</th>
+						<td>15960</td>
+						<td>6358</td>
+						<td>2883</td>
+						<td>3</td>
+						<td>0.9</td>
+						<td>0.7</td>
+						<td>4973</td>
+						<td>1916</td>
+						<td>730</td>
+					</tr>
+					<tr>
+						<th scope="row">High-level</th>
+						<td>20040</td>
+						<td>5972</td>
+						<td>2832</td>
+						<td>4</td>
+						<td>1</td>
+						<td>0.6</td>
+						<td>8364</td>
+						<td>2026</td>
+						<td>1020</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+	</body>
+</html>
