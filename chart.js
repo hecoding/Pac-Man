@@ -4,7 +4,7 @@ $(document).ready(function() {
 			type: 'areaspline'
 		},
 		title: {
-			text: 'Average fruit consumption during one week'
+			text: 'Points distribution'
 		},
 		legend: {
 			layout: 'vertical',
@@ -16,14 +16,27 @@ $(document).ready(function() {
 			borderWidth: 1,
 			backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
 		},
+		xAxis: {
+			title: {
+				text: 'Points'
+			}
+		},
 		yAxis: {
 			title: {
-				text: 'Fruit units'
+				text: 'Probability'
 			}
 		},
 		tooltip: {
 			shared: true,
-			valueSuffix: ' units'
+			valueSuffix: '%',
+			formatter: function(){
+				var s = '<b>' + this.x + '</b>';
+				$.each(this.points, function () {
+					s += '<br/>' + '<span style="color:' + this.series.color + '">' + this.series.name + '</span>' + ': ' + (this.y*100).toFixed(3) + '%';
+				});
+
+				return s;
+			}
 		},
 		credits: {
 			enabled: false

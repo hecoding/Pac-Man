@@ -1,12 +1,38 @@
 body {
-	background-color: black;
+	background-color: #212121;
 	color: #DEDEDE;
 }
 
 h2 {
-	color: cyan;
+	color: #FFEA00;
 }
 
-.card-text {
-	color: black;
+#repoCard {
+	background-color: #484848;
+}
+
+.table {
+	background-color: #212121;
+}
+
+.table td {
+	vertical-align: middle;
+	text-align: right;
+}
+
+.table-header {
+	background-color: #484848;
+	text-align: center;
+}
+
+/*.card-text {
+	color: #212121;
+}*/	
+
+a {
+	color: #4DD0E1;
+}
+
+.highcharts-container {
+	border-radius: 4px;
 }

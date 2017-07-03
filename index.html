@@ -17,6 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="customStyle.css">
 		<script src="./customScript.js"></script>
 		<script src="./chart.js"></script>
+		<script src="./dark-unica.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -27,7 +28,7 @@
 				<a class="github-button" href="https://github.com/hecoding/Pac-Man" data-size="large" data-show-count="true" aria-label="Star hecoding/Pac-Man on GitHub">Star</a>-->
 			</div>
 
-			<div class="card">
+			<div class="card" id="repoCard">
 				<div class="card-block">
 					<h4 class="card-title"><a href="https://github.com/hecoding/Pac-Man" title="View on GitHub">View On GitHub</a></h4>
 					<p class="card-text">Check the source code.</p>
@@ -106,28 +107,28 @@
 			<table class="table table-bordered table-inverse table-sm">
 				<thead>
 					<tr>
-						<th rowspan="2">Pac-Man</th>
-						<th rowspan="2">Ghosts</th>
-						<th colspan="3">Score</th>
-						<th colspan="3">Level</th>
-						<th colspan="3">Time</th>
+						<th rowspan="2" class="table-header">Pac-Man</th>
+						<th rowspan="2" class="table-header">Ghosts</th>
+						<th colspan="3" class="table-header">Score</th>
+						<th colspan="3" class="table-header">Level</th>
+						<th colspan="3" class="table-header">Time</th>
 					</tr>
 					<tr>
-						<th>max</th>
-						<th>avg</th>
-						<th>std</th>
-						<th>max</th>
-						<th>avg</th>
-						<th>std</th>
-						<th>max</th>
-						<th>avg</th>
-						<th>std</th>
+						<th class="table-header">max</th>
+						<th class="table-header">avg</th>
+						<th class="table-header">std</th>
+						<th class="table-header">max</th>
+						<th class="table-header">avg</th>
+						<th class="table-header">std</th>
+						<th class="table-header">max</th>
+						<th class="table-header">avg</th>
+						<th class="table-header">std</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th scope="row">Low-level</th>
-						<td rowspan="3">Random</td>
+						<td rowspan="3" class="text-center">Random</td>
 						<td>900</td>
 						<td>151</td>
 						<td>117</td>
@@ -164,7 +165,7 @@
 					</tr>
 					<tr>
 						<th scope="row">Low-level</th>
-						<td rowspan="3">Legacy</td>
+						<td rowspan="3" class="text-center">Legacy</td>
 						<td>120</td>
 						<td>120</td>
 						<td>0</td>
