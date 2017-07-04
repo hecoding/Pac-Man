@@ -3,7 +3,7 @@ body {
 	color: #DEDEDE;
 }
 
-@media (max-width: 768px) { /*Medium devices (tablets, 768px and less)*/
+@media (max-width: 1199px) { /*Medium devices (tablets, less than 992px)*/
 	body, h1, h2 {
 		font-size: 150%;
 	}
