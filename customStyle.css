@@ -3,16 +3,61 @@ body {
 	color: #DEDEDE;
 }
 
-h2 {
+#title, h2 {
 	color: #FFEA00;
+}
+
+#subtitle {
+	font-style: italic;
+}
+
+a {
+	color: #4DD0E1;
+}
+
+a:focus, a:hover {
+	color: #88FFFF;
+	text-decoration: underline;
+}
+
+.btn-2states {
+	color: #4DD0E1;
+	background-color: #484848;
+	border-color: #484848;
+	font-weight: bold;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+	color: #4DD0E1;
+	background-color: #484848;
+	border-color: #4DD0E1;
+	box-shadow: 0 0 0 2px #4DD0E1;
+	/*box-shadow: 0 0 0 2px rgb(249, 4, 4);*/
+}
+
+.btn-2states:active, .btn-2states.active {
+	color: #212121;
+	background-color: #4DD0E1;
+	border-color: #4DD0E1;
+	font-weight: bold;
 }
 
 #repoCard {
 	background-color: #484848;
 }
 
+/*.card-text {
+	color: #212121;
+}*/
+
 .table {
 	background-color: #212121;
+}
+
+@media (min-width: 768px) { /*Medium devices (tablets, 768px and up)*/
+	.table {
+		display: table;
+	}
 }
 
 .table td {
@@ -23,14 +68,6 @@ h2 {
 .table-header {
 	background-color: #484848;
 	text-align: center;
-}
-
-/*.card-text {
-	color: #212121;
-}*/	
-
-a {
-	color: #4DD0E1;
 }
 
 .highcharts-container {
