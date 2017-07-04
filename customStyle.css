@@ -3,6 +3,12 @@ body {
 	color: #DEDEDE;
 }
 
+@media (max-width: 768px) { /*Medium devices (tablets, 768px and less)*/
+	body, h1, h2 {
+		font-size: 150%;
+	}
+}
+
 #title, h2 {
 	color: #FFEA00;
 }
@@ -46,12 +52,21 @@ a:focus, a:hover {
 	background-color: #484848;
 }
 
+.source-card {
+	background-color: #484848;
+}
+
+pre {	
+	color: #DEDEDE;
+}
+
 /*.card-text {
 	color: #212121;
 }*/
 
 .table {
 	background-color: #212121;
+	font-size: 1rem;
 }
 
 @media (min-width: 768px) { /*Medium devices (tablets, 768px and up)*/
