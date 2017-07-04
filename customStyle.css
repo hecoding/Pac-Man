@@ -75,18 +75,15 @@ pre {
 	}
 }
 
-.table th {
-	vertical-align: middle;
-}
-
 .table td {
 	vertical-align: middle;
 	text-align: right;
 }
 
-.table-header {
+.table thead th {
 	background-color: #484848;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .highcharts-container {
