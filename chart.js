@@ -6,7 +6,7 @@ $(document).ready(function() {
 			type: 'areaspline'
 		},
 		title: {
-			text: 'Points distribution'
+			text: 'Fitness distribution'
 		},
 		legend: {
 			layout: 'vertical',
