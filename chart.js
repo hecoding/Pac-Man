@@ -45,12 +45,15 @@ $(document).ready(function() {
 		},
 		plotOptions: {
 			areaspline: {
-				fillOpacity: 0.5
+				fillOpacity: 0.5,
+				marker: {
+					enabled: false
+				}
 			}
 		},
 		series: [{
 			name: 'Medium-level vs Random',
-			data: [[48272,0.00009], [48402,0.00125], [48558, 0.00384], [48713, 0.00125], [48843,0.00009]]
+			data: [[48272,0.00009], [48402,0.00125], [48558, 0.00384], [48713, 0.00125], [48843,0.00009]],
 		}, {
 			name: 'High-level vs Random',
 			data: [[32387,0.00008], [32531,0.00113], [32704, 0.00347], [32876, 0.00113], [33020,0.00008]]
