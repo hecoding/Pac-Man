@@ -3,9 +3,9 @@ body {
 	color: #DEDEDE;
 }
 
-@media (max-width: 1199px) { /*Medium devices (tablets, less than 992px)*/
+@media (max-width: 1199px) { /*Large devices (desktops, less than 1200px)*/
 	body, h1, h2 {
-		font-size: 150%;
+		font-size: 200%;
 	}
 }
 
