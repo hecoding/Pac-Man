@@ -10,6 +10,15 @@ In this work we will show that this approach based on Grammatical Evolution gets
 
 <p align="center"><img src="https://j.gifs.com/NxRpLL.gif"/></p>
 
+#### [You can check out our slightly fancier website here](https://hecoding.github.io/Pac-Man/). It has the same content than this Readme plus some interactive graphs and example grammars.
+
+## Publications
++ ### [Undergraduate thesis](https://github.com/hecoding/Pac-Man/raw/thesis/Thesis_Pac-Man.pdf)
+Detailed description of all the work behind this project (not completely in English, sorry).
+
++ ### [Paper](https://github.com/hecoding/Pac-Man/raw/paper_cosecivi/Cosecivi17.pdf)
+Scientific article published on [CoSECiVi](http://gaia.fdi.ucm.es/sites/cosecivi17/index.html) (Spanish Society for VideoGame Sciences Conference) 2017.
+
 ## Downloading
 #### Using the command line
 `git clone https://github.com/hecoding/Pac-Man.git`
